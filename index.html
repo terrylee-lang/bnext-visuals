@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bnext-visuals ｜《數位時代》視覺配件庫</title>
+<meta name="description" content="《數位時代》互動視覺配件托管庫，所有 HTML 配件可透過 iframe 嵌入文章。">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", -apple-system, sans-serif;
+    background: #f4f1ea;
+    color: #1a1a1a;
+    margin: 0;
+    padding: 40px 16px;
+    line-height: 1.6;
+  }
+  .wrapper {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  header {
+    border-bottom: 3px solid #1a1a1a;
+    padding-bottom: 20px;
+    margin-bottom: 32px;
+  }
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #c0392b;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 34px;
+    font-weight: 800;
+    margin: 0 0 10px;
+    letter-spacing: -0.5px;
+  }
+  .deck {
+    font-size: 15px;
+    color: #555;
+    margin: 0;
+  }
+  .deck a {
+    color: #c0392b;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .year-label {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #6b6357;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 32px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #d8d4c8;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #d8d4c8;
+    padding: 20px;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    border-color: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+  .card-date {
+    font-size: 11px;
+    color: #8b8478;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-feature-settings: "tnum";
+  }
+  .card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px;
+    line-height: 1.35;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: #555;
+    margin: 0 0 16px;
+    flex-grow: 1;
+    line-height: 1.5;
+  }
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+  }
+  .btn {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 12px;
+    text-decoration: none;
+    border: 1px solid #1a1a1a;
+    transition: all 0.15s;
+    font-feature-settings: "tnum";
+    text-align: center;
+  }
+  .btn.primary {
+    background: #1a1a1a;
+    color: #fff;
+  }
+  .btn.primary:hover { background: #c0392b; border-color: #c0392b; }
+  .btn.secondary {
+    background: #fff;
+    color: #1a1a1a;
+  }
+  .btn.secondary:hover { background: #faf7f0; }
+  .empty {
+    padding: 40px;
+    background: #fff;
+    border: 1px dashed #d8d4c8;
+    text-align: center;
+    color: #8b8478;
+    font-size: 13px;
+  }
+  .iframe-snippet {
+    margin-top: 48px;
+    padding: 24px;
+    background: #fff;
+    border-left: 4px solid #c0392b;
+  }
+  .iframe-snippet h2 {
+    font-size: 18px;
+    margin: 0 0 12px;
+  }
+  .iframe-snippet p {
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: #555;
+  }
+  pre {
+    background: #1a1a1a;
+    color: #f4f1ea;
+    padding: 16px;
+    font-size: 12px;
+    overflow-x: auto;
+    margin: 0;
+    line-height: 1.55;
+    font-family: "SF Mono", Monaco, Consolas, monospace;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid #d8d4c8;
+    font-size: 11px;
+    color: #8b8478;
+    text-align: center;
+  }
+  footer a { color: #555; }
+
+  @media (max-width: 640px) {
+    body { padding: 24px 12px; }
+    h1 { font-size: 24px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">BNEXT VISUALS · INTERNAL TOOL</div>
+    <h1>《數位時代》視覺配件庫</h1>
+    <p class="deck">互動 HTML 配件托管中心。新配件加入流程見 <a href="https://github.com/terrylee-lang/bnext-visuals#新配件工作流">README</a>。</p>
+  </header>
+
+  <div class="year-label">2026</div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-date">2026 / 05 / 18</div>
+      <h3 class="card-title">2026 全球企業裁員追蹤</h3>
+      <p class="card-desc">28 個關鍵裁員事件編年清單，含時間軸氣泡圖（桌機）與排行榜（手機），標示 AI 動因事件。</p>
+      <div class="card-actions">
+        <a class="btn primary" href="./2026/05-layoffs-tracker.html" target="_blank">開啟配件</a>
+        <a class="btn secondary" href="https://github.com/terrylee-lang/bnext-visuals/blob/main/2026/05-layoffs-tracker.html" target="_blank">原始碼</a>
+      </div>
+    </div>
+
+    <!-- 新配件加在這裡，複製上方 .card 區塊即可 -->
+
+  </div>
+
+  <div class="iframe-snippet">
+    <h2>嵌入方式</h2>
+    <p>後台貼以下 iframe，替換 <code>src</code> 和 <code>title</code>：</p>
+<pre>&lt;iframe src="https://terrylee-lang.github.io/bnext-visuals/2026/05-layoffs-tracker.html"
+        width="100%" height="2800"
+        style="border:0; max-width:880px; display:block; margin:24px auto;"
+        loading="lazy"
+        title="2026 全球企業裁員追蹤"&gt;
+&lt;/iframe&gt;</pre>
+  </div>
+
+  <footer>
+    維護：李先泰 ｜ <a href="https://github.com/terrylee-lang/bnext-visuals">GitHub Repo</a> ｜ 《數位時代》Business Next
+  </footer>
+
+</div>
+</body>
+</html>
