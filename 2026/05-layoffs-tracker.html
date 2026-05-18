@@ -2,203 +2,224 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>2026 全球企業裁員追蹤 ｜ 數位時代</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 全球企業裁員追蹤 ｜《數位時代》</title>
+<meta name="description" content="UPS、亞馬遜、Meta、雅詩蘭黛、甲骨文等 31 個關鍵事件，看清這波瘦身潮哪些是 AI 重組、哪些是景氣調整。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
 <style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-orange-soft: #FFE7D6;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
   * { box-sizing: border-box; }
   body {
-    font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", -apple-system, sans-serif;
-    background: #f4f1ea;
-    color: #1a1a1a;
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--bn-black);
     margin: 0;
     padding: 32px 16px;
-    line-height: 1.6;
+    line-height: 1.7;
+    /* 避免中文「孤字下行」：瀏覽器自動讓最後一行至少有 2-3 字 */
+    text-wrap: pretty;
   }
+  /* 標題類用 balance：多行時各行寬度平均，視覺更穩 */
+  h1, h2, .section-headline, .deck { text-wrap: balance; }
   .wrapper {
     max-width: 880px;
     margin: 0 auto;
-    background: #fff;
-    border: 1px solid #d8d4c8;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* === Preview toolbar (only when URL has ?preview=1) === */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  .preview-toolbar .sep {
+    width: 1px;
+    background: rgba(250, 247, 241, 0.15);
+    margin: 4px 2px;
+  }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
   header {
     padding: 32px 32px 24px;
-    border-bottom: 3px solid #1a1a1a;
+    border-bottom: 3px solid var(--bn-black);
   }
   .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
     font-size: 11px;
     letter-spacing: 2px;
-    color: #c0392b;
+    color: var(--bn-orange);
     font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   h1 {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 800;
-    margin: 0 0 10px;
-    line-height: 1.2;
-    letter-spacing: -0.5px;
+    margin: 0 0 12px;
+    line-height: 1.35;
+    color: var(--bn-black);
+    letter-spacing: 0.02em;
   }
   .deck {
     font-size: 15px;
-    color: #555;
+    color: var(--cool-600);
     margin: 0;
-    line-height: 1.55;
+    line-height: 1.7;
   }
   .meta-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 32px;
-    background: #faf7f0;
-    border-bottom: 1px solid #d8d4c8;
-    font-size: 12px;
-    color: #6b6357;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+    font-size: 13px;
+    color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
   }
-  .meta-bar .src strong { color: #1a1a1a; }
+  .meta-bar strong { color: var(--bn-black); }
+  .meta-bar .meta-chunk { white-space: nowrap; }
+  .meta-bar .meta-sep { color: var(--warm-300); margin: 0 4px; }
 
-  /* Stats strip */
   .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    border-bottom: 1px solid #d8d4c8;
+    border-bottom: 1px solid var(--warm-300);
   }
   .stat {
-    padding: 20px 16px;
+    padding: 22px 16px;
     text-align: center;
-    border-right: 1px solid #e8e4d8;
+    border-right: 1px solid var(--paper-3);
   }
   .stat:last-child { border-right: none; }
   .stat-num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
     font-size: 26px;
-    font-weight: 800;
-    color: #c0392b;
+    font-weight: 700;
+    color: var(--bn-orange);
     line-height: 1;
-    font-feature-settings: "tnum";
   }
   .stat-lbl {
-    font-size: 11px;
-    color: #6b6357;
-    margin-top: 6px;
-    line-height: 1.4;
+    font-size: 12px;
+    color: var(--cool-600);
+    margin-top: 8px;
+    line-height: 1.5;
   }
 
-  /* Chart section */
   .section {
     padding: 28px 32px;
-    border-bottom: 1px solid #e8e4d8;
+    border-bottom: 1px solid var(--paper-3);
   }
   .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
     font-size: 11px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: #6b6357;
+    color: var(--cool-600);
     font-weight: 700;
     margin-bottom: 4px;
   }
   .section-headline {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
-    margin: 0 0 16px;
-    color: #1a1a1a;
+    margin: 0 0 18px;
+    color: var(--bn-black);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
   }
 
-  /* Bubble chart (desktop) */
-  .chart-container {
-    position: relative;
-    width: 100%;
-  }
+  .chart-container { position: relative; width: 100%; }
   svg.bubble-chart {
     display: block;
     width: 100%;
     max-width: 100%;
     height: auto;
   }
-  .mobile-ranking { display: none; }
-  /* Mobile horizontal bar ranking */
-  .rank-item {
-    display: grid;
-    grid-template-columns: 22px 1fr;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid #f0ece0;
-    align-items: center;
-  }
-  .rank-item:last-child { border-bottom: none; }
-  .rank-no {
-    font-size: 11px;
-    color: #8b8478;
-    font-weight: 700;
-    font-feature-settings: "tnum";
-    text-align: right;
-  }
-  .rank-body { min-width: 0; }
-  .rank-row1 {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 4px;
-    gap: 8px;
-  }
-  .rank-name {
-    font-size: 13px;
-    font-weight: 700;
-    color: #1a1a1a;
-    flex-shrink: 1;
-  }
-  .rank-num {
-    font-size: 15px;
-    font-weight: 800;
-    color: #c0392b;
-    font-feature-settings: "tnum";
-    white-space: nowrap;
-  }
-  .rank-bar {
-    height: 6px;
-    background: #f0ece0;
-    border-radius: 3px;
-    overflow: hidden;
-    position: relative;
-  }
-  .rank-bar-fill {
-    height: 100%;
-    background: rgba(192, 57, 43, 0.4);
-    border-radius: 3px;
-  }
-  .rank-bar-fill.ai { background: #c0392b; }
   .axis-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
     font-size: 13px;
-    fill: #1a1a1a;
+    fill: var(--bn-black);
     font-weight: 600;
   }
   .axis-line {
-    stroke: #d8d4c8;
+    stroke: var(--warm-300);
     stroke-width: 1;
   }
   circle.bubble {
-    fill: rgba(192, 57, 43, 0.18);
-    stroke: #c0392b;
+    fill: rgba(92, 100, 112, 0.18);
+    stroke: var(--cool-600);
+    stroke-width: 1;
+    transition: opacity 0.15s;
+  }
+  circle.bubble.ai {
+    fill: rgba(255, 107, 26, 0.28);
+    stroke: var(--bn-orange);
     stroke-width: 1.5;
-    transition: all 0.2s;
-    cursor: default;
   }
-  circle.bubble.ai-driven {
-    fill: rgba(192, 57, 43, 0.32);
-  }
-  circle.bubble:hover {
-    fill: rgba(192, 57, 43, 0.5);
-    stroke-width: 2;
-  }
+  circle.bubble:hover { opacity: 0.7; }
   text.bubble-label {
+    font-family: "Noto Sans TC", "Inter", sans-serif;
     font-size: 11px;
-    fill: #1a1a1a;
+    fill: var(--bn-black);
     text-anchor: middle;
     pointer-events: none;
-    font-weight: 600;
+    font-weight: 700;
   }
   text.bubble-num {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
     font-size: 10px;
-    fill: #555;
+    fill: var(--cool-600);
     text-anchor: middle;
     pointer-events: none;
   }
@@ -207,38 +228,93 @@
     gap: 24px;
     margin-top: 14px;
     font-size: 12px;
-    color: #555;
+    color: var(--cool-600);
     flex-wrap: wrap;
   }
   .legend-row .dot {
     display: inline-block;
     width: 10px;
     height: 10px;
-    border-radius: 50%;
     margin-right: 6px;
     vertical-align: middle;
+    border: 1.5px solid;
   }
-  .legend-row .dot.dark { background: rgba(192, 57, 43, 0.55); border: 1.5px solid #c0392b; }
-  .legend-row .dot.light { background: rgba(192, 57, 43, 0.18); border: 1.5px solid #c0392b; }
+  .legend-row .dot.ai { background: rgba(255, 107, 26, 0.5); border-color: var(--bn-orange); }
+  .legend-row .dot.neutral { background: rgba(92, 100, 112, 0.18); border-color: var(--cool-600); }
   .note {
     margin-top: 10px;
-    font-size: 11px;
-    color: #8b8478;
-    font-style: italic;
+    font-size: 12px;
+    color: var(--cool-600);
+    line-height: 1.6;
   }
 
-  /* Timeline log */
-  .timeline {
-    padding: 0;
+  .mobile-ranking { display: none; }
+  .rank-item {
+    display: grid;
+    grid-template-columns: 24px 32px 1fr;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--paper-3);
+    align-items: center;
   }
-  .month-block {
-    border-bottom: 1px solid #e8e4d8;
+  .rank-item:last-child { border-bottom: none; }
+  .rank-no {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 11px;
+    color: var(--cool-600);
+    font-weight: 700;
+    text-align: right;
   }
+  .rank-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid var(--warm-300);
+    background: var(--paper);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .rank-body { min-width: 0; }
+  .rank-row1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+    gap: 8px;
+  }
+  .rank-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--bn-black);
+  }
+  .rank-num {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--bn-orange);
+    white-space: nowrap;
+  }
+  .rank-bar {
+    height: 6px;
+    background: var(--paper-3);
+    overflow: hidden;
+  }
+  .rank-bar-fill {
+    height: 100%;
+    background: rgba(92, 100, 112, 0.55);
+  }
+  .rank-bar-fill.ai { background: var(--bn-orange); }
+
+  .timeline { padding: 0; }
+  .month-block { border-bottom: 1px solid var(--paper-3); }
   .month-block:last-child { border-bottom: none; }
   .month-header {
-    background: #1a1a1a;
-    color: #faf7f0;
-    padding: 10px 32px;
+    background: var(--bn-navy);
+    color: var(--paper);
+    padding: 12px 32px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
     font-size: 13px;
     letter-spacing: 1.5px;
     font-weight: 700;
@@ -248,88 +324,96 @@
   }
   .month-header .month-stat {
     font-size: 11px;
-    color: #d4c89d;
+    color: rgba(250, 247, 241, 0.7);
     font-weight: 500;
     letter-spacing: 0.5px;
   }
   .event {
     display: grid;
-    grid-template-columns: 64px 1fr 80px;
-    gap: 16px;
+    grid-template-columns: 60px 36px 1fr 100px;
+    gap: 14px;
     padding: 14px 32px;
-    border-bottom: 1px solid #f0ece0;
-    align-items: start;
+    border-bottom: 1px solid var(--paper-3);
+    align-items: center;
   }
   .event:last-child { border-bottom: none; }
-  .event:hover { background: #faf7f0; }
+  .event:hover { background: var(--paper-2); }
   .event-date {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
     font-size: 12px;
-    color: #8b8478;
+    color: var(--cool-600);
     font-weight: 600;
-    padding-top: 2px;
-    font-feature-settings: "tnum";
+  }
+  .event-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    border: 1px solid var(--warm-300);
+    background: var(--paper);
+    object-fit: contain;
   }
   .event-body {
     font-size: 14px;
-    color: #1a1a1a;
+    color: var(--bn-black);
     line-height: 1.55;
   }
-  .event-body .company {
-    font-weight: 700;
-    color: #1a1a1a;
-  }
+  .event-body .company { font-weight: 700; color: var(--bn-black); }
   .event-body .reason {
-    color: #555;
+    color: var(--cool-600);
     font-size: 13px;
-    margin-top: 2px;
+    margin-top: 3px;
   }
-  .event-num {
-    text-align: right;
-    padding-top: 2px;
-  }
+  .event-num { text-align: right; }
   .event-num .num {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
     font-size: 18px;
-    font-weight: 800;
-    color: #c0392b;
+    font-weight: 700;
+    color: var(--bn-orange);
     line-height: 1;
-    font-feature-settings: "tnum";
   }
   .event-num .unit {
     font-size: 10px;
-    color: #6b6357;
-    margin-top: 2px;
+    color: var(--cool-600);
+    margin-top: 3px;
   }
   .ai-tag {
     display: inline-block;
-    background: #c0392b;
-    color: #fff;
+    background: var(--bn-orange);
+    color: var(--paper);
+    font-family: "Inter", sans-serif;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.5px;
     padding: 1px 5px;
-    border-radius: 2px;
     vertical-align: middle;
     margin-left: 6px;
     text-transform: uppercase;
   }
 
   footer {
-    padding: 18px 32px;
-    background: #faf7f0;
-    font-size: 11px;
-    color: #8b8478;
+    padding: 20px 32px;
+    background: var(--paper-3);
+    font-size: 12px;
+    color: var(--cool-600);
     text-align: center;
-    border-top: 1px solid #d8d4c8;
-    line-height: 1.6;
+    border-top: 1px solid var(--warm-300);
+    line-height: 1.7;
   }
-  footer strong { color: #1a1a1a; }
+  footer strong { color: var(--bn-black); }
 
+  /* body padding 跟著真實 viewport 走（手機讀者用），不被預覽按鈕影響 */
   @media (max-width: 640px) {
     body { padding: 12px 6px; }
+  }
+
+  /* 內部 layout 跟著 wrapper container 寬度走（讓預覽按鈕能切換） */
+  @container (max-width: 640px) {
     header, .meta-bar, .section { padding-left: 18px; padding-right: 18px; }
     header { padding-top: 24px; padding-bottom: 18px; }
     .kicker { font-size: 10px; }
-    h1 { font-size: 22px; line-height: 1.25; }
+    h1 { font-size: 21px; line-height: 1.3; }
     .deck { font-size: 14px; }
     .meta-bar {
       flex-direction: column;
@@ -338,47 +422,33 @@
       font-size: 11px;
       padding: 10px 18px;
     }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; }
     .stats { grid-template-columns: repeat(2, 1fr); }
-    .stat { border-bottom: 1px solid #e8e4d8; padding: 16px 8px; }
+    .stat { border-bottom: 1px solid var(--paper-3); padding: 16px 8px; }
     .stat:nth-child(2) { border-right: none; }
     .stat:nth-child(3), .stat:nth-child(4) { border-bottom: none; }
     .stat-num { font-size: 22px; }
 
-    /* Hide bubble chart on mobile, show ranking */
     svg.bubble-chart { display: none; }
     .mobile-ranking { display: block; }
     .legend-row { gap: 14px; font-size: 11px; }
 
-    .section { padding: 20px 18px; }
-    .section-headline { font-size: 17px; }
+    .section { padding: 22px 18px; }
+    .section-headline { font-size: 18px; }
 
-    .month-header {
-      padding: 8px 18px;
-      font-size: 12px;
-    }
+    .month-header { padding: 10px 18px; font-size: 12px; }
     .month-header .month-stat { font-size: 10px; }
     .event {
       padding: 12px 18px;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 36px 1fr auto;
       gap: 4px 12px;
     }
-    .event-date {
-      grid-column: 1;
-      grid-row: 1;
-      font-size: 11px;
-    }
-    .event-num {
-      grid-column: 2;
-      grid-row: 1 / span 2;
-      align-self: center;
-      padding-top: 0;
-    }
+    .event-date { grid-column: 2; grid-row: 1; font-size: 11px; }
+    .event-num { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+    .event-logo { grid-column: 1; grid-row: 1 / span 2; width: 32px; height: 32px; }
     .event-num .num { font-size: 16px; }
-    .event-body {
-      grid-column: 1;
-      grid-row: 2;
-      font-size: 13px;
-    }
+    .event-body { grid-column: 2; grid-row: 2; font-size: 13px; }
     .event-body .reason { font-size: 12px; }
     .ai-tag { font-size: 8px; padding: 1px 4px; }
 
@@ -392,31 +462,21 @@
   <header>
     <div class="kicker">即時追蹤 · 2026 LAYOFF TRACKER</div>
     <h1>2026 全球企業裁員追蹤</h1>
-    <p class="deck">UPS、亞馬遜、Meta、雅詩蘭黛、Cisco⋯陸續在 2026 年裁員。這波瘦身潮哪些是 AI 重組，哪些只是景氣調整？一張圖看懂 28 個關鍵事件。</p>
+    <p class="deck">UPS、亞馬遜、Meta、雅詩蘭黛、甲骨文⋯陸續在 2026 年裁員。這波瘦身潮哪些是 AI 重組，哪些只是景氣調整？一張圖看懂 31 個關鍵事件。</p>
   </header>
 
   <div class="meta-bar">
-    <div class="src">資料來源：<strong>WSJ、Business Insider、TrueUp</strong>　|　更新：2026 / 05 / 18</div>
-    <div>製作：《數位時代》</div>
+    <div>
+      <span class="meta-chunk">資料來源：<strong>WSJ、Business Insider、TrueUp</strong></span><span class="meta-sep">|</span><span class="meta-chunk">更新：2026 / 05 / 18</span>
+    </div>
+    <div class="meta-chunk">製作：《數位時代》</div>
   </div>
 
   <div class="stats">
-    <div class="stat">
-      <div class="stat-num">300,749</div>
-      <div class="stat-lbl">1–4 月美企裁員總人數</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">−50%</div>
-      <div class="stat-lbl">較 2025 年同期下降<br>（去年聯邦員工大砍）</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">+33%</div>
-      <div class="stat-lbl">科技業裁員年增<br>共逾 8.5 萬人</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">28</div>
-      <div class="stat-lbl">本表追蹤的<br>主要企業事件</div>
-    </div>
+    <div class="stat"><div class="stat-num">300,749</div><div class="stat-lbl">1–4 月美企裁員總人數</div></div>
+    <div class="stat"><div class="stat-num">−50%</div><div class="stat-lbl">較 2025 年同期下降<br>（去年聯邦員工大砍）</div></div>
+    <div class="stat"><div class="stat-num">+33%</div><div class="stat-lbl">科技業裁員年增<br>共逾 8.5 萬人</div></div>
+    <div class="stat"><div class="stat-num">31</div><div class="stat-lbl">本表追蹤的<br>主要企業事件</div></div>
   </div>
 
   <div class="section">
@@ -425,241 +485,129 @@
 
     <div class="chart-container">
       <svg class="bubble-chart" viewBox="0 0 800 320" preserveAspectRatio="xMidYMid meet">
-        <!-- Baseline -->
         <line class="axis-line" x1="40" y1="220" x2="780" y2="220"/>
-
-        <!-- Month labels -->
         <text class="axis-label" x="120" y="248" text-anchor="middle">1月</text>
         <text class="axis-label" x="268" y="248" text-anchor="middle">2月</text>
         <text class="axis-label" x="416" y="248" text-anchor="middle">3月</text>
         <text class="axis-label" x="564" y="248" text-anchor="middle">4月</text>
         <text class="axis-label" x="712" y="248" text-anchor="middle">5月</text>
-
-        <!-- Month dividers -->
         <line class="axis-line" x1="194" y1="40" x2="194" y2="220" stroke-dasharray="2,3"/>
         <line class="axis-line" x1="342" y1="40" x2="342" y2="220" stroke-dasharray="2,3"/>
         <line class="axis-line" x1="490" y1="40" x2="490" y2="220" stroke-dasharray="2,3"/>
         <line class="axis-line" x1="638" y1="40" x2="638" y2="220" stroke-dasharray="2,3"/>
 
-        <!-- JANUARY -->
-        <!-- UPS 30k (largest) -->
-        <circle class="bubble ai-driven" cx="80" cy="160" r="55"/>
+        <circle class="bubble ai" cx="80" cy="160" r="55"/>
         <text class="bubble-label" x="80" y="158">UPS</text>
         <text class="bubble-num" x="80" y="172">30,000</text>
-
-        <!-- Amazon 16k -->
-        <circle class="bubble ai-driven" cx="170" cy="180" r="40"/>
+        <circle class="bubble ai" cx="170" cy="180" r="40"/>
         <text class="bubble-label" x="170" y="178">亞馬遜</text>
         <text class="bubble-num" x="170" y="192">16,000</text>
-
-        <!-- Dow 4500 -->
-        <circle class="bubble ai-driven" cx="125" cy="100" r="22"/>
+        <circle class="bubble ai" cx="125" cy="100" r="22"/>
         <text class="bubble-label" x="125" y="98" style="font-size:9px;">Dow</text>
         <text class="bubble-num" x="125" y="110" style="font-size:8px;">4,500</text>
-
-        <!-- Meta VR 1500 -->
         <circle class="bubble" cx="60" cy="80" r="14"/>
         <text class="bubble-label" x="60" y="78" style="font-size:8px;">Meta</text>
         <text class="bubble-num" x="60" y="88" style="font-size:7px;">1,500</text>
-
-        <!-- Ericsson 1600 -->
         <circle class="bubble" cx="40" cy="180" r="14"/>
         <text class="bubble-label" x="40" y="178" style="font-size:8px;">易利信</text>
         <text class="bubble-num" x="40" y="188" style="font-size:7px;">1,600</text>
-
-        <!-- Autodesk 1000 -->
         <circle class="bubble" cx="100" cy="55" r="11"/>
         <text class="bubble-label" x="100" y="58" style="font-size:7px;">Autodesk</text>
-
-        <!-- Home Depot 800 -->
         <circle class="bubble" cx="195" cy="120" r="10"/>
         <text class="bubble-label" x="195" y="123" style="font-size:7px;">Home</text>
-
-        <!-- Nike 775 -->
-        <circle class="bubble ai-driven" cx="160" cy="95" r="9"/>
+        <circle class="bubble ai" cx="160" cy="95" r="9"/>
         <text class="bubble-label" x="160" y="97" style="font-size:7px;">Nike</text>
-
-        <!-- Pinterest 700 -->
-        <circle class="bubble ai-driven" cx="135" cy="50" r="9"/>
+        <circle class="bubble ai" cx="135" cy="50" r="9"/>
         <text class="bubble-label" x="135" y="52" style="font-size:7px;">Pinterest</text>
 
-        <!-- FEBRUARY -->
-        <!-- Heineken 6k -->
         <circle class="bubble" cx="245" cy="155" r="25"/>
         <text class="bubble-label" x="245" y="153">海尼根</text>
         <text class="bubble-num" x="245" y="167">6,000</text>
-
-        <!-- Block 4k -->
-        <circle class="bubble ai-driven" cx="305" cy="120" r="21"/>
+        <circle class="bubble ai" cx="305" cy="120" r="21"/>
         <text class="bubble-label" x="305" y="119" style="font-size:10px;">Block</text>
         <text class="bubble-num" x="305" y="131" style="font-size:9px;">4,000</text>
-
-        <!-- Ford SK 1500 -->
         <circle class="bubble" cx="220" cy="95" r="14"/>
         <text class="bubble-label" x="220" y="94" style="font-size:8px;">Ford-SK</text>
         <text class="bubble-num" x="220" y="103" style="font-size:7px;">1,500</text>
-
-        <!-- eBay 800 -->
         <circle class="bubble" cx="270" cy="195" r="10"/>
         <text class="bubble-label" x="270" y="198" style="font-size:7px;">eBay</text>
-
-        <!-- Lowe's 600 -->
         <circle class="bubble" cx="320" cy="180" r="9"/>
         <text class="bubble-label" x="320" y="183" style="font-size:7px;">Lowe's</text>
-
-        <!-- Kenvue 3.5% -->
         <circle class="bubble" cx="335" cy="65" r="9"/>
         <text class="bubble-label" x="335" y="67" style="font-size:7px;">Kenvue</text>
 
-        <!-- MARCH -->
-        <!-- Oracle 30k (largest) -->
-        <circle class="bubble ai-driven" cx="395" cy="140" r="55"/>
+        <circle class="bubble ai" cx="395" cy="140" r="55"/>
         <text class="bubble-label" x="395" y="138">甲骨文</text>
         <text class="bubble-num" x="395" y="152">30,000</text>
-
-        <!-- Morgan Stanley 2500 -->
         <circle class="bubble" cx="475" cy="100" r="17"/>
         <text class="bubble-label" x="475" y="99" style="font-size:9px;">摩根</text>
         <text class="bubble-num" x="475" y="109" style="font-size:8px;">2,500</text>
-
-        <!-- Atlassian 1600 -->
-        <circle class="bubble ai-driven" cx="465" cy="200" r="14"/>
+        <circle class="bubble ai" cx="465" cy="200" r="14"/>
         <text class="bubble-label" x="465" y="199" style="font-size:8px;">Atlassian</text>
         <text class="bubble-num" x="465" y="208" style="font-size:7px;">1,600</text>
-
-        <!-- Epic 1000 -->
         <circle class="bubble" cx="350" cy="200" r="11"/>
         <text class="bubble-label" x="350" y="203" style="font-size:7px;">Epic</text>
 
-        <!-- APRIL -->
-        <!-- Meta 8k (largest) -->
-        <circle class="bubble ai-driven" cx="555" cy="135" r="32"/>
+        <circle class="bubble ai" cx="555" cy="135" r="32"/>
         <text class="bubble-label" x="555" y="133">Meta</text>
         <text class="bubble-num" x="555" y="146">8,000</text>
-
-        <!-- Nike R2 1400 -->
-        <circle class="bubble ai-driven" cx="620" cy="100" r="13"/>
+        <circle class="bubble ai" cx="620" cy="100" r="13"/>
         <text class="bubble-label" x="620" y="99" style="font-size:8px;">Nike²</text>
         <text class="bubble-num" x="620" y="108" style="font-size:7px;">1,400</text>
-
-        <!-- Disney 1000 -->
         <circle class="bubble" cx="510" cy="195" r="11"/>
         <text class="bubble-label" x="510" y="198" style="font-size:7px;">迪士尼</text>
-
-        <!-- Snap 1000 -->
-        <circle class="bubble ai-driven" cx="610" cy="200" r="11"/>
+        <circle class="bubble ai" cx="610" cy="200" r="11"/>
         <text class="bubble-label" x="610" y="203" style="font-size:7px;">Snap</text>
-
-        <!-- KPMG 100 -->
         <circle class="bubble" cx="500" cy="65" r="6"/>
         <text class="bubble-label" x="500" y="68" style="font-size:6px;">KPMG</text>
-
-        <!-- GoPro 145 -->
         <circle class="bubble" cx="625" cy="60" r="7"/>
         <text class="bubble-label" x="625" y="63" style="font-size:6px;">GoPro</text>
 
-        <!-- MAY -->
-        <!-- Estee Lauder 10k (largest) -->
         <circle class="bubble" cx="705" cy="135" r="36"/>
         <text class="bubble-label" x="705" y="133">雅詩蘭黛</text>
         <text class="bubble-num" x="705" y="146">10,000</text>
-
-        <!-- PayPal 4760 -->
-        <circle class="bubble ai-driven" cx="650" cy="95" r="22"/>
+        <circle class="bubble ai" cx="650" cy="95" r="22"/>
         <text class="bubble-label" x="650" y="94" style="font-size:10px;">PayPal</text>
         <text class="bubble-num" x="650" y="105" style="font-size:9px;">4,760</text>
-
-        <!-- Coinbase 700 -->
-        <circle class="bubble ai-driven" cx="755" cy="195" r="9"/>
+        <circle class="bubble ai" cx="755" cy="195" r="9"/>
         <text class="bubble-label" x="755" y="198" style="font-size:7px;">Coinbase</text>
-
-        <!-- Porsche 500 -->
         <circle class="bubble" cx="660" cy="195" r="8"/>
         <text class="bubble-label" x="660" y="198" style="font-size:7px;">保時捷</text>
-
-        <!-- Walmart 1000 -->
         <circle class="bubble" cx="745" cy="75" r="11"/>
         <text class="bubble-label" x="745" y="77" style="font-size:7px;">沃爾瑪</text>
-
-        <!-- Starbucks 300 -->
         <circle class="bubble" cx="770" cy="115" r="7"/>
         <text class="bubble-label" x="770" y="117" style="font-size:6px;">星巴克</text>
 
-        <!-- Title -->
-        <text x="40" y="25" style="font-size:12px;font-weight:700;fill:#1a1a1a;">圓圈大小 = 裁員人數規模</text>
-        <text x="40" y="40" style="font-size:10px;fill:#6b6357;">最大圈為 UPS／甲骨文（各 3 萬人）</text>
+        <text x="40" y="25" style="font-family:'Noto Sans TC';font-size:12px;font-weight:700;fill:#1A1A1A;">圓圈大小 = 裁員人數規模</text>
+        <text x="40" y="40" style="font-family:'Noto Sans TC';font-size:10px;fill:#5C6470;">最大圈為 UPS／甲骨文（各 3 萬人）</text>
       </svg>
 
-      <!-- Mobile-only: Top 14 ranking bars -->
       <div class="mobile-ranking">
-        <div class="rank-item"><div class="rank-no">1</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">UPS<span class="ai-tag">AI</span></span><span class="rank-num">30,000</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill ai" style="width:100%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">2</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Oracle 甲骨文<span class="ai-tag">AI</span></span><span class="rank-num">~30,000</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill ai" style="width:100%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">3</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Amazon 亞馬遜<span class="ai-tag">AI</span></span><span class="rank-num">16,000</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill ai" style="width:53%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">4</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Estée Lauder 雅詩蘭黛</span><span class="rank-num">~10,000</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill" style="width:33%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">5</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Meta（4 月）<span class="ai-tag">AI</span></span><span class="rank-num">8,000</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill ai" style="width:27%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">6</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Heineken 海尼根</span><span class="rank-num">6,000</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill" style="width:20%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">7</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">PayPal<span class="ai-tag">AI</span></span><span class="rank-num">4,760</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill ai" style="width:16%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">8</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Dow 陶氏化學<span class="ai-tag">AI</span></span><span class="rank-num">4,500</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill ai" style="width:15%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">9</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Block（Square 母公司）<span class="ai-tag">AI</span></span><span class="rank-num">4,000</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill ai" style="width:13%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">10</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Morgan Stanley 摩根士丹利</span><span class="rank-num">2,500</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill" style="width:8%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">11</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Atlassian<span class="ai-tag">AI</span></span><span class="rank-num">1,600</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill ai" style="width:5.3%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">12</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Ericsson 易利信</span><span class="rank-num">1,600</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill" style="width:5.3%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">13</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Meta（1 月 / VR 部門）</span><span class="rank-num">1,500</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill" style="width:5%"></div></div>
-        </div></div>
-        <div class="rank-item"><div class="rank-no">14</div><div class="rank-body">
-          <div class="rank-row1"><span class="rank-name">Ford × SK（電池廠）</span><span class="rank-num">1,500</span></div>
-          <div class="rank-bar"><div class="rank-bar-fill" style="width:5%"></div></div>
-        </div></div>
-        <p class="note" style="margin-top:14px;">前 14 名規模佔本表逾 90%；其餘 14 家（Nike 兩輪、Snap、迪士尼、Epic、Autodesk、Home Depot、eBay、Pinterest、Coinbase、Lowe's、保時捷、沃爾瑪、Starbucks、Kenvue、KPMG、GoPro）詳見下方編年清單。</p>
+        <div class="rank-item"><div class="rank-no">1</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=ups.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">UPS<span class="ai-tag">AI</span></span><span class="rank-num">30,000</span></div><div class="rank-bar"><div class="rank-bar-fill ai" style="width:100%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">2</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=oracle.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Oracle 甲骨文<span class="ai-tag">AI</span></span><span class="rank-num">~30,000</span></div><div class="rank-bar"><div class="rank-bar-fill ai" style="width:100%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">3</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=amazon.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Amazon 亞馬遜<span class="ai-tag">AI</span></span><span class="rank-num">16,000</span></div><div class="rank-bar"><div class="rank-bar-fill ai" style="width:53%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">4</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=esteelauder.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Estée Lauder 雅詩蘭黛</span><span class="rank-num">~10,000</span></div><div class="rank-bar"><div class="rank-bar-fill" style="width:33%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">5</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=meta.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Meta（4 月）<span class="ai-tag">AI</span></span><span class="rank-num">8,000</span></div><div class="rank-bar"><div class="rank-bar-fill ai" style="width:27%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">6</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=heineken.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Heineken 海尼根</span><span class="rank-num">6,000</span></div><div class="rank-bar"><div class="rank-bar-fill" style="width:20%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">7</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=paypal.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">PayPal<span class="ai-tag">AI</span></span><span class="rank-num">4,760</span></div><div class="rank-bar"><div class="rank-bar-fill ai" style="width:16%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">8</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=dow.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Dow 陶氏化學<span class="ai-tag">AI</span></span><span class="rank-num">4,500</span></div><div class="rank-bar"><div class="rank-bar-fill ai" style="width:15%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">9</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=block.xyz" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Block（Square 母公司）<span class="ai-tag">AI</span></span><span class="rank-num">4,000</span></div><div class="rank-bar"><div class="rank-bar-fill ai" style="width:13%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">10</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=morganstanley.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Morgan Stanley 摩根士丹利</span><span class="rank-num">2,500</span></div><div class="rank-bar"><div class="rank-bar-fill" style="width:8%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">11</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=atlassian.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Atlassian<span class="ai-tag">AI</span></span><span class="rank-num">1,600</span></div><div class="rank-bar"><div class="rank-bar-fill ai" style="width:5.3%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">12</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=ericsson.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Ericsson 易利信</span><span class="rank-num">1,600</span></div><div class="rank-bar"><div class="rank-bar-fill" style="width:5.3%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">13</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=meta.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Meta（1 月 / VR 部門）</span><span class="rank-num">1,500</span></div><div class="rank-bar"><div class="rank-bar-fill" style="width:5%"></div></div></div></div>
+        <div class="rank-item"><div class="rank-no">14</div><img class="rank-logo" src="https://www.google.com/s2/favicons?sz=64&domain=ford.com" alt="" onerror="this.style.visibility='hidden'"><div class="rank-body"><div class="rank-row1"><span class="rank-name">Ford × SK（電池廠）</span><span class="rank-num">1,500</span></div><div class="rank-bar"><div class="rank-bar-fill" style="width:5%"></div></div></div></div>
+        <p class="note" style="margin-top:14px;">前 14 名規模佔本表逾 90%；其餘 14 家詳見下方編年清單。</p>
       </div>
     </div>
 
     <div class="legend-row">
-      <span><span class="dot dark"></span>動因明確指向 AI 重組</span>
-      <span><span class="dot light"></span>景氣／策略調整為主</span>
+      <span><span class="dot ai"></span>動因明確指向 AI 重組</span>
+      <span><span class="dot neutral"></span>景氣／策略調整為主</span>
     </div>
     <p class="note">註：Oracle 規模為 TD Cowen 估算；Walmart 含「裁員與內部調動」共約 1,000 人。資料來源：各公司聲明與 WSJ 報導。</p>
   </div>
 
-  <!-- TIMELINE LOG -->
   <div class="section" style="padding-bottom:0;">
     <div class="section-title">FIGURE 02 · CHRONOLOGY</div>
     <h2 class="section-headline">事件編年：誰、何時、為什麼</h2>
@@ -669,270 +617,53 @@
 
     <div class="month-block">
       <div class="month-header"><span>2026 年 1 月</span><span class="month-stat">逾 55,000 人</span></div>
-
-      <div class="event">
-        <div class="event-date">1 / 13</div>
-        <div class="event-body"><span class="company">Meta（Reality Labs）</span>
-          <div class="reason">VR／AR 部門裁員 10%，反映元宇宙投資放緩</div>
-        </div>
-        <div class="event-num"><div class="num">1,500</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">1 / 14</div>
-        <div class="event-body"><span class="company">Ericsson（易利信）</span>
-          <div class="reason">瑞典本土裁員 12%，5G 投資周期降溫</div>
-        </div>
-        <div class="event-num"><div class="num">1,600</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">1 / 21</div>
-        <div class="event-body"><span class="company">Autodesk</span>
-          <div class="reason">裁員 7%，銷售職位佔多數</div>
-        </div>
-        <div class="event-num"><div class="num">1,000</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">1 / 25</div>
-        <div class="event-body"><span class="company">Nike</span><span class="ai-tag">AI</span>
-          <div class="reason">物流中心自動化，田納西與密西西比州 1% 員工</div>
-        </div>
-        <div class="event-num"><div class="num">775</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">1 / 26</div>
-        <div class="event-body"><span class="company">UPS</span><span class="ai-tag">AI</span>
-          <div class="reason">繼 2025 年裁掉 4.8 萬人後再砍 3 萬，亞馬遜減少採購為主因</div>
-        </div>
-        <div class="event-num"><div class="num">30,000</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">1 / 26</div>
-        <div class="event-body"><span class="company">Pinterest</span><span class="ai-tag">AI</span>
-          <div class="reason">裁員 15%，把資源轉向 AI 高成長領域</div>
-        </div>
-        <div class="event-num"><div class="num">700</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">1 / 27</div>
-        <div class="event-body"><span class="company">Amazon（亞馬遜）</span><span class="ai-tag">AI</span>
-          <div class="reason">再裁 1.6 萬白領，加上 2025 年 10 月 1.4 萬人共 3 萬人，佔企業員工 10%</div>
-        </div>
-        <div class="event-num"><div class="num">16,000</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">1 / 27</div>
-        <div class="event-body"><span class="company">Home Depot</span>
-          <div class="reason">總部裁員，亞特蘭大不到 150 人，其餘為遠距員工</div>
-        </div>
-        <div class="event-num"><div class="num">800</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">1 / 28</div>
-        <div class="event-body"><span class="company">Dow（陶氏化學）</span><span class="ai-tag">AI</span>
-          <div class="reason">以 AI 提升生產力，傳產也加入瘦身行列</div>
-        </div>
-        <div class="event-num"><div class="num">4,500</div><div class="unit">人</div></div>
-      </div>
+      <div class="event"><div class="event-date">1 / 13</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=meta.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Meta（Reality Labs）</span><div class="reason">VR／AR 部門裁員 10%，反映元宇宙投資放緩</div></div><div class="event-num"><div class="num">1,500</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">1 / 14</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=ericsson.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Ericsson（易利信）</span><div class="reason">瑞典本土裁員 12%，5G 投資周期降溫</div></div><div class="event-num"><div class="num">1,600</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">1 / 21</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=autodesk.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Autodesk</span><div class="reason">裁員 7%，銷售職位佔多數</div></div><div class="event-num"><div class="num">1,000</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">1 / 25</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=nike.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Nike</span><span class="ai-tag">AI</span><div class="reason">物流中心自動化，田納西與密西西比州 1% 員工</div></div><div class="event-num"><div class="num">775</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">1 / 26</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=ups.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">UPS</span><span class="ai-tag">AI</span><div class="reason">繼 2025 年裁掉 4.8 萬人後，今年再砍 3 萬個營運職位，延續物流降載瘦身循環</div></div><div class="event-num"><div class="num">30,000</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">1 / 26</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=pinterest.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Pinterest</span><span class="ai-tag">AI</span><div class="reason">裁員 15%，把資源轉向 AI 高成長領域</div></div><div class="event-num"><div class="num">700</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">1 / 27</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=amazon.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Amazon（亞馬遜）</span><span class="ai-tag">AI</span><div class="reason">再裁 1.6 萬白領，加上 2025 年 10 月 1.4 萬人共 3 萬人，佔企業員工 10%</div></div><div class="event-num"><div class="num">16,000</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">1 / 27</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=homedepot.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Home Depot</span><div class="reason">總部裁員，亞特蘭大不到 150 人，其餘為遠距員工</div></div><div class="event-num"><div class="num">800</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">1 / 28</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=dow.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Dow（陶氏化學）</span><span class="ai-tag">AI</span><div class="reason">以 AI 提升生產力，傳產也加入瘦身行列</div></div><div class="event-num"><div class="num">4,500</div><div class="unit">人</div></div></div>
     </div>
 
     <div class="month-block">
-      <div class="month-header"><span>2026 年 2 月</span><span class="month-stat">逾 15,000 人</span></div>
-
-      <div class="event">
-        <div class="event-date">2 / 10</div>
-        <div class="event-body"><span class="company">Heineken（海尼根）</span>
-          <div class="reason">啤酒市場疲軟，關閉部分歐洲以外酒廠</div>
-        </div>
-        <div class="event-num"><div class="num">6,000</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">2 / 12</div>
-        <div class="event-body"><span class="company">Lowe's</span>
-          <div class="reason">公司總部與支援職位</div>
-        </div>
-        <div class="event-num"><div class="num">600</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">2 / 13</div>
-        <div class="event-body"><span class="company">Ford × SK（BlueOval SK）</span>
-          <div class="reason">電動車電池廠合資破局，肯塔基州工廠首當其衝</div>
-        </div>
-        <div class="event-num"><div class="num">1,500</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">2 / 16</div>
-        <div class="event-body"><span class="company">Kenvue（康維諾）</span>
-          <div class="reason">泰諾母公司，被 Kimberly-Clark 收購前先瘦身 3.5%</div>
-        </div>
-        <div class="event-num"><div class="num">~3.5%</div><div class="unit">員工</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">2 / 25</div>
-        <div class="event-body"><span class="company">eBay</span>
-          <div class="reason">企業重組，裁員 6.5%</div>
-        </div>
-        <div class="event-num"><div class="num">800</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">2 / 25</div>
-        <div class="event-body"><span class="company">Block（Square 母公司）</span><span class="ai-tag">AI</span>
-          <div class="reason">縮編 40%，Jack Dorsey 直言「AI 改變了經營公司的方式」</div>
-        </div>
-        <div class="event-num"><div class="num">4,000</div><div class="unit">人</div></div>
-      </div>
+      <div class="month-header"><span>2026 年 2 月</span><span class="month-stat">逾 13,000 人</span></div>
+      <div class="event"><div class="event-date">2 / 10</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=heineken.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Heineken（海尼根）</span><div class="reason">啤酒市場疲軟，關閉部分歐洲以外酒廠</div></div><div class="event-num"><div class="num">6,000</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">2 / 12</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=lowes.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Lowe's</span><div class="reason">公司總部與支援職位</div></div><div class="event-num"><div class="num">600</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">2 / 13</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=ford.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Ford × SK（BlueOval SK）</span><div class="reason">電動車電池廠合資破局，肯塔基州工廠首當其衝</div></div><div class="event-num"><div class="num">1,500</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">2 / 16</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=kenvue.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Kenvue（康維諾）</span><div class="reason">泰諾母公司，被 Kimberly-Clark 收購前先瘦身 3.5%</div></div><div class="event-num"><div class="num">~3.5%</div><div class="unit">員工</div></div></div>
+      <div class="event"><div class="event-date">2 / 25</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=ebay.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">eBay</span><div class="reason">企業重組，裁員 6.5%</div></div><div class="event-num"><div class="num">800</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">2 / 25</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=block.xyz" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Block（Square 母公司）</span><span class="ai-tag">AI</span><div class="reason">縮編 40%，Jack Dorsey 直言「AI 改變了經營公司的方式」</div></div><div class="event-num"><div class="num">4,000</div><div class="unit">人</div></div></div>
     </div>
 
     <div class="month-block">
       <div class="month-header"><span>2026 年 3 月</span><span class="month-stat">逾 35,000 人</span></div>
-
-      <div class="event">
-        <div class="event-date">3 / 3</div>
-        <div class="event-body"><span class="company">Morgan Stanley（摩根士丹利）</span>
-          <div class="reason">裁員 3%，投行、財管三大部門依績效調整</div>
-        </div>
-        <div class="event-num"><div class="num">2,500</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">3 / 10</div>
-        <div class="event-body"><span class="company">Atlassian</span><span class="ai-tag">AI</span>
-          <div class="reason">裁員 10%，執行長坦言「AI 改變了需要的職位組合」</div>
-        </div>
-        <div class="event-num"><div class="num">1,600</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">3 / 23</div>
-        <div class="event-body"><span class="company">Epic Games（《要塞英雄》母公司）</span>
-          <div class="reason">收入跟不上支出，被迫大幅縮編</div>
-        </div>
-        <div class="event-num"><div class="num">1,000+</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">3 / 30</div>
-        <div class="event-body"><span class="company">Oracle（甲骨文）</span><span class="ai-tag">AI</span>
-          <div class="reason">未公開規模，TD Cowen 估約 3 萬人，把錢挪到 AI 資料中心</div>
-        </div>
-        <div class="event-num"><div class="num">~30,000</div><div class="unit">分析師估算</div></div>
-      </div>
+      <div class="event"><div class="event-date">3 / 3</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=morganstanley.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Morgan Stanley（摩根士丹利）</span><div class="reason">裁員 3%，投行、財管三大部門依績效調整</div></div><div class="event-num"><div class="num">2,500</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">3 / 10</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=atlassian.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Atlassian</span><span class="ai-tag">AI</span><div class="reason">裁員 10%，執行長坦言「AI 改變了需要的職位組合」</div></div><div class="event-num"><div class="num">1,600</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">3 / 23</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=epicgames.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Epic Games（《要塞英雄》母公司）</span><div class="reason">收入跟不上支出，被迫大幅縮編</div></div><div class="event-num"><div class="num">1,000+</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">3 / 30</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=oracle.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Oracle（甲骨文）</span><span class="ai-tag">AI</span><div class="reason">未公開規模，TD Cowen 估約 3 萬人，把錢挪到 AI 資料中心</div></div><div class="event-num"><div class="num">~30,000</div><div class="unit">分析師估算</div></div></div>
     </div>
 
     <div class="month-block">
-      <div class="month-header"><span>2026 年 4 月</span><span class="month-stat">逾 22,000 人</span></div>
-
-      <div class="event">
-        <div class="event-date">4 / 6</div>
-        <div class="event-body"><span class="company">GoPro</span>
-          <div class="reason">裁員 23%，極端瘦身求生</div>
-        </div>
-        <div class="event-num"><div class="num">145</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">4 / 7</div>
-        <div class="event-body"><span class="company">Disney（迪士尼）</span>
-          <div class="reason">行銷部門首當其衝</div>
-        </div>
-        <div class="event-num"><div class="num">~1,000</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">4 / 14</div>
-        <div class="event-body"><span class="company">Snap</span><span class="ai-tag">AI</span>
-          <div class="reason">部署 AI 後達到營運效率提升，裁員 16%</div>
-        </div>
-        <div class="event-num"><div class="num">1,000</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">4 / 22</div>
-        <div class="event-body"><span class="company">Meta Platforms</span><span class="ai-tag">AI</span>
-          <div class="reason">裁員 10%，把預算挪到 AI 投資，旗下 IG、WhatsApp、FB 均受影響</div>
-        </div>
-        <div class="event-num"><div class="num">8,000</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">4 / 22</div>
-        <div class="event-body"><span class="company">Nike（第二輪）</span><span class="ai-tag">AI</span>
-          <div class="reason">技術部門為主，年內第二次裁員</div>
-        </div>
-        <div class="event-num"><div class="num">1,400</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">4 / 22</div>
-        <div class="event-body"><span class="company">KPMG（美國）</span>
-          <div class="reason">審計部門合夥人裁員 10%，多年「鼓勵提早退休」失效</div>
-        </div>
-        <div class="event-num"><div class="num">~100</div><div class="unit">合夥人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">4 / 30</div>
-        <div class="event-body"><span class="company">Estée Lauder（雅詩蘭黛）</span>
-          <div class="reason">上修裁員規模從 7,000 到 1 萬人，轉戰 Amazon、TikTok Shop 等線上通路</div>
-        </div>
-        <div class="event-num"><div class="num">~10,000</div><div class="unit">人</div></div>
-      </div>
+      <div class="month-header"><span>2026 年 4 月</span><span class="month-stat">逾 21,000 人</span></div>
+      <div class="event"><div class="event-date">4 / 6</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=gopro.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">GoPro</span><div class="reason">裁員 23%，極端瘦身求生</div></div><div class="event-num"><div class="num">145</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">4 / 7</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=disney.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Disney（迪士尼）</span><div class="reason">行銷部門首當其衝</div></div><div class="event-num"><div class="num">~1,000</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">4 / 14</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=snap.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Snap</span><span class="ai-tag">AI</span><div class="reason">部署 AI 後達到營運效率提升，裁員 16%</div></div><div class="event-num"><div class="num">1,000</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">4 / 22</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=meta.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Meta Platforms</span><span class="ai-tag">AI</span><div class="reason">裁員 10%，把預算挪到 AI 投資，旗下 IG、WhatsApp、FB 均受影響</div></div><div class="event-num"><div class="num">8,000</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">4 / 22</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=nike.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Nike（第二輪）</span><span class="ai-tag">AI</span><div class="reason">技術部門為主，年內第二次裁員</div></div><div class="event-num"><div class="num">1,400</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">4 / 22</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=kpmg.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">KPMG（美國）</span><div class="reason">審計部門合夥人裁員 10%，多年「鼓勵提早退休」失效</div></div><div class="event-num"><div class="num">~100</div><div class="unit">合夥人</div></div></div>
+      <div class="event"><div class="event-date">4 / 30</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=esteelauder.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Estée Lauder（雅詩蘭黛）</span><div class="reason">上修裁員規模，從原本估的 7,000 增至最多 1 萬人，轉戰 Amazon、TikTok Shop 等線上通路</div></div><div class="event-num"><div class="num">~10,000</div><div class="unit">人</div></div></div>
     </div>
 
     <div class="month-block">
       <div class="month-header"><span>2026 年 5 月</span><span class="month-stat">「管理職」成為新目標</span></div>
-
-      <div class="event">
-        <div class="event-date">5 / 4</div>
-        <div class="event-body"><span class="company">PayPal</span><span class="ai-tag">AI</span>
-          <div class="reason">2 至 3 年內裁員 20%，獲利下滑</div>
-        </div>
-        <div class="event-num"><div class="num">4,760</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">5 / 4</div>
-        <div class="event-body"><span class="company">Coinbase</span><span class="ai-tag">AI</span>
-          <div class="reason">裁員 14%，明言「淘汰純管理職、用 AI 加速」</div>
-        </div>
-        <div class="event-num"><div class="num">700</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">5 / 7</div>
-        <div class="event-body"><span class="company">Porsche（保時捷）</span>
-          <div class="reason">關閉電池技術、e-bike 驅動、數據通訊三家子公司</div>
-        </div>
-        <div class="event-num"><div class="num">500</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">5 / 11</div>
-        <div class="event-body"><span class="company">Walmart（沃爾瑪）</span>
-          <div class="reason">合併全球技術與產品團隊，1,000 人裁員或調職</div>
-        </div>
-        <div class="event-num"><div class="num">~1,000</div><div class="unit">人</div></div>
-      </div>
-
-      <div class="event">
-        <div class="event-date">5 / 14</div>
-        <div class="event-body"><span class="company">Starbucks（星巴克）</span>
-          <div class="reason">西雅圖總部企業職位，含遠距員工</div>
-        </div>
-        <div class="event-num"><div class="num">300</div><div class="unit">人</div></div>
-      </div>
+      <div class="event"><div class="event-date">5 / 4</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=paypal.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">PayPal</span><span class="ai-tag">AI</span><div class="reason">2 至 3 年內裁員 20%，獲利下滑</div></div><div class="event-num"><div class="num">4,760</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">5 / 4</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=coinbase.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Coinbase</span><span class="ai-tag">AI</span><div class="reason">裁員 14%，明言「淘汰純管理職、用 AI 加速」</div></div><div class="event-num"><div class="num">700</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">5 / 7</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=porsche.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Porsche（保時捷）</span><div class="reason">關閉電池技術、e-bike 驅動、數據通訊三家子公司</div></div><div class="event-num"><div class="num">500</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">5 / 11</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=walmart.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Walmart（沃爾瑪）</span><div class="reason">合併全球技術與產品團隊，1,000 人裁員或調職</div></div><div class="event-num"><div class="num">~1,000</div><div class="unit">人</div></div></div>
+      <div class="event"><div class="event-date">5 / 14</div><img class="event-logo" src="https://www.google.com/s2/favicons?sz=64&domain=starbucks.com" alt="" onerror="this.style.visibility='hidden'"><div class="event-body"><span class="company">Starbucks（星巴克）</span><div class="reason">西雅圖總部企業職位，含遠距員工</div></div><div class="event-num"><div class="num">300</div><div class="unit">人</div></div></div>
     </div>
   </div>
 
@@ -942,5 +673,33 @@
   </footer>
 
 </div>
+
+<!-- Preview toolbar：URL 加 ?preview=1 才會顯示，給編輯切換桌機／手機 layout 用 -->
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
 </body>
 </html>
