@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anthropic 創辦人劇本 4 階段地圖 ｜《數位時代》</title>
+<meta name="description" content="Anthropic 5 月發布《The Founder's Playbook》，4 階段（Idea/MVP/Launch/Scale）配 3 種 Claude 工具，一張圖看完 AI 原生新創方法論。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-orange-soft: #FFE7D6;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--bn-black);
+    margin: 0;
+    padding: 32px 16px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+  h1, h2, .section-headline, .deck { text-wrap: balance; }
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* Preview toolbar */
+  .preview-toolbar {
+    display: none; position: fixed; top: 14px; right: 14px; z-index: 9999;
+    background: var(--bn-navy); padding: 4px; border-radius: 6px; gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px; font-size: 12px; font-weight: 700;
+    background: transparent; color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px; transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px; color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px; align-self: center;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  header {
+    padding: 32px 32px 24px;
+    border-bottom: 3px solid var(--bn-black);
+  }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px; letter-spacing: 2px;
+    color: var(--bn-orange); font-weight: 700;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 28px; font-weight: 800;
+    margin: 0 0 12px; line-height: 1.35;
+    color: var(--bn-black); letter-spacing: 0.02em;
+  }
+  .deck {
+    font-size: 15px; color: var(--cool-600);
+    margin: 0; line-height: 1.7;
+  }
+  .meta-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 32px;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+    font-size: 13px; color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+  .meta-bar strong { color: var(--bn-black); }
+  .meta-bar .meta-chunk { white-space: nowrap; }
+  .meta-bar .meta-sep { color: var(--warm-300); margin: 0 4px; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .stat {
+    padding: 22px 16px; text-align: center;
+    border-right: 1px solid var(--paper-3);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 36px; font-weight: 700;
+    color: var(--bn-orange); line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 12px; color: var(--cool-600);
+    margin-top: 8px; line-height: 1.5;
+  }
+
+  .section {
+    padding: 28px 32px 0;
+  }
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--cool-600);
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .section-headline {
+    font-size: 22px; font-weight: 700;
+    margin: 0 0 18px; color: var(--bn-black);
+    line-height: 1.4; letter-spacing: 0.02em;
+  }
+
+  /* === Stages grid === */
+  .stages-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--warm-300);
+    margin: 0 -32px;
+  }
+  .stage-card {
+    padding: 22px 18px;
+    border-right: 1px solid var(--paper-3);
+    border-bottom: 1px solid var(--paper-3);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .stage-card:last-child { border-right: none; }
+  .stage-head {
+    display: flex; align-items: baseline; gap: 8px;
+    border-bottom: 2px solid var(--bn-orange);
+    padding-bottom: 10px;
+  }
+  .stage-no {
+    font-family: "Inter", sans-serif;
+    font-size: 26px; font-weight: 800;
+    color: var(--bn-orange); line-height: 1;
+  }
+  .stage-name {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--bn-black); letter-spacing: 1px;
+  }
+  .stage-name-zh {
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 12px; font-weight: 500;
+    color: var(--cool-600);
+    letter-spacing: 0;
+    margin-left: 2px;
+  }
+  .stage-goal {
+    font-size: 13px; color: var(--bn-black);
+    font-weight: 600; line-height: 1.5;
+    margin-top: -4px;
+  }
+  .stage-goal .goal-label {
+    display: block;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--cool-600);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .stage-tools {
+    display: flex; flex-wrap: wrap; gap: 4px;
+  }
+  .tool-tag {
+    display: inline-block;
+    background: var(--bn-navy);
+    color: var(--paper);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px; font-weight: 700;
+    padding: 3px 8px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .stage-block {
+    border-top: 1px solid var(--paper-3);
+    padding-top: 10px;
+  }
+  .stage-block .block-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--cool-600);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .stage-block.fail .block-label { color: #B33C2E; }
+  .stage-block.exercise .block-label { color: var(--bn-orange); }
+  .stage-block .block-text {
+    font-size: 13px;
+    color: var(--bn-black);
+    line-height: 1.55;
+  }
+  .stage-block.fail .block-text { color: var(--cool-600); }
+
+  .note {
+    padding: 14px 32px 24px;
+    font-size: 12px;
+    color: var(--cool-600);
+    line-height: 1.6;
+    border-top: 1px solid var(--paper-3);
+  }
+
+  footer {
+    padding: 20px 32px;
+    background: var(--paper-3);
+    font-size: 12px; color: var(--cool-600);
+    text-align: center;
+    border-top: 1px solid var(--warm-300);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); }
+
+  /* === Mobile (container ≤ 640px) === */
+  @media (max-width: 640px) {
+    body { padding: 12px 6px; }
+  }
+  @container (max-width: 640px) {
+    header, .meta-bar, .section { padding-left: 18px; padding-right: 18px; }
+    header { padding-top: 24px; padding-bottom: 18px; }
+    .kicker { font-size: 10px; }
+    h1 { font-size: 21px; line-height: 1.3; }
+    .deck { font-size: 14px; }
+
+    .meta-bar {
+      flex-direction: column; align-items: flex-start;
+      gap: 4px; font-size: 11px; padding: 10px 18px;
+    }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; }
+
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { border-bottom: 1px solid var(--paper-3); padding: 16px 8px; }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(3), .stat:nth-child(4) { border-bottom: none; }
+    .stat-num { font-size: 28px; }
+
+    .section { padding: 22px 18px 0; }
+    .section-headline { font-size: 18px; }
+
+    .stages-grid {
+      grid-template-columns: 1fr;
+      margin: 0 -18px;
+    }
+    .stage-card {
+      padding: 22px 18px;
+      border-right: none;
+    }
+    .stage-card:last-child { border-bottom: none; }
+    .stage-no { font-size: 24px; }
+    .stage-name { font-size: 15px; }
+
+    .note { padding: 14px 18px 22px; }
+    footer { padding: 16px 18px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">方法論 · FOUNDER'S PLAYBOOK</div>
+    <h1>Anthropic《創辦人劇本》：AI 原生新創 4 階段地圖</h1>
+    <p class="deck">Idea → MVP → Launch → Scale，每階段都有自己該用的 Claude、典型失敗與練習。一張圖看完 Anthropic 對 AI 原生新創的方法論。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div>
+      <span class="meta-chunk">資料來源：<strong>Anthropic 官方手冊</strong></span><span class="meta-sep">|</span><span class="meta-chunk">原始發布：2026 / 05 / 14</span>
+    </div>
+    <div class="meta-chunk">製作：《數位時代》</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">核心階段<br>Idea→MVP→Launch→Scale</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Claude 工具<br>Chat / Cowork / Code</div></div>
+    <div class="stat"><div class="stat-num">17</div><div class="stat-lbl">可複製練習<br>跨四個階段</div></div>
+    <div class="stat"><div class="stat-num">36</div><div class="stat-lbl">手冊頁數<br>The Founder's Playbook</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 01 · 4 STAGES</div>
+    <h2 class="section-headline">每階段該用哪個 Claude？</h2>
+
+    <div class="stages-grid">
+
+      <div class="stage-card">
+        <div class="stage-head">
+          <span class="stage-no">①</span>
+          <span class="stage-name">IDEA<span class="stage-name-zh">（概念）</span></span>
+        </div>
+        <div class="stage-goal">
+          <span class="goal-label">目標</span>
+          問題-解方適配
+        </div>
+        <div class="stage-tools">
+          <span class="tool-tag">Chat</span>
+          <span class="tool-tag">Cowork</span>
+        </div>
+        <div class="stage-block fail">
+          <span class="block-label">⚠ 典型失敗</span>
+          <div class="block-text">把「建構」當「驗證」，42% 新創倒在打造沒人要的東西</div>
+        </div>
+        <div class="stage-block exercise">
+          <span class="block-label">★ 一個練習</span>
+          <div class="block-text">請 Claude 當「魔鬼代言人」，要它找出你論點的弱點、為競爭對手寫一個會贏的論述</div>
+        </div>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-head">
+          <span class="stage-no">②</span>
+          <span class="stage-name">MVP<span class="stage-name-zh">（最小可行產品）</span></span>
+        </div>
+        <div class="stage-goal">
+          <span class="goal-label">目標</span>
+          產品-市場適配
+        </div>
+        <div class="stage-tools">
+          <span class="tool-tag">Code</span>
+          <span class="tool-tag">Code Security</span>
+        </div>
+        <div class="stage-block fail">
+          <span class="block-label">⚠ 典型失敗</span>
+          <div class="block-text">代理式技術債以複利速度累積，AI 每次會話都從頭推斷架構</div>
+        </div>
+        <div class="stage-block exercise">
+          <span class="block-label">★ 一個練習</span>
+          <div class="block-text">寫一份 CLAUDE.md 架構脈絡文件，列出採用的模式、禁用的依賴、取捨。每次新會話先讓 Claude 讀</div>
+        </div>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-head">
+          <span class="stage-no">③</span>
+          <span class="stage-name">LAUNCH<span class="stage-name-zh">（發布）</span></span>
+        </div>
+        <div class="stage-goal">
+          <span class="goal-label">目標</span>
+          可重複的成長引擎
+        </div>
+        <div class="stage-tools">
+          <span class="tool-tag">Cowork</span>
+          <span class="tool-tag">Code Security</span>
+        </div>
+        <div class="stage-block fail">
+          <span class="block-label">⚠ 典型失敗</span>
+          <div class="block-text">創辦人「事必躬親」變組織瓶頸：原本一小時的決定現在拖一週</div>
+        </div>
+        <div class="stage-block exercise">
+          <span class="block-label">★ 一個練習</span>
+          <div class="block-text">用 Cowork 對營運層做盤點，每項任務分類成：「全自動化／給代理／真的需要創辦人判斷」</div>
+        </div>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-head">
+          <span class="stage-no">④</span>
+          <span class="stage-name">SCALE<span class="stage-name-zh">（規模化）</span></span>
+        </div>
+        <div class="stage-goal">
+          <span class="goal-label">目標</span>
+          累積成護城河
+        </div>
+        <div class="stage-tools">
+          <span class="tool-tag">Projects</span>
+          <span class="tool-tag">Memory</span>
+          <span class="tool-tag">Skills</span>
+        </div>
+        <div class="stage-block fail">
+          <span class="block-label">⚠ 典型失敗</span>
+          <div class="block-text">以為程式碼是護城河——其實是累積的領域深度、整合與專屬資料</div>
+        </div>
+        <div class="stage-block exercise">
+          <span class="block-label">★ 一個練習</span>
+          <div class="block-text">把腦內知識（產業術語、法規地雷、不可行解法）灌進 Claude Skills，建立通用 AI 追不上的專屬基底</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="note">註：手冊原文 4 階段為 Idea Stage、MVP Stage、Launch Stage、Scale Stage。Claude Code Security 目前為 limited beta（封閉測試版），使用前需向 Anthropic 確認資格。「42% 新創因打造沒人要的東西而失敗」為 Anthropic 引用 CB Insights 既有產業統計，非自家研究。</p>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：李先泰　|　製圖：2026.05.18<br>
+    資料來源：The Founder's Playbook: Building an AI-Native Startup（Anthropic，2026 年 5 月 14 日發布）
+  </footer>
+
+</div>
+
+<!-- Preview toolbar -->
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
+</body>
+</html>

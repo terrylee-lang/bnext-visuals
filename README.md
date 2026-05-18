@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| Anthropic 創辦人劇本 4 階段地圖 | Anthropic 官方發布新創 AI 使用指南 | 2026-05-18 | [`2026/05-anthropic-founders-playbook.html`](./2026/05-anthropic-founders-playbook.html) |
 | 2026 全球企業裁員追蹤 | 2026 裁員潮全解析 | 2026-05-18 | [`2026/05-layoffs-tracker.html`](./2026/05-layoffs-tracker.html) |
 
 ---
