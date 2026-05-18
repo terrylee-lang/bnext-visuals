@@ -442,24 +442,6 @@
   });
 })();
 
-// iframe 高度自動同步：嵌入文章時主動 postMessage 高度給父頁
-(function() {
-  if (window === window.top) return;
-  function sendHeight() {
-    var h = document.documentElement.scrollHeight;
-    try {
-      window.parent.postMessage({ type: 'bnext-visual-height', height: h }, '*');
-    } catch (e) {}
-  }
-  window.addEventListener('load', sendHeight);
-  window.addEventListener('resize', sendHeight);
-  if (typeof ResizeObserver !== 'undefined') {
-    try { new ResizeObserver(sendHeight).observe(document.body); } catch (e) {}
-  }
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(sendHeight);
-  }
-})();
 </script>
 
 </body>
