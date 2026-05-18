@@ -69,6 +69,8 @@
 4. **Save**
 5. 2–5 分鐘後上方會出現 `Your site is live at https://terrylee-lang.github.io/bnext-visuals/`
 
+⚠️ **必要前置**：repo root 必須有 `.nojekyll` 空檔，否則 GitHub Pages 預設用 Jekyll 處理，會自動忽略 `_assets/` 等 underscore 開頭的目錄，導致自托管 logo / CSS 全部 404。本 repo 已備有 `.nojekyll`。
+
 ---
 
 ## 結構
