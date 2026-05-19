@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 長駐特助五招拆解 ｜《數位時代》</title>
+<meta name="description" content="OpenAI Codex 工程師 Jason Liu 的五招拆解：把 prompt 升級為對話串、檔案記憶、排程、目標、工作台，讓 AI 從一次性回答機變長駐特助。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-orange-soft: #FFE7D6;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--bn-black);
+    margin: 0;
+    padding: 32px 16px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+  h1, h2, .section-headline, .deck, .closing-quote { text-wrap: balance; }
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* Preview toolbar */
+  .preview-toolbar {
+    display: none; position: fixed; top: 14px; right: 14px; z-index: 9999;
+    background: var(--bn-navy); padding: 4px; border-radius: 6px; gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px; font-size: 12px; font-weight: 700;
+    background: transparent; color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px; transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px; color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px; align-self: center;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  header {
+    padding: 32px 32px 24px;
+    border-bottom: 3px solid var(--bn-black);
+  }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px; letter-spacing: 2px;
+    color: var(--bn-orange); font-weight: 700;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 28px; font-weight: 800;
+    margin: 0 0 14px; line-height: 1.35;
+    color: var(--bn-black); letter-spacing: 0.02em;
+  }
+  .deck {
+    font-size: 15px; color: var(--cool-600);
+    margin: 0 0 16px; line-height: 1.7;
+  }
+  .lede {
+    font-size: 14px; color: var(--bn-black);
+    line-height: 1.75;
+    padding-left: 14px;
+    border-left: 3px solid var(--bn-orange);
+    margin: 0;
+  }
+
+  .meta-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 32px;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+    font-size: 13px; color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+  .meta-bar strong { color: var(--bn-black); }
+  .meta-bar .meta-chunk { white-space: nowrap; }
+  .meta-bar .meta-sep { color: var(--warm-300); margin: 0 4px; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .stat {
+    padding: 22px 16px; text-align: center;
+    border-right: 1px solid var(--paper-3);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 36px; font-weight: 700;
+    color: var(--bn-orange); line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 12px; color: var(--cool-600);
+    margin-top: 8px; line-height: 1.5;
+  }
+
+  .section {
+    padding: 28px 32px 0;
+  }
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--cool-600);
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .section-headline {
+    font-size: 22px; font-weight: 700;
+    margin: 0 0 6px; color: var(--bn-black);
+    line-height: 1.4; letter-spacing: 0.02em;
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--cool-600);
+    margin: 0 0 20px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    letter-spacing: 0.5px;
+  }
+  .section-sub .seq {
+    color: var(--bn-orange);
+    font-weight: 700;
+  }
+  .section-sub .arrow {
+    color: var(--warm-300);
+    margin: 0 6px;
+  }
+
+  /* === Moves grid 桌機 2+3 兩列 === */
+  .moves-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--warm-300);
+    margin: 0 -32px;
+  }
+  /* 第一列：第 1、2 招各占 3 欄 */
+  .move-card:nth-child(1) { grid-column: span 3; border-right: 1px solid var(--paper-3); }
+  .move-card:nth-child(2) { grid-column: span 3; }
+  /* 第二列：第 3、4、5 招各占 2 欄 */
+  .move-card:nth-child(3),
+  .move-card:nth-child(4) { grid-column: span 2; border-right: 1px solid var(--paper-3); }
+  .move-card:nth-child(5) { grid-column: span 2; }
+  /* 列之間的橫向分隔 */
+  .move-card:nth-child(1),
+  .move-card:nth-child(2) { border-bottom: 1px solid var(--paper-3); }
+
+  .move-card {
+    padding: 24px 22px;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .move-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--bn-orange);
+  }
+  .move-emoji {
+    font-size: 26px;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper-3);
+  }
+  .move-head-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .move-no {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bn-orange);
+    letter-spacing: 2px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .move-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--bn-black);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+
+  .move-point {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--bn-black);
+    line-height: 1.55;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  .move-block {
+    border-top: 1px solid var(--paper-3);
+    padding-top: 12px;
+  }
+  .block-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    color: var(--cool-600);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .block-text {
+    font-size: 13px;
+    color: var(--bn-black);
+    line-height: 1.6;
+  }
+  .move-example .block-text {
+    color: var(--cool-600);
+  }
+
+  .move-howto {
+    margin-top: 4px;
+    background: var(--paper-3);
+    border-left: 3px solid var(--bn-orange);
+    padding: 12px 14px;
+  }
+  .move-howto .block-label {
+    color: var(--bn-orange);
+    margin-bottom: 5px;
+  }
+  .move-howto .block-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bn-black);
+    line-height: 1.6;
+  }
+
+  /* === Closing 收尾引言 === */
+  .closing {
+    margin: 0 -32px;
+    padding: 32px;
+    background: var(--bn-navy);
+    color: var(--paper);
+    border-top: 1px solid var(--warm-300);
+  }
+  .closing-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--bn-orange);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .closing-quote {
+    font-size: 22px;
+    line-height: 1.55;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin: 0;
+    color: var(--paper);
+  }
+  .closing-attr {
+    margin-top: 14px;
+    font-size: 12px;
+    color: rgba(250, 247, 241, 0.65);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    letter-spacing: 0.3px;
+  }
+
+  .note {
+    padding: 14px 32px 24px;
+    font-size: 12px;
+    color: var(--cool-600);
+    line-height: 1.6;
+  }
+
+  footer {
+    padding: 20px 32px;
+    background: var(--paper-3);
+    font-size: 12px; color: var(--cool-600);
+    text-align: center;
+    border-top: 1px solid var(--warm-300);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); }
+
+  /* === Mobile (container ≤ 640px) === */
+  @media (max-width: 640px) {
+    body { padding: 12px 6px; }
+  }
+  @container (max-width: 640px) {
+    header, .meta-bar, .section { padding-left: 18px; padding-right: 18px; }
+    header { padding-top: 24px; padding-bottom: 18px; }
+    .kicker { font-size: 10px; }
+    h1 { font-size: 21px; line-height: 1.3; }
+    .deck { font-size: 14px; }
+    .lede { font-size: 13px; padding-left: 12px; }
+
+    .meta-bar {
+      flex-direction: column; align-items: flex-start;
+      gap: 4px; font-size: 11px; padding: 10px 18px;
+    }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; }
+
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { border-bottom: 1px solid var(--paper-3); padding: 16px 8px; }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(3), .stat:nth-child(4) { border-bottom: none; }
+    .stat-num { font-size: 28px; }
+
+    .section { padding: 22px 18px 0; }
+    .section-headline { font-size: 18px; }
+    .section-sub { font-size: 12px; }
+    .section-sub .arrow { display: inline-block; }
+
+    /* 手機：5 張卡直向堆疊 */
+    .moves-grid {
+      grid-template-columns: 1fr;
+      margin: 0 -18px;
+    }
+    .move-card:nth-child(1),
+    .move-card:nth-child(2),
+    .move-card:nth-child(3),
+    .move-card:nth-child(4),
+    .move-card:nth-child(5) {
+      grid-column: span 1;
+      border-right: none;
+      border-bottom: 1px solid var(--paper-3);
+    }
+    .move-card:last-child { border-bottom: none; }
+    .move-card { padding: 22px 18px; }
+    .move-emoji { width: 32px; height: 32px; font-size: 22px; }
+    .move-name { font-size: 15px; }
+    .move-point { font-size: 16px; }
+
+    .closing { margin: 0 -18px; padding: 26px 22px; }
+    .closing-quote { font-size: 18px; line-height: 1.5; }
+
+    .note { padding: 14px 18px 22px; }
+    footer { padding: 16px 18px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">方法論 · CODEX-MAXXING</div>
+    <h1>Codex 長駐特助五招拆解</h1>
+    <p class="deck">把 prompt 升級為「對話串 + 檔案記憶 + 排程 + 目標 + 工作台」。</p>
+    <p class="lede">OpenAI Codex 工程師 Jason Liu 把 AI 從「一次性回答機」改造成「長駐特助」。關鍵不在換更強的模型，而在這五個動作。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div>
+      <span class="meta-chunk">原文：<strong>Jason Liu〈Codex-maxxing〉</strong></span><span class="meta-sep">|</span><span class="meta-chunk">發布：2026 / 05 / 10</span>
+    </div>
+    <div class="meta-chunk">製作：《數位時代》</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">招式<br>從對話串到工作台</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">釘選 megathread<br>對應 5 大工作主題</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">記憶層<br>對話串 / 檔案 / 排程</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-lbl">迭代次數<br>產出即下一輪起點</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 01 · FIVE MOVES</div>
+    <h2 class="section-headline">五招怎麼疊？</h2>
+    <p class="section-sub">
+      <span class="seq">①</span> 對話串<span class="arrow">→</span>
+      <span class="seq">②</span> 檔案記憶<span class="arrow">→</span>
+      <span class="seq">③</span> 排程<span class="arrow">→</span>
+      <span class="seq">④</span> 目標<span class="arrow">→</span>
+      <span class="seq">⑤</span> 工作台
+    </p>
+
+    <div class="moves-grid">
+
+      <div class="move-card">
+        <div class="move-head">
+          <span class="move-emoji">📌</span>
+          <div class="move-head-text">
+            <span class="move-no">MOVE 01</span>
+            <div class="move-name">把重要工作主題「釘選」成長期對話串</div>
+          </div>
+        </div>
+        <p class="move-point">每條對話串保留偏好、決策與未完事項。</p>
+        <div class="move-block move-example">
+          <span class="block-label">例子</span>
+          <div class="block-text">個人幕僚長、Agents SDK、Twitter monitor 等 5 條 megathread。</div>
+        </div>
+        <div class="move-howto">
+          <span class="block-label">具體怎麼做</span>
+          <div class="block-text">在 Codex 把對話串「釘選」，用 Cmd-1～9 隨時跳回。</div>
+        </div>
+      </div>
+
+      <div class="move-card">
+        <div class="move-head">
+          <span class="move-emoji">📁</span>
+          <div class="move-head-text">
+            <span class="move-no">MOVE 02</span>
+            <div class="move-name">把記憶丟出對話串，存進「可審視的檔案」</div>
+          </div>
+        </div>
+        <p class="move-point">對話串會壓縮失真，檔案才可審視可重用。</p>
+        <div class="move-block move-example">
+          <span class="block-label">例子</span>
+          <div class="block-text">業務 <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--paper-3);padding:1px 5px;">clients/</code> + <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--paper-3);padding:1px 5px;">pipeline.md</code>；行銷 <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--paper-3);padding:1px 5px;">campaigns/</code> + <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--paper-3);padding:1px 5px;">tone.md</code>；客服 <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--paper-3);padding:1px 5px;">faq.md</code> + <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--paper-3);padding:1px 5px;">escalation.md</code>。</div>
+        </div>
+        <div class="move-howto">
+          <span class="block-label">具體怎麼做</span>
+          <div class="block-text">開一個專案資料夾，頂層放 AGENTS.md 當工作守則。</div>
+        </div>
+      </div>
+
+      <div class="move-card">
+        <div class="move-head">
+          <span class="move-emoji">⏱️</span>
+          <div class="move-head-text">
+            <span class="move-no">MOVE 03</span>
+            <div class="move-name">用 Automations 讓對話串自動跑</div>
+          </div>
+        </div>
+        <p class="move-point">同一條對話串帶著脈絡定期回來執行。</p>
+        <div class="move-block move-example">
+          <span class="block-label">例子</span>
+          <div class="block-text">每 30 分掃信箱、每 5 分等 Amazon 客服、每 15 分檢查影片留言。</div>
+        </div>
+        <div class="move-howto">
+          <span class="block-label">具體怎麼做</span>
+          <div class="block-text">在 Automations 設排程，記得勾「草擬不送出」當保險。</div>
+        </div>
+      </div>
+
+      <div class="move-card">
+        <div class="move-head">
+          <span class="move-emoji">🎯</span>
+          <div class="move-head-text">
+            <span class="move-no">MOVE 04</span>
+            <div class="move-name">寫得起的目標 = 明確 + 可驗證</div>
+          </div>
+        </div>
+        <p class="move-point">把「滿意度」翻譯成可勾選的「規格表」。</p>
+        <div class="move-block move-example">
+          <span class="block-label">例子</span>
+          <div class="block-text">業務「90 天未聯絡 + 年營收 1,000 萬」；行銷「≤20 字 + 禁用『極致』」；編輯「砍破折號 + 條列改散文」。</div>
+        </div>
+        <div class="move-howto">
+          <span class="block-label">具體怎麼做</span>
+          <div class="block-text">寫目標時，把「寫好一點」換成「可勾選清單」。</div>
+        </div>
+      </div>
+
+      <div class="move-card">
+        <div class="move-head">
+          <span class="move-emoji">🪟</span>
+          <div class="move-head-text">
+            <span class="move-no">MOVE 05</span>
+            <div class="move-name">把產出物搬進「側邊欄」一起看</div>
+          </div>
+        </div>
+        <p class="move-point">產出不是最終答案，是下一輪迭代起點。</p>
+        <div class="move-block move-example">
+          <span class="block-label">例子</span>
+          <div class="block-text">業務報價試算頁、行銷 A/B 對照器、編輯校對 checklist。</div>
+        </div>
+        <div class="move-howto">
+          <span class="block-label">具體怎麼做</span>
+          <div class="block-text">請 AI 做一個「單檔網頁」丟側邊欄，立刻能點。</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="closing">
+      <div class="closing-label">一句總結</div>
+      <p class="closing-quote">「工作不該因為我換了地點、換了裝置、結束了當前對話就停下。」</p>
+      <div class="closing-attr">— Jason Liu，OpenAI Codex 工程師</div>
+    </div>
+
+  </div>
+
+  <p class="note">註：Codex 為 OpenAI 在 ChatGPT 介面內提供的 AI 工作環境（含 Automations 排程、Memory 檔案、側邊欄等功能）。本拆解卡為《數位時代》整理自 Jason Liu 公開技術文章〈Codex-maxxing〉，原文發表於 2026 年 5 月 10 日。</p>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：李先泰　|　製圖：2026.05.19<br>
+    資料來源：Jason Liu〈Codex-maxxing〉、《數位時代》整理
+  </footer>
+
+</div>
+
+<!-- Preview toolbar -->
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+// Preview toolbar：URL 加 ?preview=1 才啟用
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
+</body>
+</html>
