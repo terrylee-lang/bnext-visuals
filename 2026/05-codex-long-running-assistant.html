@@ -251,10 +251,13 @@
   }
 
   .move-howto {
-    margin-top: 4px;
+    margin-top: auto;
     background: var(--paper-3);
     border-left: 3px solid var(--bn-orange);
     padding: 12px 14px;
+  }
+  @container (max-width: 640px) {
+    .move-howto { margin-top: 0; }
   }
   .move-howto .block-label {
     color: var(--bn-orange);
