@@ -101,26 +101,6 @@
   .meta-bar .meta-chunk { white-space: nowrap; }
   .meta-bar .meta-sep { color: var(--warm-300); margin: 0 4px; }
 
-  .stats {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
-    border-bottom: 1px solid var(--warm-300);
-  }
-  .stat {
-    padding: 22px 16px; text-align: center;
-    border-right: 1px solid var(--paper-3);
-  }
-  .stat:last-child { border-right: none; }
-  .stat-num {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-feature-settings: 'tnum' 1;
-    font-size: 36px; font-weight: 700;
-    color: var(--bn-orange); line-height: 1;
-  }
-  .stat-lbl {
-    font-size: 12px; color: var(--cool-600);
-    margin-top: 8px; line-height: 1.5;
-  }
-
   .section {
     padding: 28px 32px 0;
   }
@@ -339,12 +319,6 @@
     .meta-bar .meta-sep { display: none; }
     .meta-bar .meta-chunk { display: block; }
 
-    .stats { grid-template-columns: repeat(2, 1fr); }
-    .stat { border-bottom: 1px solid var(--paper-3); padding: 16px 8px; }
-    .stat:nth-child(2) { border-right: none; }
-    .stat:nth-child(3), .stat:nth-child(4) { border-bottom: none; }
-    .stat-num { font-size: 28px; }
-
     .section { padding: 22px 18px 0; }
     .section-headline { font-size: 18px; }
     .section-sub { font-size: 12px; }
@@ -393,13 +367,6 @@
       <span class="meta-chunk">原文：<strong>Jason Liu〈Codex-maxxing〉</strong></span><span class="meta-sep">|</span><span class="meta-chunk">發布：2026 / 05 / 10</span>
     </div>
     <div class="meta-chunk">製作：《數位時代》</div>
-  </div>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">招式<br>從對話串到工作台</div></div>
-    <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">釘選 megathread<br>對應 5 大工作主題</div></div>
-    <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">記憶層<br>對話串 / 檔案 / 排程</div></div>
-    <div class="stat"><div class="stat-num">∞</div><div class="stat-lbl">迭代次數<br>產出即下一輪起點</div></div>
   </div>
 
   <div class="section">
