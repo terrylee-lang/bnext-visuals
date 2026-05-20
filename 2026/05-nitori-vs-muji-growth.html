@@ -3,968 +3,831 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>宜得利 vs 無印良品：兩條完全不同的成長軌跡 ｜《數位時代》</title>
-<meta name="description" content="宜得利 1967 札幌創業走家具製造零售路線、無印良品 1983 才獨立開店走品牌生活雜貨。兩家日本零售巨頭近 60 年營收曲線對照。">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<title>宜得利 vs 無印良品：快被反超的 30 年曲線 ｜《數位時代》</title>
+<meta name="description" content="宜得利與無印良品近 30 年營收曲線對照，從早起步、領先停滯、追趕加速到反超在即。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&family=Inter:wght@500;600;700;800;900&display=swap">
 <style>
   :root {
-    --bn-orange: #FF6B1A;
-    --bn-orange-deep: #E55A0F;
-    --bn-orange-soft: #FFE7D6;
-    --bn-navy: #0F1A2E;
-    --bn-black: #1A1A1A;
-    --paper: #FAF7F1;
-    --paper-2: #F5F3EF;
-    --paper-3: #ECE8DF;
-    --paper-4: #E3DECF;
-    --warm-300: #D4D0C8;
-    --cool-600: #5C6470;
-    --cool-400: #8A93A0;
-    --hairline: rgba(15, 26, 46, 0.12);
-    /* 兩家公司官方品牌主色（破例不走 BN tokens，服務讀者辨識度）
-       宜得利：#009E96 Turquoise（BrandColorCode 推估，與 logo 視覺一致）
-       無印良品：#7F0019 深紅（BrandColor.info 引用值，PANTONE 202C 系列）
-       為 SVG 線條對比，加深一階作為描邊色 */
+    --paper: #F8F3EA;
+    --paper-strong: #FFFDF8;
+    --paper-muted: #EFE8DB;
+    --ink: #24272C;
+    --text: #5C6470;
+    --muted: #8B9098;
+    --rule: rgba(92, 100, 112, 0.22);
+    --rule-soft: rgba(92, 100, 112, 0.12);
     --nitori: #009E96;
-    --nitori-deep: #00756F;
-    --nitori-soft: #D6F0EE;
+    --nitori-dark: #00766F;
+    --nitori-soft: rgba(0, 158, 150, 0.11);
     --muji: #7F0019;
-    --muji-deep: #5C0012;
-    --muji-soft: #F4D8DC;
+    --muji-dark: #590013;
+    --muji-soft: rgba(127, 0, 25, 0.11);
+    --shadow: 0 16px 42px rgba(36, 39, 44, 0.08);
   }
+
   * { box-sizing: border-box; }
+
   body {
-    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
-    background: var(--paper);
-    color: var(--bn-black);
     margin: 0;
-    padding: 32px 16px;
-    line-height: 1.7;
-    text-wrap: pretty;
-  }
-  h1, h2, .deck, .section-headline { text-wrap: balance; }
-  .wrapper {
-    max-width: 880px;
-    margin: 0 auto;
+    padding: 28px 16px;
     background: var(--paper);
-    border: 1px solid var(--warm-300);
+    color: var(--ink);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.65;
+    text-wrap: pretty;
+    overflow-x: hidden;
+  }
+
+  .viz {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    background:
+      linear-gradient(180deg, rgba(255, 253, 248, 0.88), rgba(248, 243, 234, 1) 52%),
+      radial-gradient(circle at 78% 0%, rgba(127, 0, 25, 0.08), transparent 36%),
+      radial-gradient(circle at 8% 18%, rgba(0, 158, 150, 0.09), transparent 34%);
+    border: 1px solid rgba(92, 100, 112, 0.24);
+    box-shadow: var(--shadow);
     container-type: inline-size;
-    transition: max-width 0.25s ease;
+    overflow: hidden;
   }
 
-  /* Preview toolbar */
-  .preview-toolbar {
-    display: none; position: fixed; top: 14px; right: 14px; z-index: 9999;
-    background: var(--bn-navy); padding: 4px; border-radius: 6px; gap: 2px;
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-  }
-  .preview-toolbar.show { display: flex; }
-  .preview-toolbar button {
-    border: 0; padding: 7px 13px; font-size: 12px; font-weight: 700;
-    background: transparent; color: rgba(250, 247, 241, 0.55);
-    cursor: pointer; border-radius: 4px; transition: all 0.15s;
-    font-family: inherit;
-  }
-  .preview-toolbar button:hover { color: var(--paper); }
-  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
-  .preview-toolbar .label {
-    font-size: 10px; color: rgba(250, 247, 241, 0.45);
-    padding: 0 8px; align-self: center;
-    letter-spacing: 0.5px; text-transform: uppercase;
-  }
-
-  /* === Header === */
   header {
-    padding: 32px 32px 24px;
-    border-bottom: 3px solid var(--bn-black);
+    padding: 34px 34px 24px;
+    border-bottom: 1px solid var(--rule);
   }
-  .kicker {
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
     font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 11px; letter-spacing: 2px;
-    color: var(--bn-orange); font-weight: 700;
-    text-transform: uppercase; margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
+
+  .eyebrow::before {
+    content: "";
+    width: 34px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--nitori) 0 50%, var(--muji) 50% 100%);
+  }
+
   h1 {
-    font-size: 28px; font-weight: 800;
-    margin: 0 0 10px; line-height: 1.35;
-    color: var(--bn-black); letter-spacing: 0.02em;
+    margin: 12px 0 10px;
+    max-width: 760px;
+    color: var(--ink);
+    font-family: "Noto Serif TC", "Noto Sans TC", serif;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1.24;
+    letter-spacing: 0;
+    text-wrap: balance;
   }
+
   .deck {
-    font-size: 15px; color: var(--cool-600);
-    margin: 0; line-height: 1.7;
-  }
-  .deck strong { color: var(--bn-black); font-weight: 700; }
-
-  /* === Meta bar === */
-  .meta-bar {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 32px;
-    background: var(--paper-3);
-    border-bottom: 1px solid var(--warm-300);
-    font-size: 13px; color: var(--cool-600);
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-  }
-  .meta-bar strong { color: var(--bn-black); }
-  .meta-bar .meta-chunk { white-space: nowrap; }
-  .meta-bar .meta-sep { color: var(--warm-300); margin: 0 4px; }
-
-  /* === Legend === */
-  .legend-row {
-    display: flex; gap: 24px; align-items: center;
-    padding: 18px 32px 0;
-    flex-wrap: wrap;
-  }
-  .legend-item {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 14px; font-weight: 600;
-  }
-  .legend-swatch {
-    width: 36px; height: 4px; flex-shrink: 0;
-    position: relative;
-  }
-  .legend-swatch::after {
-    content: ""; position: absolute;
-    width: 8px; height: 8px; border-radius: 50%;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    border: 2px solid var(--paper);
-  }
-  .legend-swatch.nitori { background: var(--nitori); }
-  .legend-swatch.nitori::after { background: var(--nitori); }
-  .legend-swatch.muji { background: var(--muji); }
-  .legend-swatch.muji::after { background: var(--muji); }
-  .legend-label .name { color: var(--bn-black); }
-  .legend-label .sub {
-    display: block;
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 11px; font-weight: 500;
-    color: var(--cool-600);
-    letter-spacing: 0.3px;
-    margin-top: 2px;
+    max-width: 780px;
+    margin: 0;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
-  /* === Stats strip === */
-  .stats {
+  .deck strong {
+    color: var(--ink);
+    font-weight: 800;
+    overflow-wrap: anywhere;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 12px 34px;
+    background: rgba(239, 232, 219, 0.72);
+    border-bottom: 1px solid var(--rule);
+    color: var(--text);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+  }
+
+  .meta strong {
+    color: var(--ink);
+    font-weight: 800;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .phase-strip {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    padding: 0;
-    margin: 20px 32px 0;
-    border: 1px solid var(--warm-300);
-  }
-  .stat {
-    padding: 16px 14px;
-    border-right: 1px solid var(--warm-300);
-    background: var(--paper-2);
-  }
-  .stat:last-child { border-right: 0; }
-  .stat .stat-label {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 10px; letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--cool-600);
-    margin-bottom: 6px;
-    line-height: 1.4;
-  }
-  .stat .stat-num {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-feature-settings: 'tnum' 1;
-    font-size: 22px; font-weight: 700;
-    color: var(--bn-black);
-    line-height: 1.1;
-    margin-bottom: 4px;
-  }
-  .stat .stat-num.accent-nitori { color: var(--nitori-deep); }
-  .stat .stat-num.accent-muji { color: var(--muji); }
-  .stat .stat-num.accent { color: var(--bn-orange); }
-  .stat .stat-sub {
-    font-size: 11px; color: var(--cool-600);
-    line-height: 1.4;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-bottom: 1px solid var(--rule);
   }
 
-  /* === Chart section === */
-  .section {
-    padding: 32px 32px 0;
-  }
-  .section-title {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 11px; letter-spacing: 2px;
-    color: var(--cool-600); font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .section-headline {
-    font-size: 20px; font-weight: 800;
-    margin: 0 0 6px;
-    color: var(--bn-black);
-    line-height: 1.4;
-  }
-  .section-sub {
-    font-size: 13px; color: var(--cool-600);
-    margin: 0 0 20px;
+  .phase {
+    min-height: 158px;
+    padding: 18px 18px 16px;
+    border-right: 1px solid var(--rule);
+    background: rgba(255, 253, 248, 0.54);
   }
 
-  /* === Chart legend (圖表上方 inline legend) === */
-  .chart-legend {
-    display: flex; gap: 24px; align-items: center;
-    margin: 4px 0 12px;
-    padding: 10px 14px;
-    background: var(--paper-2);
-    border: 1px solid var(--warm-300);
-    flex-wrap: wrap;
-  }
-  .chart-legend-item {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 13px; font-weight: 600;
-  }
-  .chart-legend-swatch {
-    display: inline-flex; align-items: center; gap: 0;
-    flex-shrink: 0;
-  }
-  .chart-legend-swatch .line {
-    width: 28px; height: 3px;
-  }
-  .chart-legend-swatch .line.nitori { background: var(--nitori); }
-  .chart-legend-swatch .line.muji { background: var(--muji); }
-  .chart-legend-swatch .dot {
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    border: 2px solid var(--paper);
-    margin-left: -6px;
-  }
-  .chart-legend-swatch .dot.nitori { background: var(--nitori); }
-  .chart-legend-swatch .dot.muji { background: var(--muji); }
-  .chart-legend-text .name { color: var(--bn-black); font-weight: 700; }
-  .chart-legend-text .sub {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 10px; font-weight: 500;
-    color: var(--cool-600);
-    letter-spacing: 0.3px;
-    margin-left: 6px;
-  }
-  .chart-legend-note {
-    margin-left: auto;
+  .phase:last-child { border-right: 0; }
+
+  .phase-index {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
     font-family: "Inter", "Noto Sans TC", sans-serif;
     font-size: 11px;
-    color: var(--cool-600);
+    font-weight: 800;
+    letter-spacing: 0.1em;
   }
 
-  /* === SVG chart === */
-  .chart-desktop {
+  .phase-index::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--rule-soft);
+  }
+
+  .phase-label {
+    margin-top: 12px;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .phase-number {
+    margin-top: 4px;
+    color: var(--ink);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.1;
+    font-feature-settings: "tnum" 1;
+  }
+
+  .phase-number small {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .phase-number.nitori { color: var(--nitori-dark); }
+  .phase-number.muji { color: var(--muji); }
+
+  .phase-sub {
+    margin-top: 6px;
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .chart-wrap {
+    padding: 28px 34px 0;
+  }
+
+  .section-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 16px;
+  }
+
+  .section-kicker {
+    color: var(--muted);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 5px 0 0;
+    color: var(--ink);
+    font-family: "Noto Serif TC", "Noto Sans TC", serif;
+    font-size: 23px;
+    font-weight: 900;
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .legend-key {
+    position: relative;
+    width: 38px;
+    height: 10px;
+  }
+
+  .legend-key::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: currentColor;
+  }
+
+  .legend-key::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 16px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 3px var(--paper-strong);
+  }
+
+  .legend-key.nitori { color: var(--nitori); }
+  .legend-key.muji { color: var(--muji); }
+
+  .chart-card {
+    background: rgba(255, 253, 248, 0.78);
+    border: 1px solid var(--rule);
+  }
+
+  .chart-note {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 16px 0;
+    color: var(--text);
+    font-size: 12px;
+  }
+
+  .chart-note strong {
+    color: var(--ink);
+    font-weight: 800;
+  }
+
+  .desktop-chart {
     display: block;
     width: 100%;
     height: auto;
-    margin-top: 8px;
   }
-  .chart-desktop .axis-line { stroke: var(--warm-300); stroke-width: 1; }
-  .chart-desktop .grid-line { stroke: var(--hairline); stroke-width: 1; stroke-dasharray: 2 3; }
-  .chart-desktop .axis-label {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 13px;
-    fill: var(--cool-600);
-    font-feature-settings: 'tnum' 1;
-  }
-  .chart-desktop .y-unit {
+
+  .axis, .grid { vector-effect: non-scaling-stroke; }
+  .axis { stroke: rgba(92, 100, 112, 0.45); stroke-width: 1; }
+  .grid { stroke: rgba(92, 100, 112, 0.18); stroke-width: 1; stroke-dasharray: 3 5; }
+  .axis-text {
+    fill: var(--text);
     font-family: "Inter", "Noto Sans TC", sans-serif;
     font-size: 12px;
-    fill: var(--cool-600);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    font-weight: 700;
+    font-feature-settings: "tnum" 1;
   }
-  .chart-desktop .line-nitori {
+  .stage-band { fill: rgba(92, 100, 112, 0.045); }
+  .stage-text {
+    fill: var(--muted);
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .line-nitori, .line-muji, .line-muji-proj {
     fill: none;
-    stroke: var(--nitori);
-    stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
   }
-  .chart-desktop .line-muji {
+  .line-nitori { stroke: var(--nitori); stroke-width: 3.4; }
+  .line-muji { stroke: var(--muji); stroke-width: 3.4; }
+  .line-muji-proj { stroke: var(--muji); stroke-width: 3.2; stroke-dasharray: 7 6; }
+  .dot-nitori, .dot-muji {
+    stroke: var(--paper-strong);
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+  }
+  .dot-nitori { fill: var(--nitori); }
+  .dot-muji { fill: var(--muji); }
+  .leader {
     fill: none;
-    stroke: var(--muji);
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .chart-desktop .line-muji-projected {
-    fill: none;
-    stroke: var(--muji);
-    stroke-width: 2.5;
-    stroke-dasharray: 5 4;
-    stroke-linecap: round;
-  }
-  .chart-desktop .dot-nitori { fill: var(--nitori); stroke: var(--paper); stroke-width: 2; }
-  .chart-desktop .dot-muji { fill: var(--muji); stroke: var(--paper); stroke-width: 2; }
-  .chart-desktop .label-text {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    fill: var(--bn-black);
-    font-feature-settings: 'tnum' 1;
-  }
-  .chart-desktop .label-year {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 14px;
-    fill: var(--cool-600);
-    font-feature-settings: 'tnum' 1;
-  }
-  .chart-desktop .label-event {
-    font-size: 18px;
-    fill: var(--bn-black);
-    font-weight: 700;
-  }
-  .chart-desktop .annotation-box {
-    fill: var(--paper-3);
-    stroke: var(--warm-300);
+    stroke: rgba(92, 100, 112, 0.45);
     stroke-width: 1;
+    stroke-dasharray: 3 4;
+    vector-effect: non-scaling-stroke;
   }
-  .chart-desktop .annotation-text {
+  .label-year {
+    fill: var(--text);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    font-feature-settings: "tnum" 1;
+  }
+  .label-main {
+    fill: var(--ink);
+    font-family: "Noto Sans TC", sans-serif;
     font-size: 14px;
-    fill: var(--bn-black);
+    font-weight: 900;
+  }
+  .label-sub {
+    fill: var(--text);
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 11px;
     font-weight: 600;
   }
-  .chart-desktop .crossover-marker {
-    fill: none;
-    stroke: var(--muji);
-    stroke-width: 1.5;
-    stroke-dasharray: 3 3;
-  }
-
-  /* === Mobile alt === */
-  .mobile-alt { display: none; }
-
-  /* === Footer === */
-  footer {
-    margin-top: 32px;
-    padding: 18px 32px 24px;
-    border-top: 1px solid var(--warm-300);
+  .num-nitori {
+    fill: var(--nitori-dark);
     font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    font-feature-settings: "tnum" 1;
+  }
+  .num-muji {
+    fill: var(--muji);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    font-feature-settings: "tnum" 1;
+  }
+  .callout-fill { fill: rgba(255, 253, 248, 0.92); }
+  .final-panel { fill: rgba(127, 0, 25, 0.09); stroke: rgba(127, 0, 25, 0.35); stroke-width: 1; }
+  .final-title {
+    fill: var(--muji-dark);
+    font-family: "Noto Serif TC", "Noto Sans TC", serif;
+    font-size: 18px;
+    font-weight: 900;
+  }
+  .final-copy {
+    fill: var(--text);
+    font-family: "Noto Sans TC", sans-serif;
     font-size: 12px;
-    color: var(--cool-600);
-    line-height: 1.6;
-  }
-  footer strong { color: var(--bn-black); }
-  footer .src-line { margin-top: 4px; font-size: 11px; }
-
-  /* === Container query: mobile === */
-  @container (max-width: 640px) {
-    header { padding: 24px 20px 18px; }
-    h1 { font-size: 22px; }
-    .deck { font-size: 14px; }
-    .meta-bar {
-      padding: 12px 20px;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-    }
-    .meta-bar .meta-sep { display: none; }
-    .meta-bar .meta-chunk { display: block; }
-    .legend-row { padding: 18px 20px 0; gap: 18px; }
-    .stats {
-      margin: 18px 20px 0;
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .stat { border-right: 0; border-bottom: 1px solid var(--warm-300); }
-    .stat:nth-child(2n) { border-right: 0; }
-    .stat:nth-child(odd) { border-right: 1px solid var(--warm-300); }
-    .stat:nth-last-child(-n+2) { border-bottom: 0; }
-    .section { padding: 28px 20px 0; }
-    .section-headline { font-size: 18px; }
-    .chart-legend { padding: 10px 12px; gap: 16px; }
-    .chart-legend-note { width: 100%; margin-left: 0; margin-top: 4px; }
-
-    .chart-desktop { display: none; }
-    .mobile-alt { display: block; }
-
-    footer { padding: 18px 20px 22px; }
+    font-weight: 700;
   }
 
-  /* === Mobile alt：垂直年代清單 === */
-  .mobile-timeline {
-    margin-top: 16px;
-  }
-  .mobile-year-row {
+  .mobile-chart { display: none; }
+
+  .insight {
+    margin: 22px 34px 0;
     display: grid;
-    grid-template-columns: 56px 1fr;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--hairline);
-    align-items: start;
-  }
-  .mobile-year-row:last-child { border-bottom: 0; }
-  .mobile-year {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--bn-black);
-    font-feature-settings: 'tnum' 1;
-    line-height: 1.3;
-    padding-top: 2px;
-  }
-  .mobile-events {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .mobile-event {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 13px;
-    line-height: 1.5;
-  }
-  .mobile-tag {
-    flex-shrink: 0;
-    display: inline-block;
-    padding: 1px 7px;
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: #FFFFFF;
-    line-height: 1.5;
-    margin-top: 2px;
-  }
-  .mobile-tag.nitori { background: var(--nitori); }
-  .mobile-tag.muji { background: var(--muji); }
-  .mobile-event-text {
-    color: var(--bn-black);
-  }
-  .mobile-event-num {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-weight: 700;
-    color: var(--bn-black);
-    font-feature-settings: 'tnum' 1;
-  }
-  .mobile-event-num.accent-nitori { color: var(--nitori); font-weight: 800; }
-  .mobile-event-num.accent-muji { color: var(--muji); font-weight: 800; }
-  .mobile-event-desc {
-    display: block;
-    font-size: 12px;
-    color: var(--cool-600);
-    margin-top: 2px;
+    grid-template-columns: 190px minmax(0, 1fr);
+    border: 1px solid rgba(127, 0, 25, 0.28);
+    background: linear-gradient(90deg, var(--muji-soft), rgba(255, 253, 248, 0.64));
   }
 
-  /* 反超註記 callout */
-  .crossover-callout {
-    margin: 20px 32px 0;
-    padding: 14px 18px;
-    background: var(--muji-soft);
-    border-left: 4px solid var(--muji);
-    font-size: 13px;
-    line-height: 1.7;
+  .insight-label {
+    padding: 18px;
+    border-right: 1px solid rgba(127, 0, 25, 0.22);
+    color: var(--muji-dark);
+    font-family: "Noto Serif TC", "Noto Sans TC", serif;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.35;
   }
-  .crossover-callout strong { color: var(--bn-black); font-weight: 700; }
-  .crossover-callout .accent { color: var(--muji); font-weight: 700; }
-  @container (max-width: 640px) {
-    .crossover-callout { margin: 20px 20px 0; font-size: 13px; }
+
+  .insight-copy {
+    padding: 17px 20px;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .insight-copy strong { color: var(--ink); font-weight: 900; }
+  .insight-copy .nitori { color: var(--nitori-dark); font-weight: 900; }
+  .insight-copy .muji { color: var(--muji); font-weight: 900; }
+
+  footer {
+    margin-top: 28px;
+    padding: 18px 34px 24px;
+    border-top: 1px solid var(--rule);
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  footer strong { color: var(--ink); font-weight: 900; }
+
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 10;
+    gap: 4px;
+    padding: 5px;
+    background: var(--ink);
+    border-radius: 8px;
+    box-shadow: 0 10px 26px rgba(36, 39, 44, 0.18);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+
+  .preview-toolbar.show { display: flex; }
+
+  .preview-toolbar button {
+    border: 0;
+    border-radius: 5px;
+    padding: 7px 12px;
+    background: transparent;
+    color: rgba(255, 253, 248, 0.64);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .preview-toolbar button.active {
+    color: #FFFFFF;
+    background: var(--muji);
+  }
+
+  .preview-toolbar .label {
+    align-self: center;
+    padding: 0 7px;
+    color: rgba(255, 253, 248, 0.45);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  @media (max-width: 680px) {
+    body { padding: 0; }
+  }
+
+  @container (max-width: 680px) {
+    .viz {
+      border-left: 0;
+      border-right: 0;
+      box-shadow: none;
+    }
+    header { padding: 25px 20px 20px; }
+    h1 { font-size: 27px; }
+    .deck {
+      font-size: 14px;
+      line-break: anywhere;
+      word-break: break-all;
+    }
+    .meta {
+      padding: 11px 20px;
+      display: block;
+    }
+    .meta div + div { margin-top: 4px; }
+    .phase-strip { grid-template-columns: 1fr; }
+    .phase {
+      min-height: 0;
+      padding: 16px 15px 14px;
+      border-bottom: 1px solid var(--rule);
+      border-right: 0;
+    }
+    .phase:last-child { border-bottom: 0; }
+    .phase-number { font-size: 26px; }
+    .chart-wrap { padding: 24px 20px 0; }
+    .section-top {
+      display: block;
+      margin-bottom: 14px;
+    }
+    h2 { font-size: 21px; }
+    .legend {
+      justify-content: flex-start;
+      margin-top: 12px;
+      gap: 12px;
+    }
+    .chart-note {
+      display: block;
+      padding: 12px 14px 0;
+      font-size: 11px;
+    }
+    .desktop-chart { display: none; }
+    .mobile-chart { display: block; padding: 6px 14px 12px; }
+    .mobile-stage {
+      padding: 15px 0;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .mobile-stage:last-child { border-bottom: 0; }
+    .mobile-stage-title {
+      margin-bottom: 10px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .mobile-event {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 10px;
+      padding: 8px 0;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .mobile-year {
+      color: var(--ink);
+      font-family: "Inter", "Noto Sans TC", sans-serif;
+      font-weight: 900;
+      font-feature-settings: "tnum" 1;
+    }
+    .mobile-brand {
+      display: inline-block;
+      min-width: 42px;
+      margin-right: 7px;
+      padding: 1px 7px 2px;
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .mobile-brand.nitori { background: var(--nitori); }
+    .mobile-brand.muji { background: var(--muji); }
+    .mobile-num.nitori { color: var(--nitori-dark); font-weight: 900; }
+    .mobile-num.muji { color: var(--muji); font-weight: 900; }
+    .insight {
+      margin: 18px 20px 0;
+      display: block;
+    }
+    .insight-label {
+      border-right: 0;
+      border-bottom: 1px solid rgba(127, 0, 25, 0.22);
+      padding: 14px 16px;
+      font-size: 18px;
+    }
+    .insight-copy { padding: 14px 16px; }
+    footer { padding: 17px 20px 22px; }
   }
 </style>
 </head>
 <body>
-<div class="wrapper">
-
+<article class="viz" id="viz">
   <header>
-    <div class="kicker">CHART · 兩家對照</div>
-    <h1>宜得利 vs 無印良品：兩條完全不同的成長軌跡</h1>
-    <p class="deck">宜得利 1967 札幌創業、走家具製造零售；無印良品 1983 才獨立開店、走品牌生活雜貨。<strong>近 7 年無印從 4,000 億日圓加速到本期預估 8,870 億，眼看就要追上 9,000 億的宜得利。</strong></p>
+    <div class="eyebrow">BNext Visual · Revenue Race</div>
+    <h1>宜得利快被反超，無印良品怎麼追上來？</h1>
+    <p class="deck">同樣切進日本家庭，兩家公司走出不同曲線。<br><strong>宜得利早起步並長期領先，但近年曲線趨平。</strong><br><strong>無印良品後發加速，2026 年預估營收只差約 250 億日圓。</strong></p>
   </header>
 
-  <div class="meta-bar">
-    <div>
-      <span class="meta-chunk">資料來源：<strong>ITmedia ビジネスオンライン、宜得利／良品計畫 IR、IRBANK</strong></span>
-      <span class="meta-sep">|</span>
-      <span class="meta-chunk">更新：2026 / 05 / 20</span>
-    </div>
-    <div>
-      <span class="meta-chunk">製作：《數位時代》</span>
-    </div>
+  <div class="meta">
+    <div>資料來源：<strong>ITmedia、宜得利 IR、良品計畫 IR、IRBANK</strong></div>
+    <div>更新日期：<strong>2026/05/20</strong></div>
   </div>
 
-  <div class="legend-row">
-    <div class="legend-item">
-      <span class="legend-swatch nitori"></span>
-      <span class="legend-label">
-        <span class="name">宜得利控股</span>
-        <span class="sub">NITORI HOLDINGS · 1967 創</span>
-      </span>
+  <section class="phase-strip" aria-label="四階段摘要">
+    <div class="phase">
+      <div class="phase-index">01 早起步</div>
+      <div class="phase-label">創業時間差</div>
+      <div class="phase-number">16 年</div>
+      <div class="phase-sub">宜得利早起步，從札幌家具店擴張到本州。</div>
     </div>
-    <div class="legend-item">
-      <span class="legend-swatch muji"></span>
-      <span class="legend-label">
-        <span class="name">良品計畫（無印良品）</span>
-        <span class="sub">RYOHIN KEIKAKU · 1983 獨立</span>
-      </span>
+    <div class="phase">
+      <div class="phase-index">02 領先停滯</div>
+      <div class="phase-label">宜得利 2026/3 期</div>
+      <div class="phase-number nitori">9,122 <small>億日圓</small></div>
+      <div class="phase-sub">年減 1.8%，高峰後首次看見曲線放緩。</div>
     </div>
-  </div>
+    <div class="phase">
+      <div class="phase-index">03 追趕加速</div>
+      <div class="phase-label">無印 2026/8 期預估</div>
+      <div class="phase-number muji">8,870 <small>億日圓</small></div>
+      <div class="phase-sub">2018 後延續高速擴張，逼近 9,000 億日圓。</div>
+    </div>
+    <div class="phase">
+      <div class="phase-index">04 反超在即</div>
+      <div class="phase-label">當前差距</div>
+      <div class="phase-number">約 250 <small>億日圓</small></div>
+      <div class="phase-sub">無印逼近反超點，差距已縮到單季波動可改寫。</div>
+    </div>
+  </section>
 
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-label">創業時間差</div>
-      <div class="stat-num">16 年</div>
-      <div class="stat-sub">宜得利早起步</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">宜得利 2026/3 期</div>
-      <div class="stat-num accent-nitori">9,122<span style="font-size:13px; color:var(--cool-600); font-weight:500;"> 億日圓</span></div>
-      <div class="stat-sub">年減 1.8%</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">無印 2026/8 期預估</div>
-      <div class="stat-num accent-muji">8,870<span style="font-size:13px; color:var(--cool-600); font-weight:500;"> 億日圓</span></div>
-      <div class="stat-sub">7 年衝刺 + 4,800 億</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">當前差距</div>
-      <div class="stat-num">約 250<span style="font-size:13px; color:var(--cool-600); font-weight:500;"> 億日圓</span></div>
-      <div class="stat-sub">無印逼近反超點</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">FIGURE 01 · 1960 → 2026 營收軌跡</div>
-    <h2 class="section-headline">早起步停滯 vs 後發加速反超</h2>
-    <p class="section-sub">縱軸營收（億日圓），橫軸年份。圓點為關鍵節點，虛線段為本期預估區間。</p>
-
-    <!-- 圖表上方 inline legend，桌機讀者一眼辨識 -->
-    <div class="chart-legend" role="img" aria-label="圖例">
-      <div class="chart-legend-item">
-        <span class="chart-legend-swatch">
-          <span class="line nitori"></span>
-          <span class="dot nitori"></span>
-        </span>
-        <span class="chart-legend-text">
-          <span class="name">宜得利控股</span>
-          <span class="sub">NITORI HOLDINGS</span>
-        </span>
+  <section class="chart-wrap">
+    <div class="section-top">
+      <div>
+        <div class="section-kicker">Figure 01 · 1967 至 2026 營收軌跡</div>
+        <h2>早起步、領先停滯、追趕加速、反超在即</h2>
       </div>
-      <div class="chart-legend-item">
-        <span class="chart-legend-swatch">
-          <span class="line muji"></span>
-          <span class="dot muji"></span>
-        </span>
-        <span class="chart-legend-text">
-          <span class="name">良品計畫（無印良品）</span>
-          <span class="sub">RYOHIN KEIKAKU</span>
-        </span>
-      </div>
-      <span class="chart-legend-note">━━ 已實現 ┄┄ 本期預估</span>
-    </div>
-
-    <!-- 桌機 SVG：viewBox 880x740（v9：加高容納放大字體與重新分布的 callout） -->
-    <svg class="chart-desktop" viewBox="0 0 880 740" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="宜得利與無印良品 1960 至 2026 營收成長曲線">
-      <!-- 座標系（v9 維持原 plot area，留更多上下空間給 callout）：
-           plot area X: 80 → 720（寬 640），對應 1960 → 2026（共 66 年）→ 每年 9.697 px
-           plot area Y: 140 → 560（高 420），對應 10000 億 → 0 → 每 1000 億 42 px
-             x(year) = 80 + (year - 1960) * 9.697
-             y(amount in 億) = 560 - (amount / 10000) * 420
-           上方 0-140 為宜得利 callout 區（呼應線在上）
-           下方 560-720 為無印 callout 區（呼應線在下，但 2000 年後線升高，所以下方 callout 仍在 X 軸下方安全區）
-           右側 720-870 為 callout label 欄
-      -->
-
-      <!-- Y 軸網格與標籤 -->
-      <line class="grid-line" x1="80" y1="140" x2="720" y2="140" />
-      <line class="grid-line" x1="80" y1="182" x2="720" y2="182" />
-      <line class="grid-line" x1="80" y1="224" x2="720" y2="224" />
-      <line class="grid-line" x1="80" y1="266" x2="720" y2="266" />
-      <line class="grid-line" x1="80" y1="308" x2="720" y2="308" />
-      <line class="grid-line" x1="80" y1="350" x2="720" y2="350" />
-      <line class="grid-line" x1="80" y1="392" x2="720" y2="392" />
-      <line class="grid-line" x1="80" y1="434" x2="720" y2="434" />
-      <line class="grid-line" x1="80" y1="476" x2="720" y2="476" />
-      <line class="grid-line" x1="80" y1="518" x2="720" y2="518" />
-
-      <text class="axis-label" x="70" y="144" text-anchor="end">10,000</text>
-      <text class="axis-label" x="70" y="186" text-anchor="end">9,000</text>
-      <text class="axis-label" x="70" y="228" text-anchor="end">8,000</text>
-      <text class="axis-label" x="70" y="270" text-anchor="end">7,000</text>
-      <text class="axis-label" x="70" y="312" text-anchor="end">6,000</text>
-      <text class="axis-label" x="70" y="354" text-anchor="end">5,000</text>
-      <text class="axis-label" x="70" y="396" text-anchor="end">4,000</text>
-      <text class="axis-label" x="70" y="438" text-anchor="end">3,000</text>
-      <text class="axis-label" x="70" y="480" text-anchor="end">2,000</text>
-      <text class="axis-label" x="70" y="522" text-anchor="end">1,000</text>
-
-      <text class="y-unit" x="80" y="130">億日圓</text>
-
-      <!-- X 軸 -->
-      <line class="axis-line" x1="80" y1="560" x2="720" y2="560" />
-      <text class="axis-label" x="80" y="580" text-anchor="middle">1960</text>
-      <text class="axis-label" x="176.97" y="580" text-anchor="middle">1970</text>
-      <text class="axis-label" x="273.94" y="580" text-anchor="middle">1980</text>
-      <text class="axis-label" x="370.91" y="580" text-anchor="middle">1990</text>
-      <text class="axis-label" x="467.88" y="580" text-anchor="middle">2000</text>
-      <text class="axis-label" x="564.85" y="580" text-anchor="middle">2010</text>
-      <text class="axis-label" x="661.82" y="580" text-anchor="middle">2020</text>
-      <text class="axis-label" x="720" y="580" text-anchor="end" fill="#FF6B1A" font-weight="700">2026</text>
-
-      <!-- 反超點淡橘區塊 -->
-      <rect x="690" y="140" width="50" height="420" fill="#FFE7D6" opacity="0.45" />
-      <text class="y-unit" x="715" y="158" text-anchor="end" fill="#E55A0F">反超點</text>
-
-      <!-- ========== 宜得利軌跡（v9 座標系：+80 Y offset）==========
-        1967 → (147.88, 560)
-        1993 → (400.12, 557.9)
-        2003 → (497.09, 518)
-        2013 → (594.06, 434)
-        2022 → (681.33, 219.17)
-        2025 → (710.42, 169.98)
-        2026 → (720,    176.97)
-      -->
-      <path class="line-nitori"
-            d="M 147.88 560 L 400.12 557.9 L 497.09 518 L 594.06 434 L 681.33 219.17 L 710.42 169.98 L 720 176.97" />
-
-      <circle class="dot-nitori" cx="147.88" cy="560" r="5" />
-      <circle class="dot-nitori" cx="400.12" cy="557.9" r="5" />
-      <circle class="dot-nitori" cx="497.09" cy="518" r="5" />
-      <circle class="dot-nitori" cx="594.06" cy="434" r="5" />
-      <circle class="dot-nitori" cx="681.33" cy="219.17" r="5" />
-      <circle class="dot-nitori" cx="710.42" cy="169.98" r="6.5" />
-      <circle class="dot-nitori" cx="720" cy="176.97" r="4" />
-
-      <!-- ========== 無印軌跡（v9 座標系）==========
-        1980 → (273.94, 560)
-        1983 → (303.03, 560)
-        1999 → (458.18, 518)
-        2013 → (594.06, 476)
-        2018 → (642.55, 392)
-        2025 → (710.42, 230.47)
-        2026 → (720,    187.46)
-      -->
-      <path class="line-muji"
-            d="M 273.94 560 L 303.03 560 L 458.18 518 L 594.06 476 L 642.55 392 L 710.42 230.47" />
-
-      <path class="line-muji-projected"
-            d="M 710.42 230.47 L 720 187.46" />
-
-      <circle class="dot-muji" cx="273.94" cy="560" r="4" />
-      <circle class="dot-muji" cx="303.03" cy="560" r="5" />
-      <circle class="dot-muji" cx="458.18" cy="518" r="5" />
-      <circle class="dot-muji" cx="594.06" cy="476" r="5" />
-      <circle class="dot-muji" cx="642.55" cy="392" r="5" />
-      <circle class="dot-muji" cx="710.42" cy="230.47" r="5" />
-      <circle class="dot-muji" cx="720" cy="187.46" r="6.5" />
-
-      <!-- ====================================================
-           1960-2000 段 callout：宜得利「上」、無印「下」
-           （規則 4：泡泡位置呼應該公司在 60-00 段的線位置感）
-           ==================================================== -->
-
-      <!-- 【宜得利・上】1967 札幌創業（dot 在 560，泡泡放上方 y=70-110） -->
-      <text class="label-year" x="147.88" y="68" text-anchor="middle" fill="#5C6470">1967</text>
-      <text x="147.88" y="92" text-anchor="middle" style="fill:#00756F; font-size:18px; font-weight:700; font-family:'Inter','Noto Sans TC',sans-serif;">札幌創業</text>
-      <text class="label-year" x="147.88" y="112" text-anchor="middle" fill="#5C6470">似鳥昭雄成立似鳥家具店</text>
-      <line class="grid-line" x1="147.88" y1="120" x2="147.88" y2="555" stroke="#009E96" stroke-dasharray="3 4" opacity="0.45" />
-
-      <!-- 【宜得利・上】1993 本州 1 號店（dot 在 558，泡泡放上方 y=70-110） -->
-      <text class="label-year" x="400.12" y="68" text-anchor="middle" fill="#5C6470">1993</text>
-      <text x="400.12" y="92" text-anchor="middle" style="fill:#00756F; font-size:18px; font-weight:700; font-family:'Inter','Noto Sans TC',sans-serif;">本州 1 號店</text>
-      <text class="label-year" x="400.12" y="112" text-anchor="middle" fill="#5C6470">茨城勝田店</text>
-      <line class="grid-line" x1="400.12" y1="120" x2="400.12" y2="553" stroke="#009E96" stroke-dasharray="3 4" opacity="0.45" />
-
-      <!-- 【無印・下】1980 西友自有品牌（dot 在 560，泡泡放下方 y=600-640） -->
-      <text class="label-year" x="273.94" y="606" text-anchor="middle" fill="#5C6470">1980</text>
-      <text x="273.94" y="628" text-anchor="middle" style="fill:#7F0019; font-size:18px; font-weight:700; font-family:'Inter','Noto Sans TC',sans-serif;">西友量販自有品牌</text>
-      <text class="label-year" x="273.94" y="648" text-anchor="middle" fill="#5C6470">食品 31 品 + 雜貨 9 品</text>
-      <line class="grid-line" x1="273.94" y1="565" x2="273.94" y2="595" stroke="#7F0019" stroke-dasharray="3 4" opacity="0.45" />
-
-      <!-- 【無印・下】1983 青山 1 號店（dot 在 560，泡泡放下方更右、y=680 收回避免被截） -->
-      <text class="label-year" x="340" y="676" text-anchor="middle" fill="#5C6470">1983</text>
-      <text x="340" y="698" text-anchor="middle" style="fill:#7F0019; font-size:18px; font-weight:700; font-family:'Inter','Noto Sans TC',sans-serif;">青山 1 號店</text>
-      <line class="grid-line" x1="340" y1="666" x2="303.03" y2="565" stroke="#7F0019" stroke-dasharray="3 4" opacity="0.45" />
-
-      <!-- 【無印・下】1999 1,000 億突破（dot 在 518，泡泡放下方 y=635-660，避開 muji line @518 及 1983 callout） -->
-      <text class="label-year" x="458.18" y="635" text-anchor="middle" fill="#5C6470">1999</text>
-      <text x="458.18" y="657" text-anchor="middle" style="fill:#7F0019; font-size:18px; font-weight:700; font-family:'Inter','Noto Sans TC',sans-serif;">1,000 億日圓突破</text>
-      <line class="grid-line" x1="458.18" y1="525" x2="458.18" y2="625" stroke="#7F0019" stroke-dasharray="3 4" opacity="0.45" />
-
-      <!-- ====================================================
-           2000-2020 段 callout：依折線位置決定上/下
-           宜得利線快速爬升、無印線緩慢爬升；此段宜得利線在無印線上方
-           宜得利 callout 放折線左上、無印 callout 放折線下方
-           ==================================================== -->
-
-      <!-- 【宜得利】2003 1,000 億 + 100 店（dot 518，placed 左上 y=478-510）
-           inline style 強制覆蓋 CSS class fill，確保品牌綠色生效 -->
-      <text class="label-year" x="492" y="478" text-anchor="end" fill="#5C6470">2003</text>
-      <text x="492" y="500" text-anchor="end" style="fill:#00756F; font-size:18px; font-weight:700; font-family:'Inter','Noto Sans TC',sans-serif;">1,000 億 · 100 店</text>
-      <line class="grid-line" x1="494" y1="508" x2="497.09" y2="514" stroke="#009E96" stroke-dasharray="3 4" opacity="0.6" />
-
-      <!-- 【宜得利】2013 3,000 億 + 300 店（dot 434，placed 左上 y=386-418） -->
-      <text class="label-year" x="589" y="386" text-anchor="end" fill="#5C6470">2013</text>
-      <text x="589" y="408" text-anchor="end" style="fill:#00756F; font-size:18px; font-weight:700; font-family:'Inter','Noto Sans TC',sans-serif;">3,000 億 · 300 店</text>
-      <line class="grid-line" x1="591" y1="418" x2="594.06" y2="430" stroke="#009E96" stroke-dasharray="3 4" opacity="0.6" />
-
-      <!-- ====================================================
-           中央核心 annotation：「2013→2018 / 5 年翻倍」
-           位置：x=210-440 / y=250-340（左中區，宜得利 1967/1993 上方 callout 之下、
-           兩條折線之前的乾淨空白區，完全不遮線）
-           兩條虛線分別連到 2013 (594.06, 476) 與 2018 (642.55, 392) 端點
-           ==================================================== -->
-
-      <!-- 雙端虛線：annotation 右側 → 2013 dot 與 2018 dot
-           上方虛線（離開 annotation 右上） → 2018 點 (642.55, 392)
-           下方虛線（離開 annotation 右下） → 2013 點 (594.06, 476) -->
-      <line class="crossover-marker" x1="450" y1="270" x2="642.55" y2="392" stroke-dasharray="4 4" opacity="0.75" />
-      <line class="crossover-marker" x1="450" y1="345" x2="594.06" y2="476" stroke-dasharray="4 4" opacity="0.75" />
-
-      <g>
-        <rect x="200" y="238" width="250" height="118" rx="4" fill="#F4D8DC" stroke="#7F0019" stroke-width="2" />
-        <text x="325" y="264" text-anchor="middle" fill="#5C0012" font-size="16" font-weight="700" font-family="'Inter','Noto Sans TC',sans-serif">無印「加速啟動」</text>
-        <text x="325" y="293" text-anchor="middle" fill="#7F0019" font-size="22" font-weight="800" font-family="'Inter','Noto Sans TC',sans-serif" font-feature-settings="'tnum' 1">2013 → 2018</text>
-        <text x="325" y="322" text-anchor="middle" fill="#7F0019" font-size="26" font-weight="900" font-family="'Inter','Noto Sans TC',sans-serif">5 年翻倍</text>
-        <text x="325" y="346" text-anchor="middle" fill="#7F0019" font-size="16" font-weight="700" font-family="'Inter','Noto Sans TC',sans-serif" font-feature-settings="'tnum' 1">2,000 億 → 4,000 億日圓</text>
-      </g>
-
-      <!-- 【無印】2018 4,000 億突破（dot 392，annotation 已標 2,000→4,000，此處節點僅補上年份/數字標籤；放線上方右側避開 annotation 虛線） -->
-      <text class="label-year" x="664" y="368" text-anchor="start" fill="#5C6470">2018</text>
-      <text x="664" y="389" text-anchor="start" style="fill:#7F0019; font-size:18px; font-weight:700; font-family:'Inter','Noto Sans TC',sans-serif;">4,000 億</text>
-      <line class="grid-line" x1="662" y1="380" x2="645" y2="390" stroke="#7F0019" stroke-dasharray="3 4" opacity="0.6" />
-
-      <!-- ====================================================
-           2020-2026 段 callout：右側欄
-           宜得利數字（三期）放上方堆疊
-           無印數字（兩期）放下方堆疊
-           ==================================================== -->
-
-      <!-- 宜得利 2022/2 期 8,115 億 -->
-      <text class="label-year" x="612" y="208" text-anchor="end" fill="#5C6470">2022/2 期 · 35 期連續増収増益</text>
-      <text x="612" y="228" text-anchor="end" fill="#009E96" font-weight="800" font-size="17" font-family="'Inter','Noto Sans TC',sans-serif" font-feature-settings="'tnum' 1">8,115 億日圓</text>
-      <line class="grid-line" x1="614" y1="220" x2="681.33" y2="222" stroke="#009E96" stroke-dasharray="3 4" opacity="0.6" />
-
-      <!-- 宜得利 2025/3 期 9,288 億 歷史新高 -->
-      <text class="label-year" x="612" y="138" text-anchor="end" fill="#5C6470">2025/3 期 · 歷史新高</text>
-      <text x="612" y="158" text-anchor="end" fill="#009E96" font-weight="800" font-size="17" font-family="'Inter','Noto Sans TC',sans-serif" font-feature-settings="'tnum' 1">9,288 億日圓</text>
-      <line class="grid-line" x1="614" y1="150" x2="708" y2="168" stroke="#009E96" stroke-dasharray="3 4" opacity="0.6" />
-
-      <!-- ========== 右側 callout 欄（無印良品專屬，2025/8 + 2026 預估） ========== -->
-
-      <g>
-        <line class="grid-line" x1="715" y1="215" x2="735" y2="215" stroke="#7F0019" />
-        <text class="label-year" x="738" y="218" text-anchor="start" fill="#5C6470">2025/8 期</text>
-        <text x="738" y="240" text-anchor="start" fill="#7F0019" font-weight="800" font-size="17" font-family="'Inter','Noto Sans TC',sans-serif" font-feature-settings="'tnum' 1">7,846 億日圓</text>
-        <text class="label-year" x="738" y="258" text-anchor="start" fill="#5C6470">國內 4,701 億</text>
-        <text class="label-year" x="738" y="274" text-anchor="start" fill="#5C6470">東亞 2,222 億</text>
-        <text class="label-year" x="738" y="290" text-anchor="start" fill="#5C6470">其他地區 923 億</text>
-
-        <text class="label-year" x="738" y="318" text-anchor="start" fill="#5C6470">本期預估</text>
-        <text x="738" y="340" text-anchor="start" fill="#7F0019" font-weight="800" font-size="17" font-family="'Inter','Noto Sans TC',sans-serif" font-feature-settings="'tnum' 1">8,870 億日圓</text>
-        <text class="label-year" x="738" y="358" text-anchor="start" fill="#5C6470" font-weight="600">差距收斂至 ~250 億</text>
-      </g>
-
-      <!-- 宜得利 2026/3 期 9,122 億 -1.8%（右側下方） -->
-      <text class="label-year" x="738" y="392" text-anchor="start" fill="#5C6470">2026/3 期（-1.8%）</text>
-      <text x="738" y="414" text-anchor="start" fill="#009E96" font-weight="800" font-size="17" font-family="'Inter','Noto Sans TC',sans-serif" font-feature-settings="'tnum' 1">9,122 億日圓</text>
-      <line class="grid-line" x1="736" y1="408" x2="722" y2="178" stroke="#009E96" stroke-dasharray="3 4" opacity="0.5" />
-
-    </svg>
-
-    <!-- Mobile 替代版 -->
-    <div class="mobile-alt">
-      <div class="mobile-timeline">
-        <div class="mobile-year-row">
-          <div class="mobile-year">1967</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag nitori">宜得利</span>
-              <div class="mobile-event-text">
-                札幌創業
-                <span class="mobile-event-desc">似鳥昭雄成立似鳥家具店</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">1980</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag muji">無印</span>
-              <div class="mobile-event-text">
-                西友量販自有品牌誕生
-                <span class="mobile-event-desc">食品 31 品 + 雜貨 9 品</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">1983</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag muji">無印</span>
-              <div class="mobile-event-text">
-                青山 1 號店開業
-                <span class="mobile-event-desc">良品計畫獨立成立、起步比宜得利晚 16 年</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">1993</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag nitori">宜得利</span>
-              <div class="mobile-event-text">
-                本州 1 號店
-                <span class="mobile-event-desc">茨城勝田店、走出札幌</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">1999</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag muji">無印</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-muji">1,000 億日圓</span>突破
-                <span class="mobile-event-desc">會社設立 10 年</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">2003</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag nitori">宜得利</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-nitori">1,000 億日圓</span>、100 店突破
-                <span class="mobile-event-desc">比無印晚 4 年達標</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">2013</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag nitori">宜得利</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-nitori">3,000 億日圓</span>、300 店突破
-              </div>
-            </div>
-            <div class="mobile-event">
-              <span class="mobile-tag muji">無印</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-muji">2,000 億日圓</span>突破
-                <span class="mobile-event-desc">兩家差約 1,000 億</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">2018</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag muji">無印</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-muji">4,000 億日圓</span>突破
-                <span class="mobile-event-desc">加速啟動點</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">2022</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag nitori">宜得利</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-nitori">8,115 億日圓</span>
-                <span class="mobile-event-desc">2022/2 期、35 期連續増収増益</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">2025</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag nitori">宜得利</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-nitori">9,288 億日圓</span>
-                <span class="mobile-event-desc">2025/3 期歷史新高</span>
-              </div>
-            </div>
-            <div class="mobile-event">
-              <span class="mobile-tag muji">無印</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-muji">7,846 億日圓</span>
-                <span class="mobile-event-desc">2025/8 期，國內 4,701 億・東亞 2,222 億・其他地區 923 億</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mobile-year-row">
-          <div class="mobile-year">2026</div>
-          <div class="mobile-events">
-            <div class="mobile-event">
-              <span class="mobile-tag nitori">宜得利</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-nitori">9,122 億日圓</span>
-                <span class="mobile-event-desc">2026/3 期，年減 1.8%</span>
-              </div>
-            </div>
-            <div class="mobile-event">
-              <span class="mobile-tag muji">無印</span>
-              <div class="mobile-event-text">
-                <span class="mobile-event-num accent-muji">8,870 億日圓</span>
-                <span class="mobile-event-desc">本期預估，差距僅約 250 億</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <div class="legend" aria-label="圖例">
+        <div class="legend-item"><span class="legend-key nitori"></span>宜得利控股</div>
+        <div class="legend-item"><span class="legend-key muji"></span>良品計畫（無印良品）</div>
       </div>
     </div>
-  </div>
 
-  <div class="crossover-callout">
-    <strong>反超觀察點：</strong>宜得利從 2003 突破 1,000 億，花 <strong>22 年</strong>走到 9,288 億高峰；無印從 2018 達 4,000 億，僅用 <strong>7 年</strong>衝到本期預估 <span class="accent">+4,800 億日圓</span>。宜得利曲線後期變平、無印曲線後期變陡，差距從 1,000 億縮到 250 億。
-  </div>
+    <div class="chart-card">
+      <div class="chart-note">
+        <span><strong>單位：</strong>億日圓營收</span>
+        <span><strong>線型：</strong>實線為已公布，虛線為本期預估</span>
+      </div>
+
+      <svg class="desktop-chart" viewBox="0 0 920 610" role="img" aria-label="宜得利與無印良品營收成長曲線，無印良品在 2026 年預估逼近宜得利">
+        <rect class="stage-band" x="78" y="78" width="186" height="410"></rect>
+        <rect class="stage-band" x="450" y="78" width="166" height="410"></rect>
+        <rect class="stage-band" x="704" y="78" width="112" height="410"></rect>
+
+        <text class="stage-text" x="96" y="102">早起步</text>
+        <text class="stage-text" x="304" y="102">領先停滯</text>
+        <text class="stage-text" x="468" y="102">追趕加速</text>
+        <text class="stage-text" x="722" y="102">反超在即</text>
+
+        <line class="grid" x1="78" y1="92" x2="816" y2="92"></line>
+        <line class="grid" x1="78" y1="132" x2="816" y2="132"></line>
+        <line class="grid" x1="78" y1="172" x2="816" y2="172"></line>
+        <line class="grid" x1="78" y1="212" x2="816" y2="212"></line>
+        <line class="grid" x1="78" y1="252" x2="816" y2="252"></line>
+        <line class="grid" x1="78" y1="292" x2="816" y2="292"></line>
+        <line class="grid" x1="78" y1="332" x2="816" y2="332"></line>
+        <line class="grid" x1="78" y1="372" x2="816" y2="372"></line>
+        <line class="grid" x1="78" y1="412" x2="816" y2="412"></line>
+        <line class="grid" x1="78" y1="452" x2="816" y2="452"></line>
+        <line class="axis" x1="78" y1="492" x2="816" y2="492"></line>
+        <line class="axis" x1="78" y1="78" x2="78" y2="492"></line>
+
+        <text class="axis-text" x="66" y="96" text-anchor="end">10,000</text>
+        <text class="axis-text" x="66" y="176" text-anchor="end">8,000</text>
+        <text class="axis-text" x="66" y="256" text-anchor="end">6,000</text>
+        <text class="axis-text" x="66" y="336" text-anchor="end">4,000</text>
+        <text class="axis-text" x="66" y="416" text-anchor="end">2,000</text>
+        <text class="axis-text" x="78" y="60">億日圓</text>
+
+        <text class="axis-text" x="78" y="520" text-anchor="middle">1960</text>
+        <text class="axis-text" x="190" y="520" text-anchor="middle">1970</text>
+        <text class="axis-text" x="302" y="520" text-anchor="middle">1980</text>
+        <text class="axis-text" x="413" y="520" text-anchor="middle">1990</text>
+        <text class="axis-text" x="525" y="520" text-anchor="middle">2000</text>
+        <text class="axis-text" x="637" y="520" text-anchor="middle">2010</text>
+        <text class="axis-text" x="749" y="520" text-anchor="middle">2020</text>
+        <text class="axis-text" x="816" y="520" text-anchor="end">2026</text>
+
+        <path class="line-nitori" d="M156.3 492 L447.4 491.2 L559.2 452 L671.0 372 L771.6 167.4 L805.1 120.5 L816 127.1"></path>
+        <path class="line-muji" d="M301.7 492 L335.3 492 L514.2 452 L671.0 412 L726.9 332 L805.1 178.2"></path>
+        <path class="line-muji-proj" d="M805.1 178.2 L816 137.2"></path>
+
+        <circle class="dot-nitori" cx="156.3" cy="492" r="5"></circle>
+        <circle class="dot-nitori" cx="447.4" cy="491.2" r="5"></circle>
+        <circle class="dot-nitori" cx="559.2" cy="452" r="5"></circle>
+        <circle class="dot-nitori" cx="671.0" cy="372" r="5"></circle>
+        <circle class="dot-nitori" cx="771.6" cy="167.4" r="5"></circle>
+        <circle class="dot-nitori" cx="805.1" cy="120.5" r="6"></circle>
+        <circle class="dot-nitori" cx="816" cy="127.1" r="6"></circle>
+
+        <circle class="dot-muji" cx="301.7" cy="492" r="5"></circle>
+        <circle class="dot-muji" cx="335.3" cy="492" r="5"></circle>
+        <circle class="dot-muji" cx="514.2" cy="452" r="5"></circle>
+        <circle class="dot-muji" cx="671.0" cy="412" r="5"></circle>
+        <circle class="dot-muji" cx="726.9" cy="332" r="5"></circle>
+        <circle class="dot-muji" cx="805.1" cy="178.2" r="5"></circle>
+        <circle class="dot-muji" cx="816" cy="137.2" r="6"></circle>
+
+        <line class="leader" x1="156" y1="484" x2="156" y2="400"></line>
+        <text class="label-year" x="156" y="368" text-anchor="middle">1967</text>
+        <text class="label-main" x="156" y="388" text-anchor="middle" fill="#00766F">札幌創業</text>
+        <text class="label-sub" x="156" y="406" text-anchor="middle">宜得利早 16 年起步</text>
+
+        <line class="leader" x1="335" y1="484" x2="335" y2="396"></line>
+        <text class="label-year" x="335" y="364" text-anchor="middle">1983</text>
+        <text class="label-main" x="335" y="384" text-anchor="middle" fill="#7F0019">青山 1 號店</text>
+        <text class="label-sub" x="335" y="402" text-anchor="middle">無印良品獨立開店</text>
+
+        <line class="leader" x1="514" y1="444" x2="514" y2="374"></line>
+        <text class="label-year" x="514" y="342" text-anchor="middle">1999</text>
+        <text class="num-muji" x="514" y="364" text-anchor="middle">1,000 億</text>
+        <text class="label-sub" x="514" y="382" text-anchor="middle">無印先破千億</text>
+
+        <line class="leader" x1="559" y1="444" x2="559" y2="542"></line>
+        <text class="label-year" x="559" y="552" text-anchor="middle">2003</text>
+        <text class="num-nitori" x="559" y="575" text-anchor="middle">1,000 億</text>
+        <text class="label-sub" x="559" y="593" text-anchor="middle">宜得利 100 店突破</text>
+
+        <rect class="callout-fill" x="590" y="234" width="178" height="78" rx="6"></rect>
+        <line class="leader" x1="674" y1="314" x2="671" y2="412"></line>
+        <line class="leader" x1="746" y1="312" x2="727" y2="332"></line>
+        <text class="label-year" x="679" y="258" text-anchor="middle">2013 至 2018</text>
+        <text class="num-muji" x="679" y="282" text-anchor="middle">5 年翻倍</text>
+        <text class="label-sub" x="679" y="302" text-anchor="middle">2,000 億到 4,000 億日圓</text>
+
+        <text class="label-year" x="724" y="155" text-anchor="end">2022/2 期</text>
+        <text class="num-nitori" x="724" y="177" text-anchor="end">8,115 億</text>
+        <text class="label-sub" x="724" y="196" text-anchor="end">35 期連續増収増益</text>
+
+        <text class="label-year" x="760" y="102" text-anchor="end">2025/3 期</text>
+        <text class="num-nitori" x="760" y="124" text-anchor="end">9,288 億</text>
+        <text class="label-sub" x="760" y="143" text-anchor="end">歷史新高</text>
+
+        <rect class="final-panel" x="728" y="222" width="170" height="172" rx="8"></rect>
+        <text class="final-title" x="746" y="254">反超在即</text>
+        <text class="label-year" x="746" y="282">2025/8 期</text>
+        <text class="num-muji" x="746" y="305">7,846 億日圓</text>
+        <text class="label-year" x="746" y="334">2026/8 期預估</text>
+        <text class="num-muji" x="746" y="357">8,870 億日圓</text>
+        <text class="final-copy" x="746" y="381">距宜得利約 250 億日圓</text>
+
+        <line class="leader" x1="816" y1="137" x2="728" y2="222"></line>
+        <line class="leader" x1="816" y1="127" x2="846" y2="180"></line>
+        <text class="label-year" x="856" y="170" text-anchor="middle">2026/3 期</text>
+        <text class="num-nitori" x="856" y="192" text-anchor="middle">9,122 億</text>
+        <text class="label-sub" x="856" y="211" text-anchor="middle">年減 1.8%</text>
+      </svg>
+
+      <div class="mobile-chart" aria-label="手機版營收事件編年">
+        <div class="mobile-stage">
+          <div class="mobile-stage-title">01 早起步</div>
+          <div class="mobile-event"><div class="mobile-year">1967</div><div><span class="mobile-brand nitori">宜得利</span>札幌創業，似鳥昭雄成立似鳥家具店。</div></div>
+          <div class="mobile-event"><div class="mobile-year">1980</div><div><span class="mobile-brand muji">無印</span>西友量販自有品牌誕生，食品 31 品加雜貨 9 品。</div></div>
+          <div class="mobile-event"><div class="mobile-year">1983</div><div><span class="mobile-brand muji">無印</span>青山 1 號店開業。</div></div>
+          <div class="mobile-event"><div class="mobile-year">1993</div><div><span class="mobile-brand nitori">宜得利</span>本州 1 號店，茨城勝田店。</div></div>
+        </div>
+        <div class="mobile-stage">
+          <div class="mobile-stage-title">02 領先停滯</div>
+          <div class="mobile-event"><div class="mobile-year">1999</div><div><span class="mobile-brand muji">無印</span><span class="mobile-num muji">1,000 億日圓</span>突破。</div></div>
+          <div class="mobile-event"><div class="mobile-year">2003</div><div><span class="mobile-brand nitori">宜得利</span><span class="mobile-num nitori">1,000 億日圓</span>、100 店突破。</div></div>
+          <div class="mobile-event"><div class="mobile-year">2013</div><div><span class="mobile-brand nitori">宜得利</span><span class="mobile-num nitori">3,000 億日圓</span>、300 店突破。</div></div>
+        </div>
+        <div class="mobile-stage">
+          <div class="mobile-stage-title">03 追趕加速</div>
+          <div class="mobile-event"><div class="mobile-year">2013</div><div><span class="mobile-brand muji">無印</span><span class="mobile-num muji">2,000 億日圓</span>突破。</div></div>
+          <div class="mobile-event"><div class="mobile-year">2018</div><div><span class="mobile-brand muji">無印</span><span class="mobile-num muji">4,000 億日圓</span>突破，5 年翻倍。</div></div>
+          <div class="mobile-event"><div class="mobile-year">2022</div><div><span class="mobile-brand nitori">宜得利</span><span class="mobile-num nitori">8,115 億日圓</span>，35 期連續増収増益。</div></div>
+        </div>
+        <div class="mobile-stage">
+          <div class="mobile-stage-title">04 反超在即</div>
+          <div class="mobile-event"><div class="mobile-year">2025</div><div><span class="mobile-brand nitori">宜得利</span><span class="mobile-num nitori">9,288 億日圓</span>，2025/3 期歷史新高。</div></div>
+          <div class="mobile-event"><div class="mobile-year">2025</div><div><span class="mobile-brand muji">無印</span><span class="mobile-num muji">7,846 億日圓</span>，國內 4,701 億、東亞 2,222 億、其他地區 923 億。</div></div>
+          <div class="mobile-event"><div class="mobile-year">2026</div><div><span class="mobile-brand nitori">宜得利</span><span class="mobile-num nitori">9,122 億日圓</span>，年減 1.8%。</div></div>
+          <div class="mobile-event"><div class="mobile-year">2026</div><div><span class="mobile-brand muji">無印</span><span class="mobile-num muji">8,870 億日圓</span>，2026/8 期預估，差距約 250 億。</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="insight">
+    <div class="insight-label">重點不是誰大，而是誰還在加速</div>
+    <div class="insight-copy">
+      <strong>宜得利</strong>從 2003 年突破 <span class="nitori">1,000 億日圓</span>後，靠家具 SPA 模式一路推高規模，但 2025 年高峰後轉為年減。<strong>無印良品</strong>則在 2018 年突破 <span class="muji">4,000 億日圓</span>後延續加速，2026 年預估來到 <span class="muji">8,870 億日圓</span>，把兩者差距壓到約 250 億日圓。
+    </div>
+  </aside>
 
   <footer>
-    <strong>《數位時代》</strong>　|　資料整理：編輯部　|　製圖：2026.05.20
-    <div class="src-line">年份為日本會計年度結算（宜得利為 3 月-2 月制、無印良品為 9 月-8 月制）。資料來源：ITmedia ビジネスオンライン（2026/05/18）、宜得利控股 IR、良品計畫 IR、IRBANK 連結損益歷史資料。無印良品 2026/8 期數字為公司預估值（虛線段）。</div>
+    <strong>《數位時代》視覺配件</strong><br>
+    註：年份為日本會計年度結算，宜得利為 3 月至 2 月制，無印良品為 9 月至 8 月制。資料來源：ITmedia ビジネスオンライン、宜得利 IR、良品計畫 IR、IRBANK。更新日期 2026/05/20。無印良品 2026/8 期數字為公司預估值，圖中以虛線表示。
   </footer>
-
-</div>
+</article>
 
 <div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
-  <span class="label">預覽</span>
+  <span class="label">Preview</span>
   <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
   <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
 </div>
 
 <script>
 (function() {
-  if (!new URLSearchParams(location.search).has('preview')) return;
-  var toolbar = document.getElementById('previewToolbar');
-  var wrapper = document.querySelector('.wrapper');
-  if (!toolbar || !wrapper) return;
-  toolbar.classList.add('show');
-  toolbar.addEventListener('click', function(e) {
-    var btn = e.target.closest('button[data-mode]');
-    if (!btn) return;
-    var mode = btn.dataset.mode;
-    toolbar.querySelectorAll('button').forEach(function(b) {
-      b.classList.toggle('active', b === btn);
-      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+  var wrapper = document.getElementById("viz");
+  var toolbar = document.getElementById("previewToolbar");
+
+  function postHeight() {
+    var height = Math.ceil(document.documentElement.scrollHeight);
+    var payload = { type: "bnext-iframe-height", height: height, slug: "nitori-vs-muji-growth" };
+    window.parent.postMessage(payload, "*");
+    window.parent.postMessage({ type: "resize", height: height }, "*");
+  }
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(postHeight).observe(document.documentElement);
+  }
+
+  window.addEventListener("load", postHeight);
+  window.addEventListener("resize", postHeight);
+  setTimeout(postHeight, 300);
+  setTimeout(postHeight, 1000);
+
+  if (new URLSearchParams(location.search).has("preview") && toolbar && wrapper) {
+    toolbar.classList.add("show");
+    toolbar.addEventListener("click", function(event) {
+      var button = event.target.closest("button[data-mode]");
+      if (!button) return;
+      var mode = button.getAttribute("data-mode");
+      toolbar.querySelectorAll("button").forEach(function(item) {
+        var active = item === button;
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      wrapper.style.maxWidth = mode === "mobile" ? "390px" : "920px";
+      setTimeout(postHeight, 80);
     });
-    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
-  });
+  }
 })();
 </script>
-
 </body>
 </html>
