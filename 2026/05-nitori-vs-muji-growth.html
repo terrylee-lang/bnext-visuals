@@ -435,8 +435,8 @@
     color: var(--bn-black);
     font-feature-settings: 'tnum' 1;
   }
-  .mobile-event-num.accent-nitori { color: var(--nitori-deep); }
-  .mobile-event-num.accent-muji { color: var(--muji); }
+  .mobile-event-num.accent-nitori { color: var(--nitori); font-weight: 800; }
+  .mobile-event-num.accent-muji { color: var(--muji); font-weight: 800; }
   .mobile-event-desc {
     display: block;
     font-size: 12px;
@@ -640,10 +640,20 @@
       <text class="label-year" x="585" y="348" text-anchor="end">300 店</text>
       <line class="grid-line" x1="587" y1="346" x2="594.06" y2="354" stroke="#009E96" stroke-dasharray="2 2" />
 
-      <!-- 2022/2 期 8,115 億 35 期連續增收增益 -->
-      <text class="label-text" x="672" y="126" text-anchor="end" fill="#00756F">2022｜8,115 億</text>
-      <text class="label-year" x="672" y="138" text-anchor="end">35 期連續増収増益</text>
-      <line class="grid-line" x1="674" y1="136" x2="681.33" y2="139.17" stroke="#009E96" stroke-dasharray="2 2" />
+      <!-- 2022/2 期 8,115 億 35 期連續增收增益（左側，貼近 2022 點水平線） -->
+      <text class="label-year" x="612" y="158" text-anchor="end" fill="#5C6470">2022/2 期 · 35 期連續増収増益</text>
+      <text class="annotation-text" x="612" y="174" text-anchor="end" fill="#009E96" font-weight="700" font-size="14">8,115 億</text>
+      <line class="grid-line" x1="614" y1="168" x2="681.33" y2="142" stroke="#009E96" stroke-dasharray="2 2" />
+
+      <!-- 2025/3 期 9,288 億 歷史新高（折線左上方，往中段水平拉開） -->
+      <text class="label-year" x="612" y="60" text-anchor="end" fill="#5C6470">2025/3 期 · 歷史新高</text>
+      <text class="annotation-text" x="612" y="76" text-anchor="end" fill="#009E96" font-weight="700" font-size="14">9,288 億</text>
+      <line class="grid-line" x1="614" y1="70" x2="708" y2="86" stroke="#009E96" stroke-dasharray="2 2" />
+
+      <!-- 2026/3 期 9,122 億 -1.8%（折線左上方，2025 callout 下方 ） -->
+      <text class="label-year" x="612" y="105" text-anchor="end" fill="#5C6470">2026/3 期（-1.8%）</text>
+      <text class="annotation-text" x="612" y="121" text-anchor="end" fill="#009E96" font-weight="700" font-size="14">9,122 億</text>
+      <line class="grid-line" x1="614" y1="115" x2="716" y2="98" stroke="#009E96" stroke-dasharray="2 2" />
 
       <!-- ========== 無印軌跡 ==========
         以 ITmedia 年度標示為準（突破年份）
@@ -690,17 +700,9 @@
       <text class="label-year" x="652" y="345" text-anchor="start">加速啟動點</text>
       <line class="grid-line" x1="650" y1="326" x2="642.55" y2="316" stroke="#7F0019" stroke-dasharray="2 2" />
 
-      <!-- ========== 右側 callout 欄 ========== -->
+      <!-- ========== 右側 callout 欄（無印良品專屬） ========== -->
 
-      <!-- 宜得利 callout box -->
-      <g>
-        <line class="grid-line" x1="715" y1="90" x2="735" y2="90" stroke="#009E96" />
-        <text class="label-year" x="738" y="76" text-anchor="start" fill="#5C6470">2025/3 期 · 歷史新高</text>
-        <text class="annotation-text" x="738" y="92" text-anchor="start" fill="#00756F" font-weight="700" font-size="14">9,288 億</text>
-        <text class="label-year" x="738" y="106" text-anchor="start" fill="#5C6470">2026/3 期 9,122（-1.8%）</text>
-      </g>
-
-      <!-- 無印 callout box -->
+      <!-- 無印 callout box（折線右側） -->
       <g>
         <line class="grid-line" x1="715" y1="125" x2="735" y2="125" stroke="#7F0019" />
         <text class="label-year" x="738" y="138" text-anchor="start" fill="#5C6470">2025/8 期</text>
@@ -709,7 +711,7 @@
 
         <text class="label-year" x="738" y="190" text-anchor="start" fill="#5C6470">本期預估</text>
         <text class="annotation-text" x="738" y="206" text-anchor="start" fill="#7F0019" font-weight="700" font-size="14">8,870 億</text>
-        <text class="label-year" x="738" y="220" text-anchor="start" fill="#E55A0F" font-weight="600">差距收斂至 ~250 億</text>
+        <text class="label-year" x="738" y="220" text-anchor="start" fill="#5C6470" font-weight="600">差距收斂至 ~250 億</text>
       </g>
 
       <!-- 7 年衝刺 annotation -->
