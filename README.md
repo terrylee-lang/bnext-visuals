@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| 宜得利 vs 無印良品：兩條成長軌跡 | 日本兩大零售巨頭近 60 年營收對照 | 2026-05-20 | [`2026/05-nitori-vs-muji-growth.html`](./2026/05-nitori-vs-muji-growth.html) |
 | Codex 長駐特助五招拆解 | 不是再多一個聊天機器人：Codex 如何變成你的「長駐 AI 特助」 | 2026-05-19 | [`2026/05-codex-long-running-assistant.html`](./2026/05-codex-long-running-assistant.html) |
 | Anthropic 創辦人劇本 4 階段地圖 | Anthropic 官方發布新創 AI 使用指南 | 2026-05-18 | [`2026/05-anthropic-founders-playbook.html`](./2026/05-anthropic-founders-playbook.html) |
 | 2026 全球企業裁員追蹤 | 2026 裁員潮全解析 | 2026-05-18 | [`2026/05-layoffs-tracker.html`](./2026/05-layoffs-tracker.html) |
