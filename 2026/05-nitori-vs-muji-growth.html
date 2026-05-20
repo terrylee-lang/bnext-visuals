@@ -5,14 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>宜得利 vs 無印良品：兩條完全不同的成長軌跡 ｜《數位時代》</title>
 <meta name="description" content="宜得利 1967 札幌創業走家具 SPA 路線、無印良品 1983 才獨立開店走品牌生活雜貨。兩家日本零售巨頭近 60 年營收曲線對照。">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
 <style>
   :root {
     --bn-orange: #FF6B1A;
     --bn-orange-deep: #E55A0F;
     --bn-orange-soft: #FFE7D6;
     --bn-navy: #0F1A2E;
-    --bn-navy-2: #1B2A45;
     --bn-black: #1A1A1A;
     --paper: #FAF7F1;
     --paper-2: #F5F3EF;
@@ -22,9 +21,16 @@
     --cool-600: #5C6470;
     --cool-400: #8A93A0;
     --hairline: rgba(15, 26, 46, 0.12);
-    /* 兩家對比色：宜得利用 BN Navy（早起步、穩重）、無印用 BN Orange（後發加速、品牌焦點） */
-    --nitori: #0F1A2E;
-    --muji: #FF6B1A;
+    /* 兩家公司官方品牌主色（破例不走 BN tokens，服務讀者辨識度）
+       宜得利：#009E96 Turquoise（BrandColorCode 推估，與 logo 視覺一致）
+       無印良品：#7F0019 深紅（BrandColor.info 引用值，PANTONE 202C 系列）
+       為 SVG 線條對比，加深一階作為描邊色 */
+    --nitori: #009E96;
+    --nitori-deep: #00756F;
+    --nitori-soft: #D6F0EE;
+    --muji: #7F0019;
+    --muji-deep: #5C0012;
+    --muji-soft: #F4D8DC;
   }
   * { box-sizing: border-box; }
   body {
@@ -46,12 +52,11 @@
     transition: max-width 0.25s ease;
   }
 
-  /* Preview toolbar（編輯預覽用） */
+  /* Preview toolbar */
   .preview-toolbar {
     display: none; position: fixed; top: 14px; right: 14px; z-index: 9999;
     background: var(--bn-navy); padding: 4px; border-radius: 6px; gap: 2px;
     font-family: "Inter", "Noto Sans TC", sans-serif;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
   }
   .preview-toolbar.show { display: flex; }
   .preview-toolbar button {
@@ -114,10 +119,20 @@
     font-size: 14px; font-weight: 600;
   }
   .legend-swatch {
-    width: 32px; height: 4px; flex-shrink: 0;
+    width: 36px; height: 4px; flex-shrink: 0;
+    position: relative;
+  }
+  .legend-swatch::after {
+    content: ""; position: absolute;
+    width: 8px; height: 8px; border-radius: 50%;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--paper);
   }
   .legend-swatch.nitori { background: var(--nitori); }
+  .legend-swatch.nitori::after { background: var(--nitori); }
   .legend-swatch.muji { background: var(--muji); }
+  .legend-swatch.muji::after { background: var(--muji); }
   .legend-label .name { color: var(--bn-black); }
   .legend-label .sub {
     display: block;
@@ -159,6 +174,8 @@
     line-height: 1.1;
     margin-bottom: 4px;
   }
+  .stat .stat-num.accent-nitori { color: var(--nitori-deep); }
+  .stat .stat-num.accent-muji { color: var(--muji); }
   .stat .stat-num.accent { color: var(--bn-orange); }
   .stat .stat-sub {
     font-size: 11px; color: var(--cool-600);
@@ -185,6 +202,51 @@
   .section-sub {
     font-size: 13px; color: var(--cool-600);
     margin: 0 0 20px;
+  }
+
+  /* === Chart legend (圖表上方 inline legend) === */
+  .chart-legend {
+    display: flex; gap: 24px; align-items: center;
+    margin: 4px 0 12px;
+    padding: 10px 14px;
+    background: var(--paper-2);
+    border: 1px solid var(--warm-300);
+    flex-wrap: wrap;
+  }
+  .chart-legend-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 600;
+  }
+  .chart-legend-swatch {
+    display: inline-flex; align-items: center; gap: 0;
+    flex-shrink: 0;
+  }
+  .chart-legend-swatch .line {
+    width: 28px; height: 3px;
+  }
+  .chart-legend-swatch .line.nitori { background: var(--nitori); }
+  .chart-legend-swatch .line.muji { background: var(--muji); }
+  .chart-legend-swatch .dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    border: 2px solid var(--paper);
+    margin-left: -6px;
+  }
+  .chart-legend-swatch .dot.nitori { background: var(--nitori); }
+  .chart-legend-swatch .dot.muji { background: var(--muji); }
+  .chart-legend-text .name { color: var(--bn-black); font-weight: 700; }
+  .chart-legend-text .sub {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px; font-weight: 500;
+    color: var(--cool-600);
+    letter-spacing: 0.3px;
+    margin-left: 6px;
+  }
+  .chart-legend-note {
+    margin-left: auto;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    color: var(--cool-600);
   }
 
   /* === SVG chart === */
@@ -262,7 +324,7 @@
   }
   .chart-desktop .crossover-marker {
     fill: none;
-    stroke: var(--bn-orange);
+    stroke: var(--muji);
     stroke-width: 1.5;
     stroke-dasharray: 3 3;
   }
@@ -307,15 +369,16 @@
     .stat:nth-last-child(-n+2) { border-bottom: 0; }
     .section { padding: 28px 20px 0; }
     .section-headline { font-size: 18px; }
+    .chart-legend { padding: 10px 12px; gap: 16px; }
+    .chart-legend-note { width: 100%; margin-left: 0; margin-top: 4px; }
 
-    /* 桌機 SVG 隱藏，顯示 mobile 替代版 */
     .chart-desktop { display: none; }
     .mobile-alt { display: block; }
 
     footer { padding: 18px 20px 22px; }
   }
 
-  /* === Mobile alt：水平條型時間線比較 === */
+  /* === Mobile alt：垂直年代清單 === */
   .mobile-timeline {
     margin-top: 16px;
   }
@@ -357,7 +420,7 @@
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.5px;
-    color: var(--paper);
+    color: #FFFFFF;
     line-height: 1.5;
     margin-top: 2px;
   }
@@ -372,7 +435,8 @@
     color: var(--bn-black);
     font-feature-settings: 'tnum' 1;
   }
-  .mobile-event-num.accent { color: var(--bn-orange); }
+  .mobile-event-num.accent-nitori { color: var(--nitori-deep); }
+  .mobile-event-num.accent-muji { color: var(--muji); }
   .mobile-event-desc {
     display: block;
     font-size: 12px;
@@ -384,13 +448,13 @@
   .crossover-callout {
     margin: 20px 32px 0;
     padding: 14px 18px;
-    background: var(--paper-3);
-    border-left: 4px solid var(--bn-orange);
+    background: var(--muji-soft);
+    border-left: 4px solid var(--muji);
     font-size: 13px;
     line-height: 1.7;
   }
   .crossover-callout strong { color: var(--bn-black); font-weight: 700; }
-  .crossover-callout .accent { color: var(--bn-orange); font-weight: 700; }
+  .crossover-callout .accent { color: var(--muji); font-weight: 700; }
   @container (max-width: 640px) {
     .crossover-callout { margin: 20px 20px 0; font-size: 13px; }
   }
@@ -407,7 +471,7 @@
 
   <div class="meta-bar">
     <div>
-      <span class="meta-chunk">資料來源：<strong>ITmedia ビジネスオンライン、各社 IR 資料</strong></span>
+      <span class="meta-chunk">資料來源：<strong>ITmedia ビジネスオンライン、宜得利／良品計畫 IR、IRBANK</strong></span>
       <span class="meta-sep">|</span>
       <span class="meta-chunk">更新：2026 / 05 / 20</span>
     </div>
@@ -441,12 +505,12 @@
     </div>
     <div class="stat">
       <div class="stat-label">宜得利 2025/3 期</div>
-      <div class="stat-num">9,288<span style="font-size:13px; color:var(--cool-600); font-weight:500;"> 億日圓</span></div>
+      <div class="stat-num accent-nitori">9,288<span style="font-size:13px; color:var(--cool-600); font-weight:500;"> 億日圓</span></div>
       <div class="stat-sub">歷史新高</div>
     </div>
     <div class="stat">
       <div class="stat-label">無印本期預估</div>
-      <div class="stat-num accent">8,870<span style="font-size:13px; color:var(--cool-600); font-weight:500;"> 億日圓</span></div>
+      <div class="stat-num accent-muji">8,870<span style="font-size:13px; color:var(--cool-600); font-weight:500;"> 億日圓</span></div>
       <div class="stat-sub">7 年衝刺 + 4,800 億</div>
     </div>
     <div class="stat">
@@ -461,19 +525,42 @@
     <h2 class="section-headline">早起步停滯 vs 後發加速反超</h2>
     <p class="section-sub">縱軸營收（億日圓），橫軸年份。圓點為關鍵節點，虛線段為本期預估區間。</p>
 
-    <!-- 桌機 SVG 圖：viewBox 880x560（左邊主圖 + 右邊預留 callout 欄） -->
+    <!-- 圖表上方 inline legend，桌機讀者一眼辨識 -->
+    <div class="chart-legend" role="img" aria-label="圖例">
+      <div class="chart-legend-item">
+        <span class="chart-legend-swatch">
+          <span class="line nitori"></span>
+          <span class="dot nitori"></span>
+        </span>
+        <span class="chart-legend-text">
+          <span class="name">宜得利控股</span>
+          <span class="sub">NITORI HOLDINGS</span>
+        </span>
+      </div>
+      <div class="chart-legend-item">
+        <span class="chart-legend-swatch">
+          <span class="line muji"></span>
+          <span class="dot muji"></span>
+        </span>
+        <span class="chart-legend-text">
+          <span class="name">良品計畫（無印良品）</span>
+          <span class="sub">RYOHIN KEIKAKU</span>
+        </span>
+      </div>
+      <span class="chart-legend-note">━━ 已實現 ┄┄ 本期預估</span>
+    </div>
+
+    <!-- 桌機 SVG：viewBox 880x560 -->
     <svg class="chart-desktop" viewBox="0 0 880 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="宜得利與無印良品 1960 至 2026 營收成長曲線">
       <!-- 座標系：
            plot area X: 80 → 720（寬 640），對應 1960 → 2026（共 66 年）→ 每年 9.697 px
            plot area Y: 60 → 480（高 420），對應 10000 億 → 0 → 每 1000 億 42 px
-           換算函式：
              x(year) = 80 + (year - 1960) * 9.697
              y(amount in 億) = 480 - (amount / 10000) * 420
-
-           右側 720-870 為 callout label 欄，避免圖內 label 重疊
+           右側 720-870 為 callout label 欄
       -->
 
-      <!-- Y 軸網格與標籤：y(amount) = 480 - (amount/10000)*420 -->
+      <!-- Y 軸網格與標籤 -->
       <line class="grid-line" x1="80" y1="60" x2="720" y2="60" />
       <line class="grid-line" x1="80" y1="102" x2="720" y2="102" />
       <line class="grid-line" x1="80" y1="144" x2="720" y2="144" />
@@ -500,7 +587,6 @@
 
       <!-- X 軸 -->
       <line class="axis-line" x1="80" y1="480" x2="720" y2="480" />
-      <!-- X 軸年份標籤（每年 9.697 px）：1960 起跳，每 10 年一刻度 -->
       <text class="axis-label" x="80" y="498" text-anchor="middle">1960</text>
       <text class="axis-label" x="176.97" y="498" text-anchor="middle">1970</text>
       <text class="axis-label" x="273.94" y="498" text-anchor="middle">1980</text>
@@ -510,138 +596,129 @@
       <text class="axis-label" x="661.82" y="498" text-anchor="middle">2020</text>
       <text class="axis-label" x="720" y="498" text-anchor="end" fill="#FF6B1A" font-weight="700">2026</text>
 
-      <!-- 反超點淡橘區塊（背景強調，先畫在線條下方） -->
+      <!-- 反超點淡橘區塊 -->
       <rect x="690" y="60" width="50" height="420" fill="#FFE7D6" opacity="0.45" />
       <text class="y-unit" x="715" y="78" text-anchor="end" fill="#E55A0F">反超點</text>
 
       <!-- ========== 宜得利軌跡 ==========
-        節點座標：x(year) = 80 + (year-1960)*9.697，y(amount) = 480 - amount/10000*420
         1967(0億)        → (147.88, 480)
         1993(50億 估)    → (400.12, 477.9)
         2003(1000億)     → (497.09, 438)
         2013(3000億)     → (594.06, 354)
-        2022(7169億 估)  → (681.33, 178.9)
+        2022(8115億)     → (681.33, 139.17)
         2025(9288億)     → (710.42, 89.98)
         2026(9122億)     → (720,    96.97)
       -->
-
       <path class="line-nitori"
-            d="M 147.88 480 L 400.12 477.9 L 497.09 438 L 594.06 354 L 681.33 178.9 L 710.42 89.98 L 720 96.97" />
+            d="M 147.88 480 L 400.12 477.9 L 497.09 438 L 594.06 354 L 681.33 139.17 L 710.42 89.98 L 720 96.97" />
 
-      <!-- 宜得利節點圓 -->
       <circle class="dot-nitori" cx="147.88" cy="480" r="5" />
       <circle class="dot-nitori" cx="400.12" cy="477.9" r="5" />
       <circle class="dot-nitori" cx="497.09" cy="438" r="5" />
       <circle class="dot-nitori" cx="594.06" cy="354" r="5" />
-      <circle class="dot-nitori" cx="681.33" cy="178.9" r="5" />
+      <circle class="dot-nitori" cx="681.33" cy="139.17" r="5" />
       <circle class="dot-nitori" cx="710.42" cy="89.98" r="6.5" />
       <circle class="dot-nitori" cx="720" cy="96.97" r="4" />
 
-      <!-- ========== 宜得利圖內 label：用 callout 線指到下/側方留白 ========== -->
+      <!-- 1967 札幌創業 -->
+      <text class="label-year" x="147.88" y="518" text-anchor="middle" fill="#00756F">1967</text>
+      <text class="label-event" x="147.88" y="532" text-anchor="middle" fill="#00756F" font-weight="600">札幌創業</text>
+      <line class="grid-line" x1="147.88" y1="486" x2="147.88" y2="508" stroke="#009E96" stroke-dasharray="2 2" />
 
-      <!-- 1967 札幌創業（圖下方） -->
-      <text class="label-year" x="147.88" y="518" text-anchor="middle" fill="#0F1A2E">1967</text>
-      <text class="label-event" x="147.88" y="532" text-anchor="middle" fill="#0F1A2E" font-weight="600">札幌創業</text>
-      <line class="grid-line" x1="147.88" y1="486" x2="147.88" y2="508" stroke="#0F1A2E" stroke-dasharray="2 2" />
+      <!-- 1993 本州 1 號店（茨城勝田店） -->
+      <text class="label-year" x="400.12" y="518" text-anchor="middle" fill="#00756F">1993</text>
+      <text class="label-event" x="400.12" y="532" text-anchor="middle" fill="#00756F" font-weight="600">本州 1 號店</text>
+      <line class="grid-line" x1="400.12" y1="486" x2="400.12" y2="508" stroke="#009E96" stroke-dasharray="2 2" />
 
-      <!-- 1993 本州 1 號店（圖下方） -->
-      <text class="label-year" x="400.12" y="518" text-anchor="middle" fill="#0F1A2E">1993</text>
-      <text class="label-event" x="400.12" y="532" text-anchor="middle" fill="#0F1A2E" font-weight="600">本州 1 號店</text>
-      <line class="grid-line" x1="400.12" y1="486" x2="400.12" y2="508" stroke="#0F1A2E" stroke-dasharray="2 2" />
-
-      <!-- 2003 突破 1,000 億（左上方 callout，避開無印 1999 點） -->
-      <text class="label-text" x="488" y="418" text-anchor="end" fill="#0F1A2E">2003｜1,000 億</text>
+      <!-- 2003 突破 1,000 億 -->
+      <text class="label-text" x="488" y="418" text-anchor="end" fill="#00756F">2003｜1,000 億</text>
       <text class="label-year" x="488" y="430" text-anchor="end">100 店</text>
-      <line class="grid-line" x1="490" y1="428" x2="497.09" y2="438" stroke="#0F1A2E" stroke-dasharray="2 2" />
+      <line class="grid-line" x1="490" y1="428" x2="497.09" y2="438" stroke="#009E96" stroke-dasharray="2 2" />
 
-      <!-- 2013 達 3,000 億（左上方 callout） -->
-      <text class="label-text" x="585" y="336" text-anchor="end" fill="#0F1A2E">2013｜3,000 億</text>
+      <!-- 2013 達 3,000 億 -->
+      <text class="label-text" x="585" y="336" text-anchor="end" fill="#00756F">2013｜3,000 億</text>
       <text class="label-year" x="585" y="348" text-anchor="end">300 店</text>
-      <line class="grid-line" x1="587" y1="346" x2="594.06" y2="354" stroke="#0F1A2E" stroke-dasharray="2 2" />
+      <line class="grid-line" x1="587" y1="346" x2="594.06" y2="354" stroke="#009E96" stroke-dasharray="2 2" />
 
-      <!-- 2022 獲利見頂（左上方 callout） -->
-      <text class="label-text" x="672" y="166" text-anchor="end" fill="#0F1A2E">2022 期</text>
-      <text class="label-year" x="672" y="178" text-anchor="end">獲利見頂</text>
-      <line class="grid-line" x1="674" y1="176" x2="681.33" y2="178.9" stroke="#0F1A2E" stroke-dasharray="2 2" />
+      <!-- 2022/2 期 8,115 億 35 期連續增收增益 -->
+      <text class="label-text" x="672" y="126" text-anchor="end" fill="#00756F">2022｜8,115 億</text>
+      <text class="label-year" x="672" y="138" text-anchor="end">35 期連續増収増益</text>
+      <line class="grid-line" x1="674" y1="136" x2="681.33" y2="139.17" stroke="#009E96" stroke-dasharray="2 2" />
 
       <!-- ========== 無印軌跡 ==========
-        1980(0 PB)     → (273.94, 480)
-        1983(0 獨立)   → (303.03, 480)
-        1999(1000億)   → (458.18, 438)
-        2013(2000億)   → (594.06, 396)
-        2018(4000億)   → (642.55, 312)
-        2025(7846億)   → (710.42, 150.47)
-        2026(8870億)   → (720,    107.46)
+        修正：以 IRBANK 精確會計年度為準
+        1980(0 PB)        → (273.94, 480)
+        1983(0 直營)      → (303.03, 480)
+        2000(1031億)      → (467.88, 436.7)  // 2000/2 期才達 1,000 億
+        2014(2206億)      → (603.76, 387.35) // 2014/2 期才達 2,000 億
+        2019(4096億)      → (652.24, 307.97) // 2019/2 期才達 4,000 億
+        2025(7846億)      → (710.42, 150.47) // 2025/8 期
+        2026(8870億)      → (720,    107.46) // 本期預估
       -->
-
       <path class="line-muji"
-            d="M 273.94 480 L 303.03 480 L 458.18 438 L 594.06 396 L 642.55 312 L 710.42 150.47" />
+            d="M 273.94 480 L 303.03 480 L 467.88 436.7 L 603.76 387.35 L 652.24 307.97 L 710.42 150.47" />
 
-      <!-- 2025→2026 虛線 -->
       <path class="line-muji-projected"
             d="M 710.42 150.47 L 720 107.46" />
 
-      <!-- 無印節點圓 -->
       <circle class="dot-muji" cx="273.94" cy="480" r="4" />
       <circle class="dot-muji" cx="303.03" cy="480" r="5" />
-      <circle class="dot-muji" cx="458.18" cy="438" r="5" />
-      <circle class="dot-muji" cx="594.06" cy="396" r="5" />
-      <circle class="dot-muji" cx="642.55" cy="312" r="5" />
+      <circle class="dot-muji" cx="467.88" cy="436.7" r="5" />
+      <circle class="dot-muji" cx="603.76" cy="387.35" r="5" />
+      <circle class="dot-muji" cx="652.24" cy="307.97" r="5" />
       <circle class="dot-muji" cx="710.42" cy="150.47" r="5" />
       <circle class="dot-muji" cx="720" cy="107.46" r="6.5" />
 
-      <!-- ========== 無印圖內 label ========== -->
+      <!-- 1980 西友 PB -->
+      <text class="label-year" x="270" y="452" text-anchor="end" fill="#7F0019" font-weight="600">1980 西友 PB</text>
+      <line class="grid-line" x1="272" y1="458" x2="273.94" y2="475" stroke="#7F0019" stroke-dasharray="2 2" />
 
-      <!-- 1980 西友 PB（左上方 callout） -->
-      <text class="label-year" x="270" y="452" text-anchor="end" fill="#FF6B1A" font-weight="600">1980 西友 PB</text>
-      <line class="grid-line" x1="272" y1="458" x2="273.94" y2="475" stroke="#FF6B1A" stroke-dasharray="2 2" />
+      <!-- 1983 青山 1 號店 -->
+      <text class="label-year" x="307" y="463" text-anchor="start" fill="#7F0019" font-weight="600">1983 青山 1 號店</text>
+      <line class="grid-line" x1="305" y1="468" x2="303.03" y2="475" stroke="#7F0019" stroke-dasharray="2 2" />
 
-      <!-- 1983 獨立（右上方 callout） -->
-      <text class="label-year" x="307" y="463" text-anchor="start" fill="#FF6B1A" font-weight="600">1983 獨立</text>
-      <line class="grid-line" x1="305" y1="468" x2="303.03" y2="475" stroke="#FF6B1A" stroke-dasharray="2 2" />
+      <!-- 2000/2 期突破 1,000 億 -->
+      <text class="label-text" x="478" y="459" text-anchor="start" fill="#7F0019">2000/2｜1,031 億</text>
+      <line class="grid-line" x1="476" y1="453" x2="467.88" y2="440" stroke="#7F0019" stroke-dasharray="2 2" />
 
-      <!-- 1999 突破 1,000 億（右下方 callout） -->
-      <text class="label-text" x="468" y="461" text-anchor="start" fill="#FF6B1A">1999｜1,000 億</text>
-      <line class="grid-line" x1="466" y1="455" x2="458.18" y2="442" stroke="#FF6B1A" stroke-dasharray="2 2" />
+      <!-- 2014/2 期達 2,206 億 -->
+      <text class="label-text" x="614" y="408" text-anchor="start" fill="#7F0019">2014/2｜2,206 億</text>
+      <line class="grid-line" x1="612" y1="402" x2="603.76" y2="391" stroke="#7F0019" stroke-dasharray="2 2" />
 
-      <!-- 2013 達 2,000 億（右下方 callout） -->
-      <text class="label-text" x="604" y="418" text-anchor="start" fill="#FF6B1A">2013｜2,000 億</text>
-      <line class="grid-line" x1="602" y1="412" x2="594.06" y2="400" stroke="#FF6B1A" stroke-dasharray="2 2" />
+      <!-- 2019/2 期達 4,096 億 -->
+      <text class="label-text" x="662" y="328" text-anchor="start" fill="#7F0019">2019/2｜4,096 億</text>
+      <text class="label-year" x="662" y="341" text-anchor="start">加速啟動點</text>
+      <line class="grid-line" x1="660" y1="322" x2="652.24" y2="312" stroke="#7F0019" stroke-dasharray="2 2" />
 
-      <!-- 2018 達 4,000 億（右下方 callout） -->
-      <text class="label-text" x="652" y="332" text-anchor="start" fill="#FF6B1A">2018｜4,000 億</text>
-      <text class="label-year" x="652" y="345" text-anchor="start">5 年翻倍，加速啟動</text>
-      <line class="grid-line" x1="650" y1="326" x2="642.55" y2="316" stroke="#FF6B1A" stroke-dasharray="2 2" />
-
-      <!-- ========== 右側 callout 欄（720-870）放兩家 2025-2026 終局 ========== -->
+      <!-- ========== 右側 callout 欄 ========== -->
 
       <!-- 宜得利 callout box -->
       <g>
-        <line class="grid-line" x1="715" y1="90" x2="735" y2="90" stroke="#0F1A2E" />
+        <line class="grid-line" x1="715" y1="90" x2="735" y2="90" stroke="#009E96" />
         <text class="label-year" x="738" y="76" text-anchor="start" fill="#5C6470">2025/3 期 · 歷史新高</text>
-        <text class="annotation-text" x="738" y="92" text-anchor="start" fill="#0F1A2E" font-weight="700" font-size="14">9,288 億</text>
+        <text class="annotation-text" x="738" y="92" text-anchor="start" fill="#00756F" font-weight="700" font-size="14">9,288 億</text>
         <text class="label-year" x="738" y="106" text-anchor="start" fill="#5C6470">2026/3 期 9,122（-1.8%）</text>
       </g>
 
       <!-- 無印 callout box -->
       <g>
-        <line class="grid-line" x1="715" y1="125" x2="735" y2="125" stroke="#FF6B1A" />
+        <line class="grid-line" x1="715" y1="125" x2="735" y2="125" stroke="#7F0019" />
         <text class="label-year" x="738" y="138" text-anchor="start" fill="#5C6470">2025/8 期</text>
-        <text class="annotation-text" x="738" y="154" text-anchor="start" fill="#FF6B1A" font-weight="700" font-size="14">7,846 億</text>
+        <text class="annotation-text" x="738" y="154" text-anchor="start" fill="#7F0019" font-weight="700" font-size="14">7,846 億</text>
         <text class="label-year" x="738" y="168" text-anchor="start" fill="#5C6470">國內 4,701 + 東亞 2,222</text>
 
         <text class="label-year" x="738" y="190" text-anchor="start" fill="#5C6470">本期預估</text>
-        <text class="annotation-text" x="738" y="206" text-anchor="start" fill="#FF6B1A" font-weight="700" font-size="14">8,870 億</text>
+        <text class="annotation-text" x="738" y="206" text-anchor="start" fill="#7F0019" font-weight="700" font-size="14">8,870 億</text>
         <text class="label-year" x="738" y="220" text-anchor="start" fill="#E55A0F" font-weight="600">差距收斂至 ~250 億</text>
       </g>
 
-      <!-- 7 年衝刺 annotation（移至圖中央偏右上方） -->
+      <!-- 7 年衝刺 annotation -->
       <g>
-        <rect class="annotation-box" x="490" y="245" width="118" height="48" rx="2" />
+        <rect class="annotation-box" x="490" y="245" width="118" height="48" rx="2" fill="#F4D8DC" stroke="#7F0019" stroke-width="1" />
         <text class="annotation-text" x="500" y="263" font-size="12">無印 7 年衝刺</text>
-        <text class="annotation-text" x="500" y="282" fill="#FF6B1A" font-size="14">+4,800 億日圓</text>
+        <text class="annotation-text" x="500" y="282" fill="#7F0019" font-size="14">+4,800 億日圓</text>
       </g>
-      <line class="crossover-marker" x1="605" y1="285" x2="640" y2="312" />
+      <line class="crossover-marker" x1="615" y1="285" x2="650" y2="312" />
     </svg>
 
     <!-- Mobile 替代版 -->
@@ -666,7 +743,7 @@
             <div class="mobile-event">
               <span class="mobile-tag muji">無印</span>
               <div class="mobile-event-text">
-                西友 PB 誕生 / 1983 獨立開店
+                西友 PB 誕生 / 1983 青山 1 號店
                 <span class="mobile-event-desc">比宜得利晚 16 年起步</span>
               </div>
             </div>
@@ -679,7 +756,7 @@
             <div class="mobile-event">
               <span class="mobile-tag nitori">宜得利</span>
               <div class="mobile-event-text">
-                本州 1 號店（茨城）
+                本州 1 號店（茨城勝田店）
                 <span class="mobile-event-desc">走出札幌</span>
               </div>
             </div>
@@ -687,12 +764,13 @@
         </div>
 
         <div class="mobile-year-row">
-          <div class="mobile-year">1999</div>
+          <div class="mobile-year">2000</div>
           <div class="mobile-events">
             <div class="mobile-event">
               <span class="mobile-tag muji">無印</span>
               <div class="mobile-event-text">
-                突破 <span class="mobile-event-num accent">1,000 億日圓</span>
+                突破 <span class="mobile-event-num accent-muji">1,031 億日圓</span>
+                <span class="mobile-event-desc">2000/2 期、會社設立 10 年</span>
               </div>
             </div>
           </div>
@@ -704,40 +782,40 @@
             <div class="mobile-event">
               <span class="mobile-tag nitori">宜得利</span>
               <div class="mobile-event-text">
-                突破 <span class="mobile-event-num">1,000 億日圓</span>、100 店
-                <span class="mobile-event-desc">比無印晚 4 年達標</span>
+                突破 <span class="mobile-event-num accent-nitori">1,000 億日圓</span>、100 店
+                <span class="mobile-event-desc">比無印晚 3 年達標</span>
               </div>
             </div>
           </div>
         </div>
 
         <div class="mobile-year-row">
-          <div class="mobile-year">2013</div>
+          <div class="mobile-year">2013<br><span style="font-size:11px;font-weight:500;color:var(--cool-600);">/2014</span></div>
           <div class="mobile-events">
             <div class="mobile-event">
               <span class="mobile-tag nitori">宜得利</span>
               <div class="mobile-event-text">
-                達 <span class="mobile-event-num">3,000 億日圓</span>、300 店
+                2013｜達 <span class="mobile-event-num accent-nitori">3,000 億日圓</span>、300 店
               </div>
             </div>
             <div class="mobile-event">
               <span class="mobile-tag muji">無印</span>
               <div class="mobile-event-text">
-                達 <span class="mobile-event-num accent">2,000 億日圓</span>
-                <span class="mobile-event-desc">兩家差 1,000 億</span>
+                2014/2｜達 <span class="mobile-event-num accent-muji">2,206 億日圓</span>
+                <span class="mobile-event-desc">兩家差約 800 億</span>
               </div>
             </div>
           </div>
         </div>
 
         <div class="mobile-year-row">
-          <div class="mobile-year">2018</div>
+          <div class="mobile-year">2019</div>
           <div class="mobile-events">
             <div class="mobile-event">
               <span class="mobile-tag muji">無印</span>
               <div class="mobile-event-text">
-                達 <span class="mobile-event-num accent">4,000 億日圓</span>
-                <span class="mobile-event-desc">5 年翻倍，加速啟動</span>
+                達 <span class="mobile-event-num accent-muji">4,096 億日圓</span>
+                <span class="mobile-event-desc">2019/2 期，加速啟動點</span>
               </div>
             </div>
           </div>
@@ -749,8 +827,8 @@
             <div class="mobile-event">
               <span class="mobile-tag nitori">宜得利</span>
               <div class="mobile-event-text">
-                獲利見頂
-                <span class="mobile-event-desc">2022/2 期後成長放緩</span>
+                <span class="mobile-event-num accent-nitori">8,115 億日圓</span>
+                <span class="mobile-event-desc">2022/2 期、35 期連續増収増益</span>
               </div>
             </div>
           </div>
@@ -762,14 +840,14 @@
             <div class="mobile-event">
               <span class="mobile-tag nitori">宜得利</span>
               <div class="mobile-event-text">
-                <span class="mobile-event-num">9,288 億日圓</span>
+                <span class="mobile-event-num accent-nitori">9,288 億日圓</span>
                 <span class="mobile-event-desc">2025/3 期歷史新高</span>
               </div>
             </div>
             <div class="mobile-event">
               <span class="mobile-tag muji">無印</span>
               <div class="mobile-event-text">
-                <span class="mobile-event-num accent">7,846 億日圓</span>
+                <span class="mobile-event-num accent-muji">7,846 億日圓</span>
                 <span class="mobile-event-desc">2025/8 期，國內 4,701 + 東亞 2,222</span>
               </div>
             </div>
@@ -782,14 +860,14 @@
             <div class="mobile-event">
               <span class="mobile-tag nitori">宜得利</span>
               <div class="mobile-event-text">
-                <span class="mobile-event-num">9,122 億日圓</span>
+                <span class="mobile-event-num accent-nitori">9,122 億日圓</span>
                 <span class="mobile-event-desc">2026/3 期，年減 1.8%</span>
               </div>
             </div>
             <div class="mobile-event">
               <span class="mobile-tag muji">無印</span>
               <div class="mobile-event-text">
-                <span class="mobile-event-num accent">8,870 億日圓</span>
+                <span class="mobile-event-num accent-muji">8,870 億日圓</span>
                 <span class="mobile-event-desc">本期預估，差距僅約 250 億</span>
               </div>
             </div>
@@ -801,12 +879,12 @@
   </div>
 
   <div class="crossover-callout">
-    <strong>反超觀察點：</strong>宜得利從 2003 突破 1,000 億，花 <strong>22 年</strong>走到 9,288 億高峰；無印從 2018 達 4,000 億，僅用 <strong>7 年</strong>衝到本期預估 <span class="accent">+4,800 億日圓</span>。宜得利曲線後期變平、無印曲線後期變陡，差距從 1,000 億縮到 250 億。
+    <strong>反超觀察點：</strong>宜得利從 2003 突破 1,000 億，花 <strong>22 年</strong>走到 9,288 億高峰；無印從 2019/2 期達 4,000 億，僅用 <strong>7 年</strong>衝到本期預估 <span class="accent">+4,800 億日圓</span>。宜得利曲線後期變平、無印曲線後期變陡，差距從 1,000 億縮到 250 億。
   </div>
 
   <footer>
     <strong>《數位時代》</strong>　|　資料整理：編輯部　|　製圖：2026.05.20
-    <div class="src-line">資料來源：ITmedia ビジネスオンライン、宜得利控股 IR、良品計畫 IR。無印良品 2026/8 期數字為公司預估值（虛線段）。</div>
+    <div class="src-line">資料來源：ITmedia ビジネスオンライン（2026/05/18）、宜得利控股 IR、良品計畫 IR、IRBANK 連結損益歷史資料。無印良品 2026/8 期數字為公司預估值（虛線段）。</div>
   </footer>
 
 </div>
