@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SpaceX S-1 一頁讀懂 ｜《數位時代》</title>
+<meta name="description" content="SpaceX 2026 年 5 月 20 日公開遞件赴納斯達克，揭露五大焦點：750 億美元募資、三大業務的賺賠落差、Starlink 用戶兩年半衝 4.5 倍，以及五個藏在 S-1 的彩蛋。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-orange-soft: #FFE7D6;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--bn-black);
+    margin: 0;
+    padding: 32px 16px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+  h1, h2, .section-headline, .deck { text-wrap: balance; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* Preview toolbar */
+  .preview-toolbar {
+    display: none; position: fixed; top: 14px; right: 14px; z-index: 9999;
+    background: var(--bn-navy); padding: 4px; border-radius: 6px; gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px; font-size: 12px; font-weight: 700;
+    background: transparent; color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px; transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px; color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px; align-self: center;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  /* Hero banner */
+  .hero {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1500 / 500;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+  .hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @container (max-width: 640px) {
+    .hero { aspect-ratio: 900 / 500; }
+  }
+
+  /* Header */
+  header {
+    padding: 32px 32px 24px;
+    border-bottom: 3px solid var(--bn-black);
+    background: var(--paper);
+  }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--bn-orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0 0 14px;
+    line-height: 1.35;
+    color: var(--bn-black);
+    letter-spacing: 0.02em;
+  }
+  .deck {
+    font-size: 15px;
+    color: var(--cool-600);
+    margin: 0;
+    line-height: 1.75;
+  }
+  .deck strong { color: var(--bn-black); }
+
+  /* Meta bar */
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 32px;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+    font-size: 13px;
+    color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
+  .meta-bar strong { color: var(--bn-black); }
+  .meta-bar .meta-chunk { white-space: nowrap; }
+
+  /* Section */
+  section {
+    padding: 36px 32px;
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .section-kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    color: var(--cool-600);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .section-headline {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 24px;
+    line-height: 1.4;
+    color: var(--bn-black);
+    letter-spacing: 0.02em;
+  }
+
+  /* ====== 區塊 1：核心數字四宮格 ====== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--warm-300);
+    border-left: 1px solid var(--warm-300);
+  }
+  .stat {
+    border-right: 1px solid var(--warm-300);
+    border-bottom: 1px solid var(--warm-300);
+    padding: 22px 18px;
+    background: var(--paper);
+  }
+  .stat .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--bn-orange);
+    line-height: 1.1;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .stat .num .currency { font-size: 0.6em; font-weight: 700; margin-right: 1px; vertical-align: 0.08em; }
+  .stat .num .unit { font-size: 0.5em; font-weight: 600; color: var(--bn-black); margin-left: 2px; }
+  .stat .label {
+    font-size: 12.5px;
+    color: var(--cool-600);
+    line-height: 1.55;
+  }
+  .stat .label strong { color: var(--bn-black); display: block; font-size: 13px; margin-bottom: 2px; font-weight: 700; }
+
+  /* ====== 區塊 2：三大業務分線 ====== */
+  .biz-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .biz-card {
+    border: 1px solid var(--warm-300);
+    background: var(--paper);
+    padding: 22px 20px 24px;
+    position: relative;
+  }
+  .biz-card.win { border-top: 4px solid var(--bn-orange); }
+  .biz-card.lose { border-top: 4px solid var(--cool-600); }
+
+  .biz-logo {
+    height: 38px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+  }
+  .biz-logo img {
+    width: auto;
+    object-fit: contain;
+    object-position: left center;
+  }
+  .biz-logo img.lg-starlink { height: 38px; }
+  .biz-logo img.lg-spacex { height: 22px; }
+  .biz-logo img.lg-xai { height: 30px; }
+  .biz-card .biz-label {
+    font-size: 12px;
+    color: var(--cool-600);
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+  }
+  .biz-card .biz-status {
+    display: inline-block;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    margin-bottom: 16px;
+  }
+  .biz-card.win .biz-status {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  .biz-card.lose .biz-status {
+    background: var(--paper-3);
+    color: var(--bn-black);
+    border: 1px solid var(--warm-300);
+  }
+  .biz-card dl {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .biz-card dt {
+    color: var(--cool-600);
+    margin-bottom: 2px;
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+  }
+  .biz-card dd {
+    margin: 0 0 12px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-weight: 700;
+    color: var(--bn-black);
+    letter-spacing: -0.005em;
+  }
+  .biz-card dd.big { font-size: 19px; }
+  .biz-card.win dd.big { color: var(--bn-orange); }
+  .biz-card dd:last-child { margin-bottom: 0; }
+
+  /* ====== 區塊 3：Starlink 用戶數曲線 ====== */
+  .growth-headline-sub {
+    font-size: 13px;
+    color: var(--cool-600);
+    margin: -16px 0 22px;
+    line-height: 1.65;
+  }
+  .growth {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--warm-300);
+    border: 1px solid var(--warm-300);
+  }
+  .growth-step {
+    padding: 22px 20px 20px;
+    background: var(--paper);
+    position: relative;
+  }
+  .growth-step .date {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    color: var(--cool-600);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .growth-step .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--bn-black);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .growth-step .num .unit {
+    font-size: 0.45em;
+    font-weight: 600;
+    color: var(--cool-600);
+    margin-left: 3px;
+  }
+  .growth-step.latest .num { color: var(--bn-orange); }
+  .growth-step .bar {
+    height: 8px;
+    background: var(--paper-3);
+    margin-top: 16px;
+    position: relative;
+  }
+  .growth-step .bar-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    background: var(--cool-600);
+  }
+  .growth-step.latest .bar-fill { background: var(--bn-orange); }
+  .growth-step .delta {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    color: var(--cool-600);
+    margin-top: 8px;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+  }
+  .growth-step.latest .delta { color: var(--bn-orange); font-weight: 700; }
+
+  /* ====== 區塊 4：5 個彩蛋 ====== */
+  .eggs {
+    border-top: 1px solid var(--warm-300);
+  }
+  .egg {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--hairline);
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .egg:last-child { border-bottom: 0; }
+  .egg .egg-num {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--bn-orange);
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+  }
+  .egg .egg-body { font-size: 14px; line-height: 1.75; }
+  .egg .egg-title {
+    font-weight: 700;
+    color: var(--bn-black);
+    margin-bottom: 4px;
+    font-size: 15px;
+    letter-spacing: 0.01em;
+  }
+  .egg .egg-desc {
+    color: var(--cool-600);
+  }
+
+  /* Footer */
+  footer {
+    padding: 20px 32px;
+    background: var(--bn-navy);
+    color: rgba(250, 247, 241, 0.85);
+    font-size: 12px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    text-align: center;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+  footer strong { color: var(--paper); }
+  footer .sep { color: rgba(250, 247, 241, 0.35); margin: 0 8px; }
+
+  /* ====== 雙軌設計：手機 (≤640px container) ====== */
+  @container (max-width: 640px) {
+    header { padding: 22px 18px 20px; }
+    h1 { font-size: 22px; line-height: 1.4; }
+    .deck { font-size: 14px; }
+
+    .meta-bar { padding: 10px 18px; font-size: 12px; }
+
+    section { padding: 26px 18px; }
+    .section-headline { font-size: 18px; margin-bottom: 18px; }
+
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { padding: 18px 14px; }
+    .stat .num { font-size: 24px; }
+    .stat .label { font-size: 12px; }
+
+    .biz-cards { grid-template-columns: 1fr; gap: 12px; }
+    .biz-card { padding: 18px 16px 20px; }
+    .biz-logo { height: 32px; margin-bottom: 12px; }
+    .biz-logo img.lg-starlink { height: 32px; }
+    .biz-logo img.lg-spacex { height: 18px; }
+    .biz-logo img.lg-xai { height: 26px; }
+    .biz-card dd.big { font-size: 18px; }
+
+    .growth { grid-template-columns: 1fr; gap: 1px; }
+    .growth-step { padding: 18px 16px; }
+    .growth-step .num { font-size: 28px; }
+    .growth-headline-sub { margin: -10px 0 16px; }
+
+    .egg { grid-template-columns: 30px 1fr; gap: 12px; padding: 16px 0; }
+    .egg .egg-title { font-size: 14px; }
+    .egg .egg-body { font-size: 13px; }
+
+    footer { padding: 16px 18px; font-size: 11px; }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 12px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Hero banner（桌面寬幅、手機中央裁切） -->
+  <picture class="hero">
+    <source media="(max-width: 640px)" srcset="../_assets/heroes/spacex-hero-mobile.jpg">
+    <img src="../_assets/heroes/spacex-hero-desktop.jpg" alt="SpaceX Starship 飛向火星" loading="lazy">
+  </picture>
+
+  <!-- Header -->
+  <header>
+    <div class="kicker">財報拆解 · S-1 BREAKDOWN</div>
+    <h1>SpaceX S-1 一頁讀懂：史上最大 IPO 的數字長什麼樣</h1>
+    <p class="deck">2026 年 5 月 20 日，<strong>SpaceX 公開遞件赴納斯達克</strong>，揭露五大焦點：750 億美元募資、三大業務的賺賠落差、Starlink 用戶兩年半衝 4.5 倍，以及五個藏在 S-1 的彩蛋。</p>
+  </header>
+
+  <!-- Meta bar -->
+  <div class="meta-bar">
+    <span class="meta-chunk">資料來源：<strong>SpaceX S-1、Bloomberg、CNBC、NYT</strong></span>
+    <span class="meta-chunk">更新：2026 / 05 / 21</span>
+  </div>
+
+  <!-- ====== 區塊 1：核心數字四宮格 ====== -->
+  <section>
+    <div class="section-kicker">FIGURE 01 · 核心數字</div>
+    <h2 class="section-headline">一張圖看完 SpaceX 申報重點</h2>
+    <div class="stats">
+      <div class="stat">
+        <div class="num"><span class="currency">$</span>750<span class="unit">億</span></div>
+        <div class="label"><strong>最高募資規模</strong>打破美股 IPO 紀錄</div>
+      </div>
+      <div class="stat">
+        <div class="num"><span class="currency">$</span>1.25<span class="unit">兆</span></div>
+        <div class="label"><strong>公司估值</strong>合併 xAI 後</div>
+      </div>
+      <div class="stat">
+        <div class="num"><span class="currency">$</span>187<span class="unit">億</span></div>
+        <div class="label"><strong>2025 全年營收</strong>年增 33%</div>
+      </div>
+      <div class="stat">
+        <div class="num"><span class="currency">$</span>49.4<span class="unit">億</span></div>
+        <div class="label"><strong>2025 全年虧損</strong>2024 還有 $7.91 億淨利</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 區塊 2：三大業務分線 ====== -->
+  <section>
+    <div class="section-kicker">FIGURE 02 · 業務分線</div>
+    <h2 class="section-headline">Starlink 一個人扛起整艘船</h2>
+    <div class="biz-cards">
+
+      <!-- Starlink -->
+      <div class="biz-card win">
+        <div class="biz-logo">
+          <img src="../_assets/logos/starlink.svg" alt="Starlink" class="lg-starlink">
+        </div>
+        <div class="biz-label">衛星網路</div>
+        <span class="biz-status">獲利主力</span>
+        <dl>
+          <dt>Q1 2026 營收</dt>
+          <dd class="big">$32.6 億</dd>
+          <dt>Q1 營業利益</dt>
+          <dd>+$11.9 億</dd>
+          <dt>2025 全年營業利益</dt>
+          <dd>$44 億（2024：$20 億）</dd>
+          <dt>訂閱戶（2026/3）</dt>
+          <dd>1,030 萬</dd>
+        </dl>
+      </div>
+
+      <!-- 太空運輸 -->
+      <div class="biz-card lose">
+        <div class="biz-logo">
+          <img src="../_assets/logos/spacex.svg" alt="SpaceX" class="lg-spacex">
+        </div>
+        <div class="biz-label">火箭發射</div>
+        <span class="biz-status">仍在燒錢</span>
+        <dl>
+          <dt>Q1 2026 營收</dt>
+          <dd class="big">$6.19 億</dd>
+          <dt>Q1 營業虧損</dt>
+          <dd>－$6.62 億</dd>
+          <dt>Starship 累計投入</dt>
+          <dd>$150 億以上</dd>
+          <dt>2025 狀態</dt>
+          <dd>多次測試爆炸</dd>
+        </dl>
+      </div>
+
+      <!-- AI / xAI -->
+      <div class="biz-card lose">
+        <div class="biz-logo">
+          <img src="../_assets/logos/xai.svg" alt="xAI" class="lg-xai">
+        </div>
+        <div class="biz-label">xAI / X / Grok</div>
+        <span class="biz-status">最大黑洞</span>
+        <dl>
+          <dt>2025 全年虧損</dt>
+          <dd class="big">$63.6 億</dd>
+          <dt>2024 對照</dt>
+          <dd>$15.6 億</dd>
+          <dt>Q1 資本支出</dt>
+          <dd>$101 億，$77 億砸 AI</dd>
+          <dt>合併時點</dt>
+          <dd>2026 / 02 併入 xAI</dd>
+        </dl>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== 區塊 3：Starlink 用戶數曲線 ====== -->
+  <section>
+    <div class="section-kicker">FIGURE 03 · 訂閱戶成長</div>
+    <h2 class="section-headline">兩年半，Starlink 訂閱戶衝了 4.5 倍</h2>
+    <p class="growth-headline-sub">2025 全年營業利益翻倍以上至 $44 億，是 SpaceX 整艘船能繼續燒錢的關鍵引擎。</p>
+    <div class="growth">
+      <div class="growth-step">
+        <div class="date">2023 / 12</div>
+        <div class="num">230<span class="unit">萬</span></div>
+        <div class="bar"><div class="bar-fill" style="width: 22.3%"></div></div>
+        <div class="delta">起點</div>
+      </div>
+      <div class="growth-step">
+        <div class="date">2025 / 12</div>
+        <div class="num">890<span class="unit">萬</span></div>
+        <div class="bar"><div class="bar-fill" style="width: 86.4%"></div></div>
+        <div class="delta">兩年 +3.9 倍</div>
+      </div>
+      <div class="growth-step latest">
+        <div class="date">2026 / 03</div>
+        <div class="num">1,030<span class="unit">萬</span></div>
+        <div class="bar"><div class="bar-fill" style="width: 100%"></div></div>
+        <div class="delta">最新揭露</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 區塊 4：5 個彩蛋 ====== -->
+  <section>
+    <div class="section-kicker">FIGURE 04 · 藏在 S-1 的細節</div>
+    <h2 class="section-headline">除了財報，S-1 還埋了這些</h2>
+    <div class="eggs">
+      <div class="egg">
+        <div class="egg-num">01</div>
+        <div class="egg-body">
+          <div class="egg-title">Anthropic 月付 $12.5 億算力大單</div>
+          <div class="egg-desc">合約至 2029 年 5 月，使用田納西州孟菲斯 Colossus 1 資料中心。</div>
+        </div>
+      </div>
+      <div class="egg">
+        <div class="egg-num">02</div>
+        <div class="egg-body">
+          <div class="egg-title">30 天內可 $600 億收購 Cursor</div>
+          <div class="egg-desc">IPO 後 30 天內有選擇權；不行使須付 $15 億終止費 + $85 億遞延服務費。</div>
+        </div>
+      </div>
+      <div class="egg">
+        <div class="egg-num">03</div>
+        <div class="egg-body">
+          <div class="egg-title">馬斯克 10 億股獎勵綁火星殖民</div>
+          <div class="egg-desc">分 15 批解鎖，條件含「在火星建立至少 100 萬人永久殖民地」。</div>
+        </div>
+      </div>
+      <div class="egg">
+        <div class="egg-num">04</div>
+        <div class="egg-body">
+          <div class="egg-title">Google 持股 6.11% 未揭露結構</div>
+          <div class="egg-desc">以 $2 兆估值估算約 $1,220 億，S-1 未詳細揭露這筆持股結構。</div>
+        </div>
+      </div>
+      <div class="egg">
+        <div class="egg-num">05</div>
+        <div class="egg-body">
+          <div class="egg-title">2028 起部署太空資料中心</div>
+          <div class="egg-desc">年發射 100 GW 太陽能驅動算力，向 FCC 申請最多 100 萬顆衛星執照。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <strong>《數位時代》</strong><span class="sep">|</span>資料整理：李先泰<span class="sep">|</span>製圖：2026.05.21
+  </footer>
+
+</div>
+
+<!-- Preview toolbar（編輯預覽用，?preview=1 啟用） -->
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
+</body>
+</html>
