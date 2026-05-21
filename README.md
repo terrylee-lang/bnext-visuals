@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| Meta 這週動了多少人？三個數字看清楚 | 祖克柏宣布今年不預計再進行公司層級裁員，但員工對「公司層級」這四字存疑 | 2026-05-21 | [`2026/05-meta-layoffs-keynumbers.html`](./2026/05-meta-layoffs-keynumbers.html) |
 | Anthropic Q2 規模化轉盈：營收倍增 × 單位成本下降 | Anthropic 可望首度單季轉盈：Q2 營收預估 109 億美元、季增 130% | 2026-05-21 | [`2026/05-anthropic-q2-profitability.html`](./2026/05-anthropic-q2-profitability.html) |
 | SpaceX S-1 一頁讀懂：史上最大 IPO 的數字長什麼樣 | SpaceX 公開遞件赴納斯達克 IPO，擬募資最高 750 億美元 | 2026-05-21 | [`2026/05-spacex-ipo-s1.html`](./2026/05-spacex-ipo-s1.html) |
 | 宜得利 vs 無印良品：兩條成長軌跡 | 日本兩大零售巨頭近 60 年營收對照 | 2026-05-20 | [`2026/05-nitori-vs-muji-growth.html`](./2026/05-nitori-vs-muji-growth.html) |
