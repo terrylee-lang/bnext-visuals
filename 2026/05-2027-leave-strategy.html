@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2027 請假攻略 8 種組合 CP 值一次看 ｜《數位時代》</title>
+<meta name="description" content="2027 年 9 大連假對應 8 種請假組合 CP 值排行：春節請 5 天休 16 天最強、跨年請 4 天休 10 天、兒童清明請 3 天就換 9 天最划算。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-orange-soft: #FFE7D6;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--bn-black);
+    margin: 0;
+    padding: 32px 16px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+  h1, h2, .section-headline, .deck { text-wrap: balance; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* Preview toolbar */
+  .preview-toolbar {
+    display: none; position: fixed; top: 14px; right: 14px; z-index: 9999;
+    background: var(--bn-navy); padding: 4px; border-radius: 6px; gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px; font-size: 12px; font-weight: 700;
+    background: transparent; color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px; transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px; color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px; align-self: center;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  /* Header */
+  header {
+    padding: 20px 32px 14px;
+    border-bottom: 3px solid var(--bn-black);
+    background: var(--paper);
+  }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--bn-orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 8px;
+    line-height: 1.3;
+    color: var(--bn-black);
+    letter-spacing: 0.02em;
+  }
+  .deck {
+    font-size: 15px;
+    color: var(--cool-600);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .deck strong { color: var(--bn-black); }
+  .note {
+    font-size: 12.5px;
+    color: var(--cool-600);
+    margin: 0;
+    padding: 10px 14px;
+    background: var(--paper-3);
+    border-left: 3px solid var(--bn-orange);
+    line-height: 1.65;
+  }
+
+  /* Meta bar */
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 32px;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+    font-size: 13px;
+    color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
+  .meta-bar strong { color: var(--bn-black); }
+  .meta-bar .meta-chunk { white-space: nowrap; }
+
+  /* Section */
+  section {
+    padding: 20px 32px 22px;
+  }
+  .section-kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    color: var(--cool-600);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .section-headline {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 24px;
+    line-height: 1.4;
+    color: var(--bn-black);
+    letter-spacing: 0.02em;
+  }
+
+  /* ====== 8 卡 grid ====== */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .card {
+    border: 1px solid var(--warm-300);
+    background: var(--paper);
+    padding: 12px 14px 14px;
+    position: relative;
+    border-top: 4px solid var(--cool-600);
+    display: flex;
+    flex-direction: column;
+  }
+  .card.win { border-top-color: var(--bn-orange); }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .rank {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    background: var(--paper-3);
+    color: var(--bn-black);
+    line-height: 1.2;
+  }
+  .card.win .rank {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+
+  .holiday-name {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 6px;
+    color: var(--bn-black);
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+  }
+
+  .formula {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 14px;
+    color: var(--cool-600);
+    margin-bottom: 10px;
+    line-height: 1.45;
+  }
+  .formula .leave {
+    font-weight: 700;
+    color: var(--bn-black);
+  }
+  .formula .arrow {
+    color: var(--warm-300);
+    margin: 0 4px;
+    font-family: "Inter", sans-serif;
+  }
+  .formula .days {
+    font-weight: 800;
+    color: var(--bn-black);
+    font-size: 22px;
+    margin: 0 1px;
+  }
+  .card.win .formula .days { color: var(--bn-orange); }
+
+  dl.meta {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+  dl.meta dt {
+    color: var(--cool-600);
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    margin-bottom: 1px;
+  }
+  dl.meta dd {
+    margin: 0 0 6px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-weight: 600;
+    color: var(--bn-black);
+    letter-spacing: -0.005em;
+    line-height: 1.45;
+  }
+  dl.meta dd:last-child { margin-bottom: 0; }
+
+  /* Footnote */
+  .footnote {
+    margin: 14px 32px 0;
+    padding: 9px 13px;
+    background: var(--paper-3);
+    border-left: 3px solid var(--cool-600);
+    font-size: 12px;
+    color: var(--cool-600);
+    line-height: 1.6;
+  }
+  .footnote strong { color: var(--bn-black); }
+
+  /* Footer */
+  footer {
+    padding: 12px 32px;
+    background: var(--bn-navy);
+    color: rgba(250, 247, 241, 0.85);
+    font-size: 12px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    text-align: center;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    margin-top: 14px;
+  }
+  footer strong { color: var(--paper); }
+  footer .sep { color: rgba(250, 247, 241, 0.35); margin: 0 8px; }
+
+  /* ====== 雙軌設計：手機 (≤640px container) ====== */
+  @container (max-width: 760px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+  }
+  @container (max-width: 640px) {
+    header { padding: 22px 18px 18px; }
+    h1 { font-size: 22px; line-height: 1.4; }
+    .deck { font-size: 14px; }
+    .note { font-size: 12px; padding: 9px 12px; }
+    .meta-bar { padding: 10px 18px; font-size: 12px; }
+    section { padding: 26px 18px; }
+    .section-headline { font-size: 18px; margin-bottom: 18px; }
+    .cards { grid-template-columns: 1fr; }
+    .card { padding: 16px 14px 18px; }
+    .holiday-name { font-size: 17px; }
+    .formula .days { font-size: 20px; }
+    .footnote { margin: 20px 18px 0; font-size: 12px; }
+    footer { padding: 16px 18px; font-size: 11px; }
+  }
+  @media (max-width: 640px) {
+    body { padding: 12px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <header>
+    <div class="kicker">2027 行事曆 · LEAVE STRATEGY</div>
+    <h1>2027 請假攻略 8 種組合 CP 值一次看</h1>
+    <p class="deck">人事行政總處公布 2027 全年放假 121 天、9 個三天以上連假、<strong>零補班日</strong>。哪幾個連假最值得拿來請假拚長假？</p>
+  </header>
+
+  <!-- Meta bar -->
+  <div class="meta-bar">
+    <span class="meta-chunk">資料來源：<strong>行政院人事行政總處</strong></span>
+    <span class="meta-chunk">更新：2026 / 05 / 21</span>
+  </div>
+
+  <!-- Section -->
+  <section>
+    <div class="cards">
+
+      <!-- 01 春節 -->
+      <div class="card win">
+        <div class="card-head">
+          <span class="rank">01</span>
+        </div>
+        <h3 class="holiday-name">春節</h3>
+        <div class="formula">請 <span class="leave">5</span> 天<span class="arrow">→</span>休 <span class="days">16</span> 天</div>
+        <dl class="meta">
+          <dt>起訖</dt>
+          <dd>1/30～2/14</dd>
+          <dt>該請哪幾天</dt>
+          <dd>2/1～2/3、2/11～2/12，共 5 天</dd>
+        </dl>
+      </div>
+
+      <!-- 02 跨年 -->
+      <div class="card win">
+        <div class="card-head">
+          <span class="rank">02</span>
+        </div>
+        <h3 class="holiday-name">跨年</h3>
+        <div class="formula">請 <span class="leave">4</span> 天<span class="arrow">→</span>休 <span class="days">10</span> 天</div>
+        <dl class="meta">
+          <dt>起訖</dt>
+          <dd>12/24～2028/1/2</dd>
+          <dt>該請哪幾天</dt>
+          <dd>12/27～12/30，共 4 天</dd>
+        </dl>
+      </div>
+
+      <!-- 03 兒童清明 -->
+      <div class="card win">
+        <div class="card-head">
+          <span class="rank">03</span>
+        </div>
+        <h3 class="holiday-name">兒童清明</h3>
+        <div class="formula">請 <span class="leave">3</span> 天<span class="arrow">→</span>休 <span class="days">9</span> 天</div>
+        <dl class="meta">
+          <dt>起訖</dt>
+          <dd>4/3～4/11</dd>
+          <dt>該請哪幾天</dt>
+          <dd>4/7～4/9，共 3 天</dd>
+        </dl>
+      </div>
+
+      <!-- 04 228 -->
+      <div class="card">
+        <div class="card-head">
+          <span class="rank">04</span>
+        </div>
+        <h3 class="holiday-name">228</h3>
+        <div class="formula">請 <span class="leave">4</span> 天<span class="arrow">→</span>休 <span class="days">9</span> 天</div>
+        <dl class="meta">
+          <dt>起訖</dt>
+          <dd>2/27～3/7</dd>
+          <dt>該請哪幾天</dt>
+          <dd>3/2～3/5，共 4 天</dd>
+        </dl>
+      </div>
+
+      <!-- 05 勞動節 -->
+      <div class="card">
+        <div class="card-head">
+          <span class="rank">05</span>
+        </div>
+        <h3 class="holiday-name">勞動節</h3>
+        <div class="formula">請 <span class="leave">4</span> 天<span class="arrow">→</span>休 <span class="days">9</span> 天</div>
+        <dl class="meta">
+          <dt>起訖</dt>
+          <dd>4/24～5/2</dd>
+          <dt>該請哪幾天</dt>
+          <dd>4/26～4/29，共 4 天</dd>
+        </dl>
+      </div>
+
+      <!-- 06 中秋 -->
+      <div class="card">
+        <div class="card-head">
+          <span class="rank">06</span>
+        </div>
+        <h3 class="holiday-name">中秋</h3>
+        <div class="formula">請 <span class="leave">4</span> 天<span class="arrow">→</span>休 <span class="days">9</span> 天</div>
+        <dl class="meta">
+          <dt>起訖</dt>
+          <dd>9/11～9/19</dd>
+          <dt>該請哪幾天</dt>
+          <dd>9/13～9/14、9/16～9/17，共 4 天</dd>
+        </dl>
+      </div>
+
+      <!-- 07 國慶 -->
+      <div class="card">
+        <div class="card-head">
+          <span class="rank">07</span>
+        </div>
+        <h3 class="holiday-name">國慶</h3>
+        <div class="formula">請 <span class="leave">4</span> 天<span class="arrow">→</span>休 <span class="days">9</span> 天</div>
+        <dl class="meta">
+          <dt>起訖</dt>
+          <dd>10/9～10/17</dd>
+          <dt>該請哪幾天</dt>
+          <dd>10/12～10/15，共 4 天</dd>
+        </dl>
+      </div>
+
+      <!-- 08 光復 -->
+      <div class="card">
+        <div class="card-head">
+          <span class="rank">08</span>
+        </div>
+        <h3 class="holiday-name">光復</h3>
+        <div class="formula">請 <span class="leave">4</span> 天<span class="arrow">→</span>休 <span class="days">9</span> 天</div>
+        <dl class="meta">
+          <dt>起訖</dt>
+          <dd>10/23～10/31</dd>
+          <dt>該請哪幾天</dt>
+          <dd>10/26～10/29，共 4 天</dd>
+        </dl>
+      </div>
+
+    </div>
+
+    <p class="footnote">⚠️ <strong>本攻略僅適用政府行政機關公務人員</strong>。民間企業放假仍須依《勞動基準法》與公司實際出勤規定辦理。請假前請與主管確認。</p>
+  </section>
+
+  <footer>
+    <strong>《數位時代》</strong><span class="sep">|</span>資料整理：李先泰<span class="sep">|</span>製圖：2026.05.21
+  </footer>
+
+</div>
+
+<!-- Preview toolbar -->
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
+</body>
+</html>
