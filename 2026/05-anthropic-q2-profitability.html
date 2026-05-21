@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anthropic Q2 規模化轉盈 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;900&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-orange-soft: #FFE7D6;
+    --bn-navy: #0F1A2E;
+    --bn-navy-2: #1B2A45;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    text-wrap: pretty;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body { padding: 28px 16px; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* HEADER */
+  header { margin-bottom: 24px; }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--bn-orange);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 32px;
+    line-height: 1.3;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    color: var(--bn-black);
+    margin-bottom: 12px;
+    text-wrap: balance;
+  }
+  .deck {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--cool-600);
+    text-wrap: balance;
+    max-width: 720px;
+  }
+
+  /* META BAR */
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    padding: 12px 0;
+    border-top: 1px solid var(--warm-300);
+    border-bottom: 1px solid var(--warm-300);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    color: var(--cool-600);
+    margin-bottom: 32px;
+  }
+  .meta-bar .meta-chunk { white-space: nowrap; }
+  .meta-bar strong { color: var(--bn-black); font-weight: 600; }
+
+  /* STATS STRIP */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--warm-300);
+    border: 1px solid var(--warm-300);
+    margin-bottom: 36px;
+  }
+  .stat {
+    background: var(--paper);
+    padding: 18px 16px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--cool-600);
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .stat-num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--bn-black);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .stat-num .unit {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cool-600);
+    margin-left: 3px;
+  }
+  .stat-num.accent { color: var(--bn-orange); }
+  .stat-delta {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 11px;
+    color: var(--cool-600);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* SECTION */
+  .section { margin-bottom: 36px; }
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--cool-600);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-headline {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.4;
+    color: var(--bn-black);
+    margin-bottom: 6px;
+    text-wrap: balance;
+  }
+  .section-subhead {
+    font-size: 14px;
+    color: var(--cool-600);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 680px;
+  }
+
+  /* CHART CONTAINER */
+  .chart-box {
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    padding: 28px 24px 20px;
+  }
+  .chart-callout {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    background: var(--paper-3);
+    border-left: 4px solid var(--bn-orange);
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    flex-wrap: wrap;
+  }
+  .chart-callout-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bn-orange);
+    white-space: nowrap;
+  }
+  .chart-callout-value {
+    color: var(--bn-black);
+    font-weight: 500;
+  }
+  .chart-callout-value strong {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    color: var(--bn-orange);
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  .chart-desktop {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+  .mobile-alt { display: none; }
+
+  /* CHART LEGEND */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    color: var(--cool-600);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  .legend-swatch.bar { background: var(--bn-orange); }
+  .legend-swatch.line {
+    background: transparent;
+    border-top: 3px solid var(--bn-navy);
+    height: 0;
+    margin-top: 5px;
+  }
+  .legend-item strong { color: var(--bn-black); font-weight: 600; }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: var(--paper-3);
+    border-left: 4px solid var(--bn-orange);
+    padding: 20px 24px;
+    margin-top: 28px;
+  }
+  .insight-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--bn-orange);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .insight-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--bn-black);
+  }
+  .insight-text .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-weight: 700;
+    color: var(--bn-orange);
+  }
+
+  /* CAVEAT */
+  .caveat {
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: var(--paper-2);
+    border: 1px solid var(--warm-300);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--cool-600);
+  }
+  .caveat strong { color: var(--bn-black); font-weight: 600; }
+
+  /* FOOTER */
+  footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--warm-300);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    color: var(--cool-600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); font-weight: 700; }
+
+  /* MOBILE ALT — STAT PAIR CARDS */
+  .alt-pair {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .alt-card {
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    padding: 20px;
+  }
+  .alt-card-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--cool-600);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .alt-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .alt-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 90px;
+    align-items: center;
+    gap: 10px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+  .alt-quarter {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bn-black);
+  }
+  .alt-bar-track {
+    height: 24px;
+    background: var(--paper-3);
+    position: relative;
+  }
+  .alt-bar-fill {
+    height: 100%;
+    background: var(--bn-orange);
+  }
+  .alt-bar-fill.line-color { background: var(--bn-navy); }
+  .alt-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--bn-black);
+    text-align: right;
+  }
+  .alt-value.accent { color: var(--bn-orange); }
+  .alt-delta {
+    margin-top: 12px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 12px;
+    color: var(--cool-600);
+    line-height: 1.5;
+    padding-top: 10px;
+    border-top: 1px solid var(--hairline);
+  }
+  .alt-delta strong { color: var(--bn-orange); font-weight: 700; }
+
+  /* CONTAINER QUERIES */
+  @container (max-width: 640px) {
+    h1 { font-size: 24px; }
+    .deck { font-size: 14px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat-num { font-size: 24px; }
+    .meta-bar { font-size: 11px; }
+    .meta-bar .meta-sep { display: none; }
+    .chart-desktop { display: none; }
+    .mobile-alt { display: block; }
+    .chart-box { padding: 18px 14px; }
+    .insight { padding: 16px 18px; }
+    .insight-text { font-size: 14px; }
+    .section-headline { font-size: 18px; }
+    .legend { gap: 18px; }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 16px 8px; }
+  }
+
+  /* PREVIEW TOOLBAR */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">ANTHROPIC Q2 2026 · 預估數據</div>
+    <h1>規模化轉盈：營收倍增，每美元算力成本同步下降</h1>
+    <p class="deck">Anthropic 預估第二季營收 109 億美元、季增 130%，可望錄得公司史上首個單季營業利益 5.59 億美元。關鍵不只是賣得更多，而是單位算力成本同步壓低。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div>
+      <span class="meta-chunk">資料來源：<strong>WSJ、TechCrunch、Bloomberg</strong></span>
+      <span class="meta-sep">　|　</span>
+      <span class="meta-chunk">更新：2026 / 05 / 21</span>
+    </div>
+    <div class="meta-chunk">製作：《數位時代》</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Q2 營收（預估）</div>
+      <div class="stat-num accent">109<span class="unit">億美元</span></div>
+      <div class="stat-delta">Q1 為 48 億美元</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">單季季增</div>
+      <div class="stat-num">+130<span class="unit">%</span></div>
+      <div class="stat-delta">比 Zoom 疫情高峰還快</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">營業利益（首度）</div>
+      <div class="stat-num accent">5.59<span class="unit">億美元</span></div>
+      <div class="stat-delta">原預期 2028 才獲利</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">每美元算力成本</div>
+      <div class="stat-num">56<span class="unit">美分</span></div>
+      <div class="stat-delta">Q1 為 71 美分</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 01 · 雙軸對照</div>
+    <h2 class="section-headline">營收倍增的同時，每賺 1 美元的算力成本從 71 美分降到 56 美分</h2>
+    <p class="section-subhead">柱狀代表單季營收，折線代表「每賺 1 美元要花多少算力成本」。兩條線一上一下，是 Anthropic 能在這一季轉盈的關鍵基礎。</p>
+
+    <div class="chart-box">
+      <div class="chart-callout">
+        <span class="chart-callout-label">關鍵變化</span>
+        <span class="chart-callout-value">每美元算力成本 <strong>71 美分 → 56 美分</strong>，單季下降 <strong>15 美分</strong>（幅度 <strong>−21%</strong>）</span>
+      </div>
+
+      <!-- DESKTOP SVG CHART -->
+      <svg class="chart-desktop" viewBox="0 0 780 380" preserveAspectRatio="xMidYMid meet">
+        <!-- Background grid -->
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(15,26,46,0.05)" stroke-width="1"/>
+          </pattern>
+        </defs>
+
+        <!-- Chart area: x = 80 ~ 700, y = 40 ~ 320 -->
+
+        <!-- Left Y axis (Revenue) gridlines + labels -->
+        <g font-family="Inter, sans-serif" font-size="11" fill="#5C6470">
+          <!-- 0 -->
+          <line x1="80" y1="320" x2="700" y2="320" stroke="#D4D0C8" stroke-width="1"/>
+          <text x="70" y="324" text-anchor="end">0</text>
+          <!-- 30 -->
+          <line x1="80" y1="250" x2="700" y2="250" stroke="rgba(15,26,46,0.08)" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="70" y="254" text-anchor="end">30</text>
+          <!-- 60 -->
+          <line x1="80" y1="180" x2="700" y2="180" stroke="rgba(15,26,46,0.08)" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="70" y="184" text-anchor="end">60</text>
+          <!-- 90 -->
+          <line x1="80" y1="110" x2="700" y2="110" stroke="rgba(15,26,46,0.08)" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="70" y="114" text-anchor="end">90</text>
+          <!-- 120 -->
+          <line x1="80" y1="40" x2="700" y2="40" stroke="rgba(15,26,46,0.08)" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="70" y="44" text-anchor="end">120</text>
+        </g>
+
+        <!-- Left Y axis label -->
+        <text x="30" y="180" text-anchor="middle" transform="rotate(-90 30 180)"
+              font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1A1A1A">
+          單季營收（億美元）
+        </text>
+
+        <!-- Right Y axis (Cost per dollar) labels -->
+        <g font-family="Inter, sans-serif" font-size="11" fill="#5C6470">
+          <text x="710" y="324" text-anchor="start">40¢</text>
+          <text x="710" y="254" text-anchor="start">50¢</text>
+          <text x="710" y="184" text-anchor="start">60¢</text>
+          <text x="710" y="114" text-anchor="start">70¢</text>
+          <text x="710" y="44" text-anchor="start">80¢</text>
+        </g>
+
+        <!-- Right Y axis label -->
+        <text x="760" y="180" text-anchor="middle" transform="rotate(90 760 180)"
+              font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1A1A1A">
+          每賺 1 美元的算力成本
+        </text>
+
+        <!-- Bars: Q1 (48) and Q2 (109) -->
+        <!-- Revenue scale: 0 → y=320, 120 → y=40, so per unit = 280/120 = 2.333 -->
+        <!-- Q1 = 48 → height 48 * 2.333 = 112 → y = 208 -->
+        <!-- Q2 = 109 → height 109 * 2.333 = 254 → y = 66 -->
+
+        <!-- Q1 bar -->
+        <rect x="180" y="208" width="120" height="112" fill="#FF6B1A" opacity="0.92"/>
+        <text x="240" y="200" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="800" fill="#1A1A1A">
+          48
+        </text>
+        <text x="240" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#5C6470">
+          億美元
+        </text>
+
+        <!-- Q2 bar -->
+        <rect x="480" y="66" width="120" height="254" fill="#FF6B1A"/>
+        <text x="540" y="58" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="900" fill="#FF6B1A">
+          109
+        </text>
+        <text x="540" y="42" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#5C6470">
+          億美元
+        </text>
+
+        <!-- X axis labels -->
+        <g font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#1A1A1A">
+          <text x="240" y="350" text-anchor="middle">2026 Q1</text>
+          <text x="240" y="366" text-anchor="middle" font-size="11" font-weight="500" fill="#5C6470">實際</text>
+          <text x="540" y="350" text-anchor="middle">2026 Q2</text>
+          <text x="540" y="366" text-anchor="middle" font-size="11" font-weight="500" fill="#5C6470">預估</text>
+        </g>
+
+        <!-- Cost per dollar line: scale 40¢=320, 80¢=40, so per cent = 280/40 = 7 -->
+        <!-- Q1 = 71¢ → y = 320 - (71-40)*7 = 320 - 217 = 103 -->
+        <!-- Q2 = 56¢ → y = 320 - (56-40)*7 = 320 - 112 = 208 -->
+
+        <line x1="240" y1="103" x2="540" y2="208" stroke="#0F1A2E" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Cost data points -->
+        <circle cx="240" cy="103" r="7" fill="#FAF7F1" stroke="#0F1A2E" stroke-width="3"/>
+        <circle cx="540" cy="208" r="7" fill="#FAF7F1" stroke="#0F1A2E" stroke-width="3"/>
+
+        <!-- Cost labels -->
+        <g font-family="Inter, sans-serif" font-feature-settings="'tnum' 1">
+          <rect x="206" y="74" width="68" height="22" fill="#0F1A2E"/>
+          <text x="240" y="89" text-anchor="middle" font-size="13" font-weight="700" fill="#FAF7F1">71 美分</text>
+
+          <rect x="506" y="221" width="68" height="22" fill="#0F1A2E"/>
+          <text x="540" y="236" text-anchor="middle" font-size="13" font-weight="700" fill="#FAF7F1">56 美分</text>
+        </g>
+
+      </svg>
+
+      <!-- MOBILE ALT -->
+      <div class="mobile-alt">
+        <div class="alt-pair">
+          <div class="alt-card">
+            <div class="alt-card-label">單季營收（億美元）</div>
+            <div class="alt-bars">
+              <div class="alt-row">
+                <span class="alt-quarter">Q1</span>
+                <div class="alt-bar-track"><div class="alt-bar-fill" style="width: 44%;"></div></div>
+                <span class="alt-value">48</span>
+              </div>
+              <div class="alt-row">
+                <span class="alt-quarter">Q2</span>
+                <div class="alt-bar-track"><div class="alt-bar-fill" style="width: 100%;"></div></div>
+                <span class="alt-value accent">109</span>
+              </div>
+            </div>
+            <div class="alt-delta">季增 <strong>+130%</strong></div>
+          </div>
+
+          <div class="alt-card">
+            <div class="alt-card-label">每賺 1 美元的算力成本</div>
+            <div class="alt-bars">
+              <div class="alt-row">
+                <span class="alt-quarter">Q1</span>
+                <div class="alt-bar-track"><div class="alt-bar-fill line-color" style="width: 88%;"></div></div>
+                <span class="alt-value">71 美分</span>
+              </div>
+              <div class="alt-row">
+                <span class="alt-quarter">Q2</span>
+                <div class="alt-bar-track"><div class="alt-bar-fill line-color" style="width: 70%;"></div></div>
+                <span class="alt-value accent">56 美分</span>
+              </div>
+            </div>
+            <div class="alt-delta">單位成本下降 <strong>15 美分</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <span class="legend-swatch bar"></span>
+          <span>單季營收（左軸）</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch line"></span>
+          <span>每美元算力成本（右軸）</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-label">CHART NOTE</div>
+      <div class="insight-text">
+        營收倍增的同時，每美元算力成本同步下降，這是 Anthropic 能在這一季轉盈的關鍵基礎。如果只有營收成長、算力成本沒壓低，本季利潤會被吃光；這正是過去 AI 業界的常態。Anthropic 主要使用 Google 與 Amazon 自研晶片，比輝達 GPU 便宜，加上消費業務小、不必補貼大量免費用戶，是壓低單位成本的兩個結構性因素。
+      </div>
+    </div>
+
+    <div class="caveat">
+      <strong>注意：</strong>單季營業利益不等於全年獲利。Anthropic 與 SpaceX 簽約每月支付 12.5 億美元、租用孟菲斯 Colossus 1 資料中心至 2029 年 5 月。WSJ 提醒這個獲利窗口可能短暫，全年是否能維持仍取決於後續算力支出節奏。
+    </div>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料來源：The Wall Street Journal、TechCrunch、Bloomberg　|　製圖：2026.05.21
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
+</body>
+</html>
