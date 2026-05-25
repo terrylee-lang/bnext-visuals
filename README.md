@@ -10,7 +10,6 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
-| Cowork 對話前讀的三個地方 | 《數位時代》6 月會員專刊單元三：Cowork 工作流 | 2026-05-25 | [`2026/06-cowork-three-layers.html`](./2026/06-cowork-three-layers.html) |
 | 2027 請假攻略 8 種組合 CP 值一次看 | 2027 年行事曆出爐！9 大連假、春節放 7 天，補假日期一次看 | 2026-05-21 | [`2026/05-2027-leave-strategy.html`](./2026/05-2027-leave-strategy.html) |
 | Anthropic Q2 規模化轉盈：營收倍增 × 單位成本下降 | Anthropic 可望首度單季轉盈：Q2 營收預估 109 億美元、季增 130% | 2026-05-21 | [`2026/05-anthropic-q2-profitability.html`](./2026/05-anthropic-q2-profitability.html) |
 | SpaceX S-1 一頁讀懂：史上最大 IPO 的數字長什麼樣 | SpaceX 公開遞件赴納斯達克 IPO，擬募資最高 750 億美元 | 2026-05-21 | [`2026/05-spacex-ipo-s1.html`](./2026/05-spacex-ipo-s1.html) |
