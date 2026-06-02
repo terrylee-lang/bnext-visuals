@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2025 上市櫃員工平均年薪 TOP 25 ｜《數位時代》</title>
+<meta name="description" content="2025（民國114）年度上市櫃公司員工平均年薪前25高排行榜，半導體霸榜，日月光投控以628萬居首。資料來源台灣證券交易所、櫃買中心。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-orange-soft: #FFE7D6;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+
+    /* 產業色塊（低彩度 warm／cool 色域；半導體為主角產業用 BN Orange） */
+    --ind-semi: #FF6B1A;       /* 半導體 */
+    --ind-component: #5C6470;  /* 電子零組件 */
+    --ind-construct: #8A7B5C;  /* 建材營造 */
+    --ind-food: #7A8B5C;       /* 食品 */
+    --ind-bio: #6B8B8A;        /* 生技醫療 */
+    --ind-content: #8A6B8B;    /* 文化創意 */
+    --ind-pc: #4F6B8A;         /* 電腦及週邊 */
+    --ind-opto: #3DB5C6;       /* 光電 */
+    --ind-trade: #B08A4F;      /* 貿易百貨 */
+    --ind-other: #9A958A;      /* 其他 */
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--bn-black);
+    margin: 0;
+    padding: 32px 16px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+  h1, h2, .section-headline, .deck { text-wrap: balance; }
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* === Preview toolbar (only when URL has ?preview=1) === */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px;
+    font-size: 12px; font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px; align-self: center;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  header {
+    padding: 32px 32px 24px;
+    border-bottom: 3px solid var(--bn-black);
+  }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px; letter-spacing: 2px;
+    color: var(--bn-orange); font-weight: 700;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 28px; font-weight: 800;
+    margin: 0 0 12px; line-height: 1.35;
+    color: var(--bn-black); letter-spacing: 0.02em;
+  }
+  .deck {
+    font-size: 15px; color: var(--cool-600);
+    margin: 0; line-height: 1.7;
+  }
+
+  .meta-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 32px;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+    font-size: 13px; color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+  .meta-bar strong { color: var(--bn-black); }
+  .meta-bar .meta-chunk { white-space: nowrap; }
+  .meta-bar .meta-sep { color: var(--warm-300); margin: 0 4px; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .stat {
+    padding: 22px 16px; text-align: center;
+    border-right: 1px solid var(--paper-3);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 26px; font-weight: 700;
+    color: var(--bn-orange); line-height: 1;
+  }
+  .stat-num .sm { font-size: 15px; font-weight: 700; }
+  .stat-lbl { font-size: 12px; color: var(--cool-600); margin-top: 8px; line-height: 1.5; }
+
+  /* === Controls (篩選／排序) === */
+  .controls {
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--paper-3);
+    display: flex; flex-wrap: wrap; gap: 16px 28px;
+    align-items: flex-start;
+  }
+  .control-group { display: flex; flex-direction: column; gap: 7px; }
+  .control-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase;
+    color: var(--cool-600); font-weight: 700;
+  }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    border: 1px solid var(--warm-300);
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 12px; font-weight: 600;
+    padding: 5px 11px; cursor: pointer;
+    border-radius: 0;
+    transition: all 0.12s;
+    line-height: 1.2;
+  }
+  .chip:hover { border-color: var(--bn-black); }
+  .chip.active {
+    background: var(--bn-black);
+    color: var(--paper);
+    border-color: var(--bn-black);
+  }
+
+  /* === Ranking list (桌機橫條) === */
+  .section {
+    padding: 24px 32px 8px;
+  }
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--cool-600); font-weight: 700; margin-bottom: 4px;
+  }
+  .section-headline {
+    font-size: 20px; font-weight: 700; margin: 0 0 4px;
+    color: var(--bn-black); line-height: 1.4; letter-spacing: 0.02em;
+  }
+  .axis-hint {
+    font-size: 11px; color: var(--cool-400);
+    margin: 0 0 8px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+
+  .rank-list { padding: 0 32px 8px; }
+  .row {
+    display: grid;
+    grid-template-columns: 30px 50px 1fr 96px 78px;
+    gap: 12px;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--paper-3);
+  }
+  .row:last-child { border-bottom: none; }
+  .row.hidden { display: none; }
+  .row:hover { background: var(--paper-2); }
+
+  .r-rank {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 15px; font-weight: 700;
+    color: var(--cool-600); text-align: right;
+  }
+  .row.top3 .r-rank { color: var(--bn-orange); }
+
+  /* 代號＋產業色塊 */
+  .r-code {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 12px; font-weight: 700;
+    color: var(--paper);
+    text-align: center;
+    padding: 6px 0;
+    border-radius: 4px;
+    line-height: 1.1;
+    letter-spacing: 0.3px;
+  }
+
+  .r-main { min-width: 0; }
+  .r-name-row {
+    display: flex; align-items: baseline; gap: 8px;
+    margin-bottom: 4px; flex-wrap: wrap;
+  }
+  .r-name { font-size: 14px; font-weight: 700; color: var(--bn-black); }
+  .r-market {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px; font-weight: 700;
+    padding: 1px 6px; border-radius: 0;
+    border: 1px solid var(--warm-300);
+    color: var(--cool-600);
+    white-space: nowrap;
+  }
+  .r-industry { font-size: 11px; color: var(--cool-600); }
+  .r-bar-track {
+    height: 7px; background: var(--paper-3);
+    overflow: hidden; margin-top: 2px;
+  }
+  .r-bar-fill { height: 100%; background: var(--cool-600); transition: width 0.4s cubic-bezier(.2,.7,.2,1); }
+
+  .r-salary { text-align: right; }
+  .r-salary .num {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 18px; font-weight: 700;
+    color: var(--bn-orange); line-height: 1;
+  }
+  .row:not(.top3) .r-salary .num { color: var(--bn-black); }
+  .r-salary .unit { font-size: 10px; color: var(--cool-600); margin-top: 2px; }
+
+  .r-yoy {
+    text-align: right;
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 14px; font-weight: 700;
+  }
+  .r-yoy.up { color: var(--bn-black); }
+  .r-yoy.down { color: var(--cool-400); }
+  .r-yoy .yoy-lbl { display: none; }
+
+  .empty-state {
+    padding: 28px 0; text-align: center;
+    color: var(--cool-600); font-size: 13px;
+    display: none;
+  }
+  .empty-state.show { display: block; }
+
+  /* 產業圖例 */
+  .legend {
+    padding: 16px 32px 4px;
+    display: flex; flex-wrap: wrap; gap: 8px 18px;
+    font-size: 11px; color: var(--cool-600);
+    border-top: 1px solid var(--paper-3);
+  }
+  .legend .lg { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .legend .sw { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+  .note {
+    padding: 4px 32px 0;
+    font-size: 11px; color: var(--cool-600); line-height: 1.6;
+  }
+
+  footer {
+    margin-top: 16px;
+    padding: 20px 32px;
+    background: var(--paper-3);
+    font-size: 12px; color: var(--cool-600);
+    text-align: center;
+    border-top: 1px solid var(--warm-300);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); }
+
+  /* body padding 跟著真實 viewport（手機讀者） */
+  @media (max-width: 640px) {
+    body { padding: 12px 6px; }
+  }
+
+  /* 內部 layout 跟著 wrapper container 寬度（讓預覽按鈕能切換） */
+  @container (max-width: 640px) {
+    header, .meta-bar, .controls, .section, .legend, .note, footer { padding-left: 16px; padding-right: 16px; }
+    .rank-list { padding-left: 16px; padding-right: 16px; }
+    header { padding-top: 24px; padding-bottom: 18px; }
+    .kicker { font-size: 10px; }
+    h1 { font-size: 20px; line-height: 1.3; }
+    .deck { font-size: 13px; }
+    .meta-bar {
+      flex-direction: column; align-items: flex-start;
+      gap: 4px; font-size: 11px; padding: 10px 16px;
+    }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { border-bottom: 1px solid var(--paper-3); padding: 16px 8px; }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(3), .stat:nth-child(4) { border-bottom: none; }
+    .stat-num { font-size: 21px; }
+
+    .section { padding: 20px 16px 4px; }
+    .section-headline { font-size: 17px; }
+
+    /* 手機卡片式：改 2 行排版 */
+    .row {
+      grid-template-columns: 28px 46px 1fr auto;
+      gap: 4px 10px;
+      padding: 11px 0;
+    }
+    .r-rank { grid-column: 1; grid-row: 1; font-size: 13px; }
+    .r-code { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 11px; padding: 8px 0; }
+    .r-main { grid-column: 3; grid-row: 1; }
+    .r-salary { grid-column: 4; grid-row: 1; }
+    .r-bar-wrap { grid-column: 3 / span 2; grid-row: 2; }
+    .r-yoy {
+      grid-column: 3 / span 2; grid-row: 3;
+      text-align: left; font-size: 12px; margin-top: 3px;
+    }
+    .r-yoy .yoy-lbl { display: inline; color: var(--cool-600); font-weight: 500; margin-right: 4px; }
+    .r-salary .num { font-size: 17px; }
+    .legend { gap: 6px 14px; font-size: 10px; }
+  }
+  /* 桌機時把 bar 放在 r-main 內，手機時抽成獨立 grid 區，用包裝層切換 */
+  .r-bar-wrap { display: block; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">薪資排行 · LISTED COMPANIES PAY</div>
+    <h1>2025 上市櫃員工平均年薪 TOP 25</h1>
+    <p class="deck">證交所與櫃買中心 114 年度公開資料，半導體幾乎包辦整張榜單。日月光投控以平均年薪 628 萬元登頂，台積電、聯發科、瑞昱緊追在後。可依市場別、產業篩選，或切換成年增率排序。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div>
+      <span class="meta-chunk">資料來源：<strong>台灣證券交易所、櫃買中心</strong></span><span class="meta-sep">|</span><span class="meta-chunk">114 年度（2025）</span>
+    </div>
+    <div class="meta-chunk">製作：《數位時代》</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">628<span class="sm">.2 萬</span></div><div class="stat-lbl">榜首日月光投控<br>平均年薪</div></div>
+    <div class="stat"><div class="stat-num">17</div><div class="stat-lbl">前 25 名中<br>半導體佔比（家）</div></div>
+    <div class="stat"><div class="stat-num">309<span class="sm">.4 萬</span></div><div class="stat-lbl">第 25 名門檻<br>（能率亞洲）</div></div>
+    <div class="stat"><div class="stat-num">+125<span class="sm">.5%</span></div><div class="stat-lbl">最高年增率<br>（斐成）</div></div>
+  </div>
+
+  <div class="controls">
+    <div class="control-group">
+      <span class="control-label">市場別</span>
+      <div class="chip-row" data-filter="market">
+        <button class="chip active" data-val="all">全部</button>
+        <button class="chip" data-val="上市">上市</button>
+        <button class="chip" data-val="上櫃">上櫃</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <span class="control-label">產業</span>
+      <div class="chip-row" data-filter="industry">
+        <button class="chip active" data-val="all">全部</button>
+        <button class="chip" data-val="半導體">半導體</button>
+        <button class="chip" data-val="電子零組件">電子零組件</button>
+        <button class="chip" data-val="建材營造">建材營造</button>
+        <button class="chip" data-val="食品">食品</button>
+        <button class="chip" data-val="其他">其他</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <span class="control-label">排序</span>
+      <div class="chip-row" data-filter="sort">
+        <button class="chip active" data-val="salary">平均年薪</button>
+        <button class="chip" data-val="yoy">年增率</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">RANKING · 平均年薪排行</div>
+    <h2 class="section-headline">誰最敢給？前 25 名一次看</h2>
+    <p class="axis-hint">橫條長度＝平均年薪相對榜首（628.2 萬＝滿格）。色塊＝代號與所屬產業。</p>
+  </div>
+
+  <div class="rank-list" id="rankList"></div>
+
+  <div class="empty-state" id="emptyState">這個篩選條件下沒有符合的公司，換個條件試試。</div>
+
+  <div class="legend" id="legend"></div>
+
+  <p class="note">註：平均年薪＝公司申報之員工薪資總額 ÷ 員工人數（含獎金、分紅），單位萬元；年增減為 114 年度對比 113 年度。部分企業（如斐成、聯華、三商、全心投控、能率亞洲）員工數僅個位數至數十人，平均易被少數高薪者拉高，解讀排名請留意公司規模。「康霈*」之星號為證交所原始標記。</p>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：李先泰　|　製圖：2026.06.02<br>
+    資料來源：台灣證券交易所、櫃買中心（114 年度員工平均薪資公開資料）
+  </footer>
+
+</div>
+
+<!-- Preview toolbar：URL 加 ?preview=1 才會顯示 -->
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+// ===== 資料（114 年度，已雙重核對）=====
+var DATA = [
+  {rank:1,  name:"日月光投控", code:"3711", market:"上市", industry:"半導體",     salary:628.2, yoy:40.0,  emp:109},
+  {rank:2,  name:"信驊",       code:"5274", market:"上櫃", industry:"半導體",     salary:593.4, yoy:8.7,   emp:137},
+  {rank:3,  name:"祥碩",       code:"5269", market:"上市", industry:"半導體",     salary:565.7, yoy:38.0,  emp:342},
+  {rank:4,  name:"精成科",     code:"6191", market:"上市", industry:"電子零組件", salary:487.2, yoy:28.3,  emp:79},
+  {rank:5,  name:"斐成",       code:"3313", market:"上櫃", industry:"其他",       salary:463.1, yoy:125.5, emp:6},
+  {rank:6,  name:"聯發科",     code:"2454", market:"上市", industry:"半導體",     salary:459.9, yoy:-0.7,  emp:12298},
+  {rank:7,  name:"瑞昱",       code:"2379", market:"上市", industry:"半導體",     salary:451.2, yoy:-5.0,  emp:5536},
+  {rank:8,  name:"鈊象",       code:"3293", market:"上櫃", industry:"文化創意",   salary:435.2, yoy:8.7,   emp:1167},
+  {rank:9,  name:"聯華",       code:"1229", market:"上市", industry:"食品",       salary:429.8, yoy:36.8,  emp:10},
+  {rank:10, name:"台積電",     code:"2330", market:"上市", industry:"半導體",     salary:409.3, yoy:22.9,  emp:76907},
+  {rank:11, name:"奇鋐",       code:"3017", market:"上市", industry:"電腦及週邊", salary:391.0, yoy:59.9,  emp:641},
+  {rank:12, name:"康霈*",      code:"6919", market:"上市", industry:"生技醫療",   salary:382.0, yoy:51.6,  emp:49},
+  {rank:13, name:"達發",       code:"6526", market:"上市", industry:"半導體",     salary:370.9, yoy:3.2,   emp:954},
+  {rank:14, name:"三商",       code:"2905", market:"上市", industry:"貿易百貨",   salary:368.9, yoy:3.3,   emp:13},
+  {rank:15, name:"鴻勁",       code:"7769", market:"上市", industry:"半導體",     salary:354.1, yoy:22.3,  emp:607},
+  {rank:16, name:"全心投控",   code:"2718", market:"上櫃", industry:"建材營造",   salary:348.8, yoy:52.6,  emp:9},
+  {rank:17, name:"原相",       code:"3227", market:"上櫃", industry:"半導體",     salary:345.2, yoy:-0.6,  emp:588},
+  {rank:18, name:"南僑",       code:"1702", market:"上市", industry:"食品",       salary:342.9, yoy:-16.9, emp:50},
+  {rank:19, name:"華固",       code:"2548", market:"上市", industry:"建材營造",   salary:341.8, yoy:59.8,  emp:83},
+  {rank:20, name:"創意",       code:"3443", market:"上市", industry:"半導體",     salary:334.2, yoy:-8.0,  emp:714},
+  {rank:21, name:"聯詠",       code:"3034", market:"上市", industry:"半導體",     salary:328.5, yoy:-8.4,  emp:3303},
+  {rank:22, name:"凡甲",       code:"3526", market:"上櫃", industry:"電子零組件", salary:328.4, yoy:5.5,   emp:72},
+  {rank:23, name:"新潤",       code:"6186", market:"上櫃", industry:"建材營造",   salary:319.1, yoy:17.7,  emp:43},
+  {rank:24, name:"久禾光",     code:"6498", market:"上櫃", industry:"光電",       salary:311.5, yoy:67.4,  emp:32},
+  {rank:25, name:"能率亞洲",   code:"7777", market:"上櫃", industry:"其他",       salary:309.4, yoy:19.9,  emp:8}
+];
+
+// 產業 → 色票變數 / 顯示名（合併「電腦及週邊」「生技醫療」「文化創意」「貿易百貨」「光電」進「其他」篩選群）
+var INDUSTRY_COLOR = {
+  "半導體":     "var(--ind-semi)",
+  "電子零組件": "var(--ind-component)",
+  "建材營造":   "var(--ind-construct)",
+  "食品":       "var(--ind-food)",
+  "生技醫療":   "var(--ind-bio)",
+  "文化創意":   "var(--ind-content)",
+  "電腦及週邊": "var(--ind-pc)",
+  "光電":       "var(--ind-opto)",
+  "貿易百貨":   "var(--ind-trade)",
+  "其他":       "var(--ind-other)"
+};
+// 篩選「其他」時涵蓋的產業（非主要五類的長尾）
+var OTHER_GROUP = ["文化創意","生技醫療","電腦及週邊","貿易百貨","光電","其他"];
+
+var MAX_SALARY = 628.2;
+
+var state = { market:"all", industry:"all", sort:"salary" };
+
+function matchIndustry(d) {
+  if (state.industry === "all") return true;
+  if (state.industry === "其他") return OTHER_GROUP.indexOf(d.industry) !== -1;
+  return d.industry === state.industry;
+}
+function matchMarket(d) {
+  return state.market === "all" || d.market === state.market;
+}
+
+function render() {
+  var list = DATA.filter(function(d){ return matchMarket(d) && matchIndustry(d); });
+  if (state.sort === "yoy") {
+    list = list.slice().sort(function(a,b){ return b.yoy - a.yoy; });
+  } else {
+    list = list.slice().sort(function(a,b){ return b.salary - a.salary; });
+  }
+
+  var maxInView = list.length ? Math.max.apply(null, list.map(function(d){return d.salary;})) : MAX_SALARY;
+  var barBase = state.sort === "yoy" ? maxInView : MAX_SALARY;
+
+  var html = "";
+  list.forEach(function(d, i) {
+    var displayRank = i + 1;
+    var isTop3 = (state.sort === "salary" && d.rank <= 3) || (state.sort === "yoy" && displayRank <= 3);
+    var barW = Math.max((d.salary / barBase) * 100, 3);
+    var color = INDUSTRY_COLOR[d.industry] || "var(--ind-other)";
+    var yoyClass = d.yoy >= 0 ? "up" : "down";
+    var yoySign = d.yoy >= 0 ? "+" : "";
+    var rankShown = state.sort === "salary" ? d.rank : displayRank;
+
+    html += '<div class="row' + (isTop3 ? ' top3' : '') + '">' +
+      '<div class="r-rank">' + rankShown + '</div>' +
+      '<div class="r-code" style="background:' + color + '">' + d.code + '</div>' +
+      '<div class="r-main">' +
+        '<div class="r-name-row">' +
+          '<span class="r-name">' + d.name + '</span>' +
+          '<span class="r-market">' + d.market + '</span>' +
+          '<span class="r-industry">' + d.industry + ' · ' + fmtEmp(d.emp) + '人</span>' +
+        '</div>' +
+        '<div class="r-bar-wrap"><div class="r-bar-track"><div class="r-bar-fill" style="width:' + barW.toFixed(1) + '%;background:' + color + '"></div></div></div>' +
+      '</div>' +
+      '<div class="r-salary"><div class="num">' + d.salary.toFixed(1) + '</div><div class="unit">萬元</div></div>' +
+      '<div class="r-yoy ' + yoyClass + '"><span class="yoy-lbl">年增減</span>' + yoySign + d.yoy.toFixed(1) + '%</div>' +
+    '</div>';
+  });
+
+  document.getElementById("rankList").innerHTML = html;
+  document.getElementById("emptyState").classList.toggle("show", list.length === 0);
+}
+
+function fmtEmp(n) {
+  return n.toLocaleString("en-US");
+}
+
+// 圖例：只列出榜單實際出現的產業
+function renderLegend() {
+  var seen = [];
+  DATA.forEach(function(d){ if (seen.indexOf(d.industry) === -1) seen.push(d.industry); });
+  var order = ["半導體","電子零組件","建材營造","食品","生技醫療","文化創意","電腦及週邊","貿易百貨","光電","其他"];
+  seen.sort(function(a,b){ return order.indexOf(a) - order.indexOf(b); });
+  var html = "";
+  seen.forEach(function(ind){
+    html += '<span class="lg"><span class="sw" style="background:' + (INDUSTRY_COLOR[ind]||"var(--ind-other)") + '"></span>' + ind + '</span>';
+  });
+  document.getElementById("legend").innerHTML = html;
+}
+
+// 綁定 chip 點擊
+document.querySelectorAll(".chip-row").forEach(function(rowEl){
+  var key = rowEl.getAttribute("data-filter");
+  rowEl.addEventListener("click", function(e){
+    var btn = e.target.closest("button.chip");
+    if (!btn) return;
+    rowEl.querySelectorAll(".chip").forEach(function(c){ c.classList.remove("active"); });
+    btn.classList.add("active");
+    state[key] = btn.getAttribute("data-val");
+    render();
+  });
+});
+
+renderLegend();
+render();
+
+// Preview toolbar
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
+</body>
+</html>
