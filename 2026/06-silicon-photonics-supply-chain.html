@@ -452,33 +452,6 @@
 </div>
 
 <script>
-// === iframe 高度自動同步：向父頁面回報 scrollHeight ===
-// 父頁（CMS）若有 message listener，可據此設定 iframe.style.height；
-// 後台不支援時，嵌入碼的寫死 height 作為 fallback，配件照常顯示。
-(function() {
-  function reportHeight() {
-    var h = Math.ceil(document.documentElement.scrollHeight);
-    try {
-      parent.postMessage({ type: 'bnext-visual-height', height: h }, '*');
-    } catch (e) { /* cross-origin 例外時靜默 */ }
-  }
-  // 初載
-  window.addEventListener('load', reportHeight);
-  // viewport / 容器尺寸變動（手機旋轉、桌機縮放）
-  window.addEventListener('resize', reportHeight);
-  // 字體載入完成後（webfont 改變行高，會影響總高度）
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(reportHeight);
-  }
-  // 內容尺寸變化（保險：wrapper 寬度被改、預覽切換）
-  if ('ResizeObserver' in window) {
-    var ro = new ResizeObserver(reportHeight);
-    ro.observe(document.documentElement);
-  }
-  // 首次延遲回報一次，確保 layout 穩定
-  setTimeout(reportHeight, 300);
-})();
-
 // === Preview toolbar ===
 (function() {
   if (!new URLSearchParams(location.search).has('preview')) return;
