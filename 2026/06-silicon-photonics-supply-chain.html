@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>矽光子概念股供應鏈分層一覽 ｜《數位時代》</title>
 <meta name="description" content="矽光子（Silicon Photonics）概念股依產業鏈位置分層整理：上游磊晶／InP 基板、中游光收發模組／FAU、下游交換器與封測、平台晶圓代工，一張圖看懂供應鏈流向。">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
   :root {
     --bn-orange: #FF6B1A;
@@ -117,93 +117,93 @@
   .flow-hint .fh-item { white-space: nowrap; letter-spacing: 0.5px; }
   .flow-hint .fh-arrow { color: var(--warm-300); font-size: 13px; }
 
-  /* === 分層 rows === */
-  .layers { padding: 8px 32px 4px; }
+  /* === 分層 rows：左側細窄輔助標 + 右側公司卡陣列 === */
+  .layers { padding: 12px 32px 8px; }
   .layer {
     display: grid;
-    grid-template-columns: 188px 1fr;
-    gap: 0;
-    border: 1px solid var(--warm-300);
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 16px 0;
+    grid-template-columns: 132px 1fr;
+    gap: 18px;
+    margin: 22px 0;
   }
-  /* 左側帶編號色塊標籤 */
+  .layer + .layer { border-top: 1px solid var(--hairline); padding-top: 22px; }
+
+  /* 左側輕量層級小標：細左豎條 + 文字，無深色塊 */
   .layer-tab {
-    background: var(--bn-navy);
-    color: var(--paper);
-    padding: 18px 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
-    position: relative;
-  }
-  .layer-tab::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 5px;
-    background: var(--tab-accent, var(--cool-600));
+    border-left: 3px solid var(--tab-accent, var(--cool-400));
+    padding: 2px 0 2px 12px;
+    align-self: start;
   }
   .layer-num {
     font-family: "Inter", sans-serif;
     font-feature-settings: 'tnum' 1;
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 1.5px;
-    color: var(--tab-accent, var(--cool-400));
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1.2px;
+    color: var(--cool-400);
     text-transform: uppercase;
     line-height: 1;
+    margin-bottom: 6px;
   }
   .layer-stage {
-    font-size: 16px; font-weight: 800;
-    color: var(--paper); line-height: 1.3;
+    font-size: 15px; font-weight: 800;
+    color: var(--bn-black); line-height: 1.3;
     letter-spacing: 0.02em;
+    margin-bottom: 4px;
   }
   .layer-role {
-    font-size: 12px; font-weight: 500;
-    color: rgba(250, 247, 241, 0.72);
-    line-height: 1.4;
+    font-size: 11px; font-weight: 500;
+    color: var(--cool-600);
+    line-height: 1.5;
   }
-  /* 右側 chip 區 */
+
+  /* 右側公司卡陣列 */
   .layer-chips {
-    background: var(--paper-2);
-    padding: 16px 18px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    align-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+    gap: 10px;
+    align-content: start;
   }
-  .chip {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 7px;
+
+  /* === 公司卡：股票 app 風格徽章卡（視覺主角）=== */
+  .stock {
     background: var(--paper);
     border: 1px solid var(--warm-300);
     border-radius: 8px;
-    padding: 8px 12px;
-    line-height: 1.2;
+    padding: 14px 14px 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    transition: border-color 0.15s, background 0.15s;
   }
-  .chip .c-name {
-    font-size: 14px; font-weight: 700;
+  .stock:hover {
+    border-color: var(--bn-orange);
+    background: var(--paper-2);
+  }
+  .stock .s-name {
+    font-size: 16px; font-weight: 800;
     color: var(--bn-black);
-    white-space: nowrap;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
   }
-  .chip .c-code {
+  .stock .s-code {
+    align-self: flex-start;
     font-family: "Inter", sans-serif;
     font-feature-settings: 'tnum' 1;
-    font-size: 12px; font-weight: 700;
+    font-size: 19px; font-weight: 800;
     color: var(--bn-orange);
-    white-space: nowrap;
+    background: var(--bn-orange-soft);
+    border-radius: 8px;
+    padding: 5px 11px;
+    line-height: 1;
+    letter-spacing: 0.5px;
   }
 
   .note {
-    padding: 12px 32px 0;
+    padding: 16px 32px 0;
     font-size: 11px; color: var(--cool-600); line-height: 1.6;
   }
 
   footer {
-    margin-top: 16px;
+    margin-top: 20px;
     padding: 20px 32px;
     background: var(--paper-3);
     font-size: 12px; color: var(--cool-600);
@@ -237,25 +237,23 @@
       padding: 12px 16px; font-size: 11px;
     }
 
-    /* 分層 row 改上下堆疊：tab 在上、chips 在下 */
-    .layers { padding: 4px 16px; }
-    .layer { grid-template-columns: 1fr; }
+    /* 分層 row 改上下堆疊：層級小標在上、公司卡在下 */
+    .layers { padding: 8px 16px; }
+    .layer { grid-template-columns: 1fr; gap: 12px; }
+    .layer + .layer { padding-top: 18px; }
     .layer-tab {
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px 12px 18px;
-      flex-wrap: wrap;
+      padding: 2px 0 2px 11px;
     }
-    .layer-num { font-size: 10px; }
     .layer-stage { font-size: 15px; }
-    .layer-role {
-      flex-basis: 100%;
-      font-size: 11px;
+
+    /* 手機：公司卡兩欄自動換行 */
+    .layer-chips {
+      grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+      gap: 8px;
     }
-    .layer-chips { padding: 14px; gap: 8px; }
-    .chip { padding: 7px 11px; }
-    .chip .c-name { font-size: 13px; }
+    .stock { padding: 12px 12px 11px; gap: 8px; }
+    .stock .s-name { font-size: 15px; }
+    .stock .s-code { font-size: 17px; padding: 4px 10px; }
   }
 </style>
 </head>
@@ -295,9 +293,9 @@
         <div class="layer-role">磷化銦磊晶與基板供應</div>
       </div>
       <div class="layer-chips">
-        <span class="chip"><span class="c-name">聯亞</span><span class="c-code">3081</span></span>
-        <span class="chip"><span class="c-name">全新</span><span class="c-code">2455</span></span>
-        <span class="chip"><span class="c-name">英特磊 IET-KY</span><span class="c-code">4971</span></span>
+        <div class="stock"><span class="s-name">聯亞</span><span class="s-code">3081</span></div>
+        <div class="stock"><span class="s-name">全新</span><span class="s-code">2455</span></div>
+        <div class="stock"><span class="s-name">英特磊 IET-KY</span><span class="s-code">4971</span></div>
       </div>
     </div>
 
@@ -309,10 +307,10 @@
         <div class="layer-role">光收發模組與光纖陣列單元</div>
       </div>
       <div class="layer-chips">
-        <span class="chip"><span class="c-name">上詮</span><span class="c-code">3363</span></span>
-        <span class="chip"><span class="c-name">波若威</span><span class="c-code">3163</span></span>
-        <span class="chip"><span class="c-name">眾達-KY</span><span class="c-code">4977</span></span>
-        <span class="chip"><span class="c-name">華星光</span><span class="c-code">4979</span></span>
+        <div class="stock"><span class="s-name">上詮</span><span class="s-code">3363</span></div>
+        <div class="stock"><span class="s-name">波若威</span><span class="s-code">3163</span></div>
+        <div class="stock"><span class="s-name">眾達-KY</span><span class="s-code">4977</span></div>
+        <div class="stock"><span class="s-name">華星光</span><span class="s-code">4979</span></div>
       </div>
     </div>
 
@@ -324,8 +322,8 @@
         <div class="layer-role">網路交換器系統</div>
       </div>
       <div class="layer-chips">
-        <span class="chip"><span class="c-name">智邦</span><span class="c-code">2345</span></span>
-        <span class="chip"><span class="c-name">明泰</span><span class="c-code">3380</span></span>
+        <div class="stock"><span class="s-name">智邦</span><span class="s-code">2345</span></div>
+        <div class="stock"><span class="s-name">明泰</span><span class="s-code">3380</span></div>
       </div>
     </div>
 
@@ -337,15 +335,15 @@
         <div class="layer-role">封裝、測試與相關設備</div>
       </div>
       <div class="layer-chips">
-        <span class="chip"><span class="c-name">日月光投控</span><span class="c-code">3711</span></span>
-        <span class="chip"><span class="c-name">台星科</span><span class="c-code">3265</span></span>
-        <span class="chip"><span class="c-name">矽格</span><span class="c-code">6257</span></span>
-        <span class="chip"><span class="c-name">聯鈞</span><span class="c-code">3450</span></span>
-        <span class="chip"><span class="c-name">訊芯-KY</span><span class="c-code">6451</span></span>
-        <span class="chip"><span class="c-name">旺矽</span><span class="c-code">6223</span></span>
-        <span class="chip"><span class="c-name">穎崴</span><span class="c-code">6515</span></span>
-        <span class="chip"><span class="c-name">富鼎</span><span class="c-code">8261</span></span>
-        <span class="chip"><span class="c-name">穩懋</span><span class="c-code">3105</span></span>
+        <div class="stock"><span class="s-name">日月光投控</span><span class="s-code">3711</span></div>
+        <div class="stock"><span class="s-name">台星科</span><span class="s-code">3265</span></div>
+        <div class="stock"><span class="s-name">矽格</span><span class="s-code">6257</span></div>
+        <div class="stock"><span class="s-name">聯鈞</span><span class="s-code">3450</span></div>
+        <div class="stock"><span class="s-name">訊芯-KY</span><span class="s-code">6451</span></div>
+        <div class="stock"><span class="s-name">旺矽</span><span class="s-code">6223</span></div>
+        <div class="stock"><span class="s-name">穎崴</span><span class="s-code">6515</span></div>
+        <div class="stock"><span class="s-name">富鼎</span><span class="s-code">8261</span></div>
+        <div class="stock"><span class="s-name">穩懋</span><span class="s-code">3105</span></div>
       </div>
     </div>
 
@@ -357,7 +355,7 @@
         <div class="layer-role">先進製程晶圓代工平台</div>
       </div>
       <div class="layer-chips">
-        <span class="chip"><span class="c-name">台積電</span><span class="c-code">2330</span></span>
+        <div class="stock"><span class="s-name">台積電</span><span class="s-code">2330</span></div>
       </div>
     </div>
 
