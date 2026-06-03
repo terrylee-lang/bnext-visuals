@@ -162,6 +162,10 @@
     gap: 10px;
     align-content: start;
   }
+  /* 單一公司層：卡片維持標準寬，不被拉滿整列（刻意設計，非漏排） */
+  .layer-chips.single {
+    grid-template-columns: repeat(auto-fill, 132px);
+  }
 
   /* === 公司卡：股票 app 風格徽章卡（視覺主角）=== */
   .stock {
@@ -251,6 +255,9 @@
       grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
       gap: 8px;
     }
+    .layer-chips.single {
+      grid-template-columns: repeat(auto-fill, 130px);
+    }
     .stock { padding: 12px 12px 11px; gap: 8px; }
     .stock .s-name { font-size: 15px; }
     .stock .s-code { font-size: 17px; padding: 4px 10px; }
@@ -263,7 +270,7 @@
   <header>
     <div class="kicker">產業鏈一覽 · SILICON PHOTONICS</div>
     <h1>矽光子概念股供應鏈分層一覽</h1>
-    <p class="deck">矽光子（Silicon Photonics，用光取代電訊號傳輸的晶片技術）相關台股，依產業鏈位置從上游到下游分為五層，<br>一張圖看懂磊晶基板、光收發模組、交換器、封測到晶圓代工的供應鏈流向。</p>
+    <p class="deck">矽光子（Silicon Photonics，用光取代電訊號傳輸的晶片技術）相關台股，依產業鏈位置從上游到下游分為七層，<br>一張圖看懂磊晶基板、雷射光源、光收發模組、交換器、封測、檢測設備到晶圓代工的供應鏈流向。</p>
   </header>
 
   <div class="meta-bar">
@@ -280,6 +287,8 @@
     <span class="fh-arrow">→</span>
     <span class="fh-item">下游</span>
     <span class="fh-arrow">→</span>
+    <span class="fh-item">檢測</span>
+    <span class="fh-arrow">→</span>
     <span class="fh-item">平台</span>
   </div>
 
@@ -289,35 +298,49 @@
     <div class="layer" style="--tab-accent: var(--bn-orange);">
       <div class="layer-tab">
         <div class="layer-num">LAYER 01 · 上游</div>
-        <div class="layer-stage">磊晶／InP 基板</div>
-        <div class="layer-role">磷化銦磊晶與基板供應</div>
+        <div class="layer-stage">磊晶／基板材料</div>
+        <div class="layer-role">磊晶與基板材料供應</div>
       </div>
       <div class="layer-chips">
         <div class="stock"><span class="s-name">聯亞</span><span class="s-code">3081</span></div>
         <div class="stock"><span class="s-name">全新</span><span class="s-code">2455</span></div>
         <div class="stock"><span class="s-name">英特磊 IET-KY</span><span class="s-code">4971</span></div>
+        <div class="stock"><span class="s-name">富采</span><span class="s-code">3714</span></div>
       </div>
     </div>
 
     <!-- 第 2 層 -->
+    <div class="layer" style="--tab-accent: var(--bn-orange);">
+      <div class="layer-tab">
+        <div class="layer-num">LAYER 02 · 上游</div>
+        <div class="layer-stage">雷射光源</div>
+        <div class="layer-role">雷射光源元件</div>
+      </div>
+      <div class="layer-chips single">
+        <div class="stock"><span class="s-name">前鼎</span><span class="s-code">4908</span></div>
+      </div>
+    </div>
+
+    <!-- 第 3 層 -->
     <div class="layer" style="--tab-accent: #3DB5C6;">
       <div class="layer-tab">
-        <div class="layer-num">LAYER 02 · 中游</div>
-        <div class="layer-stage">光收發模組／FAU</div>
-        <div class="layer-role">光收發模組與光纖陣列單元</div>
+        <div class="layer-num">LAYER 03 · 中游</div>
+        <div class="layer-stage">光收發模組／光學元件</div>
+        <div class="layer-role">光收發模組與光學元件</div>
       </div>
       <div class="layer-chips">
         <div class="stock"><span class="s-name">上詮</span><span class="s-code">3363</span></div>
         <div class="stock"><span class="s-name">波若威</span><span class="s-code">3163</span></div>
         <div class="stock"><span class="s-name">眾達-KY</span><span class="s-code">4977</span></div>
         <div class="stock"><span class="s-name">華星光</span><span class="s-code">4979</span></div>
+        <div class="stock"><span class="s-name">采鈺</span><span class="s-code">6789</span></div>
       </div>
     </div>
 
-    <!-- 第 3 層 -->
+    <!-- 第 4 層 -->
     <div class="layer" style="--tab-accent: #5C6470;">
       <div class="layer-tab">
-        <div class="layer-num">LAYER 03 · 下游</div>
+        <div class="layer-num">LAYER 04 · 下游</div>
         <div class="layer-stage">交換器</div>
         <div class="layer-role">網路交換器系統</div>
       </div>
@@ -327,12 +350,12 @@
       </div>
     </div>
 
-    <!-- 第 4 層 -->
+    <!-- 第 5 層 -->
     <div class="layer" style="--tab-accent: #8A7B5C;">
       <div class="layer-tab">
-        <div class="layer-num">LAYER 04 · 下游</div>
+        <div class="layer-num">LAYER 05 · 下游</div>
         <div class="layer-stage">封測</div>
-        <div class="layer-role">封裝、測試與相關設備</div>
+        <div class="layer-role">封裝與測試</div>
       </div>
       <div class="layer-chips">
         <div class="stock"><span class="s-name">日月光投控</span><span class="s-code">3711</span></div>
@@ -347,14 +370,27 @@
       </div>
     </div>
 
-    <!-- 第 5 層 -->
+    <!-- 第 6 層 -->
+    <div class="layer" style="--tab-accent: #8A93A0;">
+      <div class="layer-tab">
+        <div class="layer-num">LAYER 06 · 檢測</div>
+        <div class="layer-stage">檢測／設備</div>
+        <div class="layer-role">檢測與相關設備</div>
+      </div>
+      <div class="layer-chips">
+        <div class="stock"><span class="s-name">汎銓</span><span class="s-code">6830</span></div>
+        <div class="stock"><span class="s-name">惠特</span><span class="s-code">6706</span></div>
+      </div>
+    </div>
+
+    <!-- 第 7 層 -->
     <div class="layer" style="--tab-accent: var(--bn-orange);">
       <div class="layer-tab">
-        <div class="layer-num">LAYER 05 · 平台</div>
+        <div class="layer-num">LAYER 07 · 平台</div>
         <div class="layer-stage">晶圓代工</div>
         <div class="layer-role">先進製程晶圓代工平台</div>
       </div>
-      <div class="layer-chips">
+      <div class="layer-chips single">
         <div class="stock"><span class="s-name">台積電</span><span class="s-code">2330</span></div>
       </div>
     </div>
