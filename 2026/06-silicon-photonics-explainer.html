@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>矽光子是什麼？傳統分立模組 vs 整合進晶片 ｜《數位時代》</title>
-<meta name="description" content="矽光子（Silicon Photonics）原理圖解：傳統做法把光發射模組（TOSA）、光纖、光接收模組（ROSA）分段接力，元件分立、體積大、較耗電；矽光子則把光波導、雷射二極體（LD）、光偵測器（PD）、轉阻放大器（TIA）整合進同一顆矽晶片，讓電與光在同顆晶片處理，換來體積小、功耗低、速度快、成本可控。">
+<title>一顆矽光子晶片裡有什麼？跟著光走一遍 ｜《數位時代》</title>
+<meta name="description" content="矽光子（Silicon Photonics）平面示意圖：在同一顆封裝裡，電子晶片與矽光子積體電路整合在一起。跟著光走一遍，發射鏈把電的資料轉成光送進光纖（驅動 IC、三五族混成雷射、矽調變器、多工器、耦合器），接收鏈把光轉回電（耦合器、解多工器、鍺光電探測器、轉阻放大器）。雷射借三五族材料發光、探測器用鍺，整套整合到同一顆晶片正是矽光子的難處。">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
   :root {
@@ -22,6 +22,9 @@
     --slate-700: #2A3142;
     --cool-600: #5C6470;
     --cool-400: #8A93A0;
+    --cyan: #3DB5C6;
+    --cyan-deep: #2A8B99;
+    --cyan-soft: #DCF0F3;
     --hairline: rgba(15, 26, 46, 0.12);
   }
   * { box-sizing: border-box; }
@@ -34,7 +37,7 @@
     line-height: 1.7;
     text-wrap: pretty;
   }
-  h1, h2, .section-headline, .deck, .panel-title { text-wrap: balance; }
+  h1, h2, .section-headline, .deck, .pkg-title { text-wrap: balance; }
   .wrapper {
     max-width: 880px;
     margin: 0 auto;
@@ -109,250 +112,224 @@
   .meta-bar .meta-chunk { white-space: nowrap; }
   .meta-bar .meta-sep { color: var(--warm-300); margin: 0 4px; }
 
-  /* === 對比雙面板 === */
-  .compare {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    align-items: stretch;
-  }
-  .panel {
-    padding: 22px 22px 24px;
-    display: flex;
-    flex-direction: column;
-  }
-  .panel.old {
-    background: var(--paper-2);
-    border-right: 1px solid var(--warm-300);
-  }
-  .panel.new {
-    background: var(--paper);
-    border-left: 3px solid var(--bn-orange);
-  }
-
-  .panel-tag {
-    display: inline-flex;
-    align-self: flex-start;
+  /* === 圖例（兩鏈顏色說明）=== */
+  .legend {
+    display: flex; align-items: center; gap: 18px;
+    padding: 13px 32px;
+    border-bottom: 1px solid var(--paper-3);
     font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 1px; text-transform: uppercase;
-    padding: 3px 9px;
-    border-radius: 999px;
-    line-height: 1.4;
-    margin-bottom: 12px;
-    white-space: nowrap;
-  }
-  .panel.old .panel-tag {
+    font-size: 12px; font-weight: 700;
     color: var(--cool-600);
-    background: var(--paper-4);
-    border: 1px solid var(--warm-300);
+    flex-wrap: wrap;
   }
-  .panel.new .panel-tag {
-    color: var(--paper);
-    background: var(--bn-orange);
-    border: 1px solid var(--bn-orange);
+  .legend .lg {
+    display: inline-flex; align-items: center; gap: 7px;
+    white-space: nowrap; letter-spacing: 0.3px;
   }
-  .panel-title {
-    font-size: 17px; font-weight: 800;
-    line-height: 1.35; letter-spacing: 0.02em;
-    margin: 0 0 4px;
-  }
-  .panel.old .panel-title { color: var(--slate-700); }
-  .panel.new .panel-title { color: var(--bn-black); }
-  .panel-sub {
-    font-size: 12px; color: var(--cool-600);
-    line-height: 1.6; margin: 0 0 16px;
-  }
-
-  /* === 流程方塊（傳統面板）=== */
-  .flow {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    flex: 1;
-  }
-  .node {
-    border: 1px solid var(--warm-300);
-    border-radius: 8px;
-    padding: 11px 13px;
-    background: var(--paper);
-  }
-  .node.signal {
-    background: var(--paper-3);
-    border-style: dashed;
-  }
-  .node.module {
-    background: var(--paper);
-    border-color: var(--cool-400);
-  }
-  .node .n-label {
-    font-size: 13.5px; font-weight: 700;
-    color: var(--slate-700); line-height: 1.35;
-  }
-  .node .n-en {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 11px; font-weight: 600;
-    color: var(--cool-600);
-    letter-spacing: 0.3px;
-    margin-top: 2px;
-  }
-  .node .n-note {
-    font-size: 11px; color: var(--cool-600);
-    line-height: 1.45; margin-top: 3px;
-  }
-  .arrow-v {
-    align-self: center;
-    color: var(--cool-400);
-    font-size: 15px; font-weight: 700;
-    line-height: 1; padding: 5px 0;
-    font-family: "Inter", sans-serif;
-  }
-
-  /* === 晶片外框（矽光子面板）=== */
-  .chip {
-    flex: 1;
-    border: 2px solid var(--bn-orange);
-    border-radius: 8px;
-    background: var(--bn-orange-soft);
-    padding: 14px 13px 13px;
-    display: flex;
-    flex-direction: column;
-  }
-  .chip-label {
-    display: flex; align-items: center; gap: 8px;
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 11px; font-weight: 800;
-    letter-spacing: 0.6px;
-    color: var(--bn-orange-deep);
-    text-transform: uppercase;
-    margin-bottom: 11px;
-  }
-  .chip-label .pin {
-    width: 8px; height: 8px; border-radius: 2px;
-    background: var(--bn-orange);
+  .legend .swatch {
+    width: 20px; height: 9px; border-radius: 2px;
     flex-shrink: 0;
   }
-  .chip-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    flex: 1;
+  .legend .swatch.emit { background: var(--bn-orange); }
+  .legend .swatch.recv { background: var(--cyan); }
+  .legend .lg-note {
+    margin-left: auto;
+    font-size: 11px; font-weight: 500;
+    color: var(--cool-400);
+    letter-spacing: 0.2px;
+    white-space: nowrap;
   }
-  .elem {
+
+  /* === 封裝外框 === */
+  .pkg-zone { padding: 22px 32px 8px; }
+  .package {
+    border: 2px solid var(--slate-700);
+    border-radius: 12px;
+    background: var(--paper-2);
+    padding: 16px 18px 18px;
+    position: relative;
+  }
+  .pkg-head { margin-bottom: 6px; }
+  .pkg-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--paper);
+    background: var(--slate-700);
+    border-radius: 999px;
+    padding: 3px 11px;
+    line-height: 1.4;
+  }
+  .pkg-title {
+    font-size: 16px; font-weight: 800;
+    color: var(--bn-black); line-height: 1.4;
+    letter-spacing: 0.02em;
+    margin: 9px 0 3px;
+  }
+  .pkg-title b { color: var(--bn-orange-deep); }
+  .pkg-sub {
+    font-size: 12px; color: var(--cool-600);
+    line-height: 1.55; margin: 0 0 14px;
+  }
+  /* 中介層底座標籤（封裝底部橫帶）*/
+  .interposer {
+    margin-top: 14px;
+    border-top: 1px dashed var(--warm-300);
+    padding-top: 11px;
+    display: flex; align-items: baseline; gap: 8px;
+    font-size: 11.5px; line-height: 1.5;
+    color: var(--cool-600);
+  }
+  .interposer .ip-key {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    color: var(--slate-700);
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  /* === 一條光路鏈 === */
+  .chain { margin-bottom: 4px; }
+  .chain + .chain { margin-top: 18px; }
+  .chain-label {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 11px;
+    padding-left: 12px;
+  }
+  .chain.emit .chain-label { border-left: 3px solid var(--bn-orange); }
+  .chain.recv .chain-label { border-left: 3px solid var(--cyan); }
+  .chain-name {
+    font-size: 15px; font-weight: 800;
+    letter-spacing: 0.02em; line-height: 1.3;
+  }
+  .chain.emit .chain-name { color: var(--bn-black); }
+  .chain.recv .chain-name { color: var(--bn-black); }
+  .chain-dir {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.3px;
+    padding: 2px 9px; border-radius: 999px;
+    line-height: 1.4; white-space: nowrap;
+  }
+  .chain.emit .chain-dir { color: var(--bn-orange-deep); background: var(--bn-orange-soft); }
+  .chain.recv .chain-dir { color: var(--cyan-deep); background: var(--cyan-soft); }
+
+  /* 站點橫排 + 箭頭（桌機）*/
+  .track {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    flex-wrap: nowrap;
+  }
+  .station {
+    flex: 1 1 0;
+    min-width: 0;
     background: var(--paper);
-    border: 1px solid var(--bn-orange);
+    border: 1px solid var(--warm-300);
     border-radius: 8px;
-    padding: 10px 11px;
+    padding: 10px 10px 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
   }
-  .elem .e-name {
+  .chain.emit .station { border-top: 3px solid var(--bn-orange); }
+  .chain.recv .station { border-top: 3px solid var(--cyan); }
+  /* 兩鏈共用的耦合器站點：標記為共用接口 */
+  .station.shared { border-style: dashed; }
+  .st-num {
+    font-family: "Inter", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+  .chain.emit .st-num { color: var(--bn-orange-deep); }
+  .chain.recv .st-num { color: var(--cyan-deep); }
+  .st-name {
     font-size: 13px; font-weight: 700;
     color: var(--bn-black); line-height: 1.3;
   }
-  .elem .e-en {
+  .st-en {
     font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 11px; font-weight: 600;
-    color: var(--bn-orange-deep);
-    letter-spacing: 0.3px; margin-top: 2px;
-  }
-  .elem .e-note {
-    font-size: 10.5px; color: var(--cool-600);
-    line-height: 1.4; margin-top: 3px;
-  }
-  .chip-foot {
-    margin-top: 11px;
-    padding-top: 10px;
-    border-top: 1px dashed var(--bn-orange);
-    font-size: 12px; font-weight: 700;
-    color: var(--bn-orange-deep);
-    line-height: 1.45;
-    display: flex; align-items: center; gap: 7px;
-  }
-  .chip-foot .ico {
-    font-family: "Inter", sans-serif;
-    font-weight: 800; flex-shrink: 0;
-  }
-
-  /* === 面板底部標註 === */
-  .panel-foot {
-    margin-top: 14px;
-    font-size: 11.5px; font-weight: 500;
-    line-height: 1.55;
-    display: flex; flex-wrap: wrap; gap: 5px 7px;
-  }
-  .tag-bad, .tag-good {
-    display: inline-flex; align-items: center;
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 11.5px; font-weight: 600;
-    padding: 3px 9px;
-    border-radius: 999px;
-    white-space: nowrap;
-    letter-spacing: 0.2px;
-  }
-  .tag-bad {
+    font-size: 10px; font-weight: 600;
     color: var(--cool-600);
+    letter-spacing: 0.2px; line-height: 1.3;
+  }
+  .st-note {
+    font-size: 10.5px; color: var(--cool-600);
+    line-height: 1.45; margin-top: 2px;
+  }
+  /* 站與站之間的水平箭頭 */
+  .arrow-h {
+    flex: 0 0 16px;
+    align-self: center;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    font-size: 14px; font-weight: 800;
+    line-height: 1;
+  }
+  .chain.emit .arrow-h { color: var(--bn-orange); }
+  .chain.recv .arrow-h { color: var(--cyan); }
+
+  /* 光纖端點（鏈頭／鏈尾）*/
+  .fiber {
+    flex: 0 0 64px;
+    align-self: stretch;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px;
     background: var(--paper-3);
     border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    padding: 8px 6px;
+    text-align: center;
   }
-  .tag-good {
-    color: var(--bn-orange-deep);
-    background: var(--bn-orange-soft);
-    border: 1px solid var(--bn-orange);
+  .fiber .f-ico {
+    font-family: "Inter", sans-serif;
+    font-size: 15px; font-weight: 800;
+    color: var(--slate-700); line-height: 1;
+  }
+  .fiber .f-name {
+    font-size: 11px; font-weight: 700;
+    color: var(--slate-700); line-height: 1.25;
+  }
+  .fiber .f-en {
+    font-family: "Inter", sans-serif;
+    font-size: 9px; font-weight: 600;
+    color: var(--cool-600); letter-spacing: 0.2px;
   }
 
-  /* === 底部收束列 === */
+  /* === 底部收束帶 === */
   .closer {
     border-top: 3px solid var(--bn-black);
     padding: 22px 32px 24px;
     background: var(--paper-3);
   }
-  .closer-title {
-    font-family: "Inter", "Noto Sans TC", sans-serif;
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--bn-orange);
-    margin-bottom: 12px;
-  }
-  .benefits {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 9px;
-    margin-bottom: 18px;
-  }
-  .benefit {
-    background: var(--paper);
-    border: 1px solid var(--warm-300);
-    border-top: 3px solid var(--bn-orange);
-    border-radius: 8px;
-    padding: 12px 10px;
-    text-align: center;
-  }
-  .benefit .b-name {
-    font-size: 15px; font-weight: 800;
-    color: var(--bn-black); line-height: 1.3;
-    letter-spacing: 0.02em;
-  }
-  .benefit .b-sub {
-    font-size: 11px; color: var(--cool-600);
-    line-height: 1.4; margin-top: 4px;
-  }
-  .analogy {
+  .core-msg {
     background: var(--paper);
     border: 1px solid var(--warm-300);
     border-left: 4px solid var(--bn-orange);
     border-radius: 8px;
-    padding: 14px 16px;
-    font-size: 14px; line-height: 1.7;
+    padding: 15px 17px;
+    font-size: 15px; font-weight: 700;
+    line-height: 1.7;
     color: var(--bn-black);
   }
-  .analogy .a-head {
+  .core-msg .cm-head {
+    display: block;
     font-family: "Inter", "Noto Sans TC", sans-serif;
     font-size: 11px; font-weight: 700;
     letter-spacing: 0.5px; text-transform: uppercase;
-    color: var(--cool-600);
-    margin-bottom: 5px;
-    display: block;
+    color: var(--bn-orange);
+    margin-bottom: 6px;
   }
-  .analogy b { color: var(--bn-orange-deep); font-weight: 700; }
+  .bridge {
+    margin-top: 13px;
+    font-size: 12.5px; line-height: 1.7;
+    color: var(--cool-600);
+  }
+  .bridge b { color: var(--slate-700); font-weight: 700; }
 
   footer {
     margin-top: 0;
@@ -372,7 +349,7 @@
 
   /* 內部 layout 跟著 wrapper container 寬度（讓預覽按鈕能切換） */
   @container (max-width: 640px) {
-    header, .meta-bar, .closer, footer { padding-left: 16px; padding-right: 16px; }
+    header, .meta-bar, .legend, .pkg-zone, .closer, footer { padding-left: 16px; padding-right: 16px; }
     header { padding-top: 24px; padding-bottom: 18px; }
     .kicker { font-size: 10px; }
     h1 { font-size: 20px; line-height: 1.3; }
@@ -384,26 +361,43 @@
     .meta-bar .meta-sep { display: none; }
     .meta-bar .meta-chunk { display: block; }
 
-    /* 手機：兩面板上下堆疊 */
-    .compare { grid-template-columns: 1fr; }
-    .panel { padding: 20px 16px; }
-    .panel.old {
-      border-right: 0;
-      border-bottom: 1px solid var(--warm-300);
-    }
-    .panel.new {
-      border-left: 0;
-      border-top: 3px solid var(--bn-orange);
-    }
-    .panel-title { font-size: 16px; }
+    .legend { gap: 10px 16px; padding: 12px 16px; }
+    .legend .lg-note { margin-left: 0; flex-basis: 100%; margin-top: 2px; }
 
-    /* 手機：晶片元件改單欄，閱讀寬度足夠 */
-    .chip-grid { grid-template-columns: 1fr; }
+    .pkg-zone { padding: 18px 16px 6px; }
+    .package { padding: 15px 14px 16px; }
 
-    /* 手機：四好處改 2×2 */
-    .benefits { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .chain + .chain { margin-top: 20px; }
+
+    /* 手機：站點改垂直堆疊，箭頭轉向下 */
+    .track {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .station { flex: none; padding: 11px 13px; }
+    /* 手機：箭頭轉向下（隱藏水平字元，改用向下三角）*/
+    .arrow-h {
+      flex: none;
+      padding: 4px 0;
+      font-size: 15px;
+      font-size: 0;
+    }
+    .arrow-h::before {
+      content: "\25BC";
+      font-size: 14px;
+      line-height: 1;
+    }
+    .fiber {
+      flex: none;
+      flex-direction: row;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 12px;
+    }
+    .fiber .f-name { font-size: 12px; }
+
     .closer { padding: 20px 16px; }
-    .analogy { font-size: 13px; padding: 13px 14px; }
+    .core-msg { font-size: 14px; padding: 14px 15px; }
   }
 </style>
 </head>
@@ -412,133 +406,141 @@
 
   <header>
     <div class="kicker">矽光子原理 · SILICON PHOTONICS</div>
-    <h1>矽光子是什麼？傳統分立模組 vs 整合進晶片</h1>
-    <p class="deck">一句話來說，矽光子就是<b>用「光」取代「電」來傳訊號，而且直接做進矽晶片裡</b>。下面用左右兩張圖，看懂它跟傳統光通訊做法差在哪。</p>
+    <h1>一顆矽光子晶片裡有什麼？跟著光走一遍</h1>
+    <p class="deck">矽光子（Silicon Photonics）把<b>發光、編碼、收光、放大這些光學功能，全部整合進同一顆晶片／封裝裡</b>。下面用俯視平面圖，跟著光走一遍：上排把資料送出去、下排把資料收回來。</p>
   </header>
 
   <div class="meta-bar">
     <div>
-      <span class="meta-chunk">資料來源：<strong>數位時代《矽光子是什麼？》</strong></span><span class="meta-sep">|</span><span class="meta-chunk">圖解：2026 / 06 / 03</span>
+      <span class="meta-chunk">資料來源：<strong>工研院、SEMI</strong></span><span class="meta-sep">|</span><span class="meta-chunk">圖解：2026 / 06 / 03</span>
     </div>
     <div class="meta-chunk">製作：《數位時代》</div>
   </div>
 
-  <div class="compare">
+  <div class="legend">
+    <span class="lg"><span class="swatch emit"></span>發射鏈：把資料送出去</span>
+    <span class="lg"><span class="swatch recv"></span>接收鏈：把資料收回來</span>
+    <span class="lg-note">耦合器在兩條鏈都出現，是收發共用的光路接口</span>
+  </div>
 
-    <!-- 左面板：傳統分立光模組 -->
-    <div class="panel old">
-      <span class="panel-tag">傳統做法 · 分立光模組</span>
-      <h2 class="panel-title">電訊號與光，分段接力</h2>
-      <p class="panel-sub">轉換靠一顆顆獨立的光模組，跑完一段再交棒下一段。</p>
+  <div class="pkg-zone">
+    <div class="package">
+      <div class="pkg-head">
+        <span class="pkg-tag">同一顆封裝 · One Package</span>
+        <h2 class="pkg-title">把<b>電子晶片</b>與<b>矽光子積體電路</b>整合在同一顆晶片／封裝上</h2>
+        <p class="pkg-sub">驅動與放大的電路（電子晶片）、負責光的元件（矽光子積體電路，光學元件），一起放進同一個封裝，這正是矽光子的核心。</p>
+      </div>
 
-      <div class="flow">
-        <div class="node signal">
-          <div class="n-label">電訊號</div>
-          <div class="n-en">Electrical signal</div>
+      <!-- 發射鏈：送資料出去 → 向右出光纖 -->
+      <div class="chain emit">
+        <div class="chain-label">
+          <span class="chain-name">發射鏈</span>
+          <span class="chain-dir">送資料出去 ▶</span>
         </div>
-        <div class="arrow-v">↓</div>
-        <div class="node module">
-          <div class="n-label">光發射模組</div>
-          <div class="n-en">TOSA</div>
-          <div class="n-note">把電訊號轉成光</div>
-        </div>
-        <div class="arrow-v">↓</div>
-        <div class="node">
-          <div class="n-label">光纖</div>
-          <div class="n-en">Optical fiber</div>
-          <div class="n-note">把光送到另一端</div>
-        </div>
-        <div class="arrow-v">↓</div>
-        <div class="node module">
-          <div class="n-label">光接收模組</div>
-          <div class="n-en">ROSA</div>
-          <div class="n-note">把光轉回電訊號</div>
-        </div>
-        <div class="arrow-v">↓</div>
-        <div class="node signal">
-          <div class="n-label">電訊號</div>
-          <div class="n-en">Electrical signal</div>
+        <div class="track">
+          <div class="station">
+            <span class="st-num">01</span>
+            <span class="st-name">驅動 IC</span>
+            <span class="st-en">Driver IC</span>
+            <span class="st-note">控制雷射與調變器的電路</span>
+          </div>
+          <div class="arrow-h">▶</div>
+          <div class="station">
+            <span class="st-num">02</span>
+            <span class="st-name">三五族混成雷射</span>
+            <span class="st-en">III-V / Si Hybrid Laser</span>
+            <span class="st-note">發光，矽不擅長發光，借三五族材料（InP／GaAs）當光源</span>
+          </div>
+          <div class="arrow-h">▶</div>
+          <div class="station">
+            <span class="st-num">03</span>
+            <span class="st-name">矽調變器</span>
+            <span class="st-en">Si Modulator</span>
+            <span class="st-note">把電的資料「刻」到光上（編碼）</span>
+          </div>
+          <div class="arrow-h">▶</div>
+          <div class="station">
+            <span class="st-num">04</span>
+            <span class="st-name">多工器</span>
+            <span class="st-en">Mux</span>
+            <span class="st-note">多個波長合成一束，共用一條光纖</span>
+          </div>
+          <div class="arrow-h">▶</div>
+          <div class="station shared">
+            <span class="st-num">05</span>
+            <span class="st-name">耦合器</span>
+            <span class="st-en">Coupler</span>
+            <span class="st-note">晶片與光纖的光路接口</span>
+          </div>
+          <div class="arrow-h">▶</div>
+          <div class="fiber">
+            <span class="f-ico">))</span>
+            <span class="f-name">光纖</span>
+            <span class="f-en">Fiber</span>
+          </div>
         </div>
       </div>
 
-      <div class="panel-foot">
-        <span class="tag-bad">元件分立</span>
-        <span class="tag-bad">體積大</span>
-        <span class="tag-bad">較耗電</span>
+      <!-- 接收鏈：收資料進來 ◀ 從光纖進 -->
+      <div class="chain recv">
+        <div class="chain-label">
+          <span class="chain-name">接收鏈</span>
+          <span class="chain-dir">◀ 收資料進來</span>
+        </div>
+        <div class="track">
+          <div class="fiber">
+            <span class="f-ico">((</span>
+            <span class="f-name">光纖</span>
+            <span class="f-en">Fiber</span>
+          </div>
+          <div class="arrow-h">▶</div>
+          <div class="station shared">
+            <span class="st-num">01</span>
+            <span class="st-name">耦合器</span>
+            <span class="st-en">IO Coupler</span>
+            <span class="st-note">晶片與光纖的光路接口</span>
+          </div>
+          <div class="arrow-h">▶</div>
+          <div class="station">
+            <span class="st-num">02</span>
+            <span class="st-name">解多工器</span>
+            <span class="st-en">Demux</span>
+            <span class="st-note">把混合的波長拆開</span>
+          </div>
+          <div class="arrow-h">▶</div>
+          <div class="station">
+            <span class="st-num">03</span>
+            <span class="st-name">鍺光電探測器</span>
+            <span class="st-en">Ge PD</span>
+            <span class="st-note">用鍺（Ge）把收到的光轉回電</span>
+          </div>
+          <div class="arrow-h">▶</div>
+          <div class="station">
+            <span class="st-num">04</span>
+            <span class="st-name">轉阻放大器</span>
+            <span class="st-en">TIA</span>
+            <span class="st-note">放大微弱的電訊號，回到電子端</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="interposer">
+        <span class="ip-key">底座 · 中介層</span>
+        <span>中介層（Interposer），承載並連接上方各晶片的底座，把電子晶片與矽光子積體電路接在一起。</span>
       </div>
     </div>
-
-    <!-- 右面板：矽光子整合進晶片 -->
-    <div class="panel new">
-      <span class="panel-tag">矽光子 · 整合進同一顆晶片</span>
-      <h2 class="panel-title">電與光，在同一顆晶片處理</h2>
-      <p class="panel-sub">把光學元件直接做進矽晶片，省去一顆顆外掛模組。</p>
-
-      <div class="chip">
-        <div class="chip-label"><span class="pin"></span>矽晶片 · Silicon Chip</div>
-        <div class="chip-grid">
-          <div class="elem">
-            <div class="e-name">光波導</div>
-            <div class="e-en">Waveguide</div>
-            <div class="e-note">用矽傳導光，折射率約 3.5</div>
-          </div>
-          <div class="elem">
-            <div class="e-name">雷射二極體</div>
-            <div class="e-en">LD</div>
-            <div class="e-note">產生光源</div>
-          </div>
-          <div class="elem">
-            <div class="e-name">光偵測器</div>
-            <div class="e-en">PD</div>
-            <div class="e-note">把光轉回電</div>
-          </div>
-          <div class="elem">
-            <div class="e-name">轉阻放大器</div>
-            <div class="e-en">TIA</div>
-            <div class="e-note">放大微弱電訊號</div>
-          </div>
-        </div>
-        <div class="chip-foot"><span class="ico">＝</span>電訊號與光訊號，在同一顆晶片上一起處理</div>
-      </div>
-
-      <div class="panel-foot">
-        <span class="tag-good">體積小</span>
-        <span class="tag-good">功耗低</span>
-        <span class="tag-good">速度快</span>
-        <span class="tag-good">成本可控</span>
-      </div>
-    </div>
-
   </div>
 
   <div class="closer">
-    <div class="closer-title">整合之後，換來四個好處</div>
-    <div class="benefits">
-      <div class="benefit">
-        <div class="b-name">體積小</div>
-        <div class="b-sub">省去外掛模組</div>
-      </div>
-      <div class="benefit">
-        <div class="b-name">功耗低</div>
-        <div class="b-sub">少了反覆轉換</div>
-      </div>
-      <div class="benefit">
-        <div class="b-name">速度快</div>
-        <div class="b-sub">傳輸距離縮短</div>
-      </div>
-      <div class="benefit">
-        <div class="b-name">成本可控</div>
-        <div class="b-sub">沿用成熟矽製程</div>
-      </div>
+    <div class="core-msg">
+      <span class="cm-head">一句話講重點</span>
+      把發光、編碼、合波、收光、放大整套功能，整合到同一顆晶片，正是矽光子的難處。
     </div>
-    <div class="analogy">
-      <span class="a-head">一句白話</span>
-      等於把原本在城外的收發「郵局」，整合進晶片的客廳裡，<b>距離一短，耗損與延遲自然下降</b>。
-    </div>
+    <p class="bridge">也因為要整合這麼多種元件，<b>供應鏈才分成這麼多層</b>：雷射對應上游磊晶，調變器與耦合器對應中游光學元件，整體整合則對應封裝與晶圓代工平台。</p>
   </div>
 
   <footer>
-    <strong>《數位時代》</strong>　|　資料來源：數位時代《矽光子是什麼？》77079　|　圖解：2026.06.03
+    <strong>《數位時代》</strong>　|　資料來源：工研院、SEMI、數位時代《矽光子是什麼？》　|　圖解：2026.06.03
   </footer>
 
 </div>
