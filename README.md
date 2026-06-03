@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| 矽光子是什麼？傳統分立模組 vs 整合進晶片 | 矽光子母題文「矽光子是什麼」段落內嵌原理圖解（文章 77079） | 2026-06-03 | [`2026/06-silicon-photonics-explainer.html`](./2026/06-silicon-photonics-explainer.html) |
 | 矽光子概念股供應鏈分層一覽 | 矽光子概念股一覽（文章 82171） | 2026-06-03 | [`2026/06-silicon-photonics-supply-chain.html`](./2026/06-silicon-photonics-supply-chain.html) |
 | 2025 上市櫃員工平均年薪 TOP 25 | 上市櫃員工平均年薪出爐：半導體霸榜，日月光投控 628 萬居首 | 2026-06-02 | [`2026/06-listed-companies-avg-salary-top25.html`](./2026/06-listed-companies-avg-salary-top25.html) |
 | 尹衍樑 1950–2026：潤泰總裁、唐獎創辦人 76 年大事記 | 潤泰集團總裁、唐獎創辦人尹衍樑辭世，享壽 76 歲 | 2026-05-26 | [`2026/05-yin-yenliang-memorial.html`](./2026/05-yin-yenliang-memorial.html) |
