@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>矽光子概念股供應鏈分層一覽 ｜《數位時代》</title>
-<meta name="description" content="矽光子（Silicon Photonics）概念股依產業鏈位置分層整理：上游磊晶／InP 基板、中游光收發模組／FAU、下游交換器與封測、平台晶圓代工，一張圖看懂供應鏈流向。每檔附一句說明。">
+<meta name="description" content="矽光子（Silicon Photonics）概念股依產業鏈位置分層整理：上游磊晶／InP 基板、中游光收發模組／FAU、下游交換器與封測、平台晶圓代工，檢測／設備為跨層支援，一張圖看懂供應鏈流向。每檔附一句說明。">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
   :root {
@@ -12,12 +12,14 @@
     --bn-orange-deep: #E55A0F;
     --bn-orange-soft: #FFE7D6;
     --bn-navy: #0F1A2E;
+    --bn-navy-2: #1B2A45;
     --bn-black: #1A1A1A;
     --paper: #FAF7F1;
     --paper-2: #F5F3EF;
     --paper-3: #ECE8DF;
     --paper-4: #E3DECF;
     --warm-300: #D4D0C8;
+    --slate-700: #2A3142;
     --cool-600: #5C6470;
     --cool-400: #8A93A0;
     --hairline: rgba(15, 26, 46, 0.12);
@@ -105,7 +107,7 @@
   .meta-bar .meta-chunk { white-space: nowrap; }
   .meta-bar .meta-sep { color: var(--warm-300); margin: 0 4px; }
 
-  /* === 供應鏈流向提示列 === */
+  /* === 供應鏈流向提示列（線性主鏈 4 站）=== */
   .flow-hint {
     display: flex; align-items: center; gap: 8px;
     padding: 14px 32px;
@@ -116,49 +118,73 @@
   }
   .flow-hint .fh-item { white-space: nowrap; letter-spacing: 0.5px; }
   .flow-hint .fh-arrow { color: var(--warm-300); font-size: 13px; }
-
-  /* === 分層 rows：左側細窄輔助標 + 右側公司卡陣列 === */
-  .layers { padding: 12px 32px 8px; }
-  .layer {
-    display: grid;
-    grid-template-columns: 132px 1fr;
-    gap: 18px;
-    margin: 22px 0;
+  .flow-hint .fh-aside {
+    margin-left: auto;
+    font-size: 11px; font-weight: 500;
+    color: var(--cool-400);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
   }
-  .layer + .layer { border-top: 1px solid var(--hairline); padding-top: 22px; }
+  .flow-hint .fh-aside b { font-weight: 700; color: var(--cool-600); }
 
-  /* 左側輕量層級小標：細左豎條 + 文字，無深色塊 */
-  .layer-tab {
+  /* === 分層 rows：層級小標橫置於每層上方 + 下方公司卡陣列（桌機 3 欄）=== */
+  .layers { padding: 14px 32px 6px; }
+  .layer { margin: 13px 0; }
+  .layer + .layer { border-top: 1px solid var(--hairline); padding-top: 14px; }
+
+  /* 橫置層級標頭：細左豎條 + 編號 + stage 名稱，單行排版 */
+  .layer-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
     border-left: 3px solid var(--tab-accent, var(--cool-400));
-    padding: 2px 0 2px 12px;
-    align-self: start;
+    padding: 1px 0 1px 12px;
+    margin-bottom: 10px;
   }
   .layer-num {
     font-family: "Inter", sans-serif;
     font-feature-settings: 'tnum' 1;
-    font-size: 10px; font-weight: 700;
+    font-size: 11px; font-weight: 700;
     letter-spacing: 1.2px;
-    color: var(--cool-400);
+    color: var(--tab-accent, var(--cool-400));
     text-transform: uppercase;
-    line-height: 1;
-    margin-bottom: 6px;
+    line-height: 1.3;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .layer-stage {
-    font-size: 15px; font-weight: 800;
+    font-size: 16px; font-weight: 800;
     color: var(--bn-black); line-height: 1.3;
     letter-spacing: 0.02em;
-    margin-bottom: 4px;
-  }
-  .layer-role {
-    font-size: 11px; font-weight: 500;
-    color: var(--cool-600);
-    line-height: 1.5;
   }
 
-  /* 右側公司卡陣列：因加入說明文字，加寬卡片、桌機 2 欄 */
+  /* 跨層支援角色：與線性主鏈視覺區隔（虛線左條 + 微染底 + 標籤）*/
+  .layer.is-support .layer-head {
+    border-left: 3px dashed var(--cool-400);
+    background: var(--paper-2);
+    padding: 6px 0 6px 12px;
+  }
+  .layer.is-support .layer-num {
+    color: var(--cool-600);
+  }
+  .support-tag {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--cool-600);
+    background: var(--paper-4);
+    border: 1px solid var(--warm-300);
+    border-radius: 999px;
+    padding: 2px 9px;
+    line-height: 1.4;
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  /* 右側公司卡陣列：縮窄 min 寬以容納桌機 3 欄（880 寬內容區約 816px → 3 欄）*/
   .layer-chips {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
     gap: 10px;
     align-content: start;
   }
@@ -172,10 +198,10 @@
     background: var(--paper);
     border: 1px solid var(--warm-300);
     border-radius: 8px;
-    padding: 14px 15px 14px;
+    padding: 13px 14px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
     transition: border-color 0.15s, background 0.15s;
   }
   .stock:hover {
@@ -189,7 +215,7 @@
     gap: 10px;
   }
   .stock .s-name {
-    font-size: 16px; font-weight: 800;
+    font-size: 15px; font-weight: 800;
     color: var(--bn-black);
     line-height: 1.25;
     letter-spacing: 0.01em;
@@ -198,11 +224,11 @@
     flex-shrink: 0;
     font-family: "Inter", sans-serif;
     font-feature-settings: 'tnum' 1;
-    font-size: 18px; font-weight: 800;
+    font-size: 17px; font-weight: 800;
     color: var(--bn-orange);
     background: var(--bn-orange-soft);
     border-radius: 8px;
-    padding: 4px 10px;
+    padding: 3px 9px;
     line-height: 1;
     letter-spacing: 0.5px;
   }
@@ -252,14 +278,15 @@
       flex-wrap: wrap; gap: 6px;
       padding: 12px 16px; font-size: 11px;
     }
-
-    /* 分層 row 改上下堆疊：層級小標在上、公司卡在下 */
-    .layers { padding: 8px 16px; }
-    .layer { grid-template-columns: 1fr; gap: 12px; }
-    .layer + .layer { padding-top: 18px; }
-    .layer-tab {
-      padding: 2px 0 2px 11px;
+    .flow-hint .fh-aside {
+      margin-left: 0; flex-basis: 100%;
+      margin-top: 2px;
     }
+
+    .layers { padding: 10px 16px; }
+    .layer { margin: 14px 0; }
+    .layer + .layer { padding-top: 16px; }
+    .layer-head { flex-wrap: wrap; gap: 4px 10px; margin-bottom: 10px; }
     .layer-stage { font-size: 15px; }
 
     /* 手機：公司卡單欄堆疊，說明文字有足夠寬度 */
@@ -270,7 +297,7 @@
     .layer-chips.single {
       grid-template-columns: 1fr;
     }
-    .stock { padding: 12px 13px 12px; gap: 7px; }
+    .stock { padding: 12px 13px; gap: 7px; }
     .stock .s-name { font-size: 15px; }
     .stock .s-code { font-size: 17px; padding: 4px 10px; }
     .stock .s-desc { font-size: 12px; }
@@ -283,7 +310,7 @@
   <header>
     <div class="kicker">產業鏈一覽 · SILICON PHOTONICS</div>
     <h1>矽光子概念股供應鏈分層一覽</h1>
-    <p class="deck">矽光子（Silicon Photonics，用光取代電訊號傳輸的晶片技術）相關台股，依產業鏈位置從上游到下游分為七層，<br>一張圖看懂磊晶基板、雷射光源、光收發模組、交換器、封測、檢測設備到晶圓代工的供應鏈流向，每檔附一句入列說明。</p>
+    <p class="deck">矽光子（Silicon Photonics，用光取代電訊號傳輸的晶片技術）相關台股，依產業鏈位置從上游到下游分為六層主鏈，<br>一張圖看懂磊晶基板、雷射光源、光收發模組、交換器、封測到晶圓代工的供應鏈流向，檢測／設備則跨層支援，每檔附一句入列說明。</p>
   </header>
 
   <div class="meta-bar">
@@ -300,19 +327,17 @@
     <span class="fh-arrow">→</span>
     <span class="fh-item">下游</span>
     <span class="fh-arrow">→</span>
-    <span class="fh-item">檢測</span>
-    <span class="fh-arrow">→</span>
     <span class="fh-item">平台</span>
+    <span class="fh-aside"><b>檢測／設備</b>：跨上中下游支援，不在線性主鏈</span>
   </div>
 
   <div class="layers">
 
-    <!-- 第 1 層 -->
-    <div class="layer" style="--tab-accent: var(--bn-orange);">
-      <div class="layer-tab">
+    <!-- LAYER 01 -->
+    <div class="layer" style="--tab-accent: var(--bn-navy);">
+      <div class="layer-head">
         <div class="layer-num">LAYER 01 · 上游</div>
         <div class="layer-stage">磊晶／基板材料</div>
-        <div class="layer-role">磊晶與基板材料供應</div>
       </div>
       <div class="layer-chips">
         <div class="stock"><div class="s-head"><span class="s-name">聯亞</span><span class="s-code">3081</span></div><div class="s-desc">InP 磊晶與 CW Laser 光源核心材料</div></div>
@@ -322,24 +347,22 @@
       </div>
     </div>
 
-    <!-- 第 2 層 -->
-    <div class="layer" style="--tab-accent: var(--bn-orange);">
-      <div class="layer-tab">
+    <!-- LAYER 02 -->
+    <div class="layer" style="--tab-accent: var(--bn-navy);">
+      <div class="layer-head">
         <div class="layer-num">LAYER 02 · 上游</div>
         <div class="layer-stage">雷射光源</div>
-        <div class="layer-role">雷射光源元件</div>
       </div>
       <div class="layer-chips single">
         <div class="stock"><div class="s-head"><span class="s-name">前鼎</span><span class="s-code">4908</span></div><div class="s-desc">CPO 外部光源模組 ELS／ELSFP 已通過驗證出貨</div></div>
       </div>
     </div>
 
-    <!-- 第 3 層 -->
-    <div class="layer" style="--tab-accent: #3DB5C6;">
-      <div class="layer-tab">
+    <!-- LAYER 03 -->
+    <div class="layer" style="--tab-accent: var(--slate-700);">
+      <div class="layer-head">
         <div class="layer-num">LAYER 03 · 中游</div>
         <div class="layer-stage">光收發模組／光學元件</div>
-        <div class="layer-role">光收發模組與光學元件</div>
       </div>
       <div class="layer-chips">
         <div class="stock"><div class="s-head"><span class="s-name">上詮</span><span class="s-code">3363</span></div><div class="s-desc">光纖陣列（FAU）與矽光子晶片精密對準接合</div></div>
@@ -353,12 +376,11 @@
       </div>
     </div>
 
-    <!-- 第 4 層 -->
-    <div class="layer" style="--tab-accent: #5C6470;">
-      <div class="layer-tab">
+    <!-- LAYER 04 -->
+    <div class="layer" style="--tab-accent: var(--cool-600);">
+      <div class="layer-head">
         <div class="layer-num">LAYER 04 · 下游</div>
         <div class="layer-stage">交換器</div>
-        <div class="layer-role">網路交換器系統</div>
       </div>
       <div class="layer-chips">
         <div class="stock"><div class="s-head"><span class="s-name">智邦</span><span class="s-code">2345</span></div><div class="s-desc">800G／1.6T 高速網路交換器終端受惠</div></div>
@@ -366,12 +388,11 @@
       </div>
     </div>
 
-    <!-- 第 5 層 -->
-    <div class="layer" style="--tab-accent: #8A7B5C;">
-      <div class="layer-tab">
+    <!-- LAYER 05 -->
+    <div class="layer" style="--tab-accent: var(--cool-600);">
+      <div class="layer-head">
         <div class="layer-num">LAYER 05 · 下游</div>
         <div class="layer-stage">封測</div>
-        <div class="layer-role">封裝與測試</div>
       </div>
       <div class="layer-chips">
         <div class="stock"><div class="s-head"><span class="s-name">日月光投控</span><span class="s-code">3711</span></div><div class="s-desc">2.5D／3D 異質整合與 CPO 量產封裝</div></div>
@@ -381,35 +402,34 @@
         <div class="stock"><div class="s-head"><span class="s-name">訊芯-KY</span><span class="s-code">6451</span></div><div class="s-desc">博通供應鏈 CPO 模組高階封測</div></div>
         <div class="stock"><div class="s-head"><span class="s-name">旺矽</span><span class="s-code">6223</span></div><div class="s-desc">高階晶圓探針卡、垂直探針卡測試介面</div></div>
         <div class="stock"><div class="s-head"><span class="s-name">穎崴</span><span class="s-code">6515</span></div><div class="s-desc">高速高頻測試座（Test Socket）測試介面</div></div>
-        <div class="stock"><div class="s-head"><span class="s-name">富鼎</span><span class="s-code">8261</span></div><div class="s-desc">功率半導體元件（MOSFET）供應</div></div>
+        <div class="stock"><div class="s-head"><span class="s-name">富鼎</span><span class="s-code">8261</span></div><div class="s-desc">鴻海集團 MOSFET 廠，供應 CPO 載板電源管理元件</div></div>
         <div class="stock"><div class="s-head"><span class="s-name">穩懋</span><span class="s-code">3105</span></div><div class="s-desc">GaAs／InP 晶圓代工與封測技術整合</div></div>
       </div>
     </div>
 
-    <!-- 第 6 層 -->
-    <div class="layer" style="--tab-accent: #8A93A0;">
-      <div class="layer-tab">
-        <div class="layer-num">LAYER 06 · 檢測</div>
+    <!-- LAYER 06 -->
+    <div class="layer" style="--tab-accent: var(--bn-orange);">
+      <div class="layer-head">
+        <div class="layer-num">LAYER 06 · 平台</div>
+        <div class="layer-stage">晶圓代工</div>
+      </div>
+      <div class="layer-chips single">
+        <div class="stock"><div class="s-head"><span class="s-name">台積電</span><span class="s-code">2330</span></div><div class="s-desc">主導 COUPE 矽光子製程平台，為技術生態系核心</div></div>
+      </div>
+    </div>
+
+    <!-- 跨層支援：檢測／設備（不給線性序號）-->
+    <div class="layer is-support">
+      <div class="layer-head">
+        <div class="layer-num">支援 · 跨上中下游</div>
         <div class="layer-stage">檢測／設備</div>
-        <div class="layer-role">檢測與相關設備</div>
+        <span class="support-tag">SUPPORT</span>
       </div>
       <div class="layer-chips">
         <div class="stock"><div class="s-head"><span class="s-name">汎銓</span><span class="s-code">6830</span></div><div class="s-desc">SEMI 聯盟唯一檢測分析成員，矽光子量測與光損定位</div></div>
         <div class="stock"><div class="s-head"><span class="s-name">閎康</span><span class="s-code">3587</span></div><div class="s-desc">半導體「檢測三雄」之一，材料／故障／可靠度分析</div></div>
         <div class="stock"><div class="s-head"><span class="s-name">宜特</span><span class="s-code">3289</span></div><div class="s-desc">檢測三雄之一，主攻矽光子／CPO 光子整合分析</div></div>
         <div class="stock"><div class="s-head"><span class="s-name">惠特</span><span class="s-code">6706</span></div><div class="s-desc">LED 測試龍頭轉 CPO 設備，元件貼合機過美系驗證</div></div>
-      </div>
-    </div>
-
-    <!-- 第 7 層 -->
-    <div class="layer" style="--tab-accent: var(--bn-orange);">
-      <div class="layer-tab">
-        <div class="layer-num">LAYER 07 · 平台</div>
-        <div class="layer-stage">晶圓代工</div>
-        <div class="layer-role">先進製程晶圓代工平台</div>
-      </div>
-      <div class="layer-chips single">
-        <div class="stock"><div class="s-head"><span class="s-name">台積電</span><span class="s-code">2330</span></div><div class="s-desc">主導 COUPE 矽光子製程平台，為技術生態系核心</div></div>
       </div>
     </div>
 
@@ -432,7 +452,34 @@
 </div>
 
 <script>
-// Preview toolbar
+// === iframe 高度自動同步：向父頁面回報 scrollHeight ===
+// 父頁（CMS）若有 message listener，可據此設定 iframe.style.height；
+// 後台不支援時，嵌入碼的寫死 height 作為 fallback，配件照常顯示。
+(function() {
+  function reportHeight() {
+    var h = Math.ceil(document.documentElement.scrollHeight);
+    try {
+      parent.postMessage({ type: 'bnext-visual-height', height: h }, '*');
+    } catch (e) { /* cross-origin 例外時靜默 */ }
+  }
+  // 初載
+  window.addEventListener('load', reportHeight);
+  // viewport / 容器尺寸變動（手機旋轉、桌機縮放）
+  window.addEventListener('resize', reportHeight);
+  // 字體載入完成後（webfont 改變行高，會影響總高度）
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(reportHeight);
+  }
+  // 內容尺寸變化（保險：wrapper 寬度被改、預覽切換）
+  if ('ResizeObserver' in window) {
+    var ro = new ResizeObserver(reportHeight);
+    ro.observe(document.documentElement);
+  }
+  // 首次延遲回報一次，確保 layout 穩定
+  setTimeout(reportHeight, 300);
+})();
+
+// === Preview toolbar ===
 (function() {
   if (!new URLSearchParams(location.search).has('preview')) return;
   var toolbar = document.getElementById('previewToolbar');
