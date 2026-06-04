@@ -37,10 +37,10 @@
   .chip-svg .pill{fill:var(--paper); stroke:var(--warm-300); stroke-width:1.5;}
   .chip-svg .pill-em{fill:var(--bn-orange-soft); stroke:var(--bn-orange); stroke-width:1.5;}
   .chip-svg text{font-family:"Noto Sans TC",sans-serif; font-size:30px; font-weight:700; fill:var(--bn-black);}
-  .chip-svg .lead{stroke:var(--slate-700); stroke-width:2; fill:none;}
-  .chip-svg .lead-em{stroke:var(--bn-orange); stroke-width:2.5; fill:none;}
-  .chip-svg .dot{fill:var(--bn-orange);}
-  .chip-svg .dot-s{fill:var(--slate-700);}
+  .chip-svg .lead{stroke:var(--slate-700); stroke-width:2.5; fill:none;}
+  .chip-svg .lead-em{stroke:var(--bn-orange); stroke-width:3; fill:none;}
+  .chip-svg .dot{fill:var(--bn-orange); stroke:#fff; stroke-width:2;}
+  .chip-svg .dot-s{fill:var(--slate-700); stroke:#fff; stroke-width:2;}
 
   .flow{padding:6px 32px 4px;}
   .flow-row{display:flex; align-items:flex-start; gap:10px; padding:11px 0; border-top:1px solid var(--hairline);}
@@ -81,76 +81,76 @@
     <svg class="chip-svg" viewBox="0 0 1448 1086" role="img" aria-label="矽光子整合晶片結構標示圖">
       <image href="06-silicon-photonics-chip-base.png" x="0" y="0" width="1448" height="1086"/>
 
-      <!-- 轉阻放大器 TIA：左上塊 -->
+      <!-- 轉阻放大器 TIA：左上塊 anchor(380,250) -->
       <g>
-        <path class="lead" d="M250,150 L250,86"/>
-        <circle class="dot-s" cx="250" cy="150" r="7"/>
-        <rect class="pill" x="92" y="44" width="316" height="50" rx="9"/>
-        <text x="110" y="78">轉阻放大器（TIA）</text>
+        <path class="lead" d="M340,90 L380,250"/>
+        <circle class="dot-s" cx="380" cy="250" r="9"/>
+        <rect class="pill" x="140" y="40" width="316" height="50" rx="9"/>
+        <text x="158" y="74">轉阻放大器（TIA）</text>
       </g>
 
-      <!-- 驅動 IC：左下塊 -->
+      <!-- 驅動 IC：左下塊 anchor(360,455) -->
       <g>
-        <path class="lead" d="M205,360 L120,430"/>
-        <circle class="dot-s" cx="205" cy="360" r="7"/>
-        <rect class="pill" x="34" y="430" width="172" height="50" rx="9"/>
-        <text x="52" y="464">驅動 IC</text>
+        <path class="lead" d="M208,520 L360,455"/>
+        <circle class="dot-s" cx="360" cy="455" r="9"/>
+        <rect class="pill" x="36" y="500" width="172" height="50" rx="9"/>
+        <text x="54" y="534">驅動 IC</text>
       </g>
 
-      <!-- 中介層 interposer：基板 -->
+      <!-- 中介層 interposer：基板綠邊 anchor(285,660) -->
       <g>
-        <path class="lead" d="M470,640 L360,724"/>
-        <circle class="dot-s" cx="470" cy="640" r="7"/>
-        <rect class="pill" x="150" y="724" width="356" height="50" rx="9"/>
-        <text x="168" y="758">中介層（Interposer）</text>
+        <path class="lead" d="M320,720 L285,660"/>
+        <circle class="dot-s" cx="285" cy="660" r="9"/>
+        <rect class="pill" x="140" y="720" width="356" height="50" rx="9"/>
+        <text x="158" y="754">中介層（Interposer）</text>
       </g>
 
-      <!-- 鍺光電探測器：上 lane（接收）藍塊 -->
+      <!-- 鍺光電探測器：上 lane（接收）暗塊 anchor(1040,350) -->
       <g>
-        <path class="lead-em" d="M810,190 L760,86"/>
-        <circle class="dot" cx="810" cy="190" r="7"/>
-        <rect class="pill" x="600" y="44" width="346" height="50" rx="9"/>
-        <text x="618" y="78">鍺光電探測器</text>
+        <path class="lead-em" d="M920,90 L1040,350"/>
+        <circle class="dot" cx="1040" cy="350" r="9"/>
+        <rect class="pill" x="640" y="40" width="346" height="50" rx="9"/>
+        <text x="658" y="74">鍺光電探測器</text>
       </g>
 
-      <!-- 多工器/解多工器：lane 收斂處 -->
+      <!-- 多工器/解多工器：上 lane 右側 anchor(1200,350) -->
       <g>
-        <path class="lead" d="M955,235 L1090,150"/>
-        <circle class="dot-s" cx="955" cy="235" r="7"/>
-        <rect class="pill" x="1010" y="108" width="372" height="50" rx="9"/>
-        <text x="1028" y="142">多工器／解多工器</text>
+        <path class="lead" d="M1140,200 L1200,350"/>
+        <circle class="dot-s" cx="1200" cy="350" r="9"/>
+        <rect class="pill" x="1030" y="150" width="372" height="50" rx="9"/>
+        <text x="1048" y="184">多工器／解多工器</text>
       </g>
 
-      <!-- 光纖：右側 cyan 光纖 -->
+      <!-- 光纖：右側 cyan anchor(1405,415) -->
       <g>
-        <path class="lead" d="M1330,250 L1360,170"/>
-        <circle class="dot-s" cx="1330" cy="250" r="7"/>
-        <rect class="pill" x="1262" y="128" width="132" height="50" rx="9"/>
-        <text x="1280" y="162">光纖</text>
+        <path class="lead" d="M1366,350 L1405,415"/>
+        <circle class="dot-s" cx="1405" cy="415" r="9"/>
+        <rect class="pill" x="1300" y="300" width="132" height="50" rx="9"/>
+        <text x="1318" y="334">光纖</text>
       </g>
 
-      <!-- 耦合器：右側圓形節點 -->
+      <!-- 耦合器：下圓形節點 anchor(1240,480) -->
       <g>
-        <path class="lead" d="M1045,300 L1210,392"/>
-        <circle class="dot-s" cx="1045" cy="300" r="7"/>
-        <rect class="pill" x="1140" y="392" width="172" height="50" rx="9"/>
-        <text x="1158" y="426">耦合器</text>
+        <path class="lead" d="M1200,560 L1240,480"/>
+        <circle class="dot-s" cx="1240" cy="480" r="9"/>
+        <rect class="pill" x="1090" y="560" width="172" height="50" rx="9"/>
+        <text x="1108" y="594">耦合器</text>
       </g>
 
-      <!-- 三五族混成雷射：下 lane（發射）橘色元件 -->
+      <!-- 三五族混成雷射：下 lane 橘色 anchor(820,480) -->
       <g>
-        <path class="lead-em" d="M615,330 L520,566"/>
-        <circle class="dot" cx="615" cy="330" r="7"/>
-        <rect class="pill-em" x="356" y="566" width="346" height="50" rx="9"/>
-        <text x="374" y="600">三五族混成雷射</text>
+        <path class="lead-em" d="M650,590 L820,480"/>
+        <circle class="dot" cx="820" cy="480" r="9"/>
+        <rect class="pill-em" x="360" y="580" width="346" height="50" rx="9"/>
+        <text x="378" y="614">三五族混成雷射</text>
       </g>
 
-      <!-- 矽調變器：下 lane 藍塊 -->
+      <!-- 矽調變器：下 lane 藍塊 anchor(905,480) -->
       <g>
-        <path class="lead-em" d="M775,340 L800,640"/>
-        <circle class="dot" cx="775" cy="340" r="7"/>
-        <rect class="pill-em" x="742" y="640" width="172" height="50" rx="9"/>
-        <text x="760" y="674">矽調變器</text>
+        <path class="lead-em" d="M860,660 L905,480"/>
+        <circle class="dot" cx="905" cy="480" r="9"/>
+        <rect class="pill-em" x="760" y="660" width="172" height="50" rx="9"/>
+        <text x="778" y="694">矽調變器</text>
       </g>
     </svg>
   </div>
