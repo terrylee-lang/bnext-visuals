@@ -51,6 +51,7 @@
   .flow-path{font-size:14px; color:var(--bn-black); line-height:1.75;}
   .flow-path b{font-weight:700;}
   .flow-path .ar{color:var(--cool-600); font-weight:700; margin:0 2px;}
+  .flow-note{display:inline-block; margin-top:4px; font-size:13px; color:var(--cool-600);}
 
   .takeaway{margin:14px 32px 0; background:var(--paper-3); border-left:4px solid var(--bn-orange); padding:14px 18px; font-size:14px; line-height:1.75;}
   .takeaway b{font-weight:800;}
@@ -75,7 +76,7 @@
   <header>
     <div class="kicker">矽光子原理 · SILICON PHOTONICS</div>
     <h1>一顆矽光子晶片裡有什麼？跟著光走一遍</h1>
-    <p class="deck">矽光子把「發光、編碼、合波、收光、放大」整套光學與電子元件，整合到同一顆晶片與封裝上。</p>
+    <p class="deck">矽光子把發光、編碼、合波、收光、放大整套功能做進矽光子晶片，再和驅動 IC、放大器等電子晶片一起封裝整合。</p>
   </header>
 
   <div class="figure">
@@ -149,16 +150,16 @@
   <div class="flow">
     <div class="flow-row">
       <span class="flow-tag tx">發射鏈 ▶ 送資料出</span>
-      <span class="flow-path"><b>驅動 IC</b> <span class="ar">→</span> 三五族混成雷射<b>（發光）</b> <span class="ar">→</span> 矽調變器<b>（把資料刻到光上）</b> <span class="ar">→</span> 多工器<b>（多波長合成一束）</b> <span class="ar">→</span> 耦合器 <span class="ar">→</span> 光纖送出</span>
+      <span class="flow-path">三五族混成雷射<b>（發光）</b> <span class="ar">→</span> 矽調變器<b>（把資料寫到光上）</b> <span class="ar">→</span> 多工器<b>（多波長合成一束）</b> <span class="ar">→</span> 耦合器 <span class="ar">→</span> 光纖送出<br><span class="flow-note">驅動 IC 在旁提供高速電訊號，控制調變器把資料寫進光裡。</span></span>
     </div>
     <div class="flow-row">
       <span class="flow-tag rx">接收鏈 ◀ 收資料進</span>
-      <span class="flow-path">光纖進入 <span class="ar">→</span> 耦合器 <span class="ar">→</span> 解多工器<b>（拆波長）</b> <span class="ar">→</span> 鍺光電探測器<b>（把光轉回電）</b> <span class="ar">→</span> 轉阻放大器<b>（放大微弱訊號）</b> <span class="ar">→</span> 回電子端</span>
+      <span class="flow-path">光纖進入 <span class="ar">→</span> 耦合器 <span class="ar">→</span> 解多工器<b>（拆波長）</b> <span class="ar">→</span> 鍺光電探測器<b>（把光轉成微弱電訊號）</b> <span class="ar">→</span> 轉阻放大器 TIA<b>（放大電訊號）</b> <span class="ar">→</span> 回電子端</span>
     </div>
   </div>
 
   <div class="takeaway">
-    把發光、編碼、合波、收光、放大這一整套，<b>從分散模組整合進同一顆晶片</b>，正是矽光子最難的地方；也因為要整合這麼多種專門元件，供應鏈才會分成磊晶、光源、光學元件、封裝、晶圓代工等好幾層。
+    把光源、調變、合波、收光、轉電、放大這些功能，<b>從分散模組整合到矽光子晶片與共同封裝裡</b>，是矽光子最難的地方之一；也因為牽涉材料、光源、光學元件、封裝、測試與晶圓代工，供應鏈才會分成好幾層。
   </div>
 
   <footer>
