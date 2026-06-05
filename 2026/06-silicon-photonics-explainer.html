@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>一顆矽光子晶片裡有什麼？｜《數位時代》</title>
-<meta name="description" content="矽光子晶片把發光、編碼、合波、收光、放大整套光學與電子元件整合在同一顆晶片上。一張圖看懂驅動 IC、雷射、調變器、多工器、耦合器、光電偵測器與光纖的位置與光的旅程。">
+<meta name="description" content="矽光子晶片把波導、調變、分合波、耦合與光偵測等光學功能整合在矽晶片上，再與驅動 IC、轉阻放大器、雷射光源等電子或 III-V 元件共同封裝。一張圖看懂各元件位置與光的旅程。">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
   :root{
@@ -76,7 +76,7 @@
   <header>
     <div class="kicker">矽光子原理 · SILICON PHOTONICS</div>
     <h1>一顆矽光子晶片裡有什麼？跟著光走一遍</h1>
-    <p class="deck">矽光子把發光、編碼、合波、收光、放大整套功能做進矽光子晶片，再和驅動 IC、放大器等電子晶片一起封裝整合。</p>
+    <p class="deck">矽光子晶片把波導、調變、分合波、耦合、光偵測等光學功能整合到矽晶片上，再與驅動 IC、轉阻放大器、雷射光源等電子或 III-V 族元件一起封裝。</p>
   </header>
 
   <div class="figure">
@@ -87,7 +87,7 @@
       <g>
         <line class="lead" x1="644.5" y1="964" x2="735" y2="686"/>
         <rect class="pill" x="518" y="939" width="253" height="50" rx="9"/>
-        <text class="t-main" x="536" y="973">三五族混成雷射</text>
+        <text class="t-main" x="536" y="973">三五族雷射光源</text>
         <circle class="dot-s" cx="735" cy="686" r="9"/>
       </g>
       <g>
@@ -110,8 +110,8 @@
       </g>
       <g>
         <line class="lead" x1="1259.5" y1="498" x2="1007" y2="624"/>
-        <rect class="pill" x="1195" y="473" width="129" height="50" rx="9"/>
-        <text class="t-main" x="1213" y="507">耦合器</text>
+        <rect class="pill" x="1195" y="473" width="190" height="50" rx="9"/>
+        <text class="t-main" x="1213" y="507">光纖耦合器</text>
         <circle class="dot-s" cx="1007" cy="624" r="9"/>
       </g>
       <g>
@@ -129,7 +129,7 @@
       <g>
         <line class="lead" x1="376" y1="909" x2="396" y2="769"/>
         <rect class="pill" x="265" y="884" width="222" height="50" rx="9"/>
-        <text class="t-main" x="283" y="918">中介層電路板</text>
+        <text class="t-main" x="283" y="918">中介層基板</text>
         <circle class="dot-s" cx="396" cy="769" r="9"/>
       </g>
       <g>
@@ -150,16 +150,16 @@
   <div class="flow">
     <div class="flow-row">
       <span class="flow-tag tx">發射鏈 ▶ 送資料出</span>
-      <span class="flow-path">三五族混成雷射<b>（發光）</b> <span class="ar">→</span> 矽調變器<b>（把資料寫到光上）</b> <span class="ar">→</span> 多工器<b>（多波長合成一束）</b> <span class="ar">→</span> 耦合器 <span class="ar">→</span> 光纖送出<br><span class="flow-note">驅動 IC 在旁提供高速電訊號，控制調變器把資料寫進光裡。</span></span>
+      <span class="flow-path">三五族雷射光源<b>（發光，可內建混成或外接）</b> <span class="ar">→</span> 矽調變器<b>（把資料寫到光上）</b> <span class="ar">→</span> 多工器<b>（多波長合成一束）</b> <span class="ar">→</span> 光纖耦合器 <span class="ar">→</span> 光纖送出<br><span class="flow-note">驅動 IC 在旁提供高速電訊號，控制調變器把資料寫進光裡。</span></span>
     </div>
     <div class="flow-row">
       <span class="flow-tag rx">接收鏈 ◀ 收資料進</span>
-      <span class="flow-path">光纖進入 <span class="ar">→</span> 耦合器 <span class="ar">→</span> 解多工器<b>（拆波長）</b> <span class="ar">→</span> 鍺光電偵測器<b>（把光轉成微弱電訊號）</b> <span class="ar">→</span> 轉阻放大器 TIA<b>（放大電訊號）</b> <span class="ar">→</span> 回電子端</span>
+      <span class="flow-path">光纖進入 <span class="ar">→</span> 光纖耦合器 <span class="ar">→</span> 解多工器<b>（拆波長）</b> <span class="ar">→</span> 鍺光電偵測器<b>（把光轉成微弱電訊號）</b> <span class="ar">→</span> 轉阻放大器 TIA<b>（放大電訊號）</b> <span class="ar">→</span> 回電子端</span>
     </div>
   </div>
 
   <div class="takeaway">
-    把光源、調變、合波、收光、轉電、放大這些功能，<b>從分散模組整合到矽光子晶片與共同封裝裡</b>，是矽光子最難的地方之一；也因為牽涉材料、光源、光學元件、封裝、測試與晶圓代工，供應鏈才會分成好幾層。
+    把波導、調變、合波、耦合、光偵測這些光學功能整合到矽光子晶片上，再與雷射光源、驅動 IC、轉阻放大器等電子或 III-V 元件共同封裝，<b>是矽光子最難的地方之一</b>；也因為牽涉材料、光源、光學元件、封裝、測試與晶圓代工，供應鏈才會分成好幾層。
   </div>
 
   <footer>
