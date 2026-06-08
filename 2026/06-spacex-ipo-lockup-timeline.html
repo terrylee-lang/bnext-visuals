@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SpaceX 上市與解禁時間軸：賣壓何時來 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;900&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-navy2: #1B2A45;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper2: #F5F3EF;
+    --paper3: #ECE8DF;
+    --paper4: #E3DECF;
+    --warm300: #D4D0C8;
+    --cool600: #5C6470;
+    --cool400: #8A93A0;
+    --signal: #F5C518;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    padding: 20px 14px;
+    text-wrap: pretty;
+  }
+  .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ===== Header ===== */
+  header { margin-bottom: 8px; }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--bn-orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 900;
+    margin: 0 0 12px;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+  .deck {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--cool600);
+    margin: 0;
+    max-width: 680px;
+    text-wrap: balance;
+  }
+
+  .meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 13px;
+    color: var(--cool600);
+    margin: 18px 0 24px;
+    padding: 12px 0;
+    border-top: 1px solid var(--warm300);
+    border-bottom: 1px solid var(--warm300);
+  }
+  .meta-chunk { white-space: nowrap; }
+  .meta-chunk strong { color: var(--bn-black); font-weight: 700; }
+  .meta-sep { color: var(--warm300); }
+
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: var(--cool600);
+    text-transform: uppercase;
+    margin: 8px 0 4px;
+  }
+  .section-headline {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 18px;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  /* ===== Phase 1：上市流程 horizontal timeline ===== */
+  .ipo-flow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-bottom: 6px;
+    position: relative;
+  }
+  .flow-step {
+    position: relative;
+    padding: 0 14px;
+  }
+  .flow-step .rail {
+    position: relative;
+    height: 3px;
+    background: var(--warm300);
+    margin-bottom: 18px;
+  }
+  .flow-step:first-child .rail { border-radius: 3px 0 0 3px; }
+  .flow-step:last-child .rail { background: var(--bn-orange); border-radius: 0 3px 3px 0; }
+  .flow-step .dot {
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translate(-2px, -50%);
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 3px solid var(--bn-navy);
+    z-index: 2;
+  }
+  .flow-step:last-child .dot {
+    background: var(--bn-orange);
+    border-color: var(--bn-orange);
+    width: 18px; height: 18px;
+  }
+  .flow-date {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--bn-black);
+    margin-bottom: 2px;
+    white-space: nowrap;
+  }
+  .flow-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--cool600);
+    background: var(--paper3);
+    padding: 1px 7px;
+    border-radius: 3px;
+    margin-bottom: 7px;
+  }
+  .flow-tag.live { color: var(--paper); background: var(--bn-orange); }
+  .flow-title { font-size: 15px; font-weight: 700; color: var(--bn-black); line-height: 1.45; margin-bottom: 4px; }
+  .flow-desc { font-size: 13px; color: var(--cool600); line-height: 1.6; }
+  .flow-desc .hl {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    color: var(--bn-orange-deep);
+    font-weight: 700;
+  }
+
+  .flow-note {
+    font-size: 12px;
+    color: var(--cool600);
+    margin: 10px 0 28px;
+    padding-left: 14px;
+  }
+
+  /* divider */
+  .block-divider {
+    border: 0;
+    border-top: 1px solid var(--warm300);
+    margin: 4px 0 24px;
+  }
+
+  /* ===== Phase 2：lockup vertical timeline ===== */
+  .lock-track {
+    position: relative;
+    padding-left: 28px;
+  }
+  .lock-track::before {
+    content: "";
+    position: absolute;
+    left: 7px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: var(--warm300);
+  }
+  .lock-item {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .lock-item:last-child { margin-bottom: 0; }
+  .lock-item .node {
+    position: absolute;
+    left: -28px; top: 22px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 3px solid var(--bn-navy);
+    z-index: 2;
+  }
+  .lock-item.musk .node { border-color: var(--bn-orange); background: var(--bn-orange); }
+  .lock-card {
+    border: 1px solid var(--warm300);
+    border-radius: 8px;
+    background: var(--paper);
+    overflow: hidden;
+  }
+  .lock-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 12px 18px;
+    background: var(--paper3);
+    border-bottom: 1px solid var(--warm300);
+  }
+  .lock-item.musk .lock-head { background: var(--bn-navy); border-bottom-color: var(--bn-navy); }
+  .lock-name { font-size: 16px; font-weight: 800; color: var(--bn-black); }
+  .lock-item.musk .lock-name { color: var(--paper); }
+  .lock-badge {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--paper);
+    background: var(--bn-navy);
+    padding: 3px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .lock-item.musk .lock-badge { background: var(--bn-orange); }
+  .lock-body { padding: 14px 18px; }
+  .lock-steps { display: flex; flex-direction: column; gap: 9px; }
+  .lock-step {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 12px;
+    align-items: baseline;
+  }
+  .lock-when {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--bn-orange-deep);
+    line-height: 1.5;
+  }
+  .lock-what { font-size: 14px; color: var(--bn-black); line-height: 1.6; }
+  .lock-summary {
+    font-size: 14px;
+    color: var(--bn-black);
+    line-height: 1.7;
+    padding: 0 0 0 0;
+  }
+
+  /* one-line takeaway */
+  .takeaway {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper3);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 1.75;
+    margin: 24px 0 18px;
+    text-wrap: pretty;
+  }
+  .takeaway strong { color: var(--bn-orange-deep); font-weight: 800; }
+
+  footer {
+    margin-top: 8px;
+    padding-top: 14px;
+    border-top: 1px solid var(--warm300);
+    font-size: 12px;
+    color: var(--cool600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); font-weight: 700; }
+
+  /* ===== Container query：手機 / 窄版 ===== */
+  @container (max-width: 640px) {
+    h1 { font-size: 24px; }
+    .deck { font-size: 15px; }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; width: 100%; }
+
+    /* 上市流程：橫轉直 */
+    .ipo-flow { grid-template-columns: 1fr; gap: 0; padding-left: 26px; position: relative; }
+    .ipo-flow::before {
+      content: "";
+      position: absolute;
+      left: 7px; top: 8px; bottom: 8px;
+      width: 2px; background: var(--warm300);
+    }
+    .flow-step { padding: 0 0 18px 0; }
+    .flow-step:last-child { padding-bottom: 0; }
+    .flow-step .rail { display: none; }
+    .flow-step .dot {
+      left: -26px; top: 4px;
+      transform: none;
+    }
+
+    .lock-step { grid-template-columns: 1fr; gap: 1px; }
+    .lock-when { font-size: 12px; }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 14px 8px; }
+  }
+
+  /* ===== Preview toolbar ===== */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px;
+    font-size: 12px; font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">SpaceX 上市懶人包 · 時間軸</div>
+    <h1>SpaceX 上市與解禁時間軸：賣壓何時來</h1>
+    <p class="deck">從掛牌到內部人持股解禁，招股書把鎖定期分成三類、階梯式釋出，而不是同一天到期，目的是把上市初期的潛在賣壓攤平。以下節點全部依招股書「預計／若如期」口徑。</p>
+  </header>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">資料來源：<strong>SpaceX S-1 招股書、歐盟招股書</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">代號：<strong>SPCX（Nasdaq）</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">口徑：<strong>預計／若如期</strong></span>
+  </div>
+
+  <div class="section-title">FIGURE 01 · 上市流程</div>
+  <h2 class="section-headline">三步走完上市：路演、定價、掛牌</h2>
+
+  <div class="ipo-flow">
+    <div class="flow-step">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="flow-date">2026 / 6 / 4</div>
+      <span class="flow-tag live">已開始</span>
+      <div class="flow-title">法人說明會（路演）開始</div>
+      <div class="flow-desc">向機構投資人說明公司營運與財務，蒐集認購意願。</div>
+    </div>
+    <div class="flow-step">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="flow-date">2026 / 6 / 11</div>
+      <span class="flow-tag">預計</span>
+      <div class="flow-title">確定最終發行價</div>
+      <div class="flow-desc">美國發行預期價 <span class="hl">135 美元</span>。</div>
+    </div>
+    <div class="flow-step">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="flow-date">2026 / 6 / 12</div>
+      <span class="flow-tag">預計</span>
+      <div class="flow-title">掛牌交易</div>
+      <div class="flow-desc">在 Nasdaq 與 Nasdaq Texas 掛牌，代號 <span class="hl">SPCX</span>。</div>
+    </div>
+  </div>
+
+  <div class="flow-note">流程節點若如期進行，6 / 12 起 SPCX 開始在公開市場交易。</div>
+
+  <hr class="block-divider">
+
+  <div class="section-title">FIGURE 02 · 鎖定期解禁</div>
+  <h2 class="section-headline">三類股東、三種解禁節奏：賣壓何時來</h2>
+
+  <div class="lock-track">
+
+    <!-- 一般 180 天 -->
+    <div class="lock-item">
+      <span class="node"></span>
+      <div class="lock-card">
+        <div class="lock-head">
+          <span class="lock-name">一般 180 天鎖定股東</span>
+          <span class="lock-badge num">分批解鎖</span>
+        </div>
+        <div class="lock-body">
+          <div class="lock-steps">
+            <div class="lock-step">
+              <span class="lock-when num">2026 Q2 財報後</span>
+              <span class="lock-what">先釋出一部分持股。</span>
+            </div>
+            <div class="lock-step">
+              <span class="lock-when num">上市後第 70 / 90 / 105 / 120 / 135 天</span>
+              <span class="lock-what">分五批陸續解鎖。</span>
+            </div>
+            <div class="lock-step">
+              <span class="lock-when num">2026 Q3 財報後</span>
+              <span class="lock-what">再釋出剩餘部分。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 延長鎖定 -->
+    <div class="lock-item">
+      <span class="node"></span>
+      <div class="lock-card">
+        <div class="lock-head">
+          <span class="lock-name">延長鎖定股東</span>
+          <span class="lock-badge num">較晚解禁</span>
+        </div>
+        <div class="lock-body">
+          <div class="lock-steps">
+            <div class="lock-step">
+              <span class="lock-when num">2027 Q1 起</span>
+              <span class="lock-what">分批開始釋出。</span>
+            </div>
+            <div class="lock-step">
+              <span class="lock-when num">2027 Q2 財報後</span>
+              <span class="lock-what">完全解禁。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Musk 366 天 -->
+    <div class="lock-item musk">
+      <span class="node"></span>
+      <div class="lock-card">
+        <div class="lock-head">
+          <span class="lock-name">馬斯克等創辦人持股</span>
+          <span class="lock-badge num">鎖定 366 天</span>
+        </div>
+        <div class="lock-body">
+          <div class="lock-summary">鎖定 <strong style="color:var(--bn-orange-deep); font-weight:800;">366 天</strong>，期間無提前解禁機制。創辦人核心持股是最後一批進入公開市場的股票。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="takeaway">
+    解禁採<strong>階梯式</strong>而非一次到期：一般股東從上市後 70 天起分批釋出，延長鎖定股東要等到 2027 年，馬斯克等創辦人鎖滿 <strong>366 天</strong>且無提前解禁。對投資人的意義，是初期賣壓被刻意攤平，但每個解禁節點仍是觀察籌碼鬆動的時間點。
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：編輯部　|　所有節點依 SpaceX S-1 招股書與歐盟招股書「預計／若如期」口徑，實際時程以公司公告為準
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>

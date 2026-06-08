@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SpaceX 三大分部損益：誰在賺、誰在燒錢 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;900&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper2: #F5F3EF;
+    --paper3: #ECE8DF;
+    --paper4: #E3DECF;
+    --warm300: #D4D0C8;
+    --cool600: #5C6470;
+    --cool400: #8A93A0;
+    --alert-red: #E63946;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    padding: 20px 14px;
+    text-wrap: pretty;
+  }
+  .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ===== Header ===== */
+  header { margin-bottom: 8px; }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--bn-orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 900;
+    margin: 0 0 12px;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+  .deck {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--cool600);
+    margin: 0;
+    max-width: 660px;
+    text-wrap: balance;
+  }
+
+  .meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 13px;
+    color: var(--cool600);
+    margin: 18px 0 24px;
+    padding: 12px 0;
+    border-top: 1px solid var(--warm300);
+    border-bottom: 1px solid var(--warm300);
+  }
+  .meta-chunk { white-space: nowrap; }
+  .meta-chunk strong { color: var(--bn-black); font-weight: 700; }
+  .meta-sep { color: var(--warm300); }
+
+  /* ===== Section ===== */
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: var(--cool600);
+    text-transform: uppercase;
+    margin: 8px 0 4px;
+  }
+  .section-headline {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 18px;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  /* ===== Total banner ===== */
+  .total-band {
+    background: var(--bn-navy);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 32px;
+    align-items: flex-end;
+  }
+  .total-item .total-label {
+    font-size: 13px;
+    color: rgba(250, 247, 241, 0.7);
+    margin-bottom: 4px;
+    letter-spacing: 0.04em;
+  }
+  .total-item .total-val {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--paper);
+    line-height: 1.1;
+  }
+  .total-item .total-val .unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(250, 247, 241, 0.7);
+    margin-left: 3px;
+  }
+  .total-item .total-val.loss { color: var(--bn-orange); }
+
+  /* ===== Bar chart ===== */
+  .seg {
+    border: 1px solid var(--warm300);
+    border-radius: 8px;
+    background: var(--paper);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .seg-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .seg-name {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--bn-black);
+  }
+  .seg-sub {
+    font-size: 13px;
+    color: var(--cool600);
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .bar-row:last-child { margin-bottom: 0; }
+  .bar-label {
+    font-size: 13px;
+    color: var(--cool600);
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .bar-track {
+    position: relative;
+    height: 30px;
+    display: flex;
+    align-items: center;
+  }
+  .bar-axis {
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    left: 0;
+    width: 2px;
+    background: var(--warm300);
+  }
+  .bar {
+    height: 100%;
+    border-radius: 0 4px 4px 0;
+    display: flex;
+    align-items: center;
+    min-width: 2px;
+  }
+  .bar.rev { background: var(--bn-navy); }
+  .bar.profit { background: var(--bn-orange); }
+  .bar.loss { background: var(--alert-red); }
+  .bar-val {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    margin: 0 8px;
+  }
+  .bar-val.inside { color: var(--paper); }
+  .bar-val.outside { color: var(--bn-black); }
+  .bar-val.outside.neg { color: var(--alert-red); }
+
+  /* legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin: 0 0 16px;
+    font-size: 13px;
+    color: var(--cool600);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch {
+    width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0;
+  }
+  .swatch.rev { background: var(--bn-navy); }
+  .swatch.profit { background: var(--bn-orange); }
+  .swatch.loss { background: var(--alert-red); }
+
+  /* one-line takeaway */
+  .takeaway {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper3);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 1.75;
+    margin: 22px 0 18px;
+    text-wrap: pretty;
+  }
+  .takeaway strong { color: var(--bn-orange-deep); font-weight: 800; }
+
+  /* notes */
+  .notes {
+    border: 1px solid var(--warm300);
+    border-radius: 8px;
+    padding: 16px 18px;
+    background: var(--paper2);
+    margin-bottom: 8px;
+  }
+  .notes-title {
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: var(--cool600);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .notes ul { margin: 0; padding-left: 0; list-style: none; }
+  .notes li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--bn-black);
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 7px;
+  }
+  .notes li:last-child { margin-bottom: 0; }
+  .notes li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 11px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--bn-orange);
+  }
+  .notes li .hl {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    color: var(--bn-orange-deep);
+    font-weight: 700;
+  }
+
+  footer {
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 1px solid var(--warm300);
+    font-size: 12px;
+    color: var(--cool600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); font-weight: 700; }
+
+  /* ===== Container query：手機 / 窄版 ===== */
+  @container (max-width: 640px) {
+    h1 { font-size: 24px; }
+    .deck { font-size: 15px; }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; width: 100%; }
+    .total-band { gap: 14px 24px; padding: 18px 18px; }
+    .total-item .total-val { font-size: 24px; }
+    .bar-row { grid-template-columns: 70px 1fr; gap: 9px; }
+    .bar-label { font-size: 12px; }
+    .bar-val { font-size: 13px; }
+    .seg-head { flex-direction: column; gap: 2px; align-items: flex-start; }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 14px 8px; }
+  }
+
+  /* ===== Preview toolbar ===== */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px;
+    font-size: 12px; font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">SpaceX 上市懶人包 · 分部損益</div>
+    <h1>SpaceX 三大分部損益：誰在賺、誰在燒錢</h1>
+    <p class="deck">2025 年，星鏈撐起的 Connectivity（連網）部門賺進的錢，幾乎被 Space（航太發射）與 AI（人工智慧）兩個部門燒光，整體仍是營業虧損。</p>
+  </header>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">資料來源：<strong>SpaceX S-1 招股書、歐盟招股書</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">年度：<strong>2025 年</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">單位：<strong>億美元</strong></span>
+  </div>
+
+  <div class="total-band">
+    <div class="total-item">
+      <div class="total-label">合計營收</div>
+      <div class="total-val num">186.74<span class="unit">億美元</span></div>
+    </div>
+    <div class="total-item">
+      <div class="total-label">合計營業損益</div>
+      <div class="total-val loss num">−25.89<span class="unit">億美元</span></div>
+    </div>
+    <div class="total-item">
+      <div class="total-label">淨虧損</div>
+      <div class="total-val loss num">−49.37<span class="unit">億美元</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">FIGURE 01 · 分部對照</div>
+  <h2 class="section-headline">三大分部：營收（深藍）vs 營業損益（賺橘、虧紅）</h2>
+
+  <div class="legend">
+    <span><i class="swatch rev"></i>營收</span>
+    <span><i class="swatch profit"></i>營業利益（賺）</span>
+    <span><i class="swatch loss"></i>營業虧損（燒）</span>
+  </div>
+
+  <!-- Connectivity -->
+  <div class="seg">
+    <div class="seg-head">
+      <span class="seg-name">Connectivity（連網）</span>
+      <span class="seg-sub">以星鏈（Starlink）為核心</span>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">營收</div>
+      <div class="bar-track">
+        <div class="bar-axis"></div>
+        <div class="bar rev" style="width: 100%;"><span class="bar-val inside num">113.87</span></div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">營業損益</div>
+      <div class="bar-track">
+        <div class="bar-axis"></div>
+        <div class="bar profit" style="width: 38.84%;"></div>
+        <span class="bar-val outside num">＋44.23</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Space -->
+  <div class="seg">
+    <div class="seg-head">
+      <span class="seg-name">Space（航太發射）</span>
+      <span class="seg-sub">火箭發射服務</span>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">營收</div>
+      <div class="bar-track">
+        <div class="bar-axis"></div>
+        <div class="bar rev" style="width: 35.88%;"><span class="bar-val inside num">40.86</span></div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">營業損益</div>
+      <div class="bar-track">
+        <div class="bar-axis"></div>
+        <div class="bar loss" style="width: 5.77%;"></div>
+        <span class="bar-val outside neg num">−6.57</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI -->
+  <div class="seg">
+    <div class="seg-head">
+      <span class="seg-name">AI（人工智慧）</span>
+      <span class="seg-sub">2025 年資本支出約 127 億美元</span>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">營收</div>
+      <div class="bar-track">
+        <div class="bar-axis"></div>
+        <div class="bar rev" style="width: 28.11%;"><span class="bar-val inside num">32.01</span></div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">營業損益</div>
+      <div class="bar-track">
+        <div class="bar-axis"></div>
+        <div class="bar loss" style="width: 55.80%;"><span class="bar-val inside num">−63.55</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="takeaway">
+    Connectivity 一年賺 <strong>44.23 億美元</strong>，但 AI 部門光營業就虧 <strong>63.55 億美元</strong>，加上 Space 虧 6.57 億，整體被拖成 <strong>25.89 億美元</strong>的營業虧損。AI 是目前最燒錢、也最決定 SpaceX 未來估值的賭注。
+  </div>
+
+  <div class="notes">
+    <div class="notes-title">補充數字</div>
+    <ul>
+      <li>合計營業虧損 <span class="hl">25.89 億美元</span>、淨虧損 <span class="hl">49.37 億美元</span>。</li>
+      <li>若把折舊、攤銷、利息等非現金與財務項目排除，調整後 EBITDA 為正 <span class="hl">65.84 億美元</span>，代表核心營運現金流仍能轉正。</li>
+      <li>AI 部門 2025 年資本支出（capex）約 <span class="hl">127 億美元</span>，是當期淨虧損的主要來源。</li>
+    </ul>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：編輯部　|　數字依 SpaceX S-1 招股書與歐盟招股書，單位億美元，「＋」為營業利益、「−」為營業虧損
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>

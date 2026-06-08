@@ -10,6 +10,8 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| SpaceX 三大分部損益：誰在賺、誰在燒錢 | SpaceX 上市懶人包：2025 三大分部營收 vs 營業損益對照，星鏈賺的被 Space 與 AI 燒掉，整體營業虧損 25.89 億美元 | 2026-06-08 | [`2026/06-spacex-segment-pnl.html`](./2026/06-spacex-segment-pnl.html) |
+| SpaceX 上市與解禁時間軸：賣壓何時來 | SpaceX 上市懶人包：上市流程（路演／定價／掛牌 SPCX）與三類股東鎖定期階梯式解禁節點，全依「預計／若如期」口徑 | 2026-06-08 | [`2026/06-spacex-ipo-lockup-timeline.html`](./2026/06-spacex-ipo-lockup-timeline.html) |
 | 一顆矽光子晶片裡有什麼？跟著光走一遍 | 矽光子母題文「矽光子是什麼」段落內嵌平面示意圖（文章 77079）：同一顆封裝內發射鏈／接收鏈跟著光走 | 2026-06-03 | [`2026/06-silicon-photonics-explainer.html`](./2026/06-silicon-photonics-explainer.html) |
 | 矽光子概念股供應鏈分層一覽 | 矽光子概念股一覽（文章 82171） | 2026-06-03 | [`2026/06-silicon-photonics-supply-chain.html`](./2026/06-silicon-photonics-supply-chain.html) |
 | 2025 上市櫃員工平均年薪 TOP 25 | 上市櫃員工平均年薪出爐：半導體霸榜，日月光投控 628 萬居首 | 2026-06-02 | [`2026/06-listed-companies-avg-salary-top25.html`](./2026/06-listed-companies-avg-salary-top25.html) |
