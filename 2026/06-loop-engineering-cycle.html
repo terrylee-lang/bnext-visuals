@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>迴圈工程：五階段循環 × 六塊組件 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper2: #F5F3EF;
+    --paper3: #ECE8DF;
+    --paper4: #E3DECF;
+    --warm300: #D4D0C8;
+    --cool600: #5C6470;
+    --slate700: #2A3142;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    padding: 20px 14px;
+    text-wrap: pretty;
+  }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ===== Header ===== */
+  header { margin-bottom: 8px; }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--bn-orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 28px;
+    line-height: 1.25;
+    font-weight: 900;
+    margin: 0 0 12px;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+  .deck {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--cool600);
+    margin: 0;
+    max-width: 720px;
+    text-wrap: balance;
+  }
+
+  .meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 13px;
+    color: var(--cool600);
+    margin: 18px 0 22px;
+    padding: 12px 0;
+    border-top: 1px solid var(--warm300);
+    border-bottom: 1px solid var(--warm300);
+  }
+  .meta-chunk { white-space: nowrap; }
+  .meta-chunk strong { color: var(--bn-black); font-weight: 700; }
+  .meta-sep { color: var(--warm300); }
+
+  /* ===== Hint ===== */
+  .hint {
+    font-size: 13px;
+    color: var(--cool600);
+    margin: 0 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .hint .tap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--bn-orange);
+    border-radius: 50%;
+    color: var(--bn-orange);
+    font-size: 11px; font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  /* ===== Section title ===== */
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: var(--cool600);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+  }
+
+  /* ===== Hidden radio inputs (CSS-only interaction) ===== */
+  .ctrl { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+
+  /* ===== Cycle (5 stages) ===== */
+  .cycle {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .stage {
+    border: 1px solid var(--warm300);
+    border-radius: 8px;
+    background: var(--paper2);
+    padding: 14px 10px 13px;
+    text-align: center;
+    position: relative;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+  .stage .st-en {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: var(--cool600);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+    transition: color 0.18s ease;
+  }
+  .stage .st-tc {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--bn-black);
+    display: block;
+  }
+  .stage .st-num {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--warm300);
+    position: absolute;
+    top: 7px; left: 9px;
+    transition: color 0.18s ease;
+  }
+  /* arrows between stages */
+  .stage:not(:last-child)::after {
+    content: "›";
+    position: absolute;
+    right: -8px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--warm300);
+    font-size: 18px;
+    font-weight: 700;
+    z-index: 2;
+  }
+  .loop-back {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--cool600);
+    margin: 8px 0 22px;
+    padding: 7px 0;
+    border-top: 1px dashed var(--warm300);
+  }
+  .loop-back strong { color: var(--bn-orange-deep); font-weight: 700; }
+  .loop-back .arc { color: var(--bn-orange); font-weight: 800; }
+
+  /* ===== Explanation banner (changes per selected component) ===== */
+  .explain {
+    border: 1px solid var(--warm300);
+    border-left: 4px solid var(--bn-orange);
+    border-radius: 8px;
+    background: var(--paper3);
+    padding: 13px 18px;
+    margin-bottom: 22px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+  }
+  .explain .ex {
+    display: none;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--bn-black);
+  }
+  .explain .ex .ex-name { font-weight: 800; }
+  .explain .ex .ex-stage {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    color: var(--bn-orange-deep);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .explain .ex-default { display: block; color: var(--cool600); }
+
+  /* ===== Component grid (6) ===== */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .comp {
+    display: block;
+    border: 1px solid var(--warm300);
+    border-radius: 8px;
+    background: var(--paper);
+    padding: 14px 15px 15px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .comp:hover { border-color: var(--bn-orange); background: var(--paper2); }
+  .comp-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .comp-num {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--bn-orange);
+    font-feature-settings: 'tnum' 1;
+    flex-shrink: 0;
+  }
+  .comp-name {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: var(--bn-black);
+    line-height: 1.3;
+  }
+  .comp-name .en {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cool600);
+    display: block;
+    letter-spacing: 0.3px;
+  }
+  .comp-role {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--slate700);
+    margin: 0;
+  }
+  .comp-tag {
+    display: inline-block;
+    margin-top: 9px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--cool600);
+    background: var(--paper3);
+    border: 1px solid var(--warm300);
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+
+  /* ===== CSS-only highlight logic ===== */
+  /* When a component radio is checked: style its label, the explanation, and the driven stages */
+
+  /* selected label gets orange accent */
+  #c1:checked ~ .comp-grid label[for="c1"],
+  #c2:checked ~ .comp-grid label[for="c2"],
+  #c3:checked ~ .comp-grid label[for="c3"],
+  #c4:checked ~ .comp-grid label[for="c4"],
+  #c5:checked ~ .comp-grid label[for="c5"],
+  #c6:checked ~ .comp-grid label[for="c6"] {
+    border-color: var(--bn-orange);
+    border-left-width: 4px;
+    background: var(--paper2);
+  }
+
+  /* show matching explanation, hide default */
+  #c1:checked ~ .explain .ex-default,
+  #c2:checked ~ .explain .ex-default,
+  #c3:checked ~ .explain .ex-default,
+  #c4:checked ~ .explain .ex-default,
+  #c5:checked ~ .explain .ex-default,
+  #c6:checked ~ .explain .ex-default { display: none; }
+  #c1:checked ~ .explain .ex-1,
+  #c2:checked ~ .explain .ex-2,
+  #c3:checked ~ .explain .ex-3,
+  #c4:checked ~ .explain .ex-4,
+  #c5:checked ~ .explain .ex-5,
+  #c6:checked ~ .explain .ex-6 { display: block; }
+
+  /* highlight driven stages (active state) */
+  .stage.on {
+    background: var(--bn-navy);
+    border-color: var(--bn-navy);
+  }
+  .stage.on .st-tc { color: var(--paper); }
+  .stage.on .st-en { color: var(--bn-orange); }
+  .stage.on .st-num { color: rgba(250,247,241,0.4); }
+
+  /* drive map: which stages light per component
+     stages order: s1 Discover, s2 Plan, s3 Execute, s4 Verify, s5 Iterate */
+  /* C1 Automations → all stages (drives whole loop) */
+  #c1:checked ~ .cycle .stage { background: var(--bn-navy); border-color: var(--bn-navy); }
+  #c1:checked ~ .cycle .stage .st-tc { color: var(--paper); }
+  #c1:checked ~ .cycle .stage .st-en { color: var(--bn-orange); }
+  #c1:checked ~ .cycle .stage .st-num { color: rgba(250,247,241,0.4); }
+  #c1:checked ~ .cycle .stage::after { color: rgba(250,247,241,0.35); }
+
+  /* C2 Worktree → Execute (s3) */
+  #c2:checked ~ .cycle .stage.s3 { background: var(--bn-navy); border-color: var(--bn-navy); }
+  #c2:checked ~ .cycle .stage.s3 .st-tc { color: var(--paper); }
+  #c2:checked ~ .cycle .stage.s3 .st-en { color: var(--bn-orange); }
+  #c2:checked ~ .cycle .stage.s3 .st-num { color: rgba(250,247,241,0.4); }
+
+  /* C3 Skills: all stages (shared). Soft band, not full navy, to distinguish from C1 heartbeat */
+  #c3:checked ~ .cycle .stage { background: var(--paper4); border-color: var(--bn-orange); }
+  #c3:checked ~ .cycle .stage .st-en { color: var(--bn-orange-deep); }
+
+  /* C4 Connectors → Execute (s3) + Verify (s4) */
+  #c4:checked ~ .cycle .stage.s3,
+  #c4:checked ~ .cycle .stage.s4 { background: var(--bn-navy); border-color: var(--bn-navy); }
+  #c4:checked ~ .cycle .stage.s3 .st-tc,
+  #c4:checked ~ .cycle .stage.s4 .st-tc { color: var(--paper); }
+  #c4:checked ~ .cycle .stage.s3 .st-en,
+  #c4:checked ~ .cycle .stage.s4 .st-en { color: var(--bn-orange); }
+  #c4:checked ~ .cycle .stage.s3 .st-num,
+  #c4:checked ~ .cycle .stage.s4 .st-num { color: rgba(250,247,241,0.4); }
+
+  /* C5 Sub-agents → Verify (s4) */
+  #c5:checked ~ .cycle .stage.s4 { background: var(--bn-navy); border-color: var(--bn-navy); }
+  #c5:checked ~ .cycle .stage.s4 .st-tc { color: var(--paper); }
+  #c5:checked ~ .cycle .stage.s4 .st-en { color: var(--bn-orange); }
+  #c5:checked ~ .cycle .stage.s4 .st-num { color: rgba(250,247,241,0.4); }
+
+  /* C6 Memory → Iterate (s5) */
+  #c6:checked ~ .cycle .stage.s5 { background: var(--bn-navy); border-color: var(--bn-navy); }
+  #c6:checked ~ .cycle .stage.s5 .st-tc { color: var(--paper); }
+  #c6:checked ~ .cycle .stage.s5 .st-en { color: var(--bn-orange); }
+  #c6:checked ~ .cycle .stage.s5 .st-num { color: rgba(250,247,241,0.4); }
+
+  footer {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px solid var(--warm300);
+    font-size: 12px;
+    color: var(--cool600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); font-weight: 700; }
+
+  /* ===== Container query：手機 / 窄版 ===== */
+  @container (max-width: 640px) {
+    h1 { font-size: 23px; }
+    .deck { font-size: 15px; }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; width: 100%; }
+
+    /* cycle becomes vertical list on mobile */
+    .cycle {
+      grid-template-columns: 1fr;
+      gap: 7px;
+    }
+    .stage {
+      text-align: left;
+      padding: 11px 14px 11px 38px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .stage .st-num {
+      position: absolute;
+      top: 50%; left: 13px;
+      transform: translateY(-50%);
+    }
+    .stage .st-en { margin-bottom: 0; }
+    .stage .st-tc { font-size: 16px; }
+    .stage:not(:last-child)::after {
+      content: "↓";
+      right: auto; left: 50%;
+      top: auto; bottom: -7px;
+      transform: translateX(-50%);
+      font-size: 13px;
+    }
+
+    .comp-grid { grid-template-columns: 1fr; }
+    .explain { min-height: 64px; }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 14px 8px; }
+  }
+
+  /* ===== Preview toolbar ===== */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px;
+    font-size: 12px; font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">Loop Engineering · 迴圈工程拆解</div>
+    <h1>五個階段繞成一圈，六塊組件各自餵養它</h1>
+    <p class="deck">一個迴圈在概念上是五階段的循環，通過驗證就交付，沒通過再跑一次。你實際要動手「建」出來的，是六塊組件。點選任一組件，看它推動循環的哪一段。</p>
+  </header>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">概念來源：<strong>Addy Osmani、Boris Cherny、@0xCodez</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">製作：<strong>《數位時代》</strong></span>
+  </div>
+
+  <p class="hint"><span class="tap">＋</span>點選下方任一組件，循環中被它推動的階段會亮起</p>
+
+  <!-- hidden radio controls: must be siblings BEFORE .cycle / .explain / .comp-grid for ~ selector -->
+  <input type="radio" name="comp" id="c1" class="ctrl">
+  <input type="radio" name="comp" id="c2" class="ctrl">
+  <input type="radio" name="comp" id="c3" class="ctrl">
+  <input type="radio" name="comp" id="c4" class="ctrl">
+  <input type="radio" name="comp" id="c5" class="ctrl">
+  <input type="radio" name="comp" id="c6" class="ctrl">
+
+  <div class="section-title">五階段循環</div>
+
+  <div class="cycle">
+    <div class="stage s1"><span class="st-num">01</span><span class="st-en">Discover</span><span class="st-tc">探索</span></div>
+    <div class="stage s2"><span class="st-num">02</span><span class="st-en">Plan</span><span class="st-tc">規劃</span></div>
+    <div class="stage s3"><span class="st-num">03</span><span class="st-en">Execute</span><span class="st-tc">執行</span></div>
+    <div class="stage s4"><span class="st-num">04</span><span class="st-en">Verify</span><span class="st-tc">驗證</span></div>
+    <div class="stage s5"><span class="st-num">05</span><span class="st-en">Iterate</span><span class="st-tc">迭代</span></div>
+  </div>
+  <div class="loop-back"><span class="arc">↻</span> 通過驗證就<strong>交付</strong>，沒通過就回到探索，再跑一圈</div>
+
+  <div class="explain">
+    <span class="ex ex-default">尚未選擇。每塊組件負責推動循環中不同的階段，點下方卡片看對應關係。</span>
+    <span class="ex ex-1"><span class="ex-name">自動化</span>是整個迴圈的心跳，照排程驅動<span class="ex-stage">五個階段全程</span>，讓迴圈成為「迴圈」而非「跑過一次」。</span>
+    <span class="ex ex-2"><span class="ex-name">Worktree</span>給每個代理一個隔離的工作目錄，讓多個代理在<span class="ex-stage">執行</span>階段平行跑而不互相覆蓋檔案。</span>
+    <span class="ex ex-3"><span class="ex-name">技能（Skills）</span>把專案知識寫一次、每輪都讀，是<span class="ex-stage">全階段共用</span>的底層脈絡，知識會累積複利。</span>
+    <span class="ex ex-4"><span class="ex-name">連接器（Connectors）</span>建在 MCP 之上，讓迴圈在<span class="ex-stage">執行與驗證</span>階段碰得到待辦系統、資料庫、測試 API 與 Slack。</span>
+    <span class="ex ex-5"><span class="ex-name">子代理（Sub-agents）</span>讓<span class="ex-stage">驗證</span>誠實，檢查的人不是動手的人，抓出第一個代理「自己說服自己」的問題。</span>
+    <span class="ex ex-6"><span class="ex-name">記憶（Memory）</span>讓迴圈在<span class="ex-stage">迭代</span>時跨次不失憶。代理會忘，倉庫不會忘，明天接著今天停下的地方繼續。</span>
+  </div>
+
+  <div class="section-title">六塊組件（點我）</div>
+
+  <div class="comp-grid">
+    <label class="comp" for="c1">
+      <div class="comp-head"><span class="comp-num">01</span><span class="comp-name">自動化<span class="en">Automations</span></span></div>
+      <p class="comp-role">迴圈的心跳，照排程驅動整圈。Claude Code 用 /loop 週期重跑、/goal 持續到條件成真。</p>
+      <span class="comp-tag">驅動整個循環</span>
+    </label>
+
+    <label class="comp" for="c2">
+      <div class="comp-head"><span class="comp-num">02</span><span class="comp-name">Worktree<span class="en">git 隔離工作目錄</span></span></div>
+      <p class="comp-role">讓多個代理平行跑而不打架，每個代理一個獨立目錄與分支，誰都動不到別人的檔案。</p>
+      <span class="comp-tag">執行 Execute</span>
+    </label>
+
+    <label class="comp" for="c3">
+      <div class="comp-head"><span class="comp-num">03</span><span class="comp-name">技能<span class="en">Skills · SKILL.md</span></span></div>
+      <p class="comp-role">把專案知識寫一次、每次都讀，知識複利。沒技能，迴圈每輪都要從零重新摸索。</p>
+      <span class="comp-tag">全階段共用</span>
+    </label>
+
+    <label class="comp" for="c4">
+      <div class="comp-head"><span class="comp-num">04</span><span class="comp-name">連接器<span class="en">Connectors · 建在 MCP 上</span></span></div>
+      <p class="comp-role">讓迴圈碰得到待辦系統、資料庫、測試 API、Slack，而不是只看得到本機檔案。</p>
+      <span class="comp-tag">執行 ／ 驗證</span>
+    </label>
+
+    <label class="comp" for="c5">
+      <div class="comp-head"><span class="comp-num">05</span><span class="comp-name">子代理<span class="en">Sub-agents</span></span></div>
+      <p class="comp-role">讓驗證誠實，檢查的人不是動手的人。即評估者／優化者模式：一個生成、一個批改。</p>
+      <span class="comp-tag">驗證 Verify</span>
+    </label>
+
+    <label class="comp" for="c6">
+      <div class="comp-head"><span class="comp-num">06</span><span class="comp-name">記憶<span class="en">Memory</span></span></div>
+      <p class="comp-role">跨次不失憶。一個 markdown 檔或一塊看板都行，記著做了什麼、還剩什麼。</p>
+      <span class="comp-tag">迭代 Iterate</span>
+    </label>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　概念整理自 Addy Osmani、Boris Cherny、Steinberger 與 @0xCodez 的公開貼文，組件能力以 Claude Code 與 OpenAI Codex 官方文件為準　|　製圖：2026.06.15
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>

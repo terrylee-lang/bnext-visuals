@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| 迴圈工程：五階段循環 × 六塊組件 | 教學文「Loop Engineering 是什麼」：五階段循環（探索→規劃→執行→驗證→迭代）與六塊組件（自動化／Worktree／技能／連接器／子代理／記憶）的互動對應圖，點組件亮對應階段。純 CSS 互動 | 2026-06-15 | [`2026/06-loop-engineering-cycle.html`](./2026/06-loop-engineering-cycle.html) |
 | Claude Code Skill 的 9 種類型 | Anthropic「Lessons from building Claude Code」心法文：官方盤點內部數百個活躍 skill 歸納出的 9 種類型卡片地圖，幫讀者檢查還缺哪一種 | 2026-06-12 | [`2026/06-claude-skills-9types.html`](./2026/06-claude-skills-9types.html) |
 | 一個 SKILL.md 長什麼樣？五個區塊拆給你看 | 同篇心法文：以「週報產生器」為例，拆解 SKILL.md 的 name／description／怎麼做／Gotchas／參考五區塊各自作用 | 2026-06-12 | [`2026/06-skillmd-anatomy.html`](./2026/06-skillmd-anatomy.html) |
 | SpaceX 三大分部損益：誰在賺、誰在燒錢 | SpaceX 上市懶人包：2025 三大分部營收 vs 營業損益對照，星鏈賺的被 Space 與 AI 燒掉，整體營業虧損 25.89 億美元 | 2026-06-08 | [`2026/06-spacex-segment-pnl.html`](./2026/06-spacex-segment-pnl.html) |
