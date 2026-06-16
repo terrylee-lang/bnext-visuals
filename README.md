@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| 特斯拉 FSD（Supervised）全球開放進度 | 深度分析「特斯拉 FSD 送件台灣：排進一條跑了一年多的審查隊伍」：全球市場依開放階段分四級（已上路／道路測試／送審中／待核准），台灣標「送審中」並用 BN Orange 強調，凸顯後進者位置。中國標外電報導、比利時標業者口徑、家數採「逾十個市場」不咬死，頁首頁尾點明受駕駛監督的 L2、非無人駕駛 | 2026-06-16 | [`2026/06-tesla-fsd-global-rollout.html`](./2026/06-tesla-fsd-global-rollout.html) |
 | 迴圈工程：五階段循環 × 六塊組件 | 教學文「Loop Engineering 是什麼」：五階段循環（探索→規劃→執行→驗證→迭代）與六塊組件（自動化／Worktree／技能／連接器／子代理／記憶）的互動對應圖，點組件亮對應階段。純 CSS 互動 | 2026-06-15 | [`2026/06-loop-engineering-cycle.html`](./2026/06-loop-engineering-cycle.html) |
 | Claude Code Skill 的 9 種類型 | Anthropic「Lessons from building Claude Code」心法文：官方盤點內部數百個活躍 skill 歸納出的 9 種類型卡片地圖，幫讀者檢查還缺哪一種 | 2026-06-12 | [`2026/06-claude-skills-9types.html`](./2026/06-claude-skills-9types.html) |
 | 一個 SKILL.md 長什麼樣？五個區塊拆給你看 | 同篇心法文：以「週報產生器」為例，拆解 SKILL.md 的 name／description／怎麼做／Gotchas／參考五區塊各自作用 | 2026-06-12 | [`2026/06-skillmd-anatomy.html`](./2026/06-skillmd-anatomy.html) |
