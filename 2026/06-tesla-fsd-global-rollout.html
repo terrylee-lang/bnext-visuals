@@ -291,42 +291,51 @@
     padding: 0 4px;
     line-height: 1.5;
   }
-  .chip[data-note]:hover {
+  .chip[data-note] {
+    cursor: pointer;
+  }
+  .chip[data-note]:hover,
+  .chip[data-note].is-open {
     border-color: var(--bn-navy);
     background: var(--paper-3);
   }
-  /* tooltip via data-note */
-  .chip[data-note]:hover::after {
-    content: attr(data-note);
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
+  .chip[data-note] .note-mark {
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  .chip[data-note].is-open .note-mark {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+
+  /* Inline note：取代浮層 tooltip，徹底免去容器邊緣裁切 / overflow:hidden 問題 */
+  /* note 是 chips 容器內的 flex 子元素，佔整排（flex-basis:100%）顯示在該列下方 */
+  .chip-note {
+    display: none;
+    flex-basis: 100%;
+    width: 100%;
+    margin-top: 2px;
     background: var(--bn-navy);
     color: var(--paper);
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 500;
-    line-height: 1.55;
+    line-height: 1.6;
     letter-spacing: 0.02em;
-    white-space: normal;
-    width: max-content;
-    max-width: 240px;
-    padding: 8px 11px;
+    padding: 9px 13px;
     border-radius: 8px;
-    z-index: 50;
     text-align: left;
-    pointer-events: none;
   }
-  .chip[data-note]:hover::before {
-    content: "";
-    position: absolute;
-    bottom: calc(100% + 2px);
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: var(--bn-navy);
-    z-index: 50;
-    pointer-events: none;
+  .chip-note.is-open { display: block; }
+  /* 純 CSS fallback：後台若 strip 掉 script，hover / focus 仍可展開相鄰 note */
+  .chip[data-note]:hover + .chip-note,
+  .chip[data-note]:focus + .chip-note,
+  .chip[data-note]:focus-within + .chip-note { display: block; }
+  .chip-note .note-head {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--bn-orange);
+    margin-right: 6px;
   }
 
   /* Taiwan highlight stage */
@@ -450,12 +459,21 @@
   footer b { color: var(--bn-black); font-weight: 700; }
   footer .foot-row { margin-bottom: 4px; }
 
-  /* ---------- Mobile hint ---------- */
+  /* ---------- Tap / click hint ---------- */
   .tap-hint {
-    display: none;
+    display: block;
     font-size: 12px;
     color: var(--cool-600);
     margin-bottom: 14px;
+  }
+  .tap-hint .mark {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bn-orange-deep);
+    border: 1px solid var(--bn-orange);
+    border-radius: 6px;
+    padding: 0 4px;
   }
 
   /* ================= Container query: 手機 ================= */
@@ -473,7 +491,7 @@
     .stage-body { padding: 14px; }
     .wait-body { padding: 14px; }
 
-    /* 手機：chip 改整排展開，附 note 直接顯示在 chip 下方 */
+    /* 手機：chip 改整排，附 note 永遠展開顯示在 chip 下方 */
     .chips { flex-direction: column; gap: 7px; }
     .chip {
       width: 100%;
@@ -482,22 +500,28 @@
       align-items: flex-start;
       flex-wrap: wrap;
     }
-    .chip[data-note]::after {
-      content: attr(data-note);
+    .chip[data-note] { cursor: default; }
+    .chip[data-note]:hover,
+    .chip[data-note].is-open {
+      border-color: var(--warm-300);
+      background: var(--paper-2);
+    }
+    .chip[data-note].is-open .note-mark {
+      background: transparent;
+      color: var(--bn-orange-deep);
+    }
+    /* 手機 note：去掉深底浮層感，改用 muted 內嵌文字、永遠顯示 */
+    .chip-note,
+    .chip-note.is-open {
       display: block;
-      position: static;
-      transform: none;
-      width: 100%;
-      max-width: none;
+      margin-top: 4px;
+      padding: 0 0 0 4px;
       background: transparent;
       color: var(--cool-600);
-      font-size: 12px;
-      padding: 2px 0 0 22px;
+      font-size: 12.5px;
       border-radius: 0;
     }
-    .chip[data-note]:hover::after,
-    .chip[data-note]:hover::before { display: none; }
-    .chip[data-note]:hover { border-color: var(--warm-300); background: var(--paper-2); }
+    .chip-note .note-head { color: var(--bn-orange-deep); }
 
     .tw-card { padding: 12px 14px; gap: 10px; }
     .tw-card .flag { font-size: 22px; }
@@ -596,7 +620,7 @@
     </div>
   </div>
 
-  <p class="tap-hint">提示：點任一市場可看開放／報導時點與備註。</p>
+  <p class="tap-hint">提示：點選帶有 <span class="mark">標記</span> 的市場可展開備註說明。手機版備註直接顯示在市場下方。</p>
 
   <div class="stages">
 
@@ -611,7 +635,8 @@
         <div class="region">
           <div class="region-label">北美</div>
           <div class="chips">
-            <span class="chip" data-note="特斯拉 FSD（Supervised）最早開放的主場市場。"><span class="flag">🇺🇸</span>美國</span>
+            <span class="chip" data-note role="button" tabindex="0" aria-expanded="false"><span class="flag">🇺🇸</span>美國</span>
+            <span class="chip-note"><span class="note-head">備註</span>特斯拉 FSD（Supervised）最早開放的主場市場。</span>
             <span class="chip"><span class="flag">🇨🇦</span>加拿大</span>
             <span class="chip"><span class="flag">🇲🇽</span>墨西哥</span>
             <span class="chip"><span class="flag">🇵🇷</span>波多黎各</span>
@@ -620,7 +645,8 @@
         <div class="region">
           <div class="region-label">亞太</div>
           <div class="chips">
-            <span class="chip" data-note="據外電 CNBC、CnEVPost 報導，2026 年 5 月在中國開放。特斯拉台灣官方 12 國名單未列中國。"><span class="flag">🇨🇳</span>中國<span class="note-mark">外電報導</span></span>
+            <span class="chip" data-note role="button" tabindex="0" aria-expanded="false"><span class="flag">🇨🇳</span>中國<span class="note-mark">外電報導</span></span>
+            <span class="chip-note"><span class="note-head">備註</span>據外電 CNBC、CnEVPost 報導，2026 年 5 月在中國開放。特斯拉台灣官方 12 國名單未列中國。</span>
             <span class="chip"><span class="flag">🇰🇷</span>韓國</span>
             <span class="chip"><span class="flag">🇦🇺</span>澳洲</span>
             <span class="chip"><span class="flag">🇳🇿</span>紐西蘭</span>
@@ -629,11 +655,13 @@
         <div class="region">
           <div class="region-label">歐洲</div>
           <div class="chips">
-            <span class="chip" data-note="據報導，2026 年 4 月由荷蘭監管機關 RDW 完成歐洲首次核准。"><span class="flag">🇳🇱</span>荷蘭<span class="note-mark">RDW 首核</span></span>
+            <span class="chip" data-note role="button" tabindex="0" aria-expanded="false"><span class="flag">🇳🇱</span>荷蘭<span class="note-mark">RDW 首核</span></span>
+            <span class="chip-note"><span class="note-head">備註</span>據報導，2026 年 4 月由荷蘭監管機關 RDW 完成歐洲首次核准。</span>
             <span class="chip"><span class="flag">🇱🇹</span>立陶宛</span>
             <span class="chip"><span class="flag">🇪🇪</span>愛沙尼亞</span>
             <span class="chip"><span class="flag">🇩🇰</span>丹麥</span>
-            <span class="chip" data-note="特斯拉官方名單有列，但目前缺可靠的獨立公開來源佐證，僅採業者口徑。"><span class="flag">🇧🇪</span>比利時<span class="note-mark">業者口徑</span></span>
+            <span class="chip" data-note role="button" tabindex="0" aria-expanded="false"><span class="flag">🇧🇪</span>比利時<span class="note-mark">業者口徑</span></span>
+            <span class="chip-note"><span class="note-head">備註</span>特斯拉官方名單有列，但目前缺可靠的獨立公開來源佐證，僅採業者口徑。</span>
           </div>
         </div>
       </div>
@@ -650,7 +678,8 @@
         <div class="region">
           <div class="region-label">亞太</div>
           <div class="chips">
-            <span class="chip" data-note="於東京、橫濱、大阪進行實車道路測試。"><span class="flag">🇯🇵</span>日本（東京、橫濱、大阪）</span>
+            <span class="chip" data-note role="button" tabindex="0" aria-expanded="false"><span class="flag">🇯🇵</span>日本（東京、橫濱、大阪）</span>
+            <span class="chip-note"><span class="note-head">備註</span>於東京、橫濱、大阪進行實車道路測試。</span>
           </div>
         </div>
       </div>
@@ -711,6 +740,25 @@
   <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
   <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
 </div>
+
+<script>
+// 點選 chip 展開／收合相鄰備註（漸進增強；script 被 strip 時 CSS hover fallback 仍可用）
+(function() {
+  function toggle(chip) {
+    var note = chip.nextElementSibling;
+    if (!note || !note.classList.contains('chip-note')) return;
+    var open = note.classList.toggle('is-open');
+    chip.classList.toggle('is-open', open);
+    chip.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  document.querySelectorAll('.chip[data-note]').forEach(function(chip) {
+    chip.addEventListener('click', function() { toggle(chip); });
+    chip.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(chip); }
+    });
+  });
+})();
+</script>
 
 <script>
 (function() {
