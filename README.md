@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| bad 還是 sad？Claude Code 團隊的品質分級語言 | 深度分析「bad vs. sad：Anthropic Claude Code 團隊的品質分級框架」：把工程負責人 Fiona Fung 於 Lenny's Podcast 提出的兩級品質語言視覺化。bad（深 navy 強調卡）＝不可恢復的嚴重錯誤、sad（淺底輕卡）＝可恢復但讓人不舒服，中間橘色升級帶點出 sad 堆疊會滑向 bad、故 sad 也要追蹤趨勢；下接「各團隊自畫紅線」落地說明與 CLI／UI 範例。桌機兩級並列、手機單欄堆疊，純 CSS container query 雙軌 | 2026-06-25 | [`2026/06-claude-code-bad-vs-sad.html`](./2026/06-claude-code-bad-vs-sad.html) |
 | 六天五人：Google AI 人才出走流向圖 | 即時新聞「六天五人：Google AI 人才出走流向圖」：一週內五名 Google／DeepMind 研究員傳出出走，桌機 SVG 流向圖把單一流出來源連到 Anthropic（4 人）與 OpenAI（1 人），三名 AlphaFold 核心成員（Jumper／Adler／Pritzel）傳於 Anthropic 重聚，用 BN Orange 高亮重聚集群；手機改依目的地分組人名清單。下接三數字看規模（Transformer 八作者七人離 Google、DeepMind 跳 Anthropic 約反向 11 倍、Anthropic 估值 9,650 億美元）。全程標明部分人事為彭博等媒體報導之傳出階段、尚未經官方證實 | 2026-06-25 | [`2026/06-google-ai-talent-exodus.html`](./2026/06-google-ai-talent-exodus.html) |
 | 特斯拉 FSD（Supervised）全球開放進度 | 深度分析「特斯拉 FSD 送件台灣：排進一條跑了一年多的審查隊伍」：全球市場依開放階段分四級（已上路／道路測試／送審中／待核准），台灣標「送審中」並用 BN Orange 強調，凸顯後進者位置。中國標外電報導、比利時標業者口徑、家數採「逾十個市場」不咬死，頁首頁尾點明受駕駛監督的 L2、非無人駕駛 | 2026-06-16 | [`2026/06-tesla-fsd-global-rollout.html`](./2026/06-tesla-fsd-global-rollout.html) |
 | 迴圈工程：五階段循環 × 六塊組件 | 教學文「Loop Engineering 是什麼」：五階段循環（探索→規劃→執行→驗證→迭代）與六塊組件（自動化／Worktree／技能／連接器／子代理／記憶）的互動對應圖，點組件亮對應階段。純 CSS 互動 | 2026-06-15 | [`2026/06-loop-engineering-cycle.html`](./2026/06-loop-engineering-cycle.html) |

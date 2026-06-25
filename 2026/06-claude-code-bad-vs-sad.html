@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bad vs. sad：Claude Code 團隊的品質分級框架 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-orange-soft: #FFE7D6;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    line-height: 1.8;
+    text-wrap: pretty;
+    padding: 20px 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .num, .label-en {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    padding: 36px 38px;
+  }
+
+  h1, h2, .deck, .section-headline { text-wrap: balance; }
+
+  /* ── Header ── */
+  header { margin-bottom: 8px; }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bn-orange);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    color: var(--bn-black);
+  }
+  h1 .en {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    letter-spacing: -0.01em;
+  }
+  .deck {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--cool-600);
+    margin-top: 14px;
+    max-width: 640px;
+  }
+
+  /* ── 兩級定義並列 ── */
+  .levels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 30px;
+  }
+  .level-card {
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    padding: 22px 22px 24px;
+    background: var(--paper-2);
+  }
+  /* bad：強調 ── 深色 navy 底 + 左橘條，視覺最重 */
+  .level-card.bad {
+    background: var(--bn-navy);
+    border-color: var(--bn-navy);
+    border-left: 4px solid var(--bn-orange);
+  }
+  /* sad：柔樣式 ── 淺 paper 底，視覺較輕 */
+  .level-card.sad {
+    background: var(--paper-2);
+    border-left: 4px solid var(--warm-300);
+  }
+  .level-tag {
+    display: inline-block;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .bad .level-tag { color: var(--bn-orange); }
+  .sad .level-tag { color: var(--cool-600); }
+  .level-sub {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .bad .level-sub { color: var(--paper); }
+  .sad .level-sub { color: var(--bn-black); }
+  .level-def {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .bad .level-def { color: rgba(250, 247, 241, 0.82); }
+  .sad .level-def { color: var(--cool-600); }
+  .level-ex-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .bad .level-ex-label { color: rgba(250, 247, 241, 0.5); }
+  .sad .level-ex-label { color: var(--cool-400); }
+  .level-ex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 11px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .bad .chip {
+    background: rgba(255, 107, 26, 0.16);
+    color: var(--paper);
+    border: 1px solid rgba(255, 107, 26, 0.4);
+  }
+  .sad .chip {
+    background: var(--paper-3);
+    color: var(--bn-black);
+    border: 1px solid var(--warm-300);
+  }
+
+  /* ── 核心動態：升級箭頭 ── */
+  .escalation {
+    margin-top: 16px;
+    border: 1px solid var(--bn-orange);
+    border-radius: 8px;
+    background: var(--bn-orange-soft);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .esc-flow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .esc-node {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    padding: 7px 16px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .esc-node.sad { background: var(--paper); color: var(--cool-600); border: 1px solid var(--warm-300); }
+  .esc-node.bad { background: var(--bn-navy); color: var(--bn-orange); }
+  .esc-arrow {
+    color: var(--bn-orange);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+  .esc-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--bn-black);
+  }
+  .esc-text strong { color: var(--bn-orange-deep); font-weight: 700; }
+
+  /* ── Section 通用 ── */
+  .section { margin-top: 34px; }
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bn-orange);
+    border-top: 1px solid var(--hairline);
+    padding-top: 14px;
+    margin-bottom: 6px;
+  }
+  .section-headline {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--bn-black);
+    margin-bottom: 6px;
+  }
+  .section-lede {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--cool-600);
+    margin-bottom: 18px;
+    max-width: 660px;
+  }
+
+  /* ── 落地：各團隊自訂紅線 ── */
+  .surfaces {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .surface-card {
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    background: var(--paper);
+    padding: 18px 20px;
+  }
+  .surface-name {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--bn-black);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .surface-line {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .surface-line + .surface-line { margin-top: 9px; }
+  .sl-tag {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    width: 32px;
+  }
+  .sl-tag.bad { color: var(--bn-orange); }
+  .sl-tag.sad { color: var(--cool-400); }
+  .sl-desc { color: var(--bn-black); }
+
+  /* ── 為什麼有用 ── */
+  .why {
+    margin-top: 16px;
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper-3);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 22px;
+  }
+  .why-label {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bn-orange);
+    margin-bottom: 8px;
+  }
+  .why-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--bn-black);
+  }
+  .why-text strong { font-weight: 700; }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 32px;
+    border-top: 1px solid var(--hairline);
+    padding-top: 16px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--cool-600);
+  }
+  footer strong { color: var(--bn-black); font-weight: 700; }
+  .src-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .src-row img {
+    border-radius: 4px;
+    flex-shrink: 0;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    object-fit: contain;
+  }
+
+  /* ═══ 雙軌：窄版（手機 / wrapper ≤640） ═══ */
+  @container (max-width: 640px) {
+    .wrapper { padding: 24px 18px; }
+    h1 { font-size: 24px; }
+    .deck { font-size: 15px; }
+    .levels { grid-template-columns: 1fr; gap: 12px; }
+    .escalation { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .esc-flow { width: 100%; justify-content: center; }
+    .surfaces { grid-template-columns: 1fr; }
+    .section-headline { font-size: 17px; }
+  }
+  @media (max-width: 640px) {
+    body { padding: 12px 8px; }
+  }
+
+  /* ── 預覽工具列（編輯內部，?preview=1） ── */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">品質框架 · QUALITY FRAMEWORK</div>
+    <h1><span class="en">bad</span> 還是 <span class="en">sad</span>？Claude Code 團隊的品質分級語言</h1>
+    <p class="deck">面對 AI 暴增的程式碼量，Anthropic 用兩個字把「品質」變成全團隊聽得懂的同一句話。</p>
+  </header>
+
+  <!-- 1. 兩級定義 -->
+  <div class="levels">
+    <div class="level-card bad">
+      <div class="level-tag">bad</div>
+      <div class="level-sub">不可恢復的嚴重錯誤</div>
+      <div class="level-def">使用者直接受害、無法挽回。這條線不能碰。</div>
+      <div class="level-ex-label">典型情境</div>
+      <div class="level-ex">
+        <span class="chip">程式崩潰 crash</span>
+        <span class="chip">資料遺失</span>
+      </div>
+    </div>
+    <div class="level-card sad">
+      <div class="level-tag">sad</div>
+      <div class="level-sub">可恢復、但讓人不舒服</div>
+      <div class="level-def">體驗有痛點，使用者還能用下去，只是不愉快。</div>
+      <div class="level-ex-label">典型情境</div>
+      <div class="level-ex">
+        <span class="chip">畫面閃爍 flicker</span>
+        <span class="chip">按鈕反應延遲</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 核心動態：升級 -->
+  <div class="escalation">
+    <div class="esc-flow">
+      <span class="esc-node sad">sad 累積</span>
+      <span class="esc-arrow" aria-hidden="true">
+        <svg width="40" height="20" viewBox="0 0 40 20" fill="none">
+          <path d="M2 10 H32" stroke="#FF6B1A" stroke-width="2.5"/>
+          <path d="M28 4 L36 10 L28 16" stroke="#FF6B1A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="esc-node bad">演變成 bad</span>
+    </div>
+    <div class="esc-text"><strong>框架精髓：</strong>單一 sad 看似可容忍，但 sad 不斷堆疊，整體體驗就會滑向 bad。所以 sad 也要追蹤趨勢，不能放著不管。</div>
+  </div>
+
+  <!-- 3. 落地：各團隊自訂紅線 -->
+  <div class="section">
+    <div class="section-title">落地方式 · HOW IT WORKS</div>
+    <h2 class="section-headline">不訂全公司統一標準，各團隊依自己的產品表面自畫紅線</h2>
+    <p class="section-lede">Fiona Fung 不替全公司定義什麼叫 bad、什麼叫 sad，而是把判斷權交給各子團隊，各自照自己的產品性質定義門檻、各建各的儀表板追蹤趨勢。</p>
+
+    <div class="surfaces">
+      <div class="surface-card">
+        <div class="surface-name">CLI 命令列介面</div>
+        <div class="surface-line">
+          <span class="sl-tag bad">bad</span>
+          <span class="sl-desc">程式崩潰 crash，使用者的工作直接丟失</span>
+        </div>
+      </div>
+      <div class="surface-card">
+        <div class="surface-name">某 UI 功能</div>
+        <div class="surface-line">
+          <span class="sl-tag sad">sad</span>
+          <span class="sl-desc">按鈕反應延遲超過設定閾值</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="why">
+      <div class="why-label">它解決了什麼痛點</div>
+      <div class="why-text">CLI、瀏覽器擴充、Cowork 介面性質都不同，傳統共用指標（如<strong>頁面載入時間</strong>）很難放同一把尺衡量，也難判斷一個數字到底是好是壞。bad / sad 讓不同產品改用<strong>同一套語言</strong>回報品質：這是「不可接受」，還是「只是不舒服」。</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="src-row">
+      <img src="https://www.google.com/s2/favicons?sz=64&domain=anthropic.com" alt="" width="20" height="20" onerror="this.style.visibility='hidden'">
+      <span>框架出自 Anthropic Claude Code 工程負責人 <strong>Fiona Fung</strong> 於 Lenny's Podcast 訪談所述（2026 年 6 月 21 日）。</span>
+    </div>
+    <div><strong>《數位時代》</strong>　|　製圖：2026.06.25</div>
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>
