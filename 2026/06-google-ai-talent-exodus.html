@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>六天五人：Google AI 人才出走流向圖 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;900&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-navy2: #1B2A45;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper2: #F5F3EF;
+    --paper3: #ECE8DF;
+    --paper4: #E3DECF;
+    --warm300: #D4D0C8;
+    --cool600: #5C6470;
+    --cool400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    padding: 20px 14px;
+    text-wrap: pretty;
+  }
+  .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ===== Header ===== */
+  header { margin-bottom: 8px; }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--bn-orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 900;
+    margin: 0 0 12px;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+  .deck {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--cool600);
+    margin: 0;
+    max-width: 680px;
+    text-wrap: balance;
+  }
+
+  .meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 13px;
+    color: var(--cool600);
+    margin: 18px 0 24px;
+    padding: 12px 0;
+    border-top: 1px solid var(--warm300);
+    border-bottom: 1px solid var(--warm300);
+  }
+  .meta-chunk { white-space: nowrap; }
+  .meta-chunk strong { color: var(--bn-black); font-weight: 700; }
+  .meta-sep { color: var(--warm300); }
+
+  /* ===== Section ===== */
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: var(--cool600);
+    text-transform: uppercase;
+    margin: 8px 0 4px;
+  }
+  .section-headline {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 6px;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+  .section-note {
+    font-size: 13px;
+    color: var(--cool600);
+    margin: 0 0 18px;
+    line-height: 1.65;
+  }
+
+  /* ===== Flow chart (desktop SVG) ===== */
+  .flow-wrap {
+    border: 1px solid var(--warm300);
+    border-radius: 8px;
+    background: var(--paper);
+    padding: 8px 10px 4px;
+    margin-bottom: 16px;
+  }
+  .flow-svg { display: block; width: 100%; height: auto; }
+  .flow-svg text {
+    font-family: "Noto Sans TC", "PingFang TC", -apple-system, sans-serif;
+  }
+
+  /* legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin: 0 0 16px;
+    font-size: 13px;
+    color: var(--cool600);
+    align-items: center;
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch { width: 22px; height: 6px; border-radius: 3px; flex-shrink: 0; }
+  .swatch.anthropic { background: var(--bn-orange); }
+  .swatch.openai { background: var(--cool600); }
+  .dot-alpha {
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--bn-orange); border: 2px solid var(--bn-navy);
+    flex-shrink: 0;
+  }
+
+  /* ===== Mobile alt: grouped person list ===== */
+  .mobile-alt { display: none; }
+  .dest-group {
+    border: 1px solid var(--warm300);
+    border-radius: 8px;
+    background: var(--paper);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .dest-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px 16px;
+  }
+  .dest-head.to-anthropic { background: var(--bn-orange); }
+  .dest-head.to-openai { background: var(--bn-navy); }
+  .dest-head .dest-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dest-head .dest-count {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--paper);
+    background: rgba(250, 247, 241, 0.22);
+    padding: 2px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .dest-logo {
+    width: 22px; height: 22px; border-radius: 4px;
+    background: var(--paper); border: 0;
+    object-fit: contain; flex-shrink: 0;
+  }
+  .person {
+    padding: 13px 16px;
+    border-top: 1px solid var(--hairline);
+  }
+  .person:first-child { border-top: 0; }
+  .person.alpha {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper3);
+  }
+  .person-top {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin-bottom: 4px;
+  }
+  .person-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--bn-black);
+  }
+  .person-role {
+    font-size: 13px;
+    color: var(--cool600);
+  }
+  .person-field {
+    font-size: 13px;
+    color: var(--bn-black);
+    line-height: 1.6;
+  }
+  .alpha-tag {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--paper);
+    background: var(--bn-orange);
+    padding: 1px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* ===== Cluster callout ===== */
+  .cluster-note {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper3);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 1.75;
+    margin: 18px 0 22px;
+    text-wrap: pretty;
+  }
+  .cluster-note strong { color: var(--bn-orange-deep); font-weight: 800; }
+
+  /* ===== Stat band ===== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .stat {
+    border: 1px solid var(--warm300);
+    border-radius: 8px;
+    background: var(--paper2);
+    padding: 18px 18px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .stat-num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--bn-orange);
+    margin-bottom: 8px;
+  }
+  .stat-num .unit {
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 2px;
+  }
+  .stat-num.dollar {
+    font-size: 27px;
+  }
+  .stat-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--bn-black);
+    line-height: 1.55;
+    margin-bottom: 6px;
+  }
+  .stat-desc {
+    font-size: 13px;
+    color: var(--cool600);
+    line-height: 1.65;
+    margin-top: auto;
+  }
+  .stat-src {
+    font-size: 11px;
+    color: var(--cool400);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  footer {
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 1px solid var(--warm300);
+    font-size: 12px;
+    color: var(--cool600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); font-weight: 700; }
+
+  /* ===== Container query：手機 / 窄版 ===== */
+  @container (max-width: 640px) {
+    h1 { font-size: 24px; }
+    .deck { font-size: 15px; }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; width: 100%; }
+    .flow-wrap { display: none; }
+    .legend { display: none; }
+    .mobile-alt { display: block; }
+    .stats { grid-template-columns: 1fr; gap: 10px; }
+    .stat-num { font-size: 30px; }
+    .stat-num.dollar { font-size: 26px; }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 14px 8px; }
+  }
+
+  /* ===== Preview toolbar ===== */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px;
+    font-size: 12px; font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">即時追蹤 · 人才流向</div>
+    <h1>六天五人：Google AI 人才出走流向圖</h1>
+    <p class="deck">一週內五名 Google／DeepMind 研究員傳出出走，四投 Anthropic、一投 OpenAI。</p>
+  </header>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">資料來源：<strong>彭博、FourWeekMBA、SignalFire</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">整理：<strong>《數位時代》</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">更新：<strong>2026 / 06 / 25</strong></span>
+  </div>
+
+  <div class="section-title">FIGURE 01 · 人才流向</div>
+  <h2 class="section-headline">六天五人，流向哪裡</h2>
+  <p class="section-note">據彭博等報導，部分人事尚未經官方證實。</p>
+
+  <div class="legend">
+    <span><i class="swatch anthropic"></i>流向 Anthropic（4 人）</span>
+    <span><i class="swatch openai"></i>流向 OpenAI（1 人）</span>
+    <span><i class="dot-alpha"></i>AlphaFold 三人組</span>
+  </div>
+
+  <!-- ===== Desktop SVG flow chart ===== -->
+  <div class="flow-wrap">
+    <svg class="flow-svg" viewBox="0 0 820 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Google DeepMind 五名研究員流向 Anthropic 與 OpenAI 的流向圖，其中三名 AlphaFold 成員於 Anthropic 重聚">
+
+      <!-- ===== Flow links (draw first, behind nodes) ===== -->
+      <!-- Source right edge x=240 ; Anthropic node left x=470 ; OpenAI node left x=470 -->
+
+      <!-- 3 lines to AlphaFold cluster (bright orange). entry y 110 / 138 / 166 -->
+      <path d="M240,165 C355,165 360,110 470,110" fill="none" stroke="#FF6B1A" stroke-width="7" stroke-opacity="0.9" stroke-linecap="round"/>
+      <path d="M240,185 C355,185 360,138 470,138" fill="none" stroke="#FF6B1A" stroke-width="7" stroke-opacity="0.9" stroke-linecap="round"/>
+      <path d="M240,205 C355,205 360,166 470,166" fill="none" stroke="#FF6B1A" stroke-width="7" stroke-opacity="0.9" stroke-linecap="round"/>
+      <!-- 1 line to Anthropic (Conmy, lighter orange). entry y 205 -->
+      <path d="M240,225 C355,225 360,205 470,205" fill="none" stroke="#FF6B1A" stroke-width="7" stroke-opacity="0.45" stroke-linecap="round"/>
+
+      <!-- 1 line to OpenAI (grey). entry y 320 -->
+      <path d="M240,290 C355,290 360,320 470,320" fill="none" stroke="#5C6470" stroke-width="7" stroke-opacity="0.5" stroke-linecap="round"/>
+
+      <!-- ===== Source node: Google DeepMind ===== -->
+      <rect x="20" y="170" width="220" height="120" rx="8" fill="#0F1A2E"/>
+      <text x="130" y="214" text-anchor="middle" fill="#FAF7F1" font-size="20" font-weight="800">Google</text>
+      <text x="130" y="242" text-anchor="middle" fill="#FAF7F1" font-size="20" font-weight="800">DeepMind</text>
+      <text x="130" y="268" text-anchor="middle" fill="#8A93A0" font-size="13" font-weight="500">單一流出來源</text>
+
+      <!-- ===== Anthropic node ===== -->
+      <rect x="470" y="78" width="332" height="158" rx="8" fill="#FAF7F1" stroke="#FF6B1A" stroke-width="2.5"/>
+      <text x="492" y="108" text-anchor="start" fill="#1A1A1A" font-size="19" font-weight="800">Anthropic</text>
+      <text x="788" y="106" text-anchor="end" fill="#E55A0F" font-size="22" font-weight="800" font-family="Inter, 'Noto Sans TC', sans-serif">4 人</text>
+
+      <!-- AlphaFold cluster band inside Anthropic -->
+      <rect x="484" y="118" width="304" height="76" rx="6" fill="#FFE7D6"/>
+      <rect x="484" y="118" width="4" height="76" fill="#FF6B1A"/>
+      <text x="500" y="137" text-anchor="start" fill="#E55A0F" font-size="11.5" font-weight="800" letter-spacing="0.3" font-family="Inter, 'Noto Sans TC', sans-serif">ALPHAFOLD 三人組 · 於 ANTHROPIC 重聚</text>
+      <text x="500" y="158" text-anchor="start" fill="#1A1A1A" font-size="13.5" font-weight="700">John Jumper</text>
+      <text x="500" y="176" text-anchor="start" fill="#1A1A1A" font-size="13.5" font-weight="700">Jonas Adler</text>
+      <text x="640" y="176" text-anchor="start" fill="#1A1A1A" font-size="13.5" font-weight="700">Alexander Pritzel</text>
+
+      <!-- Conmy (non-alpha) -->
+      <text x="492" y="219" text-anchor="start" fill="#5C6470" font-size="13.5" font-weight="600">Arthur Conmy</text>
+
+      <!-- ===== OpenAI node ===== -->
+      <rect x="470" y="294" width="332" height="56" rx="8" fill="#FAF7F1" stroke="#D4D0C8" stroke-width="1.5"/>
+      <text x="492" y="318" text-anchor="start" fill="#1A1A1A" font-size="19" font-weight="800">OpenAI</text>
+      <text x="788" y="316" text-anchor="end" fill="#5C6470" font-size="20" font-weight="800" font-family="Inter, 'Noto Sans TC', sans-serif">1 人</text>
+      <text x="492" y="339" text-anchor="start" fill="#1A1A1A" font-size="13.5" font-weight="600">Noam Shazeer</text>
+
+      <!-- ===== Tilt annotation at bottom ===== -->
+      <text x="410" y="412" text-anchor="middle" fill="#5C6470" font-size="13" font-weight="500">五條流向，四條指向 Anthropic。</text>
+
+    </svg>
+  </div>
+
+  <!-- ===== Mobile alt: grouped person list ===== -->
+  <div class="mobile-alt">
+
+    <div class="dest-group">
+      <div class="dest-head to-anthropic">
+        <span class="dest-name">
+          <img class="dest-logo" src="https://www.google.com/s2/favicons?sz=64&domain=anthropic.com" alt="" onerror="this.style.visibility='hidden'">
+          流向 Anthropic
+        </span>
+        <span class="dest-count">4 人</span>
+      </div>
+
+      <div class="person alpha">
+        <div class="person-top">
+          <span class="person-name">John Jumper</span>
+          <span class="alpha-tag">AlphaFold 三人組</span>
+        </div>
+        <div class="person-role">DeepMind 研究員 · 諾貝爾化學獎得主</div>
+        <div class="person-field">蛋白質折疊</div>
+      </div>
+
+      <div class="person alpha">
+        <div class="person-top">
+          <span class="person-name">Jonas Adler</span>
+          <span class="alpha-tag">AlphaFold 三人組</span>
+        </div>
+        <div class="person-role">Gemini 核心貢獻者</div>
+        <div class="person-field">程式碼生成</div>
+      </div>
+
+      <div class="person alpha">
+        <div class="person-top">
+          <span class="person-name">Alexander Pritzel</span>
+          <span class="alpha-tag">AlphaFold 三人組</span>
+        </div>
+        <div class="person-role">Gemini 核心貢獻者</div>
+        <div class="person-field">模型預訓練</div>
+      </div>
+
+      <div class="person">
+        <div class="person-top">
+          <span class="person-name">Arthur Conmy</span>
+        </div>
+        <div class="person-role">DeepMind 資深研究工程師</div>
+        <div class="person-field">AI 安全</div>
+      </div>
+    </div>
+
+    <div class="dest-group">
+      <div class="dest-head to-openai">
+        <span class="dest-name">
+          <img class="dest-logo" src="https://www.google.com/s2/favicons?sz=64&domain=openai.com" alt="" onerror="this.style.visibility='hidden'">
+          流向 OpenAI
+        </span>
+        <span class="dest-count">1 人</span>
+      </div>
+
+      <div class="person">
+        <div class="person-top">
+          <span class="person-name">Noam Shazeer</span>
+        </div>
+        <div class="person-role">Gemini 共同主導 · Transformer 共同作者</div>
+        <div class="person-field">語言模型架構</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cluster-note">
+    Jumper、Adler、Pritzel 三名 <strong>AlphaFold</strong> 核心成員傳將在 Anthropic 重聚。一支明星團隊整批換東家，被外界讀為 Google 的<strong>系統性失血</strong>。
+  </div>
+
+  <div class="section-title">FIGURE 02 · 趨勢背景</div>
+  <h2 class="section-headline">三個數字看規模</h2>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num num">7<span class="unit">／8</span></div>
+      <div class="stat-label">Transformer 八位作者，七人已離開 Google</div>
+      <div class="stat-desc">其中六人投奔或創辦對手。</div>
+      <div class="stat-src">來源：FourWeekMBA</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-num num">約 11<span class="unit">倍</span></div>
+      <div class="stat-label">DeepMind 跳槽 Anthropic 的機率，是反向的近 11 倍</div>
+      <div class="stat-desc">人才幾乎是單向移動。</div>
+      <div class="stat-src">來源：SignalFire 2025 行業分析</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-num dollar num">9,650<span class="unit">億美元</span></div>
+      <div class="stat-label">Anthropic 最新估值，已秘密遞交 IPO 文件</div>
+      <div class="stat-desc">最快今年秋天掛牌，時程未定。</div>
+      <div class="stat-src">來源：彭博</div>
+    </div>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：編輯部　|　製圖：2026 年 6 月 25 日　|　人事消息均為彭博等媒體報導之傳出或將發生階段，部分尚未經官方證實
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>
