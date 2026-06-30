@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>00408A 收益平準金啟動條件｜數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bn-orange:#FF6B1A;--bn-orange-d:#E55A0F;--bn-orange-s:#FFE7D6;
+  --bn-navy:#0F1A2E;--bn-navy-2:#1B2A45;--bn-black:#1A1A1A;
+  --paper:#FAF7F1;--paper-2:#F5F3EF;--paper-3:#ECE8DF;--paper-4:#E3DECF;
+  --warm-300:#D4D0C8;--cool-600:#5C6470;--cool-400:#8A93A0;
+  --slate-700:#2A3142;--hairline:rgba(15,26,46,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--paper);color:var(--bn-black);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;
+  font-size:15px;line-height:1.7;text-wrap:pretty;}
+h1,h2,h3,.deck{text-wrap:balance;}
+.num{font-family:"Inter","Noto Sans TC",sans-serif;font-feature-settings:'tnum' 1;}
+
+.wrapper{max-width:880px;margin:0 auto;padding:32px 20px 24px;
+  container-type:inline-size;transition:max-width 0.25s ease;}
+
+.header{margin-bottom:20px;}
+.kicker{font-family:"Inter","Noto Sans TC",sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;color:var(--bn-orange);margin-bottom:8px;}
+.header h1{font-size:23px;font-weight:900;line-height:1.35;margin-bottom:8px;letter-spacing:0.02em;}
+.header h1 span{text-decoration:underline;text-decoration-thickness:3px;
+  text-underline-offset:5px;text-decoration-color:var(--bn-orange);}
+.deck{font-size:14px;color:var(--cool-600);line-height:1.6;}
+
+.sec-title{font-family:"Inter","Noto Sans TC",sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;color:var(--cool-600);margin:22px 0 12px;}
+
+/* 兩條件 AND */
+.cond-row{display:grid;grid-template-columns:1fr 52px 1fr;align-items:stretch;gap:0;}
+.cond{background:var(--paper-2);border:1px solid var(--warm-300);border-radius:8px;padding:16px 18px;}
+.cond .ctag{display:inline-block;font-family:"Inter",sans-serif;font-size:12px;font-weight:700;
+  color:var(--bn-orange);margin-bottom:6px;}
+.cond .ctxt{font-size:14.5px;font-weight:700;line-height:1.5;}
+.cond .csub{font-size:12.5px;color:var(--cool-600);margin-top:6px;line-height:1.55;}
+.and-gate{display:flex;align-items:center;justify-content:center;}
+.and-gate span{display:inline-flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:999px;background:var(--bn-navy);color:var(--paper);
+  font-family:"Inter",sans-serif;font-size:13px;font-weight:700;}
+
+.gate-note{text-align:center;font-size:13px;color:var(--cool-600);margin:14px 0;}
+.gate-note b{color:var(--bn-black);}
+.down{text-align:center;color:var(--warm-300);font-family:"Inter",sans-serif;font-size:20px;margin:4px 0;}
+
+.trigger{background:var(--bn-orange);border-radius:8px;padding:16px 20px;text-align:center;}
+.trigger .ttop{font-family:"Inter","Noto Sans TC",sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.85);margin-bottom:4px;}
+.trigger .tmain{font-size:17px;font-weight:900;color:#fff;}
+
+/* 配息來源優先序 */
+.priority{margin-top:8px;display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;}
+.pstep{flex:1 1 120px;background:var(--paper);border:1px solid var(--warm-300);border-radius:8px;
+  padding:12px 14px;position:relative;}
+.pstep .pno{font-family:"Inter",sans-serif;font-size:11px;font-weight:700;color:var(--cool-400);}
+.pstep .pnm{font-size:14px;font-weight:700;margin-top:2px;}
+.pstep--reserve{border-color:var(--bn-orange);border-width:2px;background:var(--bn-orange-s);}
+.pstep--reserve .pnm{color:var(--bn-orange-d);}
+.parrow{align-self:center;color:var(--warm-300);font-family:"Inter",sans-serif;font-size:16px;font-weight:700;}
+
+.warn{margin-top:20px;background:var(--paper-3);border-left:4px solid var(--bn-orange);
+  border-radius:0 8px 8px 0;padding:14px 18px;font-size:13px;line-height:1.7;}
+.warn b{color:var(--bn-black);}
+
+.footer-note{margin-top:20px;font-size:12px;color:var(--cool-600);line-height:1.7;
+  border-top:1px solid var(--warm-300);padding-top:14px;}
+
+@container (max-width:640px){
+  .header h1{font-size:20px;}
+  .cond-row{grid-template-columns:1fr;}
+  .and-gate{padding:8px 0;}
+  .priority{flex-direction:column;}
+  .parrow{transform:rotate(90deg);align-self:center;}
+}
+
+.preview-toolbar{display:none;position:fixed;top:14px;right:14px;z-index:9999;
+  background:var(--bn-navy);padding:4px;border-radius:6px;gap:2px;
+  font-family:"Inter","Noto Sans TC",sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.18);}
+.preview-toolbar.show{display:flex;}
+.preview-toolbar button{border:0;padding:7px 13px;font-size:12px;font-weight:700;
+  background:transparent;color:rgba(250,247,241,0.55);cursor:pointer;border-radius:4px;
+  transition:all 0.15s;font-family:inherit;}
+.preview-toolbar button:hover{color:var(--paper);}
+.preview-toolbar button.active{background:var(--bn-orange);color:var(--paper);}
+.preview-toolbar .label{font-size:10px;color:rgba(250,247,241,0.45);padding:0 8px;
+  align-self:center;letter-spacing:0.5px;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="kicker">00408A · 配息機制</div>
+    <h1>收益平準金，<span>兩條件同時成立</span>才動用</h1>
+    <p class="deck">收益平準金是為了讓配息率不被大量新申購稀釋的調節工具。00408A 須符合兩項條件，才會把它納入配息來源。</p>
+  </div>
+
+  <div class="sec-title">啟動條件 · 兩者缺一不可</div>
+
+  <div class="cond-row">
+    <div class="cond">
+      <span class="ctag">條件 A</span>
+      <div class="ctxt">本期配息率低於參考配息率</div>
+      <div class="csub">當期可分配的收益不足以支撐原本設定的配息水準。</div>
+    </div>
+    <div class="and-gate"><span>AND</span></div>
+    <div class="cond">
+      <span class="ctag">條件 B</span>
+      <div class="ctxt">兩次配息間淨申購增加達 10% 以上</div>
+      <div class="csub">大量新資金湧入，有稀釋每單位配息率之虞。</div>
+    </div>
+  </div>
+
+  <div class="down">▼</div>
+  <div class="gate-note"><b>兩條件同時成立</b>，才會動用收益平準金配息</div>
+
+  <div class="trigger">
+    <div class="ttop">啟動</div>
+    <div class="tmain">收益平準金納入配息來源</div>
+  </div>
+
+  <div class="sec-title">配息來源優先順序</div>
+  <div class="priority">
+    <div class="pstep"><div class="pno">1</div><div class="pnm">現金股利</div></div>
+    <div class="parrow">→</div>
+    <div class="pstep"><div class="pno">2</div><div class="pnm">利息</div></div>
+    <div class="parrow">→</div>
+    <div class="pstep"><div class="pno">3</div><div class="pnm">資本利得</div></div>
+    <div class="parrow">→</div>
+    <div class="pstep pstep--reserve"><div class="pno">4 · 達標才動用</div><div class="pnm">收益平準金</div></div>
+  </div>
+
+  <div class="warn">
+    <b>提醒：</b>當動用收益平準金時，配息可能來自原始投資金額，<b>可能導致原始投資金額減損</b>。配息率不代表報酬率，投資人申購前應詳閱公開說明書。
+  </div>
+
+  <p class="footer-note">
+    資料來源：第一金投信公開說明書。整理：《數位時代》。
+  </p>
+
+</div><!-- .wrapper -->
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+<script>
+(function(){
+  if(!new URLSearchParams(location.search).has('preview'))return;
+  var t=document.getElementById('previewToolbar'),w=document.querySelector('.wrapper');
+  if(!t||!w)return;t.classList.add('show');
+  t.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-mode]');if(!b)return;
+    t.querySelectorAll('button').forEach(function(x){
+      x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',x===b?'true':'false');});
+    w.style.maxWidth=(b.dataset.mode==='mobile')?'390px':'880px';});
+})();
+</script>
+</body>
+</html>

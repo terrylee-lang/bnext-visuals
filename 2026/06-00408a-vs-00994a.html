@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>00408A vs 00994A 對照｜數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bn-orange:#FF6B1A;--bn-orange-d:#E55A0F;--bn-orange-s:#FFE7D6;
+  --bn-navy:#0F1A2E;--bn-navy-2:#1B2A45;--bn-black:#1A1A1A;
+  --paper:#FAF7F1;--paper-2:#F5F3EF;--paper-3:#ECE8DF;--paper-4:#E3DECF;
+  --warm-300:#D4D0C8;--cool-600:#5C6470;--cool-400:#8A93A0;
+  --slate-700:#2A3142;--hairline:rgba(15,26,46,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--paper);color:var(--bn-black);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;
+  font-size:15px;line-height:1.7;text-wrap:pretty;}
+h1,h2,h3,.deck{text-wrap:balance;}
+.num{font-family:"Inter","Noto Sans TC",sans-serif;font-feature-settings:'tnum' 1;}
+
+.wrapper{max-width:880px;margin:0 auto;padding:32px 20px 24px;
+  container-type:inline-size;transition:max-width 0.25s ease;}
+
+.header{margin-bottom:18px;}
+.kicker{font-family:"Inter","Noto Sans TC",sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;color:var(--bn-orange);margin-bottom:8px;}
+.header h1{font-size:23px;font-weight:900;line-height:1.35;margin-bottom:8px;letter-spacing:0.02em;}
+.header h1 span{text-decoration:underline;text-decoration-thickness:3px;
+  text-underline-offset:5px;text-decoration-color:var(--bn-orange);}
+.deck{font-size:14px;color:var(--cool-600);line-height:1.6;}
+
+.meta-bar{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--cool-600);
+  border-top:1px solid var(--warm-300);border-bottom:1px solid var(--warm-300);
+  padding:10px 0;margin:16px 0 22px;}
+.meta-chunk{white-space:nowrap;}
+
+/* compare table */
+.cmp{border:1px solid var(--warm-300);border-radius:8px;overflow:hidden;}
+.cmp-head{display:grid;grid-template-columns:96px 1fr 1fr;}
+.cmp-head .ch{padding:14px 14px;text-align:center;}
+.cmp-head .ch--label{background:var(--paper-3);}
+.cmp-head .ch--a{background:var(--bn-orange-s);border-left:1px solid var(--warm-300);}
+.cmp-head .ch--b{background:var(--paper-2);border-left:1px solid var(--warm-300);}
+.ch .tk{font-family:"Inter",sans-serif;font-size:18px;font-weight:900;}
+.ch--a .tk{color:var(--bn-orange-d);}
+.ch .tg{font-size:12px;color:var(--cool-600);margin-top:2px;}
+
+.cmp-row{display:grid;grid-template-columns:96px 1fr 1fr;border-top:1px solid var(--warm-300);}
+.cmp-row .cell{padding:13px 14px;font-size:13.5px;line-height:1.55;border-left:1px solid var(--warm-300);}
+.cmp-row .cell:first-child{border-left:0;}
+.cmp-row .cell--label{background:var(--paper-2);font-weight:700;font-size:12.5px;color:var(--cool-600);
+  display:flex;align-items:center;}
+.cmp-row .cell--a{background:var(--paper);}
+.cmp-row .cell--b{background:var(--paper);}
+.cell b{color:var(--bn-black);}
+.hl{color:var(--bn-orange);font-weight:700;}
+
+.common{margin-top:18px;background:var(--bn-navy);border-radius:8px;padding:14px 18px;
+  font-size:13px;color:var(--paper);line-height:1.6;}
+.common .clabel{font-family:"Inter","Noto Sans TC",sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;color:rgba(250,247,241,0.6);margin-bottom:4px;}
+.common b{color:var(--bn-orange);}
+
+.footer-note{margin-top:18px;font-size:12px;color:var(--cool-600);line-height:1.7;
+  border-top:1px solid var(--warm-300);padding-top:14px;}
+.footer-note strong{color:var(--bn-black);}
+
+@container (max-width:640px){
+  .header h1{font-size:20px;}
+  .cmp-head,.cmp-row{grid-template-columns:1fr 1fr;}
+  .cmp-head .ch--label{display:none;}
+  .cmp-head .ch--a{border-left:0;}
+  .cmp-row .cell--label{grid-column:1 / -1;border-left:0;border-bottom:1px solid var(--warm-300);
+    background:var(--paper-3);padding:8px 14px;}
+  .cmp-row .cell--a{border-left:0;}
+  .meta-bar .meta-chunk{display:block;}
+}
+
+.preview-toolbar{display:none;position:fixed;top:14px;right:14px;z-index:9999;
+  background:var(--bn-navy);padding:4px;border-radius:6px;gap:2px;
+  font-family:"Inter","Noto Sans TC",sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.18);}
+.preview-toolbar.show{display:flex;}
+.preview-toolbar button{border:0;padding:7px 13px;font-size:12px;font-weight:700;
+  background:transparent;color:rgba(250,247,241,0.55);cursor:pointer;border-radius:4px;
+  transition:all 0.15s;font-family:inherit;}
+.preview-toolbar button:hover{color:var(--paper);}
+.preview-toolbar button.active{background:var(--bn-orange);color:var(--paper);}
+.preview-toolbar .label{font-size:10px;color:rgba(250,247,241,0.45);padding:0 8px;
+  align-self:center;letter-spacing:0.5px;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="kicker">第一金投信 · 主動式 ETF</div>
+    <h1>00408A vs 00994A：<span>同門兩檔，定位不同</span></h1>
+    <p class="deck">同樣是第一金投信的主動式 ETF、發行價 10 元，但一檔主打「優股息」、一檔主打「趨勢優選」。先看清定位差異，再決定適不適合自己。</p>
+  </div>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">整理：《數位時代》</span>
+    <span class="meta-chunk">績效資料截至 2026 年 4 月 30 日</span>
+  </div>
+
+  <div class="cmp">
+    <div class="cmp-head">
+      <div class="ch ch--label"></div>
+      <div class="ch ch--a"><div class="tk">00408A</div><div class="tg">台股趨勢優股息</div></div>
+      <div class="ch ch--b"><div class="tk">00994A</div><div class="tg">台股趨勢優選</div></div>
+    </div>
+
+    <div class="cmp-row">
+      <div class="cell cell--label">全名定位</div>
+      <div class="cell cell--a">台股趨勢優<b>「股息」</b></div>
+      <div class="cell cell--b">台股趨勢優<b>「選」</b></div>
+    </div>
+    <div class="cmp-row">
+      <div class="cell cell--label">成立／掛牌</div>
+      <div class="cell cell--a">2026 年 6 月底募集，<br>預計 7 月成立掛牌</div>
+      <div class="cell cell--b">2025 年 12 月成立，<br>2026 年 1 月 7 日掛牌</div>
+    </div>
+    <div class="cmp-row">
+      <div class="cell cell--label">配息</div>
+      <div class="cell cell--a">季配（成立滿 60 日後）</div>
+      <div class="cell cell--b">以官方公告為準</div>
+    </div>
+    <div class="cmp-row">
+      <div class="cell cell--label">績效參考</div>
+      <div class="cell cell--a">新發行，<b>尚無</b></div>
+      <div class="cell cell--b">掛牌至 4/30 約 <span class="hl">+68%</span>，<br>6 月底逾八成</div>
+    </div>
+    <div class="cmp-row">
+      <div class="cell cell--label">選股主軸</div>
+      <div class="cell cell--a">成長與優質股息並重</div>
+      <div class="cell cell--b">趨勢優選</div>
+    </div>
+  </div>
+
+  <div class="common">
+    <div class="clabel">兩檔共同點</div>
+    皆為<b>第一金投信主動式 ETF</b>，發行價皆為 <b>10 元</b>。
+  </div>
+
+  <p class="footer-note">
+    <strong>過往績效不代表未來表現。</strong>兩檔定位不同，無法保證 00408A 複製前作漲幅。投資前應詳閱公開說明書。
+  </p>
+
+</div><!-- .wrapper -->
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+<script>
+(function(){
+  if(!new URLSearchParams(location.search).has('preview'))return;
+  var t=document.getElementById('previewToolbar'),w=document.querySelector('.wrapper');
+  if(!t||!w)return;t.classList.add('show');
+  t.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-mode]');if(!b)return;
+    t.querySelectorAll('button').forEach(function(x){
+      x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',x===b?'true':'false');});
+    w.style.maxWidth=(b.dataset.mode==='mobile')?'390px':'880px';});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>00408A 三大選股策略漏斗｜數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --bn-orange:#FF6B1A; --bn-orange-d:#E55A0F; --bn-orange-s:#FFE7D6;
+  --bn-navy:#0F1A2E; --bn-navy-2:#1B2A45; --bn-black:#1A1A1A;
+  --paper:#FAF7F1; --paper-2:#F5F3EF; --paper-3:#ECE8DF; --paper-4:#E3DECF;
+  --warm-300:#D4D0C8; --cool-600:#5C6470; --cool-400:#8A93A0;
+  --slate-700:#2A3142; --hairline:rgba(15,26,46,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--paper);color:var(--bn-black);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;
+  font-size:15px;line-height:1.7;text-wrap:pretty;}
+h1,h2,h3,.deck{text-wrap:balance;}
+.num,.stat-num{font-family:"Inter","Noto Sans TC",sans-serif;font-feature-settings:'tnum' 1;}
+
+.wrapper{max-width:880px;margin:0 auto;padding:32px 20px 24px;
+  container-type:inline-size;transition:max-width 0.25s ease;}
+
+.header{margin-bottom:22px;}
+.kicker{font-family:"Inter","Noto Sans TC",sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;color:var(--bn-orange);margin-bottom:8px;}
+.header h1{font-size:23px;font-weight:900;line-height:1.35;margin-bottom:8px;letter-spacing:0.02em;}
+.header h1 span{text-decoration:underline;text-decoration-thickness:3px;
+  text-underline-offset:5px;text-decoration-color:var(--bn-orange);}
+.deck{font-size:14px;color:var(--cool-600);line-height:1.6;}
+
+.meta-bar{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--cool-600);
+  border-top:1px solid var(--warm-300);border-bottom:1px solid var(--warm-300);
+  padding:10px 0;margin:16px 0 22px;}
+.meta-chunk{white-space:nowrap;}
+
+/* Funnel */
+.funnel{display:flex;flex-direction:column;align-items:center;gap:0;}
+.funnel-stage{width:100%;display:flex;flex-direction:column;align-items:center;}
+.fbar{border-radius:8px;padding:16px 20px;text-align:center;border:1px solid var(--warm-300);}
+.fbar .ftop{font-family:"Inter","Noto Sans TC",sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;color:var(--cool-600);margin-bottom:4px;}
+.fbar .fmain{font-size:18px;font-weight:900;line-height:1.3;}
+.fbar .fsub{font-size:12.5px;color:var(--cool-600);margin-top:4px;line-height:1.5;}
+
+/* 起點：寬 */
+.fbar--pool{width:100%;background:var(--paper-3);}
+.fbar--pool .fmain .num{color:var(--bn-orange);}
+/* 三策略容器 */
+.fbar--mid{width:88%;background:var(--paper);}
+.fbar--mid.is-strategy{padding:0;overflow:hidden;text-align:left;}
+.strat-head{background:var(--paper-2);padding:10px 16px;display:flex;align-items:baseline;gap:8px;
+  border-bottom:1px solid var(--warm-300);}
+.strat-no{font-family:"Inter",sans-serif;font-size:13px;font-weight:700;color:var(--bn-orange);
+  flex-shrink:0;}
+.strat-name{font-size:14.5px;font-weight:700;}
+.strat-body{padding:10px 16px 12px;font-size:13px;color:var(--cool-600);line-height:1.6;}
+/* 交集 */
+.fbar--cross{width:74%;background:var(--bn-navy);border-color:var(--bn-navy);}
+.fbar--cross .ftop{color:rgba(250,247,241,0.6);}
+.fbar--cross .fmain{color:var(--paper);}
+.fbar--cross .fsub{color:rgba(250,247,241,0.78);}
+/* 結果 */
+.fbar--result{width:60%;background:var(--bn-orange);border-color:var(--bn-orange);}
+.fbar--result .ftop{color:rgba(255,255,255,0.85);}
+.fbar--result .fmain{color:#fff;font-size:19px;}
+.fbar--result .fsub{color:rgba(255,255,255,0.92);}
+
+.arrow{color:var(--warm-300);font-size:20px;line-height:1;margin:8px 0;font-family:"Inter",sans-serif;}
+
+/* 配置結果條 */
+.alloc{margin-top:24px;background:var(--paper-2);border:1px solid var(--warm-300);
+  border-radius:8px;padding:18px 20px;}
+.alloc-title{font-size:13px;font-weight:700;margin-bottom:12px;}
+.alloc-row{margin-bottom:14px;}
+.alloc-row:last-child{margin-bottom:0;}
+.alloc-label{font-size:13px;color:var(--cool-600);margin-bottom:5px;display:flex;
+  justify-content:space-between;align-items:baseline;}
+.alloc-label b{color:var(--bn-black);}
+.alloc-pct{font-family:"Inter",sans-serif;font-weight:700;font-size:15px;}
+.alloc-bg{height:14px;background:var(--paper-4);border-radius:999px;overflow:hidden;}
+.alloc-fill{height:100%;border-radius:999px;}
+.alloc-fill--a{width:70%;background:var(--slate-700);}
+.alloc-fill--b{width:60%;background:var(--bn-orange);}
+
+.footer-note{margin-top:22px;font-size:12px;color:var(--cool-600);line-height:1.7;
+  border-top:1px solid var(--warm-300);padding-top:14px;}
+.footer-note strong{color:var(--bn-black);}
+
+@container (max-width:640px){
+  .header h1{font-size:20px;}
+  .fbar--pool,.fbar--mid,.fbar--cross,.fbar--result{width:100%;}
+  .meta-bar .meta-chunk{display:block;}
+}
+
+.preview-toolbar{display:none;position:fixed;top:14px;right:14px;z-index:9999;
+  background:var(--bn-navy);padding:4px;border-radius:6px;gap:2px;
+  font-family:"Inter","Noto Sans TC",sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.18);}
+.preview-toolbar.show{display:flex;}
+.preview-toolbar button{border:0;padding:7px 13px;font-size:12px;font-weight:700;
+  background:transparent;color:rgba(250,247,241,0.55);cursor:pointer;border-radius:4px;
+  transition:all 0.15s;font-family:inherit;}
+.preview-toolbar button:hover{color:var(--paper);}
+.preview-toolbar button.active{background:var(--bn-orange);color:var(--paper);}
+.preview-toolbar .label{font-size:10px;color:rgba(250,247,241,0.45);padding:0 8px;
+  align-self:center;letter-spacing:0.5px;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="kicker">00408A · 選股機制</div>
+    <h1>三道關卡，篩出<span>趨勢優股息</span>股票</h1>
+    <p class="deck">第一金 00408A 從全體上市櫃市值前 500 大個股出發，依序通過三大核心策略，層層收斂出兼顧成長與股息的核心持股。</p>
+  </div>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">資料來源：第一金投信公開說明書</span>
+    <span class="meta-chunk">整理：《數位時代》</span>
+  </div>
+
+  <div class="funnel">
+
+    <div class="funnel-stage">
+      <div class="fbar fbar--pool">
+        <div class="ftop">起點 · 投資池</div>
+        <div class="fmain">全體上市櫃市值<span class="num">前 500 大</span>個股</div>
+      </div>
+    </div>
+
+    <div class="arrow">▼</div>
+
+    <div class="funnel-stage">
+      <div class="fbar fbar--mid is-strategy">
+        <div class="strat-head">
+          <span class="strat-no">策略 1</span>
+          <span class="strat-name">產業強弱勢篩選</span>
+        </div>
+        <div class="strat-body">建構自訂產業指數，每月挑選強勢產業、動態決定各產業配置比重。</div>
+      </div>
+    </div>
+    <div class="arrow">▼</div>
+    <div class="funnel-stage">
+      <div class="fbar fbar--mid is-strategy">
+        <div class="strat-head">
+          <span class="strat-no">策略 2</span>
+          <span class="strat-name">經理人基本面選股</span>
+        </div>
+        <div class="strat-body">綜合評估價值（P/B、P/E）、成長性、股價動能與品質（ROE、現金流），由經理人主動選股。</div>
+      </div>
+    </div>
+    <div class="arrow">▼</div>
+    <div class="funnel-stage">
+      <div class="fbar fbar--mid is-strategy">
+        <div class="strat-head">
+          <span class="strat-no">策略 3</span>
+          <span class="strat-name">股利收益與股利成長</span>
+        </div>
+        <div class="strat-body">同時看殖利率高低與股息成長性，找出「現在就配得多、未來還會配更多」的標的。</div>
+      </div>
+    </div>
+
+    <div class="arrow">▼</div>
+
+    <div class="funnel-stage">
+      <div class="fbar fbar--cross">
+        <div class="ftop">取交集</div>
+        <div class="fmain">過去一年現金股利率、現金股息成長率<br>各自排名<span class="num"> 前 1/2</span> 的交集</div>
+        <div class="fsub">並具趨勢成長潛力，即為「趨勢優股息股票」。</div>
+      </div>
+    </div>
+
+    <div class="arrow">▼</div>
+
+    <div class="funnel-stage">
+      <div class="fbar fbar--result">
+        <div class="ftop">結果 · 核心持股</div>
+        <div class="fmain">趨勢優股息股票占股票部位 <span class="num">≥ 60%</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="alloc">
+    <div class="alloc-title">成立後資金配置原則</div>
+    <div class="alloc-row">
+      <div class="alloc-label"><b>股票整體部位</b><span class="alloc-pct">≥ 70%</span></div>
+      <div class="alloc-bg"><div class="alloc-fill alloc-fill--a"></div></div>
+    </div>
+    <div class="alloc-row">
+      <div class="alloc-label"><span>其中：趨勢優股息股票</span><span class="alloc-pct" style="color:var(--bn-orange);">≥ 60%</span></div>
+      <div class="alloc-bg"><div class="alloc-fill alloc-fill--b"></div></div>
+    </div>
+  </div>
+
+  <p class="footer-note">
+    比重數字為公開說明書揭露之配置原則下限。<strong>主動式 ETF 不公布固定成分股名單，實際持股以基金公司每月公告為準。</strong>
+  </p>
+
+</div><!-- .wrapper -->
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+<script>
+(function(){
+  if(!new URLSearchParams(location.search).has('preview'))return;
+  var t=document.getElementById('previewToolbar'),w=document.querySelector('.wrapper');
+  if(!t||!w)return;t.classList.add('show');
+  t.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-mode]');if(!b)return;
+    t.querySelectorAll('button').forEach(function(x){
+      x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',x===b?'true':'false');});
+    w.style.maxWidth=(b.dataset.mode==='mobile')?'390px':'880px';});
+})();
+</script>
+</body>
+</html>
