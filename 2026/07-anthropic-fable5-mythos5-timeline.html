@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fable 5／Mythos 5 出口管制三週攻防時間軸 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;900&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-navy2: #1B2A45;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper2: #F5F3EF;
+    --paper3: #ECE8DF;
+    --paper4: #E3DECF;
+    --warm300: #D4D0C8;
+    --cool600: #5C6470;
+    --cool400: #8A93A0;
+    --signal: #F5C518;
+    --alert: #E63946;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    padding: 20px 14px;
+    text-wrap: pretty;
+  }
+  .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ===== Header ===== */
+  header { margin-bottom: 8px; }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--bn-orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 30px;
+    line-height: 1.25;
+    font-weight: 900;
+    margin: 0 0 12px;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+  .deck {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--cool600);
+    margin: 0;
+    max-width: 700px;
+    text-wrap: balance;
+  }
+
+  .meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 13px;
+    color: var(--cool600);
+    margin: 18px 0 24px;
+    padding: 12px 0;
+    border-top: 1px solid var(--warm300);
+    border-bottom: 1px solid var(--warm300);
+  }
+  .meta-chunk { white-space: nowrap; }
+  .meta-chunk strong { color: var(--bn-black); font-weight: 700; }
+  .meta-sep { color: var(--warm300); }
+
+  /* ===== Phase strip：張力弧線 ===== */
+  .phase-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .phase-cell {
+    border: 1px solid var(--warm300);
+    border-top: 4px solid var(--warm300);
+    border-radius: 0 0 8px 8px;
+    background: var(--paper2);
+    padding: 12px 12px 13px;
+  }
+  .phase-cell.p1 { border-top-color: var(--bn-navy); }
+  .phase-cell.p2 { border-top-color: var(--alert); }
+  .phase-cell.p3 { border-top-color: var(--signal); }
+  .phase-cell.p4 { border-top-color: var(--bn-orange); }
+  .phase-stage {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--cool600);
+    margin-bottom: 5px;
+  }
+  .phase-cell.p2 .phase-stage { color: var(--alert); }
+  .phase-cell.p4 .phase-stage { color: var(--bn-orange-deep); }
+  .phase-name { font-size: 15px; font-weight: 800; color: var(--bn-black); line-height: 1.4; margin-bottom: 3px; }
+  .phase-days {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 12px;
+    color: var(--cool600);
+    font-weight: 600;
+  }
+  .phase-note {
+    font-size: 12px;
+    color: var(--cool600);
+    margin: 4px 0 26px;
+    padding-left: 2px;
+  }
+  .phase-note .hl {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    color: var(--bn-orange-deep);
+    font-weight: 700;
+  }
+
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: var(--cool600);
+    text-transform: uppercase;
+    margin: 8px 0 4px;
+  }
+  .section-headline {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 20px;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+
+  /* ===== 垂直時間軸 ===== */
+  .track {
+    position: relative;
+    padding-left: 30px;
+  }
+  .track::before {
+    content: "";
+    position: absolute;
+    left: 8px; top: 10px; bottom: 10px;
+    width: 2px;
+    background: var(--warm300);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 18px;
+  }
+  .tl-item:last-child { margin-bottom: 0; }
+
+  /* 節點狀態色（語意對映 BN tokens） */
+  .tl-item .node {
+    position: absolute;
+    left: -30px; top: 20px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 3px solid var(--warm300);
+    z-index: 2;
+  }
+  .tl-item.s-launch  .node { border-color: var(--bn-navy);   background: var(--bn-navy); }
+  .tl-item.s-halt    .node { border-color: var(--alert);     background: var(--alert); }
+  .tl-item.s-partial .node { border-color: var(--signal);    background: var(--signal); }
+  .tl-item.s-revoke  .node { border-color: var(--bn-orange); background: var(--bn-orange); }
+  .tl-item.s-resume  .node { border-color: var(--bn-orange); background: var(--paper); }
+
+  .tl-card {
+    border: 1px solid var(--warm300);
+    border-radius: 8px;
+    background: var(--paper);
+    overflow: hidden;
+  }
+  .tl-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 12px 18px;
+    background: var(--paper3);
+    border-bottom: 1px solid var(--warm300);
+  }
+  .tl-date {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--bn-black);
+    white-space: nowrap;
+  }
+  .tl-title { font-size: 16px; font-weight: 800; color: var(--bn-black); }
+  .tl-badge {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--paper);
+    background: var(--warm300);
+    padding: 3px 11px;
+    border-radius: 999px;
+    white-space: nowrap;
+    margin-left: auto;
+    letter-spacing: 0.5px;
+  }
+  .tl-item.s-launch  .tl-badge { background: var(--bn-navy); }
+  .tl-item.s-halt    .tl-badge { background: var(--alert); }
+  .tl-item.s-partial .tl-badge { background: var(--signal); color: var(--bn-black); }
+  .tl-item.s-revoke  .tl-badge { background: var(--bn-orange); }
+  .tl-item.s-resume  .tl-badge { background: var(--bn-orange); }
+
+  .tl-body { padding: 14px 18px 16px; }
+  .tl-desc { font-size: 15px; color: var(--bn-black); line-height: 1.75; }
+  .tl-desc .who {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-weight: 700;
+    color: var(--bn-orange-deep);
+  }
+  .tl-caveat {
+    display: block;
+    margin-top: 8px;
+    padding-left: 12px;
+    border-left: 3px solid var(--warm300);
+    font-size: 13px;
+    color: var(--cool600);
+    line-height: 1.65;
+  }
+  .tl-item.s-partial .tl-caveat { border-left-color: var(--signal); }
+  .tl-item.s-resume  .tl-caveat { border-left-color: var(--bn-orange); }
+
+  /* one-line takeaway */
+  .takeaway {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper3);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 1.75;
+    margin: 26px 0 18px;
+    text-wrap: pretty;
+  }
+  .takeaway strong { color: var(--bn-orange-deep); font-weight: 800; }
+
+  footer {
+    margin-top: 8px;
+    padding-top: 14px;
+    border-top: 1px solid var(--warm300);
+    font-size: 12px;
+    color: var(--cool600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); font-weight: 700; }
+
+  /* ===== Container query：手機 / 窄版 ===== */
+  @container (max-width: 640px) {
+    h1 { font-size: 24px; }
+    .deck { font-size: 15px; }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; width: 100%; }
+
+    /* 張力弧線：4 欄轉 2 欄 */
+    .phase-strip { grid-template-columns: repeat(2, 1fr); }
+
+    .track { padding-left: 26px; }
+    .track::before { left: 7px; }
+    .tl-item .node { left: -26px; width: 16px; height: 16px; }
+    .tl-head { padding: 11px 14px; gap: 6px 10px; }
+    .tl-date { font-size: 15px; }
+    .tl-title { font-size: 15px; }
+    .tl-badge { margin-left: 0; }
+    .tl-body { padding: 12px 14px 14px; }
+    .tl-desc { font-size: 14px; }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 14px 8px; }
+  }
+
+  /* ===== Preview toolbar ===== */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px;
+    font-size: 12px; font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer; border-radius: 4px;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">Anthropic · 出口管制攻防</div>
+    <h1>Fable 5／Mythos 5 三週攻防：從發布、停用到解禁</h1>
+    <p class="deck">Anthropic 發表兩款最先進模型後，三天內就收到引述國安當局的出口管制指令被迫全面停用。歷經三週折衝，商務部先有限恢復、再完全撤銷管制。以下依官方口徑逐日還原這條張力曲線。</p>
+  </header>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">主體：<strong>Anthropic</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">模型：<strong>Fable 5、Mythos 5</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">期間：<strong>2026 / 6 / 9 至 7 / 1</strong></span>
+  </div>
+
+  <div class="section-title">FIGURE 01 · 張力四階段</div>
+  <h2 class="section-headline">正常、受限、過渡到解除：一條先緊後鬆的曲線</h2>
+
+  <div class="phase-strip">
+    <div class="phase-cell p1">
+      <div class="phase-stage">正常</div>
+      <div class="phase-name">發布</div>
+      <div class="phase-days num">6 / 9</div>
+    </div>
+    <div class="phase-cell p2">
+      <div class="phase-stage">受限</div>
+      <div class="phase-name">全面停用</div>
+      <div class="phase-days num">6 / 12</div>
+    </div>
+    <div class="phase-cell p3">
+      <div class="phase-stage">過渡</div>
+      <div class="phase-name">有限恢復</div>
+      <div class="phase-days num">6 / 26</div>
+    </div>
+    <div class="phase-cell p4">
+      <div class="phase-stage">解除</div>
+      <div class="phase-name">撤銷、逐步恢復</div>
+      <div class="phase-days num">6 / 30 至 7 / 1</div>
+    </div>
+  </div>
+  <div class="phase-note">從發布到全面停用只隔 <span class="hl">3 天</span>，從停用到管制完全撤銷歷時 <span class="hl">18 天</span>。</div>
+
+  <div class="section-title">FIGURE 02 · 逐日還原</div>
+  <h2 class="section-headline">五個關鍵節點：這三週發生了什麼</h2>
+
+  <div class="track">
+
+    <!-- 6/9 發布 -->
+    <div class="tl-item s-launch">
+      <span class="node"></span>
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-date">6 / 9</span>
+          <span class="tl-title">發布</span>
+          <span class="tl-badge">正常</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-desc">Anthropic 發表 Fable 5 與 Mythos 5 兩款最先進模型。其中 Fable 5 是該公司首度對公眾釋出如此先進的模型。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/12 全面停用 -->
+    <div class="tl-item s-halt">
+      <span class="node"></span>
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-date">6 / 12</span>
+          <span class="tl-title">全面停用</span>
+          <span class="tl-badge">受限</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-desc">Anthropic 收到引述「國安當局」的出口管制指令，隨即停用兩款模型。政府要求對「任何外國人」停止存取。<span class="tl-caveat">連 Anthropic 的外籍員工也不例外。</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/26 Mythos 5 有限恢復 -->
+    <div class="tl-item s-partial">
+      <span class="node"></span>
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-date">6 / 26</span>
+          <span class="tl-title">Mythos 5 有限恢復</span>
+          <span class="tl-badge">過渡</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-desc">商務部長盧特尼克致信共同創辦人 <span class="who">Tom Brown</span>，判定已具「適當防護措施」，允許 Mythos 5 釋出給一小群「可信任」機構與聯邦機關。<span class="tl-caveat">僅有限開放，非一般性解禁；Fable 5 尚未獲准。</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6/30 管制撤銷 -->
+    <div class="tl-item s-revoke">
+      <span class="node"></span>
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-date">6 / 30</span>
+          <span class="tl-title">管制撤銷</span>
+          <span class="tl-badge">解除</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-desc">商務部完全撤銷出口管制，兩款模型出口不再需要許可。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7/1 逐步恢復 -->
+    <div class="tl-item s-resume">
+      <span class="node"></span>
+      <div class="tl-card">
+        <div class="tl-head">
+          <span class="tl-date">7 / 1</span>
+          <span class="tl-title">逐步恢復</span>
+          <span class="tl-badge">恢復中</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-desc">Anthropic 起逐步恢復 Fable 5 存取。<span class="tl-caveat">官方定調為「開始恢復」，非所有使用者立即全面恢復。</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="takeaway">
+    三週之內，Fable 5 與 Mythos 5 走完<strong>發布、全面停用、有限恢復、完全撤銷</strong>四個階段。管制從對「任何外國人」一刀切，鬆綁到 Mythos 5 給「可信任」機構、再到出口許可全面取消，最終 Fable 5 於 <strong>7 / 1</strong> 起逐步恢復存取。
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：編輯部　|　所有節點依 Anthropic 與美國商務部官方口徑，Fable 5 與 Mythos 5 為模型代稱，實際狀態以官方最新公告為準
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>
