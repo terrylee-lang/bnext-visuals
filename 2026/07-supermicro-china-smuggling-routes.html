@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>兩條密道對照：美超微晶片如何洗進中國 ｜ 數位時代</title>
+<meta name="description" content="美超微一年內爆出兩起獨立案件，一在美國、一在台灣，行為人與路徑全不同，貨卻都從美超微伺服器出發、最後流進中國。造假與掩護步驟以橘色標示。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bn-orange:#FF6B1A; --bn-orange-deep:#E55A0F; --bn-orange-soft:#FFE7D6;
+    --bn-navy:#0F1A2E; --bn-navy2:#1B2A45; --bn-black:#1A1A1A;
+    --paper:#FAF7F1; --paper2:#F5F3EF; --paper3:#ECE8DF; --paper4:#E3DECF;
+    --warm300:#D4D0C8; --cool600:#5C6470; --slate700:#2A3142;
+    --hairline:rgba(15,26,46,.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;
+    background:var(--paper); color:var(--bn-black);
+    padding:32px 16px; line-height:1.8; text-wrap:pretty; letter-spacing:.01em;
+  }
+  h1,.deck,.section-headline{text-wrap:balance;}
+  .wrapper{
+    max-width:880px; margin:0 auto; background:var(--paper);
+    border:1px solid var(--warm300); container-type:inline-size;
+    transition:max-width .25s ease;
+  }
+
+  /* preview toolbar (editor only) */
+  .preview-toolbar{display:none; position:fixed; top:14px; right:14px; z-index:9999; background:var(--bn-navy); padding:4px; border-radius:6px; gap:2px; font-family:"Inter","Noto Sans TC",sans-serif; box-shadow:0 2px 8px rgba(0,0,0,.18);}
+  .preview-toolbar.show{display:flex;}
+  .preview-toolbar button{border:0; padding:7px 13px; font-size:12px; font-weight:700; background:transparent; color:rgba(250,247,241,.55); cursor:pointer; border-radius:4px; font-family:inherit;}
+  .preview-toolbar button:hover{color:var(--paper);}
+  .preview-toolbar button.active{background:var(--bn-orange); color:var(--paper);}
+  .preview-toolbar .label{font-size:10px; color:rgba(250,247,241,.45); padding:0 8px; align-self:center; letter-spacing:.5px; text-transform:uppercase;}
+
+  header{padding:30px 32px 22px; border-bottom:3px solid var(--bn-black);}
+  .kicker{font-family:"Inter","Noto Sans TC",sans-serif; font-size:11px; letter-spacing:2px; color:var(--bn-orange); font-weight:700; text-transform:uppercase; margin-bottom:11px;}
+  h1{font-size:28px; font-weight:800; line-height:1.32; margin-bottom:13px;}
+  .deck{font-size:15px; color:var(--slate700); line-height:1.75; font-weight:500;}
+
+  .meta-bar{display:flex; flex-wrap:wrap; gap:6px 14px; justify-content:space-between; align-items:center; padding:12px 32px; background:var(--paper3); border-bottom:1px solid var(--warm300); font-family:"Inter","Noto Sans TC",sans-serif; font-size:12px; color:var(--cool600);}
+  .meta-bar strong{color:var(--bn-black); font-weight:700;}
+  .meta-chunk{white-space:nowrap;}
+
+  /* legend */
+  .legend{display:flex; flex-wrap:wrap; gap:10px 22px; padding:14px 32px; border-bottom:1px solid var(--hairline);}
+  .legend-item{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--slate700); font-weight:600;}
+  .sw{width:26px; height:16px; border-radius:4px; flex-shrink:0;}
+  .sw.flag{background:var(--bn-orange-soft); border:2px solid var(--bn-orange);}
+  .sw.end{background:var(--bn-navy);}
+  .sw.mid{background:var(--paper2); border:1.5px solid var(--warm300);}
+
+  /* routes */
+  .routes{display:flex; gap:22px; padding:26px 32px 8px; align-items:stretch;}
+  .route{flex:1; display:flex; flex-direction:column; min-width:0;}
+  .route-head{padding-bottom:14px; margin-bottom:6px; border-bottom:2px solid var(--bn-black);}
+  .route-tag{font-family:"Inter","Noto Sans TC",sans-serif; font-size:15px; font-weight:800; color:var(--bn-black); letter-spacing:.5px; display:block; margin-bottom:5px;}
+  .route-tag .rk{color:var(--bn-orange-deep);}
+  .route-sub{font-size:12.5px; color:var(--cool600); font-weight:500; line-height:1.5;}
+  .route-sub .yr{font-family:"Inter","Noto Sans TC",sans-serif; font-feature-settings:'tnum' 1;}
+
+  .chain{display:flex; flex-direction:column; align-items:stretch; padding-top:6px;}
+  .down{align-self:center; color:var(--cool600); font-size:17px; line-height:1; padding:5px 0; font-weight:700;}
+
+  .step{display:flex; gap:12px; align-items:flex-start; padding:13px 15px; border:1.5px solid var(--warm300); border-radius:8px; background:var(--paper2);}
+  .step-num{flex-shrink:0; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:"Inter",sans-serif; font-feature-settings:'tnum' 1; font-size:15px; font-weight:700; background:var(--paper3); color:var(--slate700); border:1.5px solid var(--warm300);}
+  .step-body{min-width:0; flex:1;}
+  .step-tag{display:inline-block; font-family:"Inter","Noto Sans TC",sans-serif; font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--cool600); border:1px solid var(--warm300); border-radius:4px; padding:1px 7px; margin-bottom:6px;}
+  .step-text{font-size:14.5px; font-weight:600; line-height:1.6; color:var(--bn-black);}
+  .step-text .sub{font-weight:500; color:var(--cool600);}
+
+  /* endpoint (origin / destination) = navy */
+  .step.endpoint{background:var(--bn-navy); border-color:var(--bn-navy);}
+  .step.endpoint .step-num{background:rgba(250,247,241,.12); color:var(--paper); border-color:rgba(250,247,241,.32);}
+  .step.endpoint .step-tag{color:rgba(250,247,241,.65); border-color:rgba(250,247,241,.32);}
+  .step.endpoint .step-text{color:var(--paper);}
+  .step.endpoint .step-text .sub{color:rgba(250,247,241,.65);}
+
+  /* red-flag (fraud / cover) = orange accent */
+  .step.flag{background:var(--bn-orange-soft); border:2px solid var(--bn-orange); border-left-width:5px;}
+  .step.flag .step-num{background:var(--bn-orange); color:var(--paper); border-color:var(--bn-orange);}
+  .step.flag .step-tag{color:var(--bn-orange-deep); border-color:var(--bn-orange); background:rgba(250,247,241,.65);}
+  .step.flag .step-text{color:var(--bn-black);}
+
+  /* route footnote */
+  .route-note{margin-top:16px; padding:12px 15px; background:var(--paper3); border-left:4px solid var(--cool600); font-size:12.5px; color:var(--slate700); line-height:1.7;}
+  .route-note b{font-weight:800; color:var(--bn-black);}
+  .route-note .n{font-family:"Inter","Noto Sans TC",sans-serif; font-feature-settings:'tnum' 1; font-weight:800; color:var(--bn-orange-deep);}
+
+  /* disclaimer + footer */
+  .disclaimer{margin:18px 32px 0; padding:13px 16px; background:var(--paper2); border:1px solid var(--warm300); border-radius:8px; font-size:12px; color:var(--cool600); line-height:1.7;}
+  footer{margin-top:16px; padding:16px 32px; background:var(--paper3); border-top:1px solid var(--warm300); font-size:12px; color:var(--cool600); text-align:center; line-height:1.7;}
+  footer strong{color:var(--bn-black);}
+
+  /* ---------- mobile / narrow (double-track) ---------- */
+  @media (max-width:640px){ body{padding:12px 6px;} }
+  @container (max-width:640px){
+    header{padding:24px 18px 18px;}
+    h1{font-size:22px;} .deck{font-size:14px;}
+    .meta-bar{padding:10px 18px;}
+    .meta-bar .meta-sep{display:none;}
+    .meta-bar .meta-chunk{display:block; width:100%; white-space:normal;}
+    .legend{padding:12px 18px;}
+    .routes{flex-direction:column; gap:6px; padding:20px 18px 4px;}
+    .route + .route{margin-top:26px; padding-top:24px; border-top:2px dashed var(--warm300);}
+    .disclaimer{margin:16px 18px 0;}
+    footer{padding:16px 18px;}
+    .step-text{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">調查追蹤 · 美超微晶片銷中</div>
+    <h1>兩條密道，把輝達 AI 晶片「洗」進中國</h1>
+    <p class="deck">美超微一年內爆出兩起獨立案件，一在美國、一在台灣，行為人與路徑全不同。貨卻都從美超微伺服器出發，最後流進同一個被美國嚴管的市場。造假與掩護步驟以橘色標示。</p>
+  </header>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">資料來源：<strong>SDNY 起訴書、基隆地檢署、彭博、數位時代</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">更新：2026 / 07 / 02</span>
+  </div>
+
+  <div class="legend">
+    <span class="legend-item"><span class="sw end"></span>起點／終點（兩案相同）</span>
+    <span class="legend-item"><span class="sw mid"></span>轉運步驟</span>
+    <span class="legend-item"><span class="sw flag"></span>造假／掩護（紅旗步驟）</span>
+  </div>
+
+  <div class="routes">
+
+    <!-- ROUTE A -->
+    <div class="route">
+      <div class="route-head">
+        <span class="route-tag"><span class="rk">路線 A</span>｜美國案</span>
+        <span class="route-sub"><span class="yr">2026 年 3 月</span>　紐約南區檢方（USAO-SDNY）起訴</span>
+      </div>
+
+      <div class="chain">
+        <div class="step endpoint">
+          <span class="step-num">1</span>
+          <div class="step-body">
+            <span class="step-tag">起點</span>
+            <p class="step-text">美超微伺服器<span class="sub">（台灣集結）</span></p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step flag">
+          <span class="step-num">2</span>
+          <div class="step-body">
+            <span class="step-tag">紅旗 · 造假</span>
+            <p class="step-text">偽造採購文件：謊稱伺服器由中介「自用」，通過美超微內部審批</p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step flag">
+          <span class="step-num">3</span>
+          <div class="step-body">
+            <span class="step-tag">紅旗 · 掩護</span>
+            <p class="step-text">假機器掩護：用吹風機拆換標籤與序號貼紙、擺放無法運作的假伺服器，應付美國商務部實地稽查</p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step">
+          <span class="step-num">4</span>
+          <div class="step-body">
+            <p class="step-text">東南亞空殼中介公司</p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step">
+          <span class="step-num">5</span>
+          <div class="step-body">
+            <p class="step-text">物流公司以無標示紙箱重新包裝</p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step endpoint">
+          <span class="step-num">6</span>
+          <div class="step-body">
+            <span class="step-tag">終點</span>
+            <p class="step-text">中國客戶</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="route-note">
+        涉案 <span class="n">3</span> 人，含共同創辦人廖益賢。指控非法轉往中國的伺服器總值約 <span class="n">25 億</span>美元。
+      </div>
+    </div>
+
+    <!-- ROUTE B -->
+    <div class="route">
+      <div class="route-head">
+        <span class="route-tag"><span class="rk">路線 B</span>｜台灣案</span>
+        <span class="route-sub"><span class="yr">2026 年 5 月起</span>　基隆地檢署偵辦</span>
+      </div>
+
+      <div class="chain">
+        <div class="step endpoint">
+          <span class="step-num">1</span>
+          <div class="step-body">
+            <span class="step-tag">起點</span>
+            <p class="step-text">美超微伺服器<span class="sub">（搭載輝達高階晶片）</span></p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step">
+          <span class="step-num">2</span>
+          <div class="step-body">
+            <p class="step-text">經銷商青雲國際科技<span class="sub">（Albatron）</span></p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step flag">
+          <span class="step-num">3</span>
+          <div class="step-body">
+            <span class="step-tag">紅旗 · 造假</span>
+            <p class="step-text">以不實文件申報出口</p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step">
+          <span class="step-num">4</span>
+          <div class="step-body">
+            <p class="step-text">日本<span class="sub">（中繼站）</span></p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step">
+          <span class="step-num">5</span>
+          <div class="step-body">
+            <p class="step-text">香港</p>
+          </div>
+        </div>
+        <div class="down">↓</div>
+
+        <div class="step endpoint">
+          <span class="step-num">6</span>
+          <div class="step-body">
+            <span class="step-tag">終點</span>
+            <p class="step-text">中國</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="route-note">
+        首波查扣 <span class="n">50</span> 台伺服器與約新台幣 <span class="n">900 萬</span>元。檢方認定罪名為偽造文書、背信。
+      </div>
+    </div>
+
+  </div>
+
+  <div class="disclaimer">
+    本圖依 SDNY 起訴書與台灣檢調公開資訊整理，涉案人均為個人被告，相關指控尚在司法程序中。
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：李先泰　|　製圖：2026.07.02
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function(){
+  if(!new URLSearchParams(location.search).has('preview')) return;
+  var t=document.getElementById('previewToolbar'), w=document.querySelector('.wrapper');
+  if(!t||!w) return;
+  t.classList.add('show');
+  t.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-mode]'); if(!b) return;
+    t.querySelectorAll('button').forEach(function(x){x.classList.toggle('active',x===b); x.setAttribute('aria-pressed',x===b?'true':'false');});
+    w.style.maxWidth=(b.dataset.mode==='mobile')?'390px':'880px';
+  });
+})();
+</script>
+
+</body>
+</html>
