@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>長榮海運涉內線交易案：關鍵時間軸 ｜ 數位時代</title>
+<meta name="description" content="從2016年家族遺產訴訟，到2023年爭議交易與2026年檢方搜索約談，一張圖看懂十個關鍵時間點。全案仍在偵查階段，實際認定以法院判決為准。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bn-orange:#FF6B1A; --bn-orange-deep:#E55A0F; --bn-orange-soft:#FFE7D6;
+    --bn-navy:#0F1A2E; --bn-black:#1A1A1A;
+    --paper:#FAF7F1; --paper2:#F5F3EF; --paper3:#ECE8DF; --paper4:#E3DECF;
+    --warm300:#D4D0C8; --cool600:#5C6470; --slate700:#2A3142;
+    --hairline:rgba(15,26,46,.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;
+    background:var(--paper); color:var(--bn-black);
+    padding:32px 16px; line-height:1.8; text-wrap:pretty; letter-spacing:.01em;
+  }
+  h1,.deck,.section-headline{text-wrap:balance;}
+  .wrapper{
+    max-width:880px; margin:0 auto; background:var(--paper);
+    border:1px solid var(--warm300); container-type:inline-size;
+    transition:max-width .25s ease;
+  }
+
+  /* preview toolbar (editor only) */
+  .preview-toolbar{display:none; position:fixed; top:14px; right:14px; z-index:9999; background:var(--bn-navy); padding:4px; border-radius:6px; gap:2px; font-family:"Inter","Noto Sans TC",sans-serif; box-shadow:0 2px 8px rgba(0,0,0,.18);}
+  .preview-toolbar.show{display:flex;}
+  .preview-toolbar button{border:0; padding:7px 13px; font-size:12px; font-weight:700; background:transparent; color:rgba(250,247,241,.55); cursor:pointer; border-radius:4px; font-family:inherit;}
+  .preview-toolbar button:hover{color:var(--paper);}
+  .preview-toolbar button.active{background:var(--bn-orange); color:var(--paper);}
+  .preview-toolbar .label{font-size:10px; color:rgba(250,247,241,.45); padding:0 8px; align-self:center; letter-spacing:.5px; text-transform:uppercase;}
+
+  header{padding:30px 32px 20px; border-bottom:3px solid var(--bn-black);}
+  .kicker{font-family:"Inter","Noto Sans TC",sans-serif; font-size:11px; letter-spacing:2px; color:var(--bn-orange); font-weight:700; text-transform:uppercase; margin-bottom:11px;}
+  h1{font-size:26px; font-weight:800; line-height:1.35; margin-bottom:12px;}
+  .deck{font-size:14.5px; color:var(--slate700); line-height:1.75; font-weight:500;}
+
+  /* status banner: 偵查中提醒 + 無罪推定 */
+  .status-banner{background:var(--bn-navy); color:var(--paper); padding:14px 32px; font-size:13px; line-height:1.75; display:flex; gap:10px; align-items:flex-start;}
+  .status-banner .status-tag{flex-shrink:0; font-family:"Inter","Noto Sans TC",sans-serif; font-size:10.5px; font-weight:800; letter-spacing:1px; text-transform:uppercase; background:var(--bn-orange); color:var(--paper); padding:3px 9px; margin-top:1px;}
+  .status-banner p{color:rgba(250,247,241,.88);}
+  .status-banner strong{color:var(--paper); font-weight:800;}
+
+  .meta-bar{display:flex; flex-wrap:wrap; gap:6px 14px; justify-content:space-between; align-items:center; padding:12px 32px; background:var(--paper3); border-bottom:1px solid var(--warm300); font-family:"Inter","Noto Sans TC",sans-serif; font-size:12px; color:var(--cool600);}
+  .meta-bar strong{color:var(--bn-black); font-weight:700;}
+  .meta-chunk{white-space:nowrap;}
+
+  /* stats strip */
+  .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-bottom:1px solid var(--warm300);}
+  .stat{padding:20px 14px; text-align:center; border-right:1px solid var(--paper3);}
+  .stat:last-child{border-right:none;}
+  .stat-num{font-family:"Inter","Noto Sans TC",sans-serif; font-feature-settings:'tnum' 1; font-size:22px; font-weight:800; color:var(--bn-orange); line-height:1;}
+  .stat-lbl{font-size:11.5px; color:var(--cool600); margin-top:7px; line-height:1.5;}
+
+  /* legend */
+  .legend{display:flex; flex-wrap:wrap; gap:10px 22px; padding:14px 32px; border-bottom:1px solid var(--hairline);}
+  .legend-item{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--slate700); font-weight:600;}
+  .lg-dot{width:12px; height:12px; border-radius:50%; flex-shrink:0; background:var(--cool600); border:2px solid var(--paper); box-shadow:0 0 0 1.5px var(--warm300);}
+  .lg-dot.dis{background:var(--bn-orange); box-shadow:0 0 0 1.5px var(--bn-orange);}
+  .lg-band{width:26px; height:14px; flex-shrink:0; background:rgba(255,107,26,.08); border-top:2px solid var(--bn-orange); border-bottom:2px solid var(--bn-orange);}
+
+  .section{padding:26px 32px 6px;}
+  .section-title{font-family:"Inter","Noto Sans TC",sans-serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--cool600); font-weight:700; margin-bottom:4px;}
+  .section-headline{font-size:19px; font-weight:700; margin:0 0 4px; color:var(--bn-black); line-height:1.4;}
+
+  /* timeline */
+  .timeline{padding:6px 32px 26px;}
+  .tl-item{display:flex; gap:14px;}
+  .tl-marker{width:16px; flex-shrink:0; display:flex; flex-direction:column; align-items:center; padding-top:5px;}
+  .tl-dot{width:12px; height:12px; border-radius:50%; background:var(--cool600); border:2px solid var(--paper); box-shadow:0 0 0 1.5px var(--warm300); flex-shrink:0;}
+  .tl-item.disputed .tl-dot{background:var(--bn-orange); box-shadow:0 0 0 1.5px var(--bn-orange);}
+  .tl-line{flex:1; width:2px; background:var(--warm300); margin-top:3px; min-height:24px;}
+  .tl-item.no-line .tl-line{display:none;}
+  .tl-content{flex:1; min-width:0; padding-bottom:20px;}
+  .tl-card{padding:1px 0 0;}
+  .tl-date{font-family:"Inter","Noto Sans TC",sans-serif; font-feature-settings:'tnum' 1; font-size:13.5px; font-weight:800; color:var(--bn-black); margin-bottom:5px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .tl-tag{font-family:"Inter","Noto Sans TC",sans-serif; font-size:9.5px; font-weight:800; letter-spacing:.5px; color:var(--paper); background:var(--bn-orange); padding:2px 8px; text-transform:uppercase;}
+  .tl-body{font-size:14px; line-height:1.75; color:var(--slate700);}
+
+  .tl-item.disputed .tl-card{background:var(--bn-orange-soft); border:1.5px solid var(--bn-orange); border-left-width:4px; padding:12px 14px; border-radius:0 8px 8px 0;}
+  .tl-item.disputed .tl-body{color:var(--bn-black); font-weight:500;}
+
+  /* highlighted zone = 檢方認定的禁止交易期間 */
+  .zone{margin:10px -32px 10px -32px; padding:20px 32px 2px; background:rgba(255,107,26,.05); border-top:2px solid var(--bn-orange); border-bottom:2px solid var(--bn-orange);}
+  .zone-label{font-family:"Inter","Noto Sans TC",sans-serif; font-size:12px; font-weight:800; color:var(--bn-orange-deep); letter-spacing:.3px; margin-bottom:16px; line-height:1.7;}
+  .zone-label .zone-sub{display:block; font-size:11.5px; font-weight:500; color:var(--cool600); letter-spacing:0; margin-top:4px;}
+
+  .disclaimer{margin:4px 32px 0; padding:13px 16px; background:var(--paper2); border:1px solid var(--warm300); border-radius:8px; font-size:11.5px; color:var(--cool600); line-height:1.7;}
+
+  footer{margin-top:16px; padding:16px 32px; background:var(--paper3); border-top:1px solid var(--warm300); font-size:12px; color:var(--cool600); text-align:center; line-height:1.7;}
+  footer strong{color:var(--bn-black);}
+
+  /* ---------- mobile / narrow (double-track) ---------- */
+  @media (max-width:640px){ body{padding:12px 6px;} }
+  @container (max-width:640px){
+    header{padding:24px 18px 16px;}
+    h1{font-size:20px;} .deck{font-size:13.5px;}
+    .status-banner{padding:12px 18px; font-size:12px;}
+    .meta-bar{padding:10px 18px; flex-direction:column; align-items:flex-start; gap:4px;}
+    .meta-bar .meta-sep{display:none;}
+    .meta-bar .meta-chunk{display:block;}
+    .stats{grid-template-columns:repeat(3,1fr);}
+    .stat{padding:14px 6px;}
+    .stat-num{font-size:17px;}
+    .legend{padding:12px 18px; gap:8px 16px;}
+    .section{padding:22px 18px 4px;}
+    .section-headline{font-size:17px;}
+    .timeline{padding:6px 18px 22px;}
+    .zone{margin:10px -18px 10px -18px; padding:16px 18px 2px;}
+    .disclaimer{margin:4px 18px 0;}
+    footer{padding:16px 18px;}
+    .tl-body{font-size:14.5px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">案件調查 · 時間軸</div>
+    <h1>長榮海運涉內線交易案：關鍵時間軸</h1>
+    <p class="deck">從 2016 年家族遺產訴訟，到 2023 年的爭議交易，再到 2026 年檢方搜索約談，一張圖看懂十個關鍵時間點。</p>
+  </header>
+
+  <div class="status-banner">
+    <span class="status-tag">偵查中</span>
+    <p>全案仍在偵查階段，檢方指控與相關事實尚未經法院判決確定。本圖僅整理公開偵查資訊與檢方主張，涉案人依法享有無罪推定。</p>
+  </div>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">資料來源：<strong>北檢偵查資訊、公開資訊觀測站重訊公告、證交所裁罰公告</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">資料截至：2026 年 7 月 6 日</span>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">10</div><div class="stat-lbl">個關鍵時間節點</div></div>
+    <div class="stat"><div class="stat-num">10 年</div><div class="stat-lbl">案件時間跨度<br>（2016 至 2026）</div></div>
+    <div class="stat"><div class="stat-num">9 人</div><div class="stat-lbl">7 月 6 日遭北檢約談</div></div>
+  </div>
+
+  <div class="legend">
+    <span class="legend-item"><span class="lg-dot"></span>一般時間節點</span>
+    <span class="legend-item"><span class="lg-dot dis"></span>檢方懷疑的爭議交易日</span>
+    <span class="legend-item"><span class="lg-band"></span>檢方認定的禁止交易期間</span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 01 · CHRONOLOGY</div>
+    <h2 class="section-headline">十個關鍵節點：從家族訟爭到檢方搜索</h2>
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+      <div class="tl-content"><div class="tl-card">
+        <div class="tl-date">2016 年</div>
+        <p class="tl-body">長榮集團創辦人張榮發過世，家族為遺產與經營權纏訟多年。</p>
+      </div></div>
+    </div>
+
+    <div class="zone">
+      <div class="zone-label">檢方認定的禁止交易期間
+        <span class="zone-sub">始於 6 月 19 日董事會決議，迄於 8 月 21 日重訊完整揭露</span>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+        <div class="tl-content"><div class="tl-card">
+          <div class="tl-date">2023 年 6 月 19 日</div>
+          <p class="tl-body">長榮海運董事會決議，處分手中的長榮航空持股。</p>
+        </div></div>
+      </div>
+
+      <div class="tl-item disputed">
+        <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+        <div class="tl-content"><div class="tl-card">
+          <div class="tl-date">2023 年 6 月 30 日<span class="tl-tag">爭議交易日</span></div>
+          <p class="tl-body">長榮海運股票出現盤後鉅額交易，當天同為除息日。這是檢方懷疑的爭議交易日。</p>
+        </div></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+        <div class="tl-content"><div class="tl-card">
+          <div class="tl-date">2023 年 8 月 11 日</div>
+          <p class="tl-body">向公開資訊觀測站申報，預計轉讓 37 萬 5402 張長榮航空股票。</p>
+        </div></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+        <div class="tl-content"><div class="tl-card">
+          <div class="tl-date">2023 年 8 月 14 日</div>
+          <p class="tl-body">實際處分 5 萬張，每股 34.1 元，並發布重訊。</p>
+        </div></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+        <div class="tl-content"><div class="tl-card">
+          <div class="tl-date">2023 年 8 月 21 日</div>
+          <p class="tl-body">處分 32 萬 5402 張，每股 35 元，並發布重訊。</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+      <div class="tl-content"><div class="tl-card">
+        <div class="tl-date">2024 年 4 月 22 日</div>
+        <p class="tl-body">長榮海運股東、律師林文鵬向北檢告發張國華、柯麗卿等人，指其涉嫌內線交易。</p>
+      </div></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+      <div class="tl-content"><div class="tl-card">
+        <div class="tl-date">2024 年 5 月 6 日</div>
+        <p class="tl-body">證交所併處長榮海運 20 萬元違約金，指 6 月 19 日董事會決議屬應揭露重訊卻延遲輸入等違失；長榮已申覆。</p>
+      </div></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+      <div class="tl-content"><div class="tl-card">
+        <div class="tl-date">2024 年 12 月 30 日</div>
+        <p class="tl-body">張國華將約 10.3 萬張長榮海運股票信託國泰世華。</p>
+      </div></div>
+    </div>
+
+    <div class="tl-item no-line">
+      <div class="tl-marker"><span class="tl-dot"></span><span class="tl-line"></span></div>
+      <div class="tl-content"><div class="tl-card">
+        <div class="tl-date">2026 年 7 月 6 日</div>
+        <p class="tl-body">北檢兵分 10 路搜索、約談 9 人；張國華以 1.2 億元交保。</p>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="disclaimer">
+    本圖依公開偵查資訊、公開資訊觀測站重訊公告與證交所裁罰公告整理製作，僅呈現時間序列，不代表最終司法認定；全案仍在偵查階段，相關指控尚未經法院判決確定。
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：李先泰　|　製圖：2026.07.07
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function(){
+  if(!new URLSearchParams(location.search).has('preview')) return;
+  var t=document.getElementById('previewToolbar'), w=document.querySelector('.wrapper');
+  if(!t||!w) return;
+  t.classList.add('show');
+  t.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-mode]'); if(!b) return;
+    t.querySelectorAll('button').forEach(function(x){x.classList.toggle('active',x===b); x.setAttribute('aria-pressed',x===b?'true':'false');});
+    w.style.maxWidth=(b.dataset.mode==='mobile')?'390px':'880px';
+  });
+})();
+</script>
+
+</body>
+</html>

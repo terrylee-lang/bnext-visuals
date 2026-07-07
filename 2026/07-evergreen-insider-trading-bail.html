@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>長榮海運涉內線交易案：9 人到案處置一覽 ｜ 數位時代</title>
+<meta name="description" content="北檢2026年7月6日兵分10路搜索約談，9人到案，6人獲准交保、3人訊後請回。全案仍在偵查階段，實際認定以法院判決為准。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bn-orange:#FF6B1A; --bn-orange-deep:#E55A0F; --bn-orange-soft:#FFE7D6;
+    --bn-navy:#0F1A2E; --bn-black:#1A1A1A;
+    --paper:#FAF7F1; --paper2:#F5F3EF; --paper3:#ECE8DF; --paper4:#E3DECF;
+    --warm300:#D4D0C8; --cool600:#5C6470; --slate700:#2A3142;
+    --hairline:rgba(15,26,46,.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;
+    background:var(--paper); color:var(--bn-black);
+    padding:32px 16px; line-height:1.8; text-wrap:pretty; letter-spacing:.01em;
+  }
+  h1,.deck,.section-headline{text-wrap:balance;}
+  .wrapper{
+    max-width:880px; margin:0 auto; background:var(--paper);
+    border:1px solid var(--warm300); container-type:inline-size;
+    transition:max-width .25s ease;
+  }
+
+  /* preview toolbar (editor only) */
+  .preview-toolbar{display:none; position:fixed; top:14px; right:14px; z-index:9999; background:var(--bn-navy); padding:4px; border-radius:6px; gap:2px; font-family:"Inter","Noto Sans TC",sans-serif; box-shadow:0 2px 8px rgba(0,0,0,.18);}
+  .preview-toolbar.show{display:flex;}
+  .preview-toolbar button{border:0; padding:7px 13px; font-size:12px; font-weight:700; background:transparent; color:rgba(250,247,241,.55); cursor:pointer; border-radius:4px; font-family:inherit;}
+  .preview-toolbar button:hover{color:var(--paper);}
+  .preview-toolbar button.active{background:var(--bn-orange); color:var(--paper);}
+  .preview-toolbar .label{font-size:10px; color:rgba(250,247,241,.45); padding:0 8px; align-self:center; letter-spacing:.5px; text-transform:uppercase;}
+
+  header{padding:30px 32px 20px; border-bottom:3px solid var(--bn-black);}
+  .kicker{font-family:"Inter","Noto Sans TC",sans-serif; font-size:11px; letter-spacing:2px; color:var(--bn-orange); font-weight:700; text-transform:uppercase; margin-bottom:11px;}
+  h1{font-size:24px; font-weight:800; line-height:1.35; margin-bottom:12px;}
+  .deck{font-size:14.5px; color:var(--slate700); line-height:1.75; font-weight:500;}
+
+  /* status banner: 偵查中提醒 + 無罪推定 */
+  .status-banner{background:var(--bn-navy); color:var(--paper); padding:14px 32px; font-size:13px; line-height:1.75; display:flex; gap:10px; align-items:flex-start;}
+  .status-banner .status-tag{flex-shrink:0; font-family:"Inter","Noto Sans TC",sans-serif; font-size:10.5px; font-weight:800; letter-spacing:1px; text-transform:uppercase; background:var(--bn-orange); color:var(--paper); padding:3px 9px; margin-top:1px;}
+  .status-banner p{color:rgba(250,247,241,.88);}
+
+  .meta-bar{display:flex; flex-wrap:wrap; gap:6px 14px; justify-content:space-between; align-items:center; padding:12px 32px; background:var(--paper3); border-bottom:1px solid var(--warm300); font-family:"Inter","Noto Sans TC",sans-serif; font-size:12px; color:var(--cool600);}
+  .meta-bar strong{color:var(--bn-black); font-weight:700;}
+  .meta-chunk{white-space:nowrap;}
+
+  /* stats strip */
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-bottom:1px solid var(--warm300);}
+  .stat{padding:20px 14px; text-align:center; border-right:1px solid var(--paper3);}
+  .stat:last-child{border-right:none;}
+  .stat-num{font-family:"Inter","Noto Sans TC",sans-serif; font-feature-settings:'tnum' 1; font-size:22px; font-weight:800; color:var(--bn-orange); line-height:1;}
+  .stat-lbl{font-size:11.5px; color:var(--cool600); margin-top:7px; line-height:1.5;}
+
+  .section{padding:26px 32px 6px;}
+  .section-title{font-family:"Inter","Noto Sans TC",sans-serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--cool600); font-weight:700; margin-bottom:4px;}
+  .section-headline{font-size:19px; font-weight:700; margin:0 0 8px; color:var(--bn-black); line-height:1.4;}
+  .section-note{font-size:12.5px; color:var(--cool600); line-height:1.7; margin-bottom:6px;}
+
+  /* ---- 交保 group ---- */
+  .bail-section{padding:20px 32px 6px;}
+  .group-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--bn-black);}
+  .group-head h3{font-size:15px; font-weight:800;}
+  .group-head .group-note{font-size:11.5px; color:var(--cool600);}
+
+  .hero-card{border:2px solid var(--bn-orange); border-left-width:5px; background:var(--bn-orange-soft); padding:20px 22px; margin-bottom:16px; border-radius:0 8px 8px 0;}
+  .hero-top{display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap; margin-bottom:8px;}
+  .hero-name{font-size:17px; font-weight:800; color:var(--bn-black);}
+  .hero-role{font-size:12.5px; color:var(--cool600); font-weight:600; margin-top:3px;}
+  .hero-amount-wrap{text-align:right;}
+  .hero-amount{font-family:"Inter","Noto Sans TC",sans-serif; font-feature-settings:'tnum' 1; font-size:30px; font-weight:800; color:var(--bn-orange-deep); line-height:1; white-space:nowrap;}
+  .hero-amount-lbl{font-size:10.5px; color:var(--cool600); margin-top:4px;}
+  .tag-row{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+  .cond-tag{font-family:"Inter","Noto Sans TC",sans-serif; font-size:10.5px; font-weight:700; color:var(--slate700); background:var(--paper); border:1px solid var(--warm300); padding:3px 9px;}
+  .cond-tag.strong{border-color:var(--bn-orange); color:var(--bn-orange-deep);}
+
+  .bar-list{border:1px solid var(--warm300); background:var(--paper2);}
+  .bar-row{padding:13px 18px; border-bottom:1px solid var(--paper3);}
+  .bar-row:last-child{border-bottom:none;}
+  .bar-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:7px; flex-wrap:wrap;}
+  .bar-id{display:flex; align-items:baseline; gap:6px; flex-wrap:wrap;}
+  .bar-name{font-size:14px; font-weight:700; color:var(--bn-black);}
+  .bar-role{font-size:11.5px; color:var(--cool600); font-weight:500;}
+  .bar-amount{font-family:"Inter","Noto Sans TC",sans-serif; font-feature-settings:'tnum' 1; font-size:15px; font-weight:800; color:var(--bn-orange); white-space:nowrap;}
+  .bar-track{height:10px; background:var(--paper3); overflow:hidden;}
+  .bar-fill{height:100%; background:var(--bn-orange);}
+  .bar-cond{margin-top:8px; font-size:11px; color:var(--cool600);}
+
+  .scale-note{margin-top:10px; font-size:11.5px; color:var(--cool600); line-height:1.7;}
+  .scale-note b{color:var(--bn-black); font-weight:800;}
+
+  /* ---- 訊後請回 group ---- */
+  .recall-section{padding:22px 32px 6px;}
+  .recall-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  .recall-card{background:var(--paper2); border:1px solid var(--warm300); padding:16px 14px; text-align:center;}
+  .recall-name{font-size:14px; font-weight:800; color:var(--bn-black); margin-bottom:9px;}
+  .recall-badge{display:inline-block; font-family:"Inter","Noto Sans TC",sans-serif; font-size:10.5px; font-weight:800; letter-spacing:.5px; color:var(--cool600); border:1px solid var(--warm300); padding:3px 10px; background:var(--paper);}
+
+  .disclaimer{margin:22px 32px 0; padding:13px 16px; background:var(--paper2); border:1px solid var(--warm300); border-radius:8px; font-size:11.5px; color:var(--cool600); line-height:1.7;}
+
+  footer{margin-top:16px; padding:16px 32px; background:var(--paper3); border-top:1px solid var(--warm300); font-size:12px; color:var(--cool600); text-align:center; line-height:1.7;}
+  footer strong{color:var(--bn-black);}
+
+  /* ---------- mobile / narrow (double-track) ---------- */
+  @media (max-width:640px){ body{padding:12px 6px;} }
+  @container (max-width:640px){
+    header{padding:24px 18px 16px;}
+    h1{font-size:19px;} .deck{font-size:13.5px;}
+    .status-banner{padding:12px 18px; font-size:12px;}
+    .meta-bar{padding:10px 18px; flex-direction:column; align-items:flex-start; gap:4px;}
+    .meta-bar .meta-sep{display:none;}
+    .meta-bar .meta-chunk{display:block;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .stat{padding:16px 8px; border-bottom:1px solid var(--paper3);}
+    .stat:nth-child(2){border-right:none;}
+    .stat:nth-child(3),.stat:nth-child(4){border-bottom:none;}
+    .stat-num{font-size:19px;}
+    .section{padding:22px 18px 4px;}
+    .section-headline{font-size:17px;}
+    .bail-section{padding:18px 18px 4px;}
+    .hero-card{padding:16px 16px;}
+    .hero-amount{font-size:26px;}
+    .hero-top{flex-direction:column; align-items:flex-start;}
+    .hero-amount-wrap{text-align:left;}
+    .bar-row{padding:12px 14px;}
+    .bar-top{flex-direction:column; align-items:flex-start; gap:2px;}
+    .recall-section{padding:20px 18px 4px;}
+    .recall-grid{grid-template-columns:1fr; gap:8px;}
+    .recall-card{text-align:left; display:flex; align-items:center; justify-content:space-between; padding:12px 14px;}
+    .recall-name{margin-bottom:0;}
+    .disclaimer{margin:18px 18px 0;}
+    footer{padding:16px 18px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">案件調查 · 到案處置</div>
+    <h1>長榮海運涉內線交易案：9 人到案，處置結果一覽</h1>
+    <p class="deck">北檢 2026 年 7 月 6 日兵分 10 路搜索、約談 9 人。9 人中，6 人獲准交保、3 人訊後請回。</p>
+  </header>
+
+  <div class="status-banner">
+    <span class="status-tag">偵查中</span>
+    <p>交保為刑事訴訟保全程序，不代表涉案人已被認定有罪。全案仍在偵查階段，相關指控尚未經法院判決確定，涉案人依法享有無罪推定。</p>
+  </div>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">資料來源：<strong>北檢偵查資訊</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-chunk">資料截至：2026 年 7 月 6 日</span>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">9 人</div><div class="stat-lbl">遭北檢約談到案</div></div>
+    <div class="stat"><div class="stat-num">6 人</div><div class="stat-lbl">獲准交保</div></div>
+    <div class="stat"><div class="stat-num">3 人</div><div class="stat-lbl">訊後請回<br>（未交保）</div></div>
+    <div class="stat"><div class="stat-num">1.2 億元</div><div class="stat-lbl">全案最高交保金額<br>（張國華）</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 01 · DISPOSITION</div>
+    <h2 class="section-headline">9 人到案，處置結果一覽</h2>
+    <p class="section-note">6 人交保金額差距最高達約 60 倍。張國華交保金額明顯高於其他被告，以下另以獨立卡片呈現；其餘 5 人以相同比例橫條互相比較。</p>
+  </div>
+
+  <!-- 交保 6 人 -->
+  <div class="bail-section">
+    <div class="group-head">
+      <h3>交保（6 人）</h3>
+      <span class="group-note">依交保金額由高到低排列</span>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-top">
+        <div>
+          <div class="hero-name">張國華</div>
+          <div class="hero-role">長榮海運董事</div>
+        </div>
+        <div class="hero-amount-wrap">
+          <div class="hero-amount">1 億 2000 萬元</div>
+          <div class="hero-amount-lbl">全案最高交保金額</div>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="cond-tag strong">限制住居</span>
+        <span class="cond-tag strong">限制出境</span>
+        <span class="cond-tag strong">限制出海</span>
+        <span class="cond-tag strong">科技設備監控</span>
+      </div>
+    </div>
+
+    <div class="bar-list">
+      <div class="bar-row">
+        <div class="bar-top">
+          <div class="bar-id"><span class="bar-name">張國政</span><span class="bar-role">張榮發三子</span></div>
+          <span class="bar-amount">1000 萬元</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+        <div class="bar-cond">限制住居、出境、出海</div>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-top">
+          <div class="bar-id"><span class="bar-name">楊美珍</span><span class="bar-role">張國華妻子</span></div>
+          <span class="bar-amount">500 萬元</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:50%"></div></div>
+        <div class="bar-cond">限制住居、出境、出海</div>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-top">
+          <div class="bar-id"><span class="bar-name">張聖恩</span><span class="bar-role">張國華之子</span></div>
+          <span class="bar-amount">500 萬元</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:50%"></div></div>
+        <div class="bar-cond">限制住居、出境、出海</div>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-top">
+          <div class="bar-id"><span class="bar-name">戴錦銓</span><span class="bar-role">長榮海運董事</span></div>
+          <span class="bar-amount">300 萬元</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:30%"></div></div>
+        <div class="bar-cond">限制住居、出境、出海</div>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-top">
+          <div class="bar-id"><span class="bar-name">謝淑蕙</span><span class="bar-role">協理</span></div>
+          <span class="bar-amount">200 萬元</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
+        <div class="bar-cond">限制住居、出境、出海</div>
+      </div>
+    </div>
+
+    <p class="scale-note">橫條長度以此 <b>5 人</b>組內金額（200 萬至 1000 萬元）相同比例呈現，方便互相比較；張國華的 1 億 2000 萬元遠超此區間，另以獨立卡片顯示量體差距，未併入同一比例，避免其餘金額在圖表中無法辨識。</p>
+  </div>
+
+  <!-- 訊後請回 3 人 -->
+  <div class="recall-section">
+    <div class="group-head">
+      <h3>訊後請回（3 人）</h3>
+      <span class="group-note">未命令交保</span>
+    </div>
+    <div class="recall-grid">
+      <div class="recall-card">
+        <div class="recall-name">柯麗卿</div>
+        <span class="recall-badge">訊後請回</span>
+      </div>
+      <div class="recall-card">
+        <div class="recall-name">曾瓊慧</div>
+        <span class="recall-badge">訊後請回</span>
+      </div>
+      <div class="recall-card">
+        <div class="recall-name">張聖翊</div>
+        <span class="recall-badge">訊後請回</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    以上處置結果依北檢公開偵查資訊整理。交保為刑事訴訟保全程序，不代表涉案人已被認定有罪；全案仍在偵查階段，相關指控尚未經法院判決確定，涉案人依法享有無罪推定。
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：李先泰　|　製圖：2026.07.07
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function(){
+  if(!new URLSearchParams(location.search).has('preview')) return;
+  var t=document.getElementById('previewToolbar'), w=document.querySelector('.wrapper');
+  if(!t||!w) return;
+  t.classList.add('show');
+  t.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-mode]'); if(!b) return;
+    t.querySelectorAll('button').forEach(function(x){x.classList.toggle('active',x===b); x.setAttribute('aria-pressed',x===b?'true':'false');});
+    w.style.maxWidth=(b.dataset.mode==='mobile')?'390px':'880px';
+  });
+})();
+</script>
+
+</body>
+</html>
