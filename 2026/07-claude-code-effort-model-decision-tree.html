@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude 出錯了，該調哪個設定？決策樹 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    text-wrap: pretty;
+  }
+
+  body { padding: 28px 20px 40px; }
+
+  @media (max-width: 640px) {
+    body { padding: 20px 10px 32px; }
+  }
+
+  .num, .step-num, .pill-num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  h1, h2, h3, .deck { text-wrap: balance; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header { padding: 4px 4px 20px; border-bottom: 1px solid var(--hairline); margin-bottom: 24px; }
+
+  .kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bn-orange);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: 900;
+    margin: 0 0 10px;
+    letter-spacing: 0.01em;
+  }
+
+  .deck {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--cool-600);
+    margin: 0;
+    max-width: 560px;
+  }
+
+  @container (max-width: 640px) {
+    h1 { font-size: 24px; }
+    .deck { font-size: 14.5px; }
+  }
+
+  /* ---------- Meta bar ---------- */
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--cool-600);
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .meta-bar strong { color: var(--bn-black); font-weight: 700; }
+  .meta-chunk { white-space: nowrap; }
+
+  @container (max-width: 640px) {
+    .meta-bar { flex-direction: column; gap: 4px; }
+  }
+
+  /* ---------- Start banner ---------- */
+  .start-banner {
+    background: var(--bn-navy);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .start-banner .start-tag {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: rgba(250,247,241,0.55);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .start-banner p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  @container (max-width: 640px) {
+    .start-banner { flex-direction: column; align-items: flex-start; gap: 6px; padding: 18px 18px; }
+    .start-banner p { font-size: 14.5px; }
+  }
+
+  /* ---------- Step card ---------- */
+  .step {
+    background: var(--paper-2);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    margin-bottom: 4px;
+    overflow: hidden;
+  }
+
+  .step-connector {
+    display: flex;
+    justify-content: center;
+    padding: 6px 0;
+  }
+  .step-connector .line {
+    width: 2px;
+    height: 22px;
+    background: var(--warm-300);
+  }
+
+  .step-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--warm-300);
+    background: var(--paper-3);
+  }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--bn-orange);
+    color: var(--paper);
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-head h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.4;
+  }
+  .step-head .step-sub {
+    font-size: 13px;
+    color: var(--cool-600);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .step-body { padding: 20px 22px 22px; }
+
+  /* ---------- Checklist ---------- */
+  .checklist { list-style: none; margin: 0 0 16px; padding: 0; display: grid; gap: 10px; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.55;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .checklist li:hover { border-color: var(--bn-orange); }
+  .checklist li.checked {
+    background: var(--paper-4);
+    border-color: var(--bn-orange);
+  }
+  .checklist input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 1px 0 0;
+    accent-color: var(--bn-orange);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .checklist label { cursor: pointer; flex: 1; }
+
+  .context-hint {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper-3);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--bn-black);
+    margin-bottom: 18px;
+  }
+  .context-hint strong { color: var(--bn-orange-deep); }
+  .context-hint.done { border-left-color: var(--bn-orange); background: var(--paper-4); }
+
+  .next-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    border-radius: 0;
+    background: var(--warm-300);
+    color: var(--cool-600);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 22px;
+    cursor: not-allowed;
+    transition: background 0.15s ease, color 0.15s ease;
+    width: 100%;
+    justify-content: center;
+  }
+  .next-btn.enabled {
+    background: var(--bn-orange);
+    color: var(--paper);
+    cursor: pointer;
+  }
+  .next-btn.enabled:hover { background: var(--bn-orange-deep); }
+  .next-btn .arrow { font-size: 16px; }
+
+  /* ---------- Question step ---------- */
+  .question-text {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    line-height: 1.5;
+  }
+  .question-sub {
+    font-size: 14px;
+    color: var(--cool-600);
+    margin: 0 0 18px;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @container (max-width: 640px) {
+    .options { grid-template-columns: 1fr; }
+  }
+
+  .option-card {
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    padding: 18px 18px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.15s ease, transform 0.1s ease;
+  }
+  .option-card:hover { border-color: var(--bn-orange); }
+  .option-card.selected {
+    border-color: var(--bn-orange);
+    background: var(--paper-4);
+  }
+  .option-card .opt-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--bn-black);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .option-card .opt-label .opt-tag {
+    display: inline-block;
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--bn-orange-deep);
+    background: var(--paper-3);
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .option-card .opt-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--cool-600);
+    margin: 0;
+  }
+
+  /* ---------- Result panel ---------- */
+  .result-wrap { margin-top: 4px; display: none; }
+  .result-wrap.show { display: block; }
+
+  .result-card {
+    background: var(--bn-navy);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 24px 26px;
+    margin-top: 4px;
+  }
+  .result-card .result-kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--bn-orange);
+    margin-bottom: 10px;
+  }
+  .result-card h3 {
+    font-size: 21px;
+    font-weight: 900;
+    margin: 0 0 12px;
+    line-height: 1.4;
+  }
+  .result-card .result-detail {
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0 0 14px;
+    color: rgba(250,247,241,0.92);
+  }
+  .result-card .result-note {
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(250,247,241,0.6);
+    border-top: 1px solid rgba(250,247,241,0.18);
+    padding-top: 12px;
+    margin: 0;
+  }
+
+  .reset-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+  }
+  .reset-link {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cool-600);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: var(--warm-300);
+    padding: 4px 2px;
+  }
+  .reset-link:hover { color: var(--bn-orange-deep); }
+
+  /* ---------- Callout (side note) ---------- */
+  .callout {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper-2);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin-top: 28px;
+  }
+  .callout .callout-kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bn-orange-deep);
+    margin-bottom: 8px;
+  }
+  .callout p {
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin: 0;
+    color: var(--bn-black);
+  }
+
+  footer {
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    color: var(--cool-600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); }
+
+  /* ---------- Preview toolbar ---------- */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">設定診斷 · 這是選設定，不是模型跑分</div>
+    <h1>Claude 出錯了，該調哪個設定？</h1>
+    <p class="deck">跟著這個判斷流程一路點下去，找出你該先補脈絡、調努力程度，還是換模型。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div class="meta-chunk">資料來源：<strong>Anthropic 官方部落格、Claude Code 官方文件</strong></div>
+    <div class="meta-chunk">製作：《數位時代》</div>
+  </div>
+
+  <div class="start-banner">
+    <span class="start-tag">起點</span>
+    <p>這次 Claude 給的結果不如預期，你想讓它變好。</p>
+  </div>
+
+  <div class="step-connector"><div class="line"></div></div>
+
+  <!-- STEP 1: 檢查脈絡 -->
+  <div class="step" id="step1">
+    <div class="step-head">
+      <div class="step-num">1</div>
+      <div>
+        <h2>先檢查脈絡，別急著動設定</h2>
+        <div class="step-sub">逐項勾選，確認你是不是已經把該給的東西都給了</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <ul class="checklist" id="checklist">
+        <li data-item="1"><input type="checkbox" id="c1"><label for="c1">提示詞夠清楚嗎？</label></li>
+        <li data-item="2"><input type="checkbox" id="c2"><label for="c2">工具、skill 接對了嗎？</label></li>
+        <li data-item="3"><input type="checkbox" id="c3"><label for="c3">該給的檔案、context 給了嗎？</label></li>
+        <li data-item="4"><input type="checkbox" id="c4"><label for="c4">有沒有給它能自我驗證的方法？</label></li>
+      </ul>
+
+      <div class="context-hint" id="contextHint">
+        還沒勾完。<strong>多數「想調高努力程度」的情況，病根其實在這裡</strong>。先補齊脈絡，缺一項就先處理那一項。
+      </div>
+
+      <button type="button" class="next-btn" id="toStep2Btn" disabled>
+        <span>脈絡都給足了，還是錯，往下一步</span>
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="step-connector" id="connector2" style="display:none;"><div class="line"></div></div>
+
+  <!-- STEP 2: 不知道 vs 不夠認真 -->
+  <div class="step" id="step2" style="display:none;">
+    <div class="step-head">
+      <div class="step-num">2</div>
+      <div>
+        <h2>問自己一個問題</h2>
+        <div class="step-sub">它是不知道，還是不夠認真？點一個最符合的情況</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <p class="question-text">脈絡都給足了，還是錯，這代表病根不在上游。</p>
+      <p class="question-sub">選出比較符合的症狀，看它該調哪個設定。</p>
+
+      <div class="options">
+        <button type="button" class="option-card" data-result="effort">
+          <span class="opt-label"><span class="opt-tag">分支 A</span>不夠認真</span>
+          <p class="opt-desc">漏讀檔案、沒跑測試、沒複查就交卷、多步任務做一半就停。</p>
+        </button>
+        <button type="button" class="option-card" data-result="model">
+          <span class="opt-label"><span class="opt-tag">分支 B</span>不夠聰明</span>
+          <p class="opt-desc">脈絡給足了、也明顯努力過了，還是很有自信地答錯，或遇到細節很深的 bug、陌生領域、架構決策。</p>
+        </button>
+      </div>
+
+      <div class="result-wrap" id="resultEffort">
+        <div class="result-card">
+          <div class="result-kicker">判斷結果 · Effort 問題</div>
+          <h3>調高努力程度（effort）</h3>
+          <p class="result-detail">讓 Claude 多讀幾個檔案、多跑測試、多驗證一輪才回報，而不是急著交卷。</p>
+          <p class="result-note">最常見於你把努力程度設在預設值以下時。多數任務其實直接用預設值就夠，努力程度更適合當成依工作型態設定的長期偏好，而不是逐任務調整的旋鈕。</p>
+        </div>
+      </div>
+
+      <div class="result-wrap" id="resultModel">
+        <div class="result-card">
+          <div class="result-kicker">判斷結果 · 模型問題</div>
+          <h3>換更大的模型</h3>
+          <p class="result-detail">Sonnet 換 Opus，Opus 還是卡住換 Fable，讓知識、推理與能力上限更高的模型接手。</p>
+          <p class="result-note">大模型更擅長處理模糊指令，小模型則需要明確具體的指示才容易成功。真正困難的多步驟任務上，模型貴但幾步到位，總成本可能反而更低。</p>
+        </div>
+      </div>
+
+      <div class="reset-row">
+        <button type="button" class="reset-link" id="resetBtn">重新判斷一次</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-kicker">反向提醒 · 省錢方向</div>
+    <p>如果你一直用大模型，但手上工作已經例行化一段時間，往下降級通常能提速、省錢，而且不損品質。例行任務上，大小模型都做得對，大模型還會多做驗證、單價又高，這時降級用小模型是純省錢。</p>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：Lydia Hallie（Anthropic）、數位時代編輯部　|　製圖：2026.07.09
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  var checkboxes = Array.prototype.slice.call(document.querySelectorAll('#checklist input[type="checkbox"]'));
+  var listItems = Array.prototype.slice.call(document.querySelectorAll('#checklist li'));
+  var hint = document.getElementById('contextHint');
+  var nextBtn = document.getElementById('toStep2Btn');
+  var step2 = document.getElementById('step2');
+  var connector2 = document.getElementById('connector2');
+  var options = Array.prototype.slice.call(document.querySelectorAll('.option-card'));
+  var resultEffort = document.getElementById('resultEffort');
+  var resultModel = document.getElementById('resultModel');
+  var resetBtn = document.getElementById('resetBtn');
+
+  function syncChecklistState() {
+    var allChecked = checkboxes.every(function(cb) { return cb.checked; });
+    checkboxes.forEach(function(cb, i) {
+      listItems[i].classList.toggle('checked', cb.checked);
+    });
+    if (allChecked) {
+      hint.classList.add('done');
+      hint.innerHTML = '<strong>脈絡都給足了。</strong>那如果還是錯，病根不在上游，往下一步判斷它是不知道還是不夠認真。';
+      nextBtn.disabled = false;
+      nextBtn.classList.add('enabled');
+    } else {
+      hint.classList.remove('done');
+      hint.innerHTML = '還沒勾完。<strong>多數「想調高努力程度」的情況，病根其實在這裡</strong>。先補齊脈絡，缺一項就先處理那一項。';
+      nextBtn.disabled = true;
+      nextBtn.classList.remove('enabled');
+    }
+  }
+
+  checkboxes.forEach(function(cb) {
+    cb.addEventListener('change', syncChecklistState);
+  });
+  listItems.forEach(function(li, i) {
+    li.addEventListener('click', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') return;
+      checkboxes[i].checked = !checkboxes[i].checked;
+      syncChecklistState();
+    });
+  });
+
+  nextBtn.addEventListener('click', function() {
+    if (nextBtn.disabled) return;
+    step2.style.display = 'block';
+    connector2.style.display = 'flex';
+    step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  options.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      options.forEach(function(b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      var which = btn.getAttribute('data-result');
+      resultEffort.classList.toggle('show', which === 'effort');
+      resultModel.classList.toggle('show', which === 'model');
+    });
+  });
+
+  resetBtn.addEventListener('click', function() {
+    options.forEach(function(b) { b.classList.remove('selected'); });
+    resultEffort.classList.remove('show');
+    resultModel.classList.remove('show');
+  });
+
+  syncChecklistState();
+})();
+
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>
