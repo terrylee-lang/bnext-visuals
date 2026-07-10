@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPT-5.6 訂閱方案對照 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    text-wrap: pretty;
+  }
+
+  body { padding: 28px 20px 40px; }
+
+  @media (max-width: 640px) {
+    body { padding: 18px 10px 30px; }
+  }
+
+  .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  h1, h2, .deck { text-wrap: balance; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header { padding: 4px 4px 20px; border-bottom: 1px solid var(--hairline); margin-bottom: 24px; }
+
+  .kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bn-orange);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    line-height: 1.35;
+    font-weight: 900;
+    margin: 0 0 10px;
+    letter-spacing: 0.01em;
+  }
+  h1 .u {
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+    text-decoration-color: var(--bn-orange);
+  }
+
+  .deck {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--cool-600);
+    margin: 0;
+    max-width: 600px;
+  }
+
+  @container (max-width: 640px) {
+    h1 { font-size: 22px; }
+    .deck { font-size: 14.5px; }
+  }
+
+  /* ---------- Meta bar ---------- */
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--cool-600);
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .meta-bar strong { color: var(--bn-black); font-weight: 700; }
+  .meta-chunk { white-space: nowrap; }
+
+  @container (max-width: 640px) {
+    .meta-bar { flex-direction: column; gap: 4px; }
+  }
+
+  /* ---------- Section shell ---------- */
+  .section { margin-bottom: 32px; }
+  .section-title {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--cool-600);
+    margin-bottom: 8px;
+  }
+  .section-headline {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 16px;
+    line-height: 1.4;
+  }
+
+  /* ---------- Version legend cards ---------- */
+  .version-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @container (max-width: 640px) {
+    .version-grid { grid-template-columns: 1fr; }
+  }
+
+  .version-card {
+    background: var(--paper-2);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    padding: 18px 18px 20px;
+  }
+  .version-card.flagship {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper-3);
+  }
+  .version-name {
+    font-size: 19px;
+    font-weight: 900;
+    margin: 0 0 4px;
+  }
+  .version-tag {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cool-600);
+    margin-bottom: 10px;
+  }
+  .version-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--bn-black);
+    margin: 0;
+  }
+  .version-desc .sub {
+    display: block;
+    margin-top: 8px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--cool-600);
+  }
+
+  /* ---------- Matrix table (desktop) ---------- */
+  .matrix-wrap {
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  table.matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--paper);
+  }
+  .matrix-table th {
+    background: var(--paper-3);
+    text-align: left;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--bn-black);
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .matrix-table td {
+    padding: 14px 14px;
+    font-size: 14px;
+    line-height: 1.7;
+    vertical-align: top;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .matrix-table tbody tr:last-child td { border-bottom: none; }
+  .matrix-table tbody tr:nth-child(even) { background: var(--paper-2); }
+  .matrix-table td.plan-name {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .plan-name .plan-sub {
+    display: block;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--cool-600);
+  }
+
+  .pill {
+    display: inline-block;
+    background: var(--paper-3);
+    border: 1px solid var(--warm-300);
+    border-radius: 0;
+    padding: 3px 9px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bn-black);
+    margin: 2px 4px 2px 0;
+  }
+  .pill-plus {
+    display: inline-block;
+    font-size: 12.5px;
+    color: var(--cool-600);
+    margin-left: 2px;
+    white-space: nowrap;
+  }
+  .mode-chips { margin-top: 6px; }
+  .chip {
+    display: inline-block;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--cool-600);
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    border-radius: 0;
+    padding: 2px 7px;
+    margin: 2px 4px 0 0;
+    white-space: nowrap;
+  }
+  .na {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--cool-400);
+  }
+  .na-note {
+    display: block;
+    font-size: 12px;
+    color: var(--cool-600);
+    margin-top: 3px;
+  }
+
+  /* ---------- Matrix cards (mobile) ---------- */
+  .mobile-matrix { display: none; }
+  .plan-card {
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .plan-card:last-child { margin-bottom: 0; }
+  .plan-card-head {
+    background: var(--paper-3);
+    padding: 10px 14px;
+    font-size: 16px;
+    font-weight: 800;
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .plan-card-head .plan-sub {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--cool-600);
+    margin-left: 6px;
+  }
+  .plan-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .plan-card .plan-row:last-child { border-bottom: none; }
+  .plan-row .plan-row-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--cool-600);
+  }
+  .plan-row .plan-row-value { font-size: 14px; }
+
+  /* ---------- Legend ---------- */
+  .legend-list {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+  .legend-list li {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--cool-600);
+    padding-left: 16px;
+    position: relative;
+  }
+  .legend-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 5px;
+    height: 5px;
+    background: var(--warm-300);
+    border-radius: 50%;
+  }
+  .legend-list strong { color: var(--bn-black); font-weight: 700; }
+
+  @container (max-width: 640px) {
+    .matrix-wrap { display: none; }
+    .mobile-matrix { display: block; }
+  }
+
+  /* ---------- Price table ---------- */
+  .price-wrap {
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 420px;
+  }
+  table.price-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--paper);
+  }
+  .price-table th {
+    background: var(--paper-3);
+    text-align: left;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .price-table td {
+    padding: 11px 14px;
+    font-size: 14.5px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .price-table tbody tr:last-child td { border-bottom: none; }
+  .price-table tbody tr:nth-child(even) { background: var(--paper-2); }
+  .price-table td.model-name { font-weight: 700; }
+  .price-note {
+    font-size: 12.5px;
+    color: var(--cool-600);
+    margin: 8px 0 0;
+  }
+
+  footer {
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    color: var(--cool-600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); }
+
+  /* ---------- Preview toolbar ---------- */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">即時新聞配件 · 訂閱方案速查</div>
+    <h1>GPT-5.6 上線，我的方案能用<span class="u">哪個版本</span>？</h1>
+    <p class="deck">OpenAI 依訂閱方案與產品分批開放 GPT-5.6，聊天、Work 與 Codex、API 三個場景的資格都不一樣，一次對照清楚。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div class="meta-chunk">資料來源：<strong>OpenAI 官方公告</strong></div>
+    <div class="meta-chunk">更新：2026 年 7 月 10 日</div>
+  </div>
+
+  <!-- FIGURE 01：三個版本定位 -->
+  <div class="section">
+    <div class="section-title">FIGURE 01 · 版本定位</div>
+    <h2 class="section-headline">GPT-5.6 分成三個版本</h2>
+    <div class="version-grid">
+      <div class="version-card flagship">
+        <div class="version-name">Sol</div>
+        <div class="version-tag">旗艦 · 最強</div>
+        <p class="version-desc">主攻最吃重的任務。
+          <span class="sub">另有品質更高的 Sol Pro，以及預設協調四個 AI 代理平行作業的 ultra 模式。</span>
+        </p>
+      </div>
+      <div class="version-card">
+        <div class="version-name">Terra</div>
+        <div class="version-tag">均衡 · 日常</div>
+        <p class="version-desc">對應日常工作，效能約當前一代 GPT-5.5。</p>
+      </div>
+      <div class="version-card">
+        <div class="version-name">Luna</div>
+        <div class="version-tag">最快 · 最省</div>
+        <p class="version-desc">速度最快、成本最省的版本。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIGURE 02：方案 x 產品 x 可用模型 -->
+  <div class="section">
+    <div class="section-title">FIGURE 02 · 訂閱方案對照</div>
+    <h2 class="section-headline">訂閱方案 × 產品，能用哪個模型</h2>
+
+    <div class="matrix-wrap">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>訂閱方案</th>
+            <th>ChatGPT（聊天）</th>
+            <th>ChatGPT Work 與 Codex</th>
+            <th>API</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="plan-name">Free<span class="plan-sub">免費</span></td>
+            <td><span class="na">N/A</span><span class="na-note">官方未明列</span></td>
+            <td><span class="pill">Terra</span></td>
+            <td><span class="na">N/A</span><span class="na-note">僅開發者用 API</span></td>
+          </tr>
+          <tr>
+            <td class="plan-name">Go</td>
+            <td><span class="na">N/A</span><span class="na-note">官方未明列</span></td>
+            <td><span class="pill">Terra</span></td>
+            <td><span class="na">N/A</span></td>
+          </tr>
+          <tr>
+            <td class="plan-name">Plus</td>
+            <td><span class="pill">Sol</span></td>
+            <td>
+              <span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span>
+              <div class="mode-chips"><span class="chip">+max</span><span class="chip">ultra（僅 Codex）</span></div>
+            </td>
+            <td><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span></td>
+          </tr>
+          <tr>
+            <td class="plan-name">Pro</td>
+            <td><span class="pill">Sol</span><span class="pill-plus">＋ Sol Pro</span></td>
+            <td>
+              <span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span>
+              <div class="mode-chips"><span class="chip">+max</span><span class="chip">ultra（Work＋Codex）</span></div>
+            </td>
+            <td><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span></td>
+          </tr>
+          <tr>
+            <td class="plan-name">Business</td>
+            <td><span class="pill">Sol</span></td>
+            <td>
+              <span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span>
+              <div class="mode-chips"><span class="chip">+max</span></div>
+            </td>
+            <td><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span></td>
+          </tr>
+          <tr>
+            <td class="plan-name">Enterprise</td>
+            <td><span class="pill">Sol</span><span class="pill-plus">＋ Sol Pro</span></td>
+            <td>
+              <span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span>
+              <div class="mode-chips"><span class="chip">+max</span><span class="chip">ultra（Work＋Codex）</span></div>
+            </td>
+            <td><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 手機版：每個方案一張卡 -->
+    <div class="mobile-matrix">
+      <div class="plan-card">
+        <div class="plan-card-head">Free<span class="plan-sub">免費</span></div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT（聊天）</span><span class="plan-row-value"><span class="na">N/A</span><span class="na-note">官方未明列</span></span></div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT Work 與 Codex</span><span class="plan-row-value"><span class="pill">Terra</span></span></div>
+        <div class="plan-row"><span class="plan-row-label">API</span><span class="plan-row-value"><span class="na">N/A</span><span class="na-note">僅開發者用 API</span></span></div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-card-head">Go</div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT（聊天）</span><span class="plan-row-value"><span class="na">N/A</span><span class="na-note">官方未明列</span></span></div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT Work 與 Codex</span><span class="plan-row-value"><span class="pill">Terra</span></span></div>
+        <div class="plan-row"><span class="plan-row-label">API</span><span class="plan-row-value"><span class="na">N/A</span></span></div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-card-head">Plus</div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT（聊天）</span><span class="plan-row-value"><span class="pill">Sol</span></span></div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT Work 與 Codex</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span><div class="mode-chips"><span class="chip">+max</span><span class="chip">ultra（僅 Codex）</span></div></span></div>
+        <div class="plan-row"><span class="plan-row-label">API</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span></span></div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-card-head">Pro</div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT（聊天）</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill-plus">＋ Sol Pro</span></span></div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT Work 與 Codex</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span><div class="mode-chips"><span class="chip">+max</span><span class="chip">ultra（Work＋Codex）</span></div></span></div>
+        <div class="plan-row"><span class="plan-row-label">API</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span></span></div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-card-head">Business</div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT（聊天）</span><span class="plan-row-value"><span class="pill">Sol</span></span></div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT Work 與 Codex</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span><div class="mode-chips"><span class="chip">+max</span></div></span></div>
+        <div class="plan-row"><span class="plan-row-label">API</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span></span></div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-card-head">Enterprise</div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT（聊天）</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill-plus">＋ Sol Pro</span></span></div>
+        <div class="plan-row"><span class="plan-row-label">ChatGPT Work 與 Codex</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span><div class="mode-chips"><span class="chip">+max</span><span class="chip">ultra（Work＋Codex）</span></div></span></div>
+        <div class="plan-row"><span class="plan-row-label">API</span><span class="plan-row-value"><span class="pill">Sol</span><span class="pill">Terra</span><span class="pill">Luna</span></span></div>
+      </div>
+    </div>
+
+    <ul class="legend-list">
+      <li><strong>+max</strong>：ChatGPT Work 與 Codex 中，所有可用 GPT-5.6 的方案都能在設定裡開啟。</li>
+      <li><strong>ultra</strong>：ChatGPT Work 限 Pro 與 Enterprise 使用；Codex 則 Plus 以上方案皆可用。</li>
+      <li><strong>N/A</strong>：OpenAI 官方公告未列出對應資格，非確認不可用。</li>
+    </ul>
+  </div>
+
+  <!-- FIGURE 03：API 定價 -->
+  <div class="section">
+    <div class="section-title">FIGURE 03 · API 定價</div>
+    <h2 class="section-headline">開發者用 API，價格怎麼分</h2>
+    <div class="price-wrap">
+      <table class="price-table">
+        <thead>
+          <tr><th>模型</th><th>輸入</th><th>輸出</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="model-name">Sol</td><td class="num">US$5</td><td class="num">US$30</td></tr>
+          <tr><td class="model-name">Terra</td><td class="num">US$2.5</td><td class="num">US$15</td></tr>
+          <tr><td class="model-name">Luna</td><td class="num">US$1</td><td class="num">US$6</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="price-note">單位：每百萬 token（美元）。</p>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料來源：OpenAI《GPT-5.6》官方公告（openai.com/index/gpt-5-6/）、OpenAI《ChatGPT Work》官方公告（openai.com/index/chatgpt-for-your-most-ambitious-work/）　|　製圖：2026.07.10
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>
