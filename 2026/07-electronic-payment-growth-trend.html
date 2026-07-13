@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>電子支付五個月成長軌跡 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+    --ease-standard: cubic-bezier(.2,.7,.2,1);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    text-wrap: pretty;
+  }
+
+  body { padding: 28px 20px 40px; }
+
+  @media (max-width: 640px) {
+    body { padding: 18px 10px 30px; }
+  }
+
+  .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  h1, h2, .deck { text-wrap: balance; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header { padding: 4px 4px 20px; border-bottom: 1px solid var(--hairline); margin-bottom: 22px; }
+
+  .kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bn-orange);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 27px;
+    line-height: 1.35;
+    font-weight: 900;
+    margin: 0 0 10px;
+    letter-spacing: 0.01em;
+  }
+  h1 .u {
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+    text-decoration-color: var(--bn-orange);
+  }
+
+  .deck {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--cool-600);
+    margin: 0;
+    max-width: 660px;
+  }
+
+  @container (max-width: 640px) {
+    h1 { font-size: 21px; }
+    .deck { font-size: 14px; }
+  }
+
+  /* ---------- Meta bar ---------- */
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--cool-600);
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+  }
+  .meta-bar strong { color: var(--bn-black); font-weight: 700; }
+  .meta-chunk { white-space: nowrap; }
+
+  @container (max-width: 640px) {
+    .meta-bar { flex-direction: column; gap: 4px; }
+  }
+
+  /* ---------- Section shell ---------- */
+  .section { margin-bottom: 30px; }
+  .section-title {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--cool-600);
+    margin-bottom: 8px;
+  }
+  .section-headline {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    line-height: 1.4;
+  }
+  .section-note {
+    font-size: 13.5px;
+    color: var(--cool-600);
+    margin: 0 0 16px;
+    line-height: 1.65;
+  }
+
+  /* ---------- Toggle control ---------- */
+  .toggle-group {
+    display: inline-flex;
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .toggle-btn {
+    border: 0;
+    background: var(--paper-2);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
+  }
+  .toggle-btn + .toggle-btn { border-left: 1px solid var(--warm-300); }
+  .toggle-btn.active {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  @container (max-width: 640px) {
+    .toggle-group { display: flex; width: 100%; }
+    .toggle-btn { flex: 1 1 0; font-size: 12.5px; padding: 10px 8px; }
+  }
+
+  /* ---------- Chart ---------- */
+  .chart-panel {
+    background: var(--paper-2);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    padding: 18px 18px 10px;
+  }
+
+  .chart-body {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    column-gap: 6px;
+  }
+
+  .y-axis {
+    position: relative;
+    height: 300px;
+  }
+  .y-tick {
+    position: absolute;
+    left: 0;
+    right: 6px;
+    transform: translateY(-50%);
+    text-align: right;
+    font-size: 11.5px;
+    color: var(--cool-600);
+    white-space: nowrap;
+    transition: opacity 0.35s var(--ease-standard);
+  }
+  .y-tick .num { font-feature-settings: 'tnum' 1; }
+
+  @container (max-width: 640px) {
+    .y-axis { height: 260px; }
+    .y-tick { font-size: 10.5px; }
+  }
+
+  .chart-col {
+    position: relative;
+    height: 300px;
+  }
+  @container (max-width: 640px) {
+    .chart-col { height: 260px; }
+  }
+
+  .gridline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--hairline);
+  }
+
+  svg.chart-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .chart-line {
+    fill: none;
+    stroke: var(--cool-400);
+    stroke-width: 1.6px;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.55;
+    transition: stroke 0.3s var(--ease-standard), stroke-width 0.3s var(--ease-standard), opacity 0.3s var(--ease-standard);
+  }
+  .chart-line.is-hero {
+    stroke: var(--bn-orange);
+    stroke-width: 3px;
+    opacity: 1;
+  }
+  .chart-line.is-focus {
+    stroke: var(--bn-navy);
+    stroke-width: 2.4px;
+    opacity: 1;
+  }
+  .chart-line.is-dim { opacity: 0.12; }
+
+  .pt-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--bn-orange);
+    border: 2px solid var(--paper-2);
+    transform: translate(-50%, -50%);
+    transition: left 0.65s var(--ease-standard), top 0.65s var(--ease-standard), background 0.3s;
+  }
+  .pt-dot.focus { background: var(--bn-navy); }
+
+  .hero-badge {
+    position: absolute;
+    transform: translate(6px, -50%);
+    background: var(--bn-orange);
+    color: var(--paper);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: left 0.65s var(--ease-standard), top 0.65s var(--ease-standard);
+  }
+
+  .x-axis {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0 4px 52px;
+    font-size: 12px;
+    color: var(--cool-600);
+  }
+  @container (max-width: 640px) {
+    .x-axis { margin-left: 46px; font-size: 11px; }
+  }
+
+  /* ---------- Legend ---------- */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .legend-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid var(--warm-300);
+    background: var(--paper);
+    border-radius: 8px;
+    padding: 6px 11px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--cool-600);
+    cursor: pointer;
+    transition: all 0.2s var(--ease-standard);
+  }
+  .legend-chip .swatch {
+    width: 10px; height: 10px; border-radius: 0;
+    background: var(--cool-400);
+    flex-shrink: 0;
+  }
+  .legend-chip.hero { color: var(--bn-black); font-weight: 700; }
+  .legend-chip.hero .swatch { background: var(--bn-orange); }
+  .legend-chip.is-focus {
+    border-color: var(--bn-navy);
+    background: var(--paper-3);
+    color: var(--bn-black);
+  }
+  .legend-chip.is-focus .swatch { background: var(--bn-navy); }
+  .legend-hint {
+    font-size: 12px;
+    color: var(--cool-400);
+    align-self: center;
+    margin-left: 2px;
+  }
+
+  /* ---------- Annotation ---------- */
+  .annotation {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--paper-3);
+    border-left: 4px solid var(--bn-orange);
+    border-radius: 8px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--bn-black);
+  }
+  .annotation strong { font-weight: 800; }
+  .annotation .num { font-weight: 700; }
+
+  footer {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    color: var(--cool-600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); }
+
+  /* ---------- Preview toolbar ---------- */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">電支龍虎榜 · 五個月成長軌跡</div>
+    <h1>交易額一路狂飆，使用者卻很<span class="u">安靜</span></h1>
+    <p class="deck">同一批七家電支業者，2026 年 1 至 5 月走出兩條完全不同的軌跡。切換下面兩個按鈕，看代理收付交易額與使用者人數怎麼各玩各的。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div class="meta-chunk">資料來源：<strong>金管會「電子支付帳戶重要資訊揭露」月報</strong></div>
+    <div class="meta-chunk">資料期間：2026 年 1 至 5 月</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 03 · 成長軌跡</div>
+    <h2 class="section-headline">七條線，切換指標看走勢差多少</h2>
+    <p class="section-note">預設只讓 LINE Pay Money 保持橘色，其餘六家業者淡化為背景線。點下方圖例可單獨叫出某一家的完整軌跡。</p>
+
+    <div class="toggle-group" role="tablist" aria-label="指標切換">
+      <button type="button" class="toggle-btn active" data-metric="amount" aria-pressed="true">代理收付交易額（億元）</button>
+      <button type="button" class="toggle-btn" data-metric="users" aria-pressed="false">使用者人數（萬人）</button>
+    </div>
+
+    <div class="chart-panel">
+      <div class="chart-body">
+        <div class="y-axis" id="yAxis"></div>
+        <div class="chart-col" id="chartCol">
+          <div class="gridline" style="top:0%"></div>
+          <div class="gridline" style="top:25%"></div>
+          <div class="gridline" style="top:50%"></div>
+          <div class="gridline" style="top:75%"></div>
+          <div class="gridline" style="top:100%"></div>
+          <svg class="chart-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polyline class="chart-line" data-id="quanying" points=""></polyline>
+            <polyline class="chart-line" data-id="icash" points=""></polyline>
+            <polyline class="chart-line" data-id="youyoufu" points=""></polyline>
+            <polyline class="chart-line" data-id="yikatong" points=""></polyline>
+            <polyline class="chart-line" data-id="jiekou" points=""></polyline>
+            <polyline class="chart-line" data-id="quanzhi" points=""></polyline>
+            <polyline class="chart-line is-hero" data-id="linepay" points=""></polyline>
+          </svg>
+          <div class="hero-badge" id="heroBadge">+113.7%</div>
+          <div id="dotLayer"></div>
+        </div>
+      </div>
+      <div class="x-axis">
+        <span>1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span>
+      </div>
+    </div>
+
+    <div class="legend" id="legend">
+      <!-- chips injected by JS -->
+    </div>
+    <div class="legend-hint">點一家業者名稱，單獨看它的完整軌跡；再點一次取消。</div>
+
+    <div class="annotation" id="annotation"></div>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料來源：金管會「電子支付帳戶重要資訊揭露」月報（2026 年 1 至 5 月）　|　製圖：2026.07.13
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  // ---------- 資料（金管會月報 1-5 月逐月實測值，不得更動）----------
+  var companies = [
+    { id: 'linepay',   name: 'LINE Pay Money', sub: '（連加電子支付）',     hero: true,
+      amount: [48.19, 66.62, 81.41, 87.26, 102.97], users: [298.57, 350.32, 373.71, 390.79, 407.34] },
+    { id: 'quanzhi',   name: '全支付',          sub: '（全聯 PX 集團）',
+      amount: [53.18, 51.04, 49.84, 53.98, 62.86],  users: [705.61, 709.56, 713.33, 717.10, 720.79] },
+    { id: 'jiekou',    name: '街口支付',        sub: '',
+      amount: [54.10, 45.35, 54.16, 57.88, 62.37],  users: [717.48, 720.15, 723.00, 725.57, 728.29] },
+    { id: 'yikatong',  name: '一卡通',          sub: 'iPASS MONEY',
+      amount: [14.20, 15.29, 18.24, 18.94, 19.59],  users: [716.58, 719.60, 722.00, 723.45, 724.16] },
+    { id: 'youyoufu',  name: '悠遊付',          sub: '',
+      amount: [10.05, 9.75, 14.89, 16.83, 16.18],   users: [401.61, 406.17, 411.52, 416.43, 421.23] },
+    { id: 'icash',     name: '愛金卡',          sub: 'icash Pay（統一集團）',
+      amount: [10.06, 11.91, 11.04, 15.16, 14.11],  users: [182.47, 184.90, 186.94, 189.06, 191.22] },
+    { id: 'quanying',  name: '全盈+PAY',        sub: '（全家／玉山／拍付）',
+      amount: [6.26, 6.23, 6.19, 6.84, 7.26],       users: [243.04, 244.19, 245.62, 246.90, 248.11] }
+  ];
+
+  var AXIS = {
+    amount: { max: 115, ticks: [0, 25, 50, 75, 100], unit: '億元' },
+    users:  { max: 800, ticks: [0, 200, 400, 600, 800], unit: '萬人' }
+  };
+
+  var months = ['1月', '2月', '3月', '4月', '5月'];
+  var currentMetric = 'amount';
+  var focusId = null; // 目前被點選單獨高亮的業者 id（null = 無）
+
+  var yAxisEl = document.getElementById('yAxis');
+  var dotLayerEl = document.getElementById('dotLayer');
+  var heroBadgeEl = document.getElementById('heroBadge');
+  var legendEl = document.getElementById('legend');
+  var annotationEl = document.getElementById('annotation');
+
+  function yPct(value, metric) {
+    var max = AXIS[metric].max;
+    return 100 - (value / max) * 100;
+  }
+
+  function pointsFor(company, metric) {
+    return company[metric].map(function(v, i) {
+      var x = (i / (months.length - 1)) * 100;
+      var y = yPct(v, metric);
+      return { x: x, y: y };
+    });
+  }
+
+  function pointsToStr(pts) {
+    return pts.map(function(p) { return p.x.toFixed(2) + ',' + p.y.toFixed(2); }).join(' ');
+  }
+
+  // ---------- 靜態元素：Y 軸刻度 ----------
+  function renderAxis(metric) {
+    var ticks = AXIS[metric].ticks;
+    var unit = AXIS[metric].unit;
+    yAxisEl.innerHTML = ticks.slice().reverse().map(function(t) {
+      var top = yPct(t, metric);
+      return '<div class="y-tick" style="top:' + top + '%">' +
+        '<span class="num">' + t + '</span> ' + unit +
+        '</div>';
+    }).join('');
+  }
+
+  // ---------- 圖例 ----------
+  function renderLegend() {
+    legendEl.innerHTML = companies.map(function(c) {
+      return '<button type="button" class="legend-chip' + (c.hero ? ' hero' : '') + '" data-id="' + c.id + '">' +
+        '<span class="swatch"></span>' + c.name +
+        '</button>';
+    }).join('');
+    legendEl.querySelectorAll('.legend-chip').forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        var id = chip.dataset.id;
+        if (companies.find(function(c) { return c.id === id; }).hero) return; // 主角固定橘色，圖例點擊無作用
+        focusId = (focusId === id) ? null : id;
+        applyFocusState();
+      });
+    });
+  }
+
+  function applyFocusState() {
+    companies.forEach(function(c) {
+      var line = document.querySelector('.chart-line[data-id="' + c.id + '"]');
+      var chip = legendEl.querySelector('.legend-chip[data-id="' + c.id + '"]');
+      if (c.hero) return; // 主角樣式不受 focus 影響
+      var isFocus = focusId === c.id;
+      var isDim = focusId !== null && !isFocus;
+      line.classList.toggle('is-focus', isFocus);
+      line.classList.toggle('is-dim', isDim);
+      if (chip) chip.classList.toggle('is-focus', isFocus);
+    });
+    renderFocusDots();
+  }
+
+  function renderFocusDots() {
+    // 只在有 focus 時，於該業者每個月資料點畫小圓點
+    var dots = [];
+    if (focusId) {
+      var c = companies.find(function(cc) { return cc.id === focusId; });
+      pointsFor(c, currentMetric).forEach(function(p) {
+        dots.push('<div class="pt-dot focus" style="left:' + p.x + '%; top:' + p.y + '%"></div>');
+      });
+    }
+    dotLayerEl.querySelectorAll('.pt-dot.focus').forEach(function(d) { d.remove(); });
+    dotLayerEl.insertAdjacentHTML('beforeend', dots.join(''));
+  }
+
+  // ---------- 主角資料點 + 成長徽章 ----------
+  function renderHeroDots(metric) {
+    dotLayerEl.querySelectorAll('.pt-dot.hero-pt').forEach(function(d) { d.remove(); });
+    var hero = companies.find(function(c) { return c.hero; });
+    var pts = pointsFor(hero, metric);
+    pts.forEach(function(p) {
+      dotLayerEl.insertAdjacentHTML('beforeend',
+        '<div class="pt-dot hero-pt" style="left:' + p.x + '%; top:' + p.y + '%"></div>');
+    });
+    var last = pts[pts.length - 1];
+    heroBadgeEl.style.left = last.x + '%';
+    heroBadgeEl.style.top = last.y + '%';
+    var vals = hero[metric];
+    var growth = ((vals[vals.length - 1] - vals[0]) / vals[0] * 100).toFixed(1);
+    heroBadgeEl.textContent = '+' + growth + '%';
+    return growth;
+  }
+
+  // ---------- 敘事註解 ----------
+  function renderAnnotation(metric, heroGrowth) {
+    if (metric === 'amount') {
+      annotationEl.innerHTML = '<strong>LINE Pay Money</strong> 五個月漲幅 <span class="num">' + heroGrowth + '%</span>，七家業者之冠，交易額全面向上爬。悠遊付、一卡通、愛金卡同期也都有雙位數成長，只是起跑基數小、漲幅不如 LINE Pay Money 顯眼。';
+    } else {
+      annotationEl.innerHTML = '<strong>街口支付、一卡通、全支付</strong>三家使用者人數集中在 <span class="num">705～728 萬</span>區間，5 個月幾乎重疊、只微幅變動。唯一明顯攀升的是 <strong>LINE Pay Money</strong>，五個月成長 <span class="num">' + heroGrowth + '%</span>（298.57 萬 → 407.34 萬），從後段班一路追進主群。';
+    }
+  }
+
+  // ---------- 繪製（含動畫過場）----------
+  function draw(metric, animate) {
+    renderAxis(metric);
+
+    companies.forEach(function(c) {
+      var line = document.querySelector('.chart-line[data-id="' + c.id + '"]');
+      var newPts = pointsFor(c, metric);
+      if (!animate) {
+        line.setAttribute('points', pointsToStr(newPts));
+        return;
+      }
+      var oldPts = (line.getAttribute('points') || '').trim();
+      var fromPts = oldPts ? oldPts.split(' ').map(function(pair) {
+        var xy = pair.split(',');
+        return { x: parseFloat(xy[0]), y: parseFloat(xy[1]) };
+      }) : newPts;
+
+      var start = null;
+      var duration = 650;
+      function step(ts) {
+        if (!start) start = ts;
+        var t = Math.min(1, (ts - start) / duration);
+        var eased = 1 - Math.pow(1 - t, 3);
+        var interp = newPts.map(function(p, i) {
+          var fp = fromPts[i] || p;
+          return { x: p.x, y: fp.y + (p.y - fp.y) * eased };
+        });
+        line.setAttribute('points', pointsToStr(interp));
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+
+    var heroGrowth = renderHeroDots(metric);
+    renderFocusDots();
+    renderAnnotation(metric, heroGrowth);
+  }
+
+  renderLegend();
+  draw(currentMetric, false);
+
+  var toggleBtns = document.querySelectorAll('.toggle-btn');
+  toggleBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var metric = btn.dataset.metric;
+      if (metric === currentMetric) return;
+      currentMetric = metric;
+      toggleBtns.forEach(function(b) {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+      draw(currentMetric, true);
+    });
+  });
+})();
+</script>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>
