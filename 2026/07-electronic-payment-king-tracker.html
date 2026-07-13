@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>電子支付龍虎榜 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+    --ease-standard: cubic-bezier(.2,.7,.2,1);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    text-wrap: pretty;
+  }
+
+  body { padding: 28px 20px 40px; }
+
+  @media (max-width: 640px) {
+    body { padding: 18px 10px 30px; }
+  }
+
+  .num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  h1, h2, .deck { text-wrap: balance; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header { padding: 4px 4px 20px; border-bottom: 1px solid var(--hairline); margin-bottom: 22px; }
+
+  .kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bn-orange);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 27px;
+    line-height: 1.35;
+    font-weight: 900;
+    margin: 0 0 10px;
+    letter-spacing: 0.01em;
+  }
+  h1 .u {
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+    text-decoration-color: var(--bn-orange);
+  }
+
+  .deck {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--cool-600);
+    margin: 0;
+    max-width: 640px;
+  }
+
+  @container (max-width: 640px) {
+    h1 { font-size: 21px; }
+    .deck { font-size: 14px; }
+  }
+
+  /* ---------- Meta bar ---------- */
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--cool-600);
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+  }
+  .meta-bar strong { color: var(--bn-black); font-weight: 700; }
+  .meta-chunk { white-space: nowrap; }
+
+  @container (max-width: 640px) {
+    .meta-bar { flex-direction: column; gap: 4px; }
+  }
+
+  /* ---------- Section shell ---------- */
+  .section { margin-bottom: 30px; }
+  .section-title {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--cool-600);
+    margin-bottom: 8px;
+  }
+  .section-headline {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    line-height: 1.4;
+  }
+  .section-note {
+    font-size: 13.5px;
+    color: var(--cool-600);
+    margin: 0 0 16px;
+    line-height: 1.65;
+  }
+
+  /* ---------- Stat contrast strip ---------- */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @container (max-width: 640px) {
+    .stat-strip { grid-template-columns: 1fr; }
+  }
+  .stat-card {
+    background: var(--paper-2);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .stat-card.hero {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper-3);
+  }
+  .stat-label {
+    font-family: "Inter", sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--cool-600);
+    margin-bottom: 8px;
+  }
+  .stat-name {
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0 0 6px;
+  }
+  .stat-num {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 0;
+  }
+  .stat-card.hero .stat-num { color: var(--bn-orange); }
+  .stat-sub {
+    font-size: 13px;
+    color: var(--cool-600);
+    margin: 6px 0 0;
+    line-height: 1.6;
+  }
+
+  /* ---------- Toggle control ---------- */
+  .toggle-group {
+    display: inline-flex;
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .toggle-btn {
+    border: 0;
+    background: var(--paper-2);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
+  }
+  .toggle-btn + .toggle-btn { border-left: 1px solid var(--warm-300); }
+  .toggle-btn.active {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  @container (max-width: 640px) {
+    .toggle-group { display: flex; width: 100%; }
+    .toggle-btn { flex: 1 1 0; font-size: 12.5px; padding: 10px 8px; }
+  }
+
+  /* ---------- Rank list ---------- */
+  .rank-list {
+    position: relative;
+    --row-h: 62px;
+    --row-gap: 10px;
+  }
+  @container (max-width: 640px) {
+    .rank-list { --row-h: 100px; --row-gap: 8px; }
+  }
+
+  .rank-row {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: var(--row-h);
+    top: 0;
+    transition: transform 0.65s var(--ease-standard);
+    background: var(--paper-2);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .rank-row.is-hero {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper-3);
+  }
+
+  .rank-row-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 100%;
+    padding: 0 14px;
+  }
+
+  .rank-num-wrap { flex: 0 0 34px; text-align: center; }
+  .rank-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--paper-3);
+    color: var(--bn-black);
+    font-family: "Inter", sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    font-feature-settings: 'tnum' 1;
+    transition: background 0.3s var(--ease-standard), color 0.3s var(--ease-standard);
+  }
+  .rank-num.is-top {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+
+  .rank-info { flex: 1 1 auto; min-width: 0; }
+  .rank-name {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rank-name-sub {
+    font-weight: 500;
+    color: var(--cool-600);
+    font-size: 12.5px;
+  }
+  .sub-rank {
+    font-size: 12px;
+    color: var(--cool-600);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .rank-bar-wrap {
+    flex: 0 0 230px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .bar-track {
+    flex: 1 1 auto;
+    height: 10px;
+    background: var(--paper-3);
+    border: 1px solid var(--warm-300);
+    position: relative;
+    overflow: hidden;
+  }
+  .bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--bn-navy);
+    transition: width 0.65s var(--ease-standard);
+  }
+  .rank-row.is-hero .bar-fill { background: var(--bn-orange); }
+  .value-label {
+    flex: 0 0 auto;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    min-width: 78px;
+    text-align: right;
+  }
+
+  @container (max-width: 640px) {
+    .rank-row-inner { flex-wrap: wrap; align-items: flex-start; padding: 10px 12px; }
+    .rank-num-wrap { flex: 0 0 28px; }
+    .rank-num { width: 26px; height: 26px; font-size: 12.5px; }
+    .rank-name { font-size: 14px; white-space: normal; }
+    .rank-name-sub { display: none; }
+    .sub-rank { white-space: normal; }
+    .rank-bar-wrap { flex: 0 0 100%; margin-top: 8px; }
+    .value-label { min-width: 66px; font-size: 12.5px; }
+  }
+
+  .rank-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--cool-600);
+    flex-wrap: wrap;
+  }
+  .rank-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend-swatch {
+    width: 10px; height: 10px; border-radius: 0; display: inline-block;
+  }
+  .legend-swatch.orange { background: var(--bn-orange); }
+  .legend-swatch.navy { background: var(--bn-navy); }
+
+  footer {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    color: var(--cool-600);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); }
+
+  /* ---------- Preview toolbar ---------- */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">電支龍虎榜 · 排名互動</div>
+    <h1>電支<span class="u">交易王</span>，不是使用者王</h1>
+    <p class="deck">同一批七家電子支付業者，換一種排序方式，冠軍就換了人。點下面兩個按鈕，看看名次怎麼洗牌。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div class="meta-chunk">資料來源：<strong>金管會「電子支付帳戶重要資訊揭露」月報</strong></div>
+    <div class="meta-chunk">資料期間：2026 年 5 月</div>
+  </div>
+
+  <!-- 對比卡：交易王 vs 使用者王 -->
+  <div class="section">
+    <div class="section-title">FIGURE 01 · 反差對照</div>
+    <h2 class="section-headline">兩種排名，兩個冠軍</h2>
+    <div class="stat-strip">
+      <div class="stat-card hero">
+        <div class="stat-label">代理收付交易額冠軍</div>
+        <div class="stat-name">LINE Pay Money（連加電子支付）</div>
+        <p class="stat-num num">102.97<span style="font-size:15px; font-weight:700;">億元</span></p>
+        <p class="stat-sub">全台市占 <strong class="num">32.3%</strong>，但使用者人數僅 <strong class="num">407.34</strong> 萬人，排在全台<strong>第 5 名</strong>。</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">使用者人數冠軍</div>
+        <div class="stat-name">街口支付</div>
+        <p class="stat-num num">728.29<span style="font-size:15px; font-weight:700;">萬人</span></p>
+        <p class="stat-sub">用戶數全台第一，但代理收付交易額僅 <strong class="num">62.37</strong> 億元，排在全台<strong>第 3 名</strong>。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 互動排名列表 -->
+  <div class="section">
+    <div class="section-title">FIGURE 02 · 互動排名</div>
+    <h2 class="section-headline">七家業者，切換排法看名次移動</h2>
+    <p class="section-note">同一批業者，換一個排序依據，順位就整批洗牌。留意 LINE Pay Money 的位置變化最大。</p>
+
+    <div class="toggle-group" role="tablist" aria-label="排序依據">
+      <button type="button" class="toggle-btn active" data-sort="amount" aria-pressed="true">依代理收付交易額排</button>
+      <button type="button" class="toggle-btn" data-sort="users" aria-pressed="false">依使用者人數排</button>
+    </div>
+
+    <div class="rank-list" id="rankList">
+      <div class="rank-row is-hero" data-id="linepay">
+        <div class="rank-row-inner">
+          <div class="rank-num-wrap"><span class="rank-num">1</span></div>
+          <div class="rank-info">
+            <div class="rank-name">LINE Pay Money<span class="rank-name-sub">（連加電子支付）</span></div>
+            <div class="sub-rank">使用者人數排名：第 5 名</div>
+          </div>
+          <div class="rank-bar-wrap">
+            <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+            <div class="value-label num">102.97 億元</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rank-row" data-id="quanzhi">
+        <div class="rank-row-inner">
+          <div class="rank-num-wrap"><span class="rank-num">2</span></div>
+          <div class="rank-info">
+            <div class="rank-name">全支付<span class="rank-name-sub">（全聯 PX 集團）</span></div>
+            <div class="sub-rank">使用者人數排名：第 3 名</div>
+          </div>
+          <div class="rank-bar-wrap">
+            <div class="bar-track"><div class="bar-fill"></div></div>
+            <div class="value-label num">62.86 億元</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rank-row" data-id="jiekou">
+        <div class="rank-row-inner">
+          <div class="rank-num-wrap"><span class="rank-num">3</span></div>
+          <div class="rank-info">
+            <div class="rank-name">街口支付</div>
+            <div class="sub-rank">使用者人數排名：第 1 名</div>
+          </div>
+          <div class="rank-bar-wrap">
+            <div class="bar-track"><div class="bar-fill"></div></div>
+            <div class="value-label num">62.37 億元</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rank-row" data-id="yikatong">
+        <div class="rank-row-inner">
+          <div class="rank-num-wrap"><span class="rank-num">4</span></div>
+          <div class="rank-info">
+            <div class="rank-name">一卡通<span class="rank-name-sub">iPASS MONEY</span></div>
+            <div class="sub-rank">使用者人數排名：第 2 名</div>
+          </div>
+          <div class="rank-bar-wrap">
+            <div class="bar-track"><div class="bar-fill"></div></div>
+            <div class="value-label num">19.6 億元</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rank-row" data-id="youyoufu">
+        <div class="rank-row-inner">
+          <div class="rank-num-wrap"><span class="rank-num">5</span></div>
+          <div class="rank-info">
+            <div class="rank-name">悠遊付</div>
+            <div class="sub-rank">使用者人數排名：第 4 名</div>
+          </div>
+          <div class="rank-bar-wrap">
+            <div class="bar-track"><div class="bar-fill"></div></div>
+            <div class="value-label num">16.2 億元</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rank-row" data-id="icash">
+        <div class="rank-row-inner">
+          <div class="rank-num-wrap"><span class="rank-num">6</span></div>
+          <div class="rank-info">
+            <div class="rank-name">愛金卡<span class="rank-name-sub">icash Pay（統一集團）</span></div>
+            <div class="sub-rank">使用者人數排名：第 7 名</div>
+          </div>
+          <div class="rank-bar-wrap">
+            <div class="bar-track"><div class="bar-fill"></div></div>
+            <div class="value-label num">14.1 億元</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rank-row" data-id="quanying">
+        <div class="rank-row-inner">
+          <div class="rank-num-wrap"><span class="rank-num">7</span></div>
+          <div class="rank-info">
+            <div class="rank-name">全盈<span class="num">+</span>PAY<span class="rank-name-sub">（全家／玉山／拍付）</span></div>
+            <div class="sub-rank">使用者人數排名：第 6 名</div>
+          </div>
+          <div class="rank-bar-wrap">
+            <div class="bar-track"><div class="bar-fill"></div></div>
+            <div class="value-label num">7.3 億元</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rank-legend">
+      <span><i class="legend-swatch orange"></i>LINE Pay Money（交易額與使用者排名落差最大）</span>
+      <span><i class="legend-swatch navy"></i>其他六家業者</span>
+    </div>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料來源：金管會「電子支付帳戶重要資訊揭露」月報（2026 年 5 月）　|　製圖：2026.07.13
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  // ---------- 資料（與文章金管會月報數字一致，不得更動）----------
+  var companies = [
+    { id: 'linepay',   name: 'LINE Pay Money',  sub: '（連加電子支付）', amountVal: 102.97, amountDisp: '102.97 億元', usersVal: 407.34, usersDisp: '407.34 萬人', hero: true },
+    { id: 'quanzhi',   name: '全支付',           sub: '（全聯 PX 集團）', amountVal: 62.86,  amountDisp: '62.86 億元',  usersVal: 720.79, usersDisp: '720.79 萬人' },
+    { id: 'jiekou',    name: '街口支付',         sub: '',                 amountVal: 62.37,  amountDisp: '62.37 億元',  usersVal: 728.29, usersDisp: '728.29 萬人' },
+    { id: 'yikatong',  name: '一卡通',           sub: 'iPASS MONEY',      amountVal: 19.6,   amountDisp: '19.6 億元',   usersVal: 724.16, usersDisp: '724.16 萬人' },
+    { id: 'youyoufu',  name: '悠遊付',           sub: '',                 amountVal: 16.2,   amountDisp: '16.2 億元',   usersVal: 421,    usersDisp: '421 萬人' },
+    { id: 'icash',     name: '愛金卡',           sub: 'icash Pay（統一集團）', amountVal: 14.1, amountDisp: '14.1 億元', usersVal: 191,    usersDisp: '191 萬人' },
+    { id: 'quanying',  name: '全盈+PAY',         sub: '（全家／玉山／拍付）', amountVal: 7.3,  amountDisp: '7.3 億元',   usersVal: 248,    usersDisp: '248 萬人' }
+  ];
+
+  var byAmount = companies.slice().sort(function(a, b) { return b.amountVal - a.amountVal; });
+  byAmount.forEach(function(c, i) { c.amountRank = i + 1; });
+  var byUsers = companies.slice().sort(function(a, b) { return b.usersVal - a.usersVal; });
+  byUsers.forEach(function(c, i) { c.usersRank = i + 1; });
+
+  var maxAmount = byAmount[0].amountVal;
+  var maxUsers = byUsers[0].usersVal;
+
+  var list = document.getElementById('rankList');
+  var rows = {};
+  companies.forEach(function(c) {
+    rows[c.id] = document.querySelector('.rank-row[data-id="' + c.id + '"]');
+  });
+
+  var currentMode = 'amount';
+
+  function layout(mode) {
+    var order = mode === 'amount' ? byAmount : byUsers;
+    var cs = getComputedStyle(list);
+    var rowH = parseFloat(cs.getPropertyValue('--row-h'));
+    var gap = parseFloat(cs.getPropertyValue('--row-gap'));
+
+    order.forEach(function(c, i) {
+      var row = rows[c.id];
+      row.style.transform = 'translateY(' + (i * (rowH + gap)) + 'px)';
+
+      var rankNumEl = row.querySelector('.rank-num');
+      var rank = mode === 'amount' ? c.amountRank : c.usersRank;
+      rankNumEl.textContent = rank;
+      rankNumEl.classList.toggle('is-top', rank === 1);
+
+      var val = mode === 'amount' ? c.amountVal : c.usersVal;
+      var max = mode === 'amount' ? maxAmount : maxUsers;
+      row.querySelector('.bar-fill').style.width = (val / max * 100) + '%';
+      row.querySelector('.value-label').textContent = mode === 'amount' ? c.amountDisp : c.usersDisp;
+
+      var otherRank = mode === 'amount' ? c.usersRank : c.amountRank;
+      var otherLabel = mode === 'amount' ? '使用者人數' : '代理收付交易額';
+      row.querySelector('.sub-rank').textContent = otherLabel + '排名：第 ' + otherRank + ' 名';
+    });
+
+    list.style.height = (order.length * rowH + (order.length - 1) * gap) + 'px';
+  }
+
+  layout(currentMode);
+  window.addEventListener('resize', function() { layout(currentMode); });
+
+  var toggleBtns = document.querySelectorAll('.toggle-btn');
+  toggleBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var mode = btn.dataset.sort;
+      if (mode === currentMode) return;
+      currentMode = mode;
+      toggleBtns.forEach(function(b) {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+      layout(currentMode);
+    });
+  });
+})();
+</script>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+    // container query 寬度改變後，行高 CSS 變數會變，需要重新排版
+    setTimeout(function() {
+      window.dispatchEvent(new Event('resize'));
+    }, 260);
+  });
+})();
+</script>
+</body>
+</html>
