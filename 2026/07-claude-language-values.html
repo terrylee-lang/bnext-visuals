@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude 換語言，價值觀跟著換嗎｜數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* ========================================================
+   BN Design Tokens（bwt-design-standard.md source of truth）
+   ======================================================== */
+:root {
+  --bn-orange:   #FF6B1A;
+  --bn-orange-d: #E55A0F;
+  --bn-orange-s: #FFE7D6;
+  --bn-navy:     #0F1A2E;
+  --bn-navy-2:   #1B2A45;
+  --bn-black:    #1A1A1A;
+
+  --paper:   #FAF7F1;
+  --paper-2: #F5F3EF;
+  --paper-3: #ECE8DF;
+  --paper-4: #E3DECF;
+
+  --warm-300: #D4D0C8;
+  --cool-600: #5C6470;
+  --cool-400: #8A93A0;
+  --slate-700: #2A3142;
+  --hairline:  rgba(15, 26, 46, 0.12);
+}
+
+/* ========================================================
+   Reset & Base
+   ======================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--bn-black);
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+h1, h2, h3, .deck { text-wrap: balance; }
+
+/* ========================================================
+   Wrapper
+   ======================================================== */
+.wrapper {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px 24px;
+  container-type: inline-size;
+  transition: max-width 0.25s ease;
+}
+
+/* ========================================================
+   Header
+   ======================================================== */
+.header { margin-bottom: 18px; }
+.kicker {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bn-orange);
+  margin-bottom: 8px;
+}
+.header h1 {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--bn-black);
+  line-height: 1.35;
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+.header h1 span {
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 5px;
+  text-decoration-color: var(--bn-orange);
+}
+.deck {
+  font-size: 14px;
+  color: var(--cool-600);
+  line-height: 1.65;
+}
+
+/* ========================================================
+   Meta bar
+   ======================================================== */
+.meta-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--cool-600);
+  padding: 12px 0;
+  margin: 14px 0 18px;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+.meta-bar strong { color: var(--bn-black); font-weight: 700; }
+.meta-chunk { white-space: nowrap; }
+
+/* ========================================================
+   Myth vs Truth callout
+   ======================================================== */
+.myth-box {
+  background: var(--paper-2);
+  border: 1px solid var(--warm-300);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+.myth-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.myth-row + .myth-row { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--warm-300); }
+.myth-tag {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 0;
+  white-space: nowrap;
+}
+.myth-tag--myth { background: var(--paper-3); color: var(--cool-600); }
+.myth-tag--truth { background: var(--bn-orange); color: var(--paper); }
+.myth-text { color: var(--slate-700); }
+.myth-text strong { color: var(--bn-black); font-weight: 700; }
+
+/* ========================================================
+   Sigma note
+   ======================================================== */
+.sigma-note {
+  font-size: 12.5px;
+  color: var(--cool-600);
+  line-height: 1.65;
+  padding: 10px 14px;
+  background: var(--paper-3);
+  border-left: 4px solid var(--warm-300);
+  margin-bottom: 20px;
+}
+.sigma-note strong { color: var(--bn-black); }
+
+/* ========================================================
+   Legend
+   ======================================================== */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding: 12px 16px;
+  background: var(--paper-2);
+  border: 1px solid var(--warm-300);
+  border-radius: 8px;
+  margin-bottom: 18px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--cool-600);
+}
+.legend-item.is-primary { color: var(--bn-black); font-weight: 900; }
+.legend-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.legend-dot.zh { background: var(--bn-orange); }
+.legend-dot.en { background: var(--bn-navy); }
+.legend-dot.hi { background: var(--cool-600); }
+.legend-dot.ar { background: var(--cool-400); }
+.legend-note {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cool-400);
+}
+
+/* ========================================================
+   Section
+   ======================================================== */
+.section-title {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cool-400);
+  margin-bottom: 6px;
+}
+.section-headline {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--bn-black);
+  margin-bottom: 6px;
+}
+.section-sub {
+  font-size: 12.5px;
+  color: var(--cool-600);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+/* ========================================================
+   Axis blocks（diverging bar small multiples）
+   ======================================================== */
+.axis-block {
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--hairline);
+}
+.axis-block:last-child { border-bottom: none; padding-bottom: 4px; }
+
+.axis-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.axis-num {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cool-400);
+  letter-spacing: 0.05em;
+}
+.axis-name { font-size: 14px; font-weight: 900; color: var(--bn-black); }
+
+.axis-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--cool-600);
+  margin-bottom: 8px;
+  padding: 0 2px;
+}
+.axis-ends .end-right { text-align: right; }
+
+.lang-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+}
+.lang-label {
+  width: 76px;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cool-600);
+}
+.lang-row.is-primary .lang-label { color: var(--bn-black); font-weight: 900; }
+
+.lang-track {
+  position: relative;
+  flex: 1;
+  height: 20px;
+  min-width: 0;
+}
+.lang-track::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--warm-300);
+  transform: translateX(-50%);
+}
+.bar {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  border-radius: 0;
+}
+.bar.dir-left { right: 50%; }
+.bar.dir-right { left: 50%; }
+.bar.c-zh { background: var(--bn-orange); }
+.bar.c-en { background: var(--bn-navy); }
+.bar.c-hi { background: var(--cool-600); }
+.bar.c-ar { background: var(--cool-400); }
+
+.dot-zero {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--bn-orange);
+  transform: translate(-50%, -50%);
+}
+
+.lang-value {
+  width: 108px;
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 12px;
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-feature-settings: 'tnum' 1;
+  color: var(--cool-600);
+  white-space: nowrap;
+}
+.lang-row.is-primary .lang-value { color: var(--bn-black); font-weight: 700; }
+.lang-value .num { font-weight: 700; }
+.lang-value.is-flat { color: var(--cool-400); font-weight: 500; font-size: 11.5px; }
+
+/* ========================================================
+   Takeaway callout
+   ======================================================== */
+.takeaway {
+  margin-top: 20px;
+  padding: 16px 18px;
+  background: var(--paper-2);
+  border-left: 4px solid var(--bn-orange);
+  border-radius: 0 8px 8px 0;
+}
+.takeaway-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bn-orange);
+  margin-bottom: 6px;
+}
+.takeaway p {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--slate-700);
+}
+.takeaway p strong { color: var(--bn-black); font-weight: 700; }
+
+/* ========================================================
+   Footer
+   ======================================================== */
+.footer-note {
+  font-size: 12px;
+  color: var(--cool-600);
+  line-height: 1.6;
+  padding-top: 14px;
+  margin-top: 20px;
+  border-top: 1px solid var(--hairline);
+}
+.footer-note strong { color: var(--bn-black); }
+
+/* ========================================================
+   Container Query: Mobile（wrapper <= 640px）
+   ======================================================== */
+@container (max-width: 640px) {
+  .wrapper { padding: 20px 14px 20px; }
+  .header h1 { font-size: 19px; }
+  .deck { font-size: 13px; }
+  .meta-bar { font-size: 11px; flex-direction: column; gap: 4px; }
+  .myth-row { font-size: 13px; }
+  .legend { gap: 6px 14px; padding: 10px 12px; }
+  .legend-item { font-size: 11.5px; }
+  .section-headline { font-size: 16px; }
+  .axis-name { font-size: 13px; }
+  .axis-ends { font-size: 10.5px; }
+  .lang-label { width: 58px; font-size: 12px; }
+  .lang-value { width: 84px; font-size: 11px; }
+  .lang-value.is-flat { font-size: 10.5px; }
+  .takeaway p { font-size: 13.5px; }
+}
+
+/* ========================================================
+   Body padding（viewport 層級，需 @media）
+   ======================================================== */
+@media (max-width: 640px) {
+  body { padding: 0; }
+}
+
+/* ========================================================
+   Preview Toolbar
+   ======================================================== */
+.preview-toolbar {
+  display: none;
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 9999;
+  background: var(--bn-navy);
+  padding: 4px;
+  border-radius: 6px;
+  gap: 2px;
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  align-items: center;
+}
+.preview-toolbar.show { display: flex; }
+.preview-toolbar .label {
+  font-size: 10px;
+  color: rgba(250,247,241,0.45);
+  padding: 0 8px;
+  align-self: center;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.preview-toolbar button {
+  border: 0;
+  padding: 7px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  background: transparent;
+  color: rgba(250,247,241,0.55);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.preview-toolbar button:hover { color: var(--paper); }
+.preview-toolbar button.active {
+  background: var(--bn-orange);
+  color: var(--paper);
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="kicker">AI 語言觀察 · VALUE DRIFT</div>
+    <h1>Claude 換一種語言，<span>價值觀</span>就跟著換</h1>
+    <p class="deck">Anthropic 拆解數十萬則對話，量出 Claude 在四種語言、四條「價值軸線」上各自的偏向，中文的表現和一般直覺不太一樣。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div class="meta-chunk">資料來源：<strong>Anthropic 研究（2026 年 7 月 13 日公布）</strong></div>
+    <div class="meta-chunk">製作：《數位時代》</div>
+  </div>
+
+  <!-- 迷思 vs 真相 -->
+  <div class="myth-box">
+    <div class="myth-row">
+      <span class="myth-tag myth-tag--myth">迷思</span>
+      <span class="myth-text">跟 Claude 說中文，語氣會比較客氣、比較有人情味。</span>
+    </div>
+    <div class="myth-row">
+      <span class="myth-tag myth-tag--truth">真相</span>
+      <span class="myth-text"><strong>中文其實和英文偏同一個方向</strong>，都偏謹慎、嚴謹、深度，只是幅度比英文小很多。真正偏「溫暖」的是印地語與阿拉伯語。</span>
+    </div>
+  </div>
+
+  <!-- Sigma 說明 -->
+  <p class="sigma-note">
+    以下數字是 <strong>σ（標準差）</strong>：代表這個語言的整體對話，相對「所有語言合併起來的平均值」偏了多少，不是單一題目的絕對分數。數字越大，代表偏離平均越明顯；越靠近中線，代表越接近平均。
+  </p>
+
+  <!-- Legend -->
+  <div class="legend">
+    <span class="legend-item is-primary"><span class="legend-dot zh"></span>中文<span class="legend-note">（重點）</span></span>
+    <span class="legend-item is-primary"><span class="legend-dot en"></span>英文<span class="legend-note">（重點）</span></span>
+    <span class="legend-item"><span class="legend-dot hi"></span>印地語<span class="legend-note">（對照）</span></span>
+    <span class="legend-item"><span class="legend-dot ar"></span>阿拉伯語<span class="legend-note">（對照）</span></span>
+  </div>
+
+  <!-- FIGURE 01：四條價值軸線 -->
+  <div class="section">
+    <div class="section-title">FIGURE 01 · VALUE AXES</div>
+    <h2 class="section-headline">四條價值軸線，語言怎麼分布</h2>
+    <p class="section-sub">每一列代表一種語言。線越靠外側，代表這個語言在這條軸線上偏離平均越多。</p>
+
+    <!-- 軸線 1 -->
+    <div class="axis-block">
+      <div class="axis-head">
+        <span class="axis-num">軸線 01</span>
+        <span class="axis-name">依從 ↔ 謹慎</span>
+      </div>
+      <div class="axis-ends">
+        <span class="end-left">← 依從</span>
+        <span class="end-right">謹慎 →</span>
+      </div>
+
+      <div class="lang-row is-primary">
+        <span class="lang-label">中文</span>
+        <div class="lang-track"><div class="bar dir-right c-zh" style="width:11.5%"></div></div>
+        <span class="lang-value">謹慎 <span class="num">0.03</span></span>
+      </div>
+      <div class="lang-row is-primary">
+        <span class="lang-label">英文</span>
+        <div class="lang-track"><div class="bar dir-right c-en" style="width:38.5%"></div></div>
+        <span class="lang-value">謹慎 <span class="num">0.10</span></span>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">印地語</span>
+        <div class="lang-track"><div class="bar dir-right c-hi" style="width:15.4%"></div></div>
+        <span class="lang-value">謹慎 <span class="num">0.04</span></span>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">阿拉伯語</span>
+        <div class="lang-track"><div class="bar dir-left c-ar" style="width:30.8%"></div></div>
+        <span class="lang-value">依從 <span class="num">0.08</span></span>
+      </div>
+    </div>
+
+    <!-- 軸線 2 -->
+    <div class="axis-block">
+      <div class="axis-head">
+        <span class="axis-num">軸線 02</span>
+        <span class="axis-name">溫暖 ↔ 嚴謹</span>
+      </div>
+      <div class="axis-ends">
+        <span class="end-left">← 溫暖</span>
+        <span class="end-right">嚴謹 →</span>
+      </div>
+
+      <div class="lang-row is-primary">
+        <span class="lang-label">中文</span>
+        <div class="lang-track"><div class="bar dir-right c-zh" style="width:4.5%"></div></div>
+        <span class="lang-value">嚴謹 <span class="num">0.05</span></span>
+      </div>
+      <div class="lang-row is-primary">
+        <span class="lang-label">英文</span>
+        <div class="lang-track"><div class="bar dir-right c-en" style="width:11.8%"></div></div>
+        <span class="lang-value">嚴謹 <span class="num">0.13</span></span>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">印地語</span>
+        <div class="lang-track"><div class="bar dir-left c-hi" style="width:44.5%"></div></div>
+        <span class="lang-value">溫暖 <span class="num">0.49</span></span>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">阿拉伯語</span>
+        <div class="lang-track"><div class="bar dir-left c-ar" style="width:25.5%"></div></div>
+        <span class="lang-value">溫暖 <span class="num">0.28</span></span>
+      </div>
+    </div>
+
+    <!-- 軸線 3 -->
+    <div class="axis-block">
+      <div class="axis-head">
+        <span class="axis-num">軸線 03</span>
+        <span class="axis-name">深度 ↔ 簡潔</span>
+      </div>
+      <div class="axis-ends">
+        <span class="end-left">← 深度</span>
+        <span class="end-right">簡潔 →</span>
+      </div>
+
+      <div class="lang-row is-primary">
+        <span class="lang-label">中文</span>
+        <div class="lang-track"><div class="bar dir-left c-zh" style="width:7.7%"></div></div>
+        <span class="lang-value">深度 <span class="num">0.02</span></span>
+      </div>
+      <div class="lang-row is-primary">
+        <span class="lang-label">英文</span>
+        <div class="lang-track"><div class="bar dir-left c-en" style="width:34.6%"></div></div>
+        <span class="lang-value">深度 <span class="num">0.09</span></span>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">印地語</span>
+        <div class="lang-track"><div class="bar dir-right c-hi" style="width:11.5%"></div></div>
+        <span class="lang-value">簡潔 <span class="num">0.03</span></span>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">阿拉伯語</span>
+        <div class="lang-track"><div class="bar dir-right c-ar" style="width:38.5%"></div></div>
+        <span class="lang-value">簡潔 <span class="num">0.10</span></span>
+      </div>
+    </div>
+
+    <!-- 軸線 4 -->
+    <div class="axis-block">
+      <div class="axis-head">
+        <span class="axis-num">軸線 04</span>
+        <span class="axis-name">坦率 ↔ 執行導向</span>
+      </div>
+      <div class="axis-ends">
+        <span class="end-left">← 坦率</span>
+        <span class="end-right">執行導向 →</span>
+      </div>
+
+      <div class="lang-row is-primary">
+        <span class="lang-label">中文</span>
+        <div class="lang-track"><div class="dot-zero"></div></div>
+        <span class="lang-value is-flat">≈0（無明顯偏向）</span>
+      </div>
+      <div class="lang-row is-primary">
+        <span class="lang-label">英文</span>
+        <div class="lang-track"><div class="bar dir-left c-en" style="width:33.3%"></div></div>
+        <span class="lang-value">坦率 <span class="num">0.04</span></span>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">印地語</span>
+        <div class="lang-track"><div class="bar dir-right c-hi" style="width:16.7%"></div></div>
+        <span class="lang-value">執行導向 <span class="num">0.02</span></span>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">阿拉伯語</span>
+        <div class="lang-track"><div class="bar dir-right c-ar" style="width:33.3%"></div></div>
+        <span class="lang-value">執行導向 <span class="num">0.04</span></span>
+      </div>
+    </div>
+
+  </div><!-- .section -->
+
+  <!-- Takeaway -->
+  <div class="takeaway">
+    <div class="takeaway-label">一句話看懂</div>
+    <p><strong>中文不是特別溫暖，只是比英文「收斂」。</strong>四條軸線中，中文和英文幾乎都往同一個方向偏，中文的幅度通常只有英文的三分之一到一半。真正大幅偏向溫暖的，是印地語與阿拉伯語，尤其印地語在「溫暖 ↔ 嚴謹」這條軸線上的偏移量，是中文的近 10 倍。</p>
+  </div>
+
+  <!-- Footer -->
+  <p class="footer-note">
+    <strong>《數位時代》</strong>｜資料來源：Anthropic 研究（2026 年 7 月 13 日公布）｜製圖：2026 年 7 月 14 日
+  </p>
+
+</div><!-- .wrapper -->
+
+<!-- Preview Toolbar（?preview=1 才顯示） -->
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
+</body>
+</html>
