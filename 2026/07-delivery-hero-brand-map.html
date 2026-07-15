@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delivery Hero 全球外送品牌版圖 ｜《數位時代》</title>
+<meta name="description" content="從 foodpanda、Glovo 到 talabat，一張圖看懂 Delivery Hero 在五大洲握有哪些外送品牌，以及 Uber 收購案前夕的 2026 資產調整。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-orange-soft: #FFE7D6;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--bn-black);
+    margin: 0;
+    padding: 32px 16px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+  h1, h2, .section-headline, .deck { text-wrap: balance; }
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* === Preview toolbar (only when URL has ?preview=1) === */
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    background: var(--bn-navy);
+    padding: 4px;
+    border-radius: 6px;
+    gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    background: transparent;
+    color: rgba(250, 247, 241, 0.55);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active {
+    background: var(--bn-orange);
+    color: var(--paper);
+  }
+  .preview-toolbar .label {
+    font-size: 10px;
+    color: rgba(250, 247, 241, 0.45);
+    padding: 0 8px;
+    align-self: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  header {
+    padding: 32px 32px 24px;
+    border-bottom: 3px solid var(--bn-black);
+  }
+  .kicker {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--bn-orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 27px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    line-height: 1.35;
+    color: var(--bn-black);
+    letter-spacing: 0.02em;
+  }
+  .deck {
+    font-size: 15px;
+    color: var(--cool-600);
+    margin: 0;
+    line-height: 1.7;
+  }
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 32px;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+    font-size: 13px;
+    color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+  .meta-bar strong { color: var(--bn-black); }
+  .meta-bar .meta-chunk { white-space: nowrap; }
+  .meta-bar .meta-sep { color: var(--warm-300); margin: 0 4px; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .stat {
+    padding: 20px 12px;
+    text-align: center;
+    border-right: 1px solid var(--paper-3);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: 'tnum' 1;
+    font-size: 23px;
+    font-weight: 700;
+    color: var(--bn-orange);
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--cool-600);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  .section { padding: 28px 32px; border-bottom: 1px solid var(--paper-3); }
+  .section-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cool-600);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .section-headline {
+    font-size: 21px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: var(--bn-black);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--cool-600);
+    margin: 0 0 18px;
+  }
+
+  /* === Region cards === */
+  .region-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  details.region-card {
+    background: var(--paper-2);
+    border: 1px solid var(--warm-300);
+  }
+  details.region-card[open] { background: var(--paper); }
+  details.region-card.span-2 { grid-column: span 2; }
+  summary.region-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  summary.region-summary::-webkit-details-marker { display: none; }
+  summary.region-summary::marker { content: ""; }
+  .region-head { flex: 1; min-width: 0; }
+  .region-eyebrow {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cool-600);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .region-name {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--bn-black);
+  }
+  .region-badge {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--cool-600);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .region-chevron {
+    flex-shrink: 0;
+    font-size: 14px;
+    color: var(--cool-600);
+    transition: transform 0.2s ease;
+  }
+  details.region-card[open] .region-chevron { transform: rotate(180deg); }
+
+  .region-body {
+    padding: 4px 20px 18px;
+    border-top: 1px solid var(--warm-300);
+  }
+  .brand-block {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--paper-3);
+  }
+  .brand-block:last-child { border-bottom: none; }
+  .brand-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .brand-logo {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid var(--warm-300);
+    background: var(--paper);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .brand-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--bn-black);
+    line-height: 1.4;
+  }
+  .brand-count {
+    margin-left: auto;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bn-orange);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .brand-countries {
+    font-size: 13px;
+    color: var(--cool-600);
+    line-height: 1.65;
+    padding-left: 28px;
+  }
+  .region-note {
+    font-size: 12px;
+    color: var(--cool-600);
+    line-height: 1.6;
+    padding-left: 28px;
+    margin-top: 6px;
+  }
+  .note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--cool-600);
+    line-height: 1.7;
+  }
+
+  /* === Callout: 2026 資產調整 === */
+  .callout-list {
+    border: 1px solid var(--warm-300);
+    background: var(--paper-2);
+  }
+  .callout-item {
+    display: flex;
+    gap: 14px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--warm-300);
+    align-items: flex-start;
+  }
+  .callout-item:last-child { border-bottom: none; }
+  .callout-tag {
+    flex-shrink: 0;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 9px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+    border: 1px solid transparent;
+  }
+  .callout-tag.pending { background: var(--bn-orange); color: var(--paper); }
+  .callout-tag.done { background: var(--cool-600); color: var(--paper); }
+  .callout-tag.rumor { background: var(--paper-3); color: var(--cool-600); border-color: var(--warm-300); }
+  .callout-body { min-width: 0; flex: 1; }
+  .callout-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--bn-black);
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+  .callout-desc {
+    font-size: 13px;
+    color: var(--cool-600);
+    line-height: 1.7;
+  }
+  .callout-desc strong { color: var(--bn-orange); font-weight: 700; }
+
+  footer {
+    padding: 20px 32px;
+    background: var(--paper-3);
+    font-size: 12px;
+    color: var(--cool-600);
+    text-align: center;
+    border-top: 1px solid var(--warm-300);
+    line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); }
+
+  /* body padding 跟著真實 viewport 走 */
+  @media (max-width: 640px) {
+    body { padding: 12px 6px; }
+  }
+
+  /* 內部 layout 跟著 wrapper container 寬度走（供預覽切換） */
+  @container (max-width: 640px) {
+    header, .meta-bar, .section { padding-left: 18px; padding-right: 18px; }
+    header { padding-top: 22px; padding-bottom: 16px; }
+    .kicker { font-size: 10px; }
+    h1 { font-size: 20px; line-height: 1.35; }
+    .deck { font-size: 13px; }
+
+    .meta-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      font-size: 11px;
+      padding: 10px 18px;
+    }
+    .meta-bar .meta-sep { display: none; }
+    .meta-bar .meta-chunk { display: block; }
+
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { border-bottom: 1px solid var(--paper-3); padding: 14px 6px; }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(3), .stat:nth-child(4) { border-bottom: none; }
+    .stat-num { font-size: 19px; }
+    .stat-lbl { font-size: 10px; }
+
+    .section { padding: 20px 18px; }
+    .section-headline { font-size: 17px; }
+    .section-sub { font-size: 12px; }
+
+    .region-grid { grid-template-columns: 1fr; gap: 12px; }
+    details.region-card.span-2 { grid-column: span 1; }
+    summary.region-summary { padding: 14px 16px; }
+    .region-name { font-size: 15px; }
+    .region-body { padding: 4px 16px 16px; }
+    .brand-countries, .region-note { padding-left: 0; }
+    .brand-head { flex-wrap: wrap; }
+
+    .callout-item { padding: 14px 16px; gap: 10px; }
+    .callout-title { font-size: 13px; }
+    .callout-desc { font-size: 12px; }
+
+    footer { padding: 16px 18px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">全球版圖 · GLOBAL FOOTPRINT</div>
+    <h1>Delivery Hero 全球外送品牌版圖</h1>
+    <p class="deck">Delivery Hero 證實與 Uber 就收購案進行進階洽談，傳出價每股約 40 歐元。這家外送巨頭旗下品牌橫跨五大洲，一張圖看懂它握有哪些品牌、覆蓋哪些市場，以及收購案前夕正在進行的資產調整。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div>
+      <span class="meta-chunk">資料來源：<strong>Delivery Hero 官方揭露</strong></span><span class="meta-sep">|</span><span class="meta-chunk">資料時間：截至 2026 年 7 月</span>
+    </div>
+    <div class="meta-chunk">製作：《數位時代》</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">大洲布局</div></div>
+    <div class="stat"><div class="stat-num">11</div><div class="stat-lbl">全球外送品牌</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">2026 年資產調整事件</div></div>
+    <div class="stat"><div class="stat-num">6億美元</div><div class="stat-lbl">foodpanda 台灣傳出售金額</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 01 · REGIONAL BRAND MAP</div>
+    <h2 class="section-headline">五大洲品牌矩陣</h2>
+    <p class="section-sub">點擊各區塊，展開該區旗下品牌與主要營運市場</p>
+
+    <div class="region-grid">
+
+      <details class="region-card" open>
+        <summary class="region-summary">
+          <div class="region-head">
+            <div class="region-eyebrow">ASIA</div>
+            <div class="region-name">亞洲</div>
+          </div>
+          <div class="region-badge">2 品牌</div>
+          <div class="region-chevron">&#9662;</div>
+        </summary>
+        <div class="region-body">
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=foodpanda.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">foodpanda</div>
+              <div class="brand-count">10 國</div>
+            </div>
+            <div class="brand-countries">新加坡、馬來西亞、菲律賓、香港、台灣、孟加拉、巴基斯坦、柬埔寨、寮國、緬甸</div>
+          </div>
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=baemin.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">Baedal Minjok（Baemin，由 Woowa Brothers 營運）</div>
+              <div class="brand-count">1 國</div>
+            </div>
+            <div class="brand-countries">南韓</div>
+          </div>
+        </div>
+      </details>
+
+      <details class="region-card">
+        <summary class="region-summary">
+          <div class="region-head">
+            <div class="region-eyebrow">EUROPE</div>
+            <div class="region-name">歐洲</div>
+          </div>
+          <div class="region-badge">5 品牌</div>
+          <div class="region-chevron">&#9662;</div>
+        </summary>
+        <div class="region-body">
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=glovoapp.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">Glovo</div>
+              <div class="brand-count">約 15+ 國</div>
+            </div>
+            <div class="brand-countries">西班牙、葡萄牙、義大利、波蘭、羅馬尼亞、烏克蘭、塞爾維亞、克羅埃西亞、保加利亞、喬治亞、亞美尼亞、摩爾多瓦、波士尼亞、蒙特內哥羅、哈薩克、吉爾吉斯</div>
+            <div class="region-note">歐洲及中亞約 15+ 國；Glovo 另在非洲營運，見下方非洲區塊</div>
+          </div>
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=foodora.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">foodora</div>
+              <div class="brand-count">5 國</div>
+            </div>
+            <div class="brand-countries">奧地利、捷克、匈牙利、挪威、瑞典</div>
+          </div>
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=yemeksepeti.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">Yemeksepeti</div>
+              <div class="brand-count">1 國</div>
+            </div>
+            <div class="brand-countries">土耳其</div>
+          </div>
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=e-food.gr" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">efood</div>
+              <div class="brand-count">1 國</div>
+            </div>
+            <div class="brand-countries">希臘</div>
+          </div>
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=foody.com.cy" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">foody</div>
+              <div class="brand-count">1 國</div>
+            </div>
+            <div class="brand-countries">賽普勒斯</div>
+          </div>
+        </div>
+      </details>
+
+      <details class="region-card">
+        <summary class="region-summary">
+          <div class="region-head">
+            <div class="region-eyebrow">MENA</div>
+            <div class="region-name">中東與北非</div>
+          </div>
+          <div class="region-badge">3 品牌</div>
+          <div class="region-chevron">&#9662;</div>
+        </summary>
+        <div class="region-body">
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=talabat.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">talabat</div>
+              <div class="brand-count">8 國</div>
+            </div>
+            <div class="brand-countries">科威特、阿聯、巴林、阿曼、卡達、約旦、埃及、伊拉克</div>
+          </div>
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=hungerstation.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">HungerStation</div>
+              <div class="brand-count">1 國</div>
+            </div>
+            <div class="brand-countries">沙烏地阿拉伯</div>
+          </div>
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=instashop.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">InstaShop（生鮮快商務）</div>
+              <div class="brand-count">2 國</div>
+            </div>
+            <div class="brand-countries">阿聯、埃及</div>
+          </div>
+        </div>
+      </details>
+
+      <details class="region-card">
+        <summary class="region-summary">
+          <div class="region-head">
+            <div class="region-eyebrow">AFRICA</div>
+            <div class="region-name">非洲</div>
+          </div>
+          <div class="region-badge">1 品牌</div>
+          <div class="region-chevron">&#9662;</div>
+        </summary>
+        <div class="region-body">
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=glovoapp.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">Glovo</div>
+            </div>
+            <div class="brand-countries">摩洛哥、突尼西亞等</div>
+          </div>
+        </div>
+      </details>
+
+      <details class="region-card span-2">
+        <summary class="region-summary">
+          <div class="region-head">
+            <div class="region-eyebrow">LATIN AMERICA</div>
+            <div class="region-name">拉丁美洲</div>
+          </div>
+          <div class="region-badge">1 品牌</div>
+          <div class="region-chevron">&#9662;</div>
+        </summary>
+        <div class="region-body">
+          <div class="brand-block">
+            <div class="brand-head">
+              <img class="brand-logo" src="https://www.google.com/s2/favicons?sz=64&domain=pedidosya.com" alt="" onerror="this.style.visibility='hidden'">
+              <div class="brand-name">PedidosYa</div>
+              <div class="brand-count">約 15 國</div>
+            </div>
+            <div class="brand-countries">阿根廷、烏拉圭、智利、玻利維亞、巴拉圭、秘魯、厄瓜多、委內瑞拉、多明尼加、巴拿馬、瓜地馬拉、宏都拉斯等</div>
+          </div>
+        </div>
+      </details>
+
+    </div>
+
+    <p class="note">各品牌國家清單為主要市場，非完整列表；營運型態（合資、授權、加盟）以官方揭露為準。</p>
+  </div>
+
+  <div class="section" style="border-bottom: none;">
+    <div class="section-title">FIGURE 02 · 2026 ASSET REALIGNMENT</div>
+    <h2 class="section-headline">收購案前夕的資產調整</h2>
+    <p class="section-sub">Delivery Hero 在洽談出售前，旗下部分市場已陸續出現變動</p>
+
+    <div class="callout-list">
+      <div class="callout-item">
+        <div class="callout-tag pending">洽談出售中</div>
+        <div class="callout-body">
+          <div class="callout-title">foodpanda 台灣 → 出售予 Grab</div>
+          <div class="callout-desc">2026 年 3 月簽約，以<strong>約 6 億美元</strong>出售給 Grab，尚待監管核准，預計 2026 下半年完成交割。交割前仍由 Delivery Hero 營運。</div>
+        </div>
+      </div>
+      <div class="callout-item">
+        <div class="callout-tag done">已結束營運</div>
+        <div class="callout-body">
+          <div class="callout-title">foodpanda 泰國 → 結束營運</div>
+          <div class="callout-desc">2025 年 5 月結束營運，業務移交本地業者 Robinhood。</div>
+        </div>
+      </div>
+      <div class="callout-item">
+        <div class="callout-tag rumor">傳探詢出售</div>
+        <div class="callout-body">
+          <div class="callout-title">Woowa Brothers（Baemin）→ 傳探詢出售</div>
+          <div class="callout-desc">2026 年 3 月傳出探詢出售，估值約<strong>53.7 億美元</strong>。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：李先泰　|　製圖：2026.07.15<br>
+    資料來源：Delivery Hero 官方揭露、路透（Reuters）報導、Grab 官方公告
+  </footer>
+
+</div>
+
+<!-- Preview toolbar：URL 加 ?preview=1 才會顯示，給編輯切換桌機／手機 layout 用 -->
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
+</body>
+</html>
