@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 採用的 5 階地圖：你在第幾階？ ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    text-wrap: pretty;
+  }
+
+  body { padding: 28px 20px 40px; }
+
+  @media (max-width: 640px) {
+    body { padding: 20px 10px 32px; }
+  }
+
+  .num, .agent-num, .stage-num { font-family: "Inter", "Noto Sans TC", sans-serif; font-feature-settings: 'tnum' 1; }
+  .en { font-family: "Inter", "Noto Sans TC", sans-serif; }
+
+  h1, h2, .deck { text-wrap: balance; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header { padding: 4px 4px 20px; border-bottom: 1px solid var(--hairline); margin-bottom: 22px; }
+  .kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--bn-orange); text-transform: uppercase; margin-bottom: 10px;
+  }
+  h1 { font-size: 30px; line-height: 1.3; font-weight: 900; margin: 0 0 12px; letter-spacing: 0.01em; }
+  .deck { font-size: 16px; line-height: 1.75; color: var(--cool-600); margin: 0; max-width: 640px; }
+  .deck b { color: var(--bn-black); font-weight: 700; }
+
+  @container (max-width: 640px) {
+    h1 { font-size: 23px; }
+    .deck { font-size: 14.5px; }
+  }
+
+  /* ---------- Meta bar ---------- */
+  .meta-bar {
+    display: flex; justify-content: space-between; gap: 12px;
+    font-size: 13px; color: var(--cool-600); margin-bottom: 22px; flex-wrap: wrap;
+  }
+  .meta-bar strong { color: var(--bn-black); font-weight: 700; }
+  .meta-chunk { white-space: nowrap; }
+  @container (max-width: 640px) {
+    .meta-bar { flex-direction: column; gap: 4px; }
+    .meta-chunk { white-space: normal; }
+  }
+
+  /* ---------- How-to-read banner ---------- */
+  .how-banner {
+    background: var(--bn-navy); color: var(--paper);
+    border-radius: 8px; padding: 20px 24px; margin-bottom: 8px;
+  }
+  .how-banner .how-tag {
+    font-family: "Inter", sans-serif; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.06em; color: var(--bn-orange); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .how-banner p { margin: 0; font-size: 15px; line-height: 1.7; color: rgba(250,247,241,0.92); }
+  .how-banner p b { color: var(--paper); font-weight: 700; }
+  @container (max-width: 640px) {
+    .how-banner { padding: 16px 18px; }
+    .how-banner p { font-size: 14px; }
+  }
+
+  /* ---------- Stage card ---------- */
+  .stage {
+    background: var(--paper-2); border: 1px solid var(--warm-300);
+    border-radius: 8px; overflow: hidden;
+  }
+  .stage-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px; background: var(--paper-3); border-bottom: 1px solid var(--warm-300);
+  }
+  .stage-num {
+    width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+    background: var(--bn-orange); color: var(--paper);
+    font-size: 17px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .stage-id { flex: 1; min-width: 0; }
+  .stage-id h2 { font-size: 18px; font-weight: 900; margin: 0; line-height: 1.35; }
+  .stage-id h2 .en { font-size: 13.5px; font-weight: 500; color: var(--cool-600); margin-left: 6px; }
+  .stage-role { font-size: 13px; color: var(--cool-600); font-weight: 500; margin-top: 3px; }
+  .stage-agents { flex-shrink: 0; text-align: right; padding-left: 8px; border-left: 1px solid var(--warm-300); }
+  .agent-num { font-size: 26px; font-weight: 700; color: var(--bn-orange); line-height: 1; }
+  .agent-label { font-size: 11px; color: var(--cool-600); margin-top: 4px; letter-spacing: 0.02em; }
+
+  @container (max-width: 640px) {
+    .stage-head { flex-wrap: wrap; gap: 10px 12px; padding: 14px 16px; }
+    .stage-id { flex: 1 1 auto; }
+    .stage-id h2 { font-size: 16.5px; }
+    .stage-id h2 .en { display: block; margin-left: 0; margin-top: 2px; }
+    .stage-agents { text-align: left; padding-left: 0; border-left: 0; border-top: 1px solid var(--warm-300); padding-top: 8px; flex-basis: 100%; display: flex; align-items: baseline; gap: 8px; }
+    .agent-num { font-size: 22px; }
+    .agent-label { margin-top: 0; }
+  }
+
+  .stage-body { padding: 18px 20px 18px; }
+
+  .plain {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper-4); border-radius: 0 8px 8px 0;
+    padding: 12px 16px; margin-bottom: 16px;
+    font-size: 15.5px; line-height: 1.6; font-weight: 700;
+  }
+  .plain .plain-tag {
+    font-family: "Inter", sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.05em; color: var(--bn-orange-deep); text-transform: uppercase;
+    margin-right: 8px;
+  }
+
+  .field { margin-bottom: 14px; }
+  .field:last-of-type { margin-bottom: 4px; }
+  .f-label {
+    display: inline-block; font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.03em;
+    color: var(--cool-600); margin-bottom: 5px;
+  }
+  .field p { margin: 0; font-size: 15px; line-height: 1.75; }
+
+  /* ---------- Details toggle ---------- */
+  details.detail-toggle {
+    margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 12px;
+  }
+  details.detail-toggle summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 13.5px; font-weight: 700; color: var(--bn-orange-deep);
+    -webkit-user-select: none; user-select: none;
+  }
+  details.detail-toggle summary::-webkit-details-marker { display: none; }
+  .summary-mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 4px;
+    background: var(--paper-3); color: var(--bn-orange-deep);
+    font-size: 13px; line-height: 1; transition: transform 0.15s ease;
+  }
+  details[open] .summary-mark { transform: rotate(90deg); }
+  summary:hover .summary-mark { background: var(--paper-4); }
+
+  .detail-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;
+  }
+  @container (max-width: 640px) {
+    .detail-grid { grid-template-columns: 1fr; gap: 12px; }
+  }
+  .detail-col {
+    background: var(--paper); border: 1px solid var(--warm-300);
+    border-radius: 8px; padding: 14px 16px;
+  }
+  .dc-title {
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12.5px; font-weight: 700; color: var(--bn-black);
+    margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--hairline);
+  }
+  .detail-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .detail-col li {
+    font-size: 13.5px; line-height: 1.55; color: var(--bn-black);
+    padding-left: 14px; position: relative;
+  }
+  .detail-col li::before {
+    content: ""; position: absolute; left: 0; top: 8px;
+    width: 5px; height: 5px; border-radius: 0; background: var(--warm-300);
+  }
+  .detail-col li .gloss { color: var(--cool-600); }
+  .detail-col li a {
+    color: var(--bn-black);
+    text-decoration: underline;
+    text-decoration-color: var(--bn-orange);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 2px;
+  }
+  .detail-col li a:hover { color: var(--bn-orange-deep); text-decoration-color: var(--bn-orange-deep); }
+  .link-note {
+    font-size: 11.5px; color: var(--cool-600); margin: 12px 0 0; line-height: 1.5;
+  }
+
+  /* ---------- Upgrade connector ---------- */
+  .upgrade {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 14px 18px; margin: 4px 0;
+  }
+  .upgrade-arrow {
+    font-family: "Inter", sans-serif; font-size: 18px; font-weight: 700;
+    color: var(--bn-orange); line-height: 1.3; flex-shrink: 0;
+  }
+  .upgrade-content { flex: 1; }
+  .upgrade-tag {
+    display: inline-block; font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--bn-orange-deep); text-transform: uppercase; margin-bottom: 5px;
+  }
+  .upgrade-content p { margin: 0; font-size: 14px; line-height: 1.7; color: var(--bn-black); }
+
+  /* ---------- Closing callout ---------- */
+  .callout {
+    border-left: 4px solid var(--bn-orange);
+    background: var(--paper-2); border-radius: 0 8px 8px 0;
+    padding: 16px 20px; margin-top: 24px;
+  }
+  .callout .callout-kicker {
+    font-family: "Inter", sans-serif; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--bn-orange-deep); margin-bottom: 8px;
+  }
+  .callout p { font-size: 14.5px; line-height: 1.75; margin: 0 0 10px; color: var(--bn-black); }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout b { font-weight: 700; }
+
+  footer {
+    margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--hairline);
+    font-size: 12.5px; color: var(--cool-600); line-height: 1.7;
+  }
+  footer strong { color: var(--bn-black); }
+
+  /* ---------- Preview toolbar ---------- */
+  .preview-toolbar {
+    display: none; position: fixed; top: 14px; right: 14px; z-index: 9999;
+    background: var(--bn-navy); padding: 4px; border-radius: 6px; gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px; font-size: 12px; font-weight: 700;
+    background: transparent; color: rgba(250, 247, 241, 0.55); cursor: pointer;
+    border-radius: 4px; transition: all 0.15s; font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px; color: rgba(250, 247, 241, 0.45); padding: 0 8px;
+    align-self: center; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">AI 採用地圖 · STEPS OF AI ADOPTION</div>
+    <h1>你在 AI 採用的第幾階？從 0 到 4 的成熟度地圖</h1>
+    <p class="deck">Claude Code 負責人 Boris Cherny 把團隊用 AI 的程度分成 5 階，衡量標準是<b>你同時能指揮幾個「AI 分身」</b>，以及你的角色怎麼從「自己動手」變成「只給方向」。點開每一階可看完整工具與防護欄（含官方文件連結）。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div class="meta-chunk">資料來源：<strong>Boris Cherny 於 X 的貼文串、Steps of AI Adoption 圖表</strong></div>
+    <div class="meta-chunk">製作：《數位時代》</div>
+  </div>
+
+  <div class="how-banner">
+    <div class="how-tag">怎麼讀這張圖</div>
+    <p>沒有唯一正確的走法，每個團隊都不同。重點是先誠實回答<b>「我現在在第幾階、下一步卡在哪個瓶頸」</b>。分身（業界稱 agent）指一個能獨立接手任務、自己跑完的 AI。</p>
+  </div>
+
+  <div class="upgrade" style="padding-top:16px;">
+    <div class="upgrade-arrow">↓</div>
+    <div class="upgrade-content"><p style="color:var(--cool-600);font-size:13px;">由下往上，一階一階看你的角色與分身數怎麼變。</p></div>
+  </div>
+
+  <!-- STAGE 0 -->
+  <div class="stage">
+    <div class="stage-head">
+      <div class="stage-num">0</div>
+      <div class="stage-id">
+        <h2>卡關 <span class="en">Gated</span></h2>
+        <div class="stage-role">角色：AI 還沒進門</div>
+      </div>
+      <div class="stage-agents">
+        <div class="agent-num">0</div>
+        <div class="agent-label">同時管理的分身</div>
+      </div>
+    </div>
+    <div class="stage-body">
+      <div class="plain"><span class="plain-tag">白話</span>公司還在觀望，AI 被關在門外。</div>
+      <div class="field">
+        <span class="f-label">實際樣貌</span>
+        <p>只准用比較舊、比較輕的模型，要用 AI 工具得經過層層閘道與審批。AI 產出的東西沒有地方部署，只能留在個人電腦裡。</p>
+      </div>
+      <div class="field">
+        <span class="f-label">卡在哪（瓶頸）</span>
+        <p>問題在制度而非技術：老舊的資安與審批流程、只盯著「每個 token 多少錢」卻不看產出、決策桌上缺少真正懂技術的聲音。</p>
+      </div>
+      <details class="detail-toggle">
+        <summary><span class="summary-mark">›</span>看完整工具與防護欄</summary>
+        <div class="detail-grid">
+          <div class="detail-col">
+            <div class="dc-title">有用的工具</div>
+            <ul><li>Claude.ai 網頁對話</li></ul>
+          </div>
+          <div class="detail-col">
+            <div class="dc-title">要建立的防護欄</div>
+            <ul>
+              <li>SSO / SCIM <span class="gloss">（單一登入與帳號自動配置）</span>加上角色權限管理</li>
+              <li>組織層級的預算上限</li>
+              <li>部署在既有的審批與 IAM <span class="gloss">（身分權限管理）</span>流程內</li>
+              <li>資料治理方案</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="upgrade">
+    <div class="upgrade-arrow">↓</div>
+    <div class="upgrade-content">
+      <span class="upgrade-tag">升級關鍵 · 0 → 1</span>
+      <p>讓決策者與採購對齊、把卡關的問題往上呈報；建立一套能安全導入 AI 的框架。</p>
+    </div>
+  </div>
+
+  <!-- STAGE 1 -->
+  <div class="stage">
+    <div class="stage-head">
+      <div class="stage-num">1</div>
+      <div class="stage-id">
+        <h2>助理 <span class="en">Assisted</span></h2>
+        <div class="stage-role">角色：你＋一個分身（結對）</div>
+      </div>
+      <div class="stage-agents">
+        <div class="agent-num">~1</div>
+        <div class="agent-label">同時管理的分身</div>
+      </div>
+    </div>
+    <div class="stage-body">
+      <div class="plain"><span class="plain-tag">白話</span>AI 當助理，你在旁邊盯著。</div>
+      <div class="field">
+        <span class="f-label">實際樣貌</span>
+        <p>一個人配一個分身，多半在你監督下工作，像一個超快的協作夥伴。你一次開一個對話，幾乎每個成果採用前都要親自看過。解鎖時刻：一件本來要花掉一個下午的事，現在你在兩場會議的空檔就做完。</p>
+      </div>
+      <div class="field">
+        <span class="f-label">卡在哪（瓶頸）</span>
+        <p>你的注意力。因為還不夠信任 AI 的產出、它也還不會自我驗證，你覺得每一步都得盯著看，於是工作是「同步的」，你只能坐著看它做，沒辦法同時去忙別的。</p>
+      </div>
+      <details class="detail-toggle">
+        <summary><span class="summary-mark">›</span>看完整工具與防護欄</summary>
+        <div class="detail-grid">
+          <div class="detail-col">
+            <div class="dc-title">有用的工具</div>
+            <ul>
+              <li>Claude Code（桌面版、命令列或 IDE）</li>
+              <li>Claude Cowork、Claude Design</li>
+              <li>透過 Anthropic API／Bedrock／Vertex／Microsoft Foundry 使用</li>
+              <li>Claude Code 分析儀表板＋Analytics API</li>
+              <li>Claude Enterprise 的 Compliance API <span class="gloss">（合規介面）</span></li>
+              <li>Plan mode <span class="gloss">（動手前先審核意圖）</span></li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <div class="dc-title">要建立的防護欄</div>
+            <ul>
+              <li>每個席位的花費上限</li>
+              <li>集中管理的模型與努力程度設定</li>
+              <li>集中管理的政策</li>
+              <li>把 <a href="https://code.claude.com/docs/en/monitoring-usage" target="_blank" rel="noopener noreferrer">OpenTelemetry</a> <span class="gloss">（系統監控標準）</span>資料匯出到既有的 SIEM／可觀測性系統</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="upgrade">
+    <div class="upgrade-arrow">↓</div>
+    <div class="upgrade-content">
+      <span class="upgrade-tag">升級關鍵 · 1 → 2</span>
+      <p>一次讓不只一個分身工作；建立一套你信得過的自動驗證流程（測試＋build＋lint＋在真實環境端到端測試）；開啟自動模式，免得一直被權限確認打斷；把程式碼審查自動化。</p>
+    </div>
+  </div>
+
+  <!-- STAGE 2 -->
+  <div class="stage">
+    <div class="stage-head">
+      <div class="stage-num">2</div>
+      <div class="stage-id">
+        <h2>指揮官 <span class="en">Parallel</span></h2>
+        <div class="stage-role">角色：協調者，在多個分身之間調度</div>
+      </div>
+      <div class="stage-agents">
+        <div class="agent-num">~10</div>
+        <div class="agent-label">同時管理的分身</div>
+      </div>
+    </div>
+    <div class="stage-body">
+      <div class="plain"><span class="plain-tag">白話</span>你從打字的人，變成派工加驗收的人。</div>
+      <div class="field">
+        <span class="f-label">實際樣貌</span>
+        <p>一個人同時指揮 5 到 10 個分身，每個在各自獨立的工作區裡跑不同任務，你在它們之間跳來跳去。分身交件前會自己先驗過一輪（跑測試、build、lint、資安掃描），自動模式一直開著，自動程式碼審查與資安審查也預設開啟。你看的是最終成果而非每個操作，積壓的維護工作開始變少。解鎖時刻：一個原本團隊要做好幾週的待辦，變成一個人一個下午的調度。</p>
+      </div>
+      <div class="field">
+        <span class="f-label">卡在哪（瓶頸）</span>
+        <p>驗收。你自己動手寫的變少，卻要同時檢查六份不同的產出，這件事反而吃掉更多時間。還有在多個對話間下提示、給方向的功夫。</p>
+      </div>
+      <details class="detail-toggle">
+        <summary><span class="summary-mark">›</span>看完整工具與防護欄</summary>
+        <div class="detail-grid">
+          <div class="detail-col">
+            <div class="dc-title">有用的工具</div>
+            <ul>
+              <li><a href="https://code.claude.com/docs/en/auto-mode-config" target="_blank" rel="noopener noreferrer">Auto mode</a> <span class="gloss">（自動模式）</span></li>
+              <li><a href="https://code.claude.com/docs/en/agent-view" target="_blank" rel="noopener noreferrer">Agent view</a> <span class="gloss">（多代理管理視圖）</span></li>
+              <li><a href="https://code.claude.com/docs/en/code-review" target="_blank" rel="noopener noreferrer">Claude Code Review</a> <span class="gloss">（自動程式碼審查）</span></li>
+              <li><a href="https://github.com/anthropics/claude-code-security-review" target="_blank" rel="noopener noreferrer">Claude Security Review</a> <span class="gloss">（自動資安審查）</span></li>
+              <li>手機版 Claude Code、桌面版雲端執行</li>
+              <li>透過 Claude Teams 或 Claude Enterprise 使用</li>
+              <li>Claude Tag <span class="gloss">（交辦單一任務）</span></li>
+              <li>CLI 與桌面版的工作區隔離</li>
+              <li><a href="https://code.claude.com/docs/en/remote-control" target="_blank" rel="noopener noreferrer">Remote control</a> <span class="gloss">（用手機遠端監看分身）</span></li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <div class="dc-title">要建立的防護欄</div>
+            <ul>
+              <li>用 <a href="https://code.claude.com/docs/en/analytics" target="_blank" rel="noopener noreferrer">Analytics</a> 監看團隊使用狀況</li>
+              <li>自動化的程式品質把關（lint、自動測試、型別檢查）</li>
+              <li>由 Claude 驅動的端到端驗證（如 <a href="https://code.claude.com/docs/en/chrome" target="_blank" rel="noopener noreferrer">Claude Chrome 擴充</a>或手機模擬器 MCP）</li>
+              <li>人工審查、合併與資安審查，對人與分身寫的程式維持同一套品質標準</li>
+              <li>在 settings.json 預先核准常用且安全的指令</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="upgrade">
+    <div class="upgrade-arrow">↓</div>
+    <div class="upgrade-content">
+      <span class="upgrade-tag">升級關鍵 · 2 → 3</span>
+      <p>給分身取得脈絡的管道（讓它讀程式碼、wiki、討論串）；給它更大的自主權與更快的審查速度（分身可能會動到別團隊負責的程式）；把工作拆成可重複的迴圈與流程；讓分身去啟動分身。</p>
+    </div>
+  </div>
+
+  <!-- STAGE 3 -->
+  <div class="stage">
+    <div class="stage-head">
+      <div class="stage-num">3</div>
+      <div class="stage-id">
+        <h2>監督式自治 <span class="en">Supervised autonomy</span></h2>
+        <div class="stage-role">角色：管理者的管理者（一棵組織樹）</div>
+      </div>
+      <div class="stage-agents">
+        <div class="agent-num">~100</div>
+        <div class="agent-label">同時管理的分身</div>
+      </div>
+    </div>
+    <div class="stage-body">
+      <div class="plain"><span class="plain-tag">白話</span>你管的是一群「管理者」，靠制度而不是親自盯。</div>
+      <div class="field">
+        <span class="f-label">實際樣貌</span>
+        <p>分身寫下全部或幾乎全部的程式。你問的問題從「你看過這段程式嗎」變成「模型這次缺了哪些脈絡，下次怎麼幫它補上」。解鎖時刻：分身會主動去做你以前得手動啟動的工作；過去要等人有空才處理的維護與清理，現在在背景持續自動跑。</p>
+      </div>
+      <div class="field">
+        <span class="f-label">卡在哪（瓶頸）</span>
+        <p>對這套循環的信任，以及團隊的決策吞吐量。分身樹深到你沒辦法一個個盯，最常見的陷阱是在流程還沒被廣泛信任前，就急著把分身數量往上衝。還要在使用量增加時控制 token 用得夠有效率，並問自己：這件事，本來會有人力去做嗎？</p>
+      </div>
+      <details class="detail-toggle">
+        <summary><span class="summary-mark">›</span>看完整工具與防護欄</summary>
+        <div class="detail-grid">
+          <div class="detail-col">
+            <div class="dc-title">有用的工具</div>
+            <ul>
+              <li>具工作區隔離的子代理（讓並行分身不會互撞）</li>
+              <li>Routines／loop／batch／goal <span class="gloss">（把重複工作一次分派出去）</span></li>
+              <li><a href="https://code.claude.com/docs/en/workflows" target="_blank" rel="noopener noreferrer">Dynamic workflows</a> <span class="gloss">（動態工作流）</span></li>
+              <li>Claude Tag（盯著某個頻道或資料來源、主動啟動任務）</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <div class="dc-title">要建立的防護欄</div>
+            <ul>
+              <li>自動程式碼審查、自動資安審查</li>
+              <li><a href="https://code.claude.com/docs/en/sandboxing" target="_blank" rel="noopener noreferrer">Agent sandboxing</a> <span class="gloss">（分身沙盒隔離）</span></li>
+              <li>用 CLAUDE.md 與 Skills 把團隊規範寫成 AI 讀得到的說明</li>
+              <li>依團隊使用狀況微調<a href="https://code.claude.com/docs/en/auto-mode-config" target="_blank" rel="noopener noreferrer">自動模式</a>的判斷</li>
+              <li>用模型選擇、拆分 <a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener noreferrer">CLAUDE.md</a> 成隨用隨載的 Skills 來控管 <a href="https://code.claude.com/docs/en/costs" target="_blank" rel="noopener noreferrer">token</a></li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="upgrade">
+    <div class="upgrade-arrow">↓</div>
+    <div class="upgrade-content">
+      <span class="upgrade-tag">升級關鍵 · 3 → 4</span>
+      <p>把特定領域的用途大規模自動化，例如程式遷移、模糊測試、開發新功能、處理使用者回饋。</p>
+    </div>
+  </div>
+
+  <!-- STAGE 4 -->
+  <div class="stage">
+    <div class="stage-head">
+      <div class="stage-num">4</div>
+      <div class="stage-id">
+        <h2>AI 原生 <span class="en">AI-native</span></h2>
+        <div class="stage-role">角色：用意圖領導的高階主管（VP）</div>
+      </div>
+      <div class="stage-agents">
+        <div class="agent-num">~1,000+</div>
+        <div class="agent-label">同時管理的分身</div>
+      </div>
+    </div>
+    <div class="stage-body">
+      <div class="plain"><span class="plain-tag">白話</span>你只給方向、看例外，其餘交給分身。</div>
+      <div class="field">
+        <span class="f-label">實際樣貌</span>
+        <p>整套循環完全閉合，多數分身是 AI 自己啟動的，同時有數百到數千個在跑。你用「意圖」下指令、用「例外」來監控，只在出狀況時才介入。解鎖時刻：一個原本要做一整季的大遷移，變成你按下開始、偶爾回來看一下的工作流。</p>
+      </div>
+      <div class="field">
+        <span class="f-label">卡在哪（瓶頸）</span>
+        <p>如何大規模地辨識並自動化該做的工作，以及為每一種工作套上對的防護欄。</p>
+      </div>
+      <details class="detail-toggle">
+        <summary><span class="summary-mark">›</span>看完整工具與防護欄</summary>
+        <div class="detail-grid">
+          <div class="detail-col">
+            <div class="dc-title">有用的工具</div>
+            <ul>
+              <li>Claude Agent SDK <span class="gloss">（用程式打造與排程分身）</span></li>
+              <li>Claude Tag（進駐大多數 Slack 頻道、自動回應貼文）</li>
+            </ul>
+          </div>
+          <div class="detail-col">
+            <div class="dc-title">要建立的防護欄</div>
+            <ul>
+              <li>為自動化設定成本控管</li>
+              <li>為自動化選擇合適的模型</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-kicker">升級的通則 · 別只是「用更多」</div>
+    <p>Boris 提醒，從一階爬到下一階，光衝高使用量、燒更多 token 是不夠的。<b>每往上一階，你都得同時打破「下一個瓶頸」，並建立「下一組防護欄」</b>。</p>
+    <p>他也說，Anthropic 目前在第 3 階、正往第 4 階推進，而他自己剛踏進第 4 階。對多數人來說，重點不是急著衝到第 4 階，而是先看懂自己在哪一階，再穩穩往上走。</p>
+  </div>
+
+  <p class="link-note">註：各階「工具與防護欄」內的底線項目，可點擊前往 Claude Code 官方文件（開新分頁）。</p>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：Boris Cherny（Anthropic）、數位時代編輯部　|　製圖：2026.07.17
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>
