@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 自主性四階 ｜ 數位時代</title>
+<meta name="description" content="從說一次做一次，到 AI 管 AI。點各階看《數位時代》整理的實際案例，一次看懂 AI 自主性的四個階段。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    text-wrap: pretty;
+  }
+
+  body { padding: 28px 20px 40px; }
+
+  @media (max-width: 640px) {
+    body { padding: 20px 10px 32px; }
+  }
+
+  .en { font-family: "Inter", "Noto Sans TC", sans-serif; }
+  h1, h2, h3, .deck { text-wrap: balance; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header { padding: 4px 4px 20px; border-bottom: 1px solid var(--hairline); margin-bottom: 26px; }
+  .kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--bn-orange); text-transform: uppercase; margin-bottom: 10px;
+  }
+  h1 { font-size: 30px; line-height: 1.3; font-weight: 900; margin: 0 0 12px; letter-spacing: 0.01em; }
+  .deck { font-size: 16px; line-height: 1.75; color: var(--cool-600); margin: 0; max-width: 640px; }
+
+  @container (max-width: 640px) {
+    h1 { font-size: 23px; }
+    .deck { font-size: 14.5px; }
+  }
+
+  /* ---------- Staircase (desktop) ---------- */
+  .staircase {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    border-bottom: 2px solid var(--warm-300);
+    padding-bottom: 0;
+  }
+
+  .stage-col { flex: 1 1 0; min-width: 0; }
+
+  .stage-col summary {
+    list-style: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 8px;
+    border: 1px solid var(--warm-300);
+    border-radius: 8px 8px 0 0;
+    padding: 16px 14px 14px;
+  }
+  .stage-col summary::-webkit-details-marker { display: none; }
+  .stage-col summary::marker { content: ""; }
+
+  .stage-col:nth-child(1) summary { min-height: 118px; background: var(--paper); }
+  .stage-col:nth-child(2) summary { min-height: 152px; background: var(--paper-2); }
+  .stage-col:nth-child(3) summary { min-height: 186px; background: var(--paper-3); }
+  .stage-col:nth-child(4) summary {
+    min-height: 220px; background: var(--paper-4);
+    border-top: 3px solid var(--bn-orange);
+  }
+
+  .stage-badge {
+    font-family: "Inter", sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--bn-orange-deep); text-transform: uppercase;
+  }
+  .stage-title { font-size: 16px; font-weight: 700; line-height: 1.4; margin: 0; }
+  .stage-title .term-en {
+    display: block; margin-top: 2px;
+    font-size: 12px; font-weight: 500; color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+  .stage-def { font-size: 13px; line-height: 1.6; color: var(--bn-black); margin: 0; }
+
+  .stage-cta {
+    display: flex; align-items: center; gap: 5px;
+    font-family: "Inter", sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.03em; color: var(--cool-600); margin-top: 2px;
+  }
+  .stage-cta .mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform 0.15s ease;
+  }
+  details[open] .stage-cta .mark { transform: rotate(180deg); }
+  summary:hover .stage-cta { color: var(--bn-orange-deep); }
+
+  .stage-case {
+    border: 1px solid var(--warm-300); border-top: none;
+    background: var(--paper); padding: 14px 16px 16px;
+    font-size: 13.5px; line-height: 1.7; color: var(--bn-black);
+  }
+  .stage-case .case-tag {
+    display: block; font-family: "Inter", sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.05em; color: var(--bn-orange-deep); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* ---------- Mobile: vertical stack with progressive indent ---------- */
+  @container (max-width: 640px) {
+    .staircase {
+      flex-direction: column;
+      align-items: stretch;
+      border-bottom: none;
+      gap: 12px;
+    }
+    .stage-col summary {
+      border-radius: 8px;
+      border-left-width: 3px;
+      justify-content: flex-start;
+    }
+    .stage-col:nth-child(1) summary { min-height: 0; margin-left: 0; }
+    .stage-col:nth-child(2) summary { min-height: 0; margin-left: 12px; }
+    .stage-col:nth-child(3) summary { min-height: 0; margin-left: 24px; }
+    .stage-col:nth-child(4) summary { min-height: 0; margin-left: 36px; border-top: 1px solid var(--warm-300); border-left: 3px solid var(--bn-orange); }
+    .stage-col:nth-child(1) .stage-case { margin-left: 0; }
+    .stage-col:nth-child(2) .stage-case { margin-left: 12px; }
+    .stage-col:nth-child(3) .stage-case { margin-left: 24px; }
+    .stage-col:nth-child(4) .stage-case { margin-left: 36px; }
+    .stage-def { font-size: 13.5px; }
+  }
+
+  footer {
+    margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--hairline);
+    font-size: 12.5px; color: var(--cool-600); line-height: 1.7;
+    display: flex; flex-wrap: wrap; gap: 4px 10px;
+  }
+  footer strong { color: var(--bn-black); }
+  footer .f-chunk { white-space: nowrap; }
+  footer .f-sep { color: var(--warm-300); }
+
+  /* ---------- Preview toolbar ---------- */
+  .preview-toolbar {
+    display: none; position: fixed; top: 14px; right: 14px; z-index: 9999;
+    background: var(--bn-navy); padding: 4px; border-radius: 6px; gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px; font-size: 12px; font-weight: 700;
+    background: transparent; color: rgba(250, 247, 241, 0.55); cursor: pointer;
+    border-radius: 4px; transition: all 0.15s; font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px; color: rgba(250, 247, 241, 0.45); padding: 0 8px;
+    align-self: center; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">互動圖解 · AI 自主性階梯</div>
+    <h1>AI 自主性四階</h1>
+    <p class="deck">從說一次做一次，到 AI 管 AI。點各階看實例</p>
+  </header>
+
+  <div class="staircase">
+
+    <details class="stage-col">
+      <summary>
+        <span class="stage-badge">階 1</span>
+        <h3 class="stage-title">說一次，做一次</h3>
+        <p class="stage-def">你下指令，AI 執行完就停。要它再動，就得再開口。</p>
+        <span class="stage-cta"><span class="mark">▾</span>點看案例</span>
+      </summary>
+      <div class="stage-case">
+        <span class="case-tag">案例</span>
+        過去的預設用法，也是多數人今天使用 AI 的方式。
+      </div>
+    </details>
+
+    <details class="stage-col">
+      <summary>
+        <span class="stage-badge">階 2</span>
+        <h3 class="stage-title">定期喚醒<span class="term-en">（thread automation）</span></h3>
+        <p class="stage-def">一句「幫我盯著」，訊息定時排回同一條對話串，AI 自己醒來繼續工作。</p>
+        <span class="stage-cta"><span class="mark">▾</span>點看案例</span>
+      </summary>
+      <div class="stage-case">
+        <span class="case-tag">案例</span>
+        盯住 pull request，週一交代、週四回來意見全部整合完；幕僚長對話串每天早上 8 點掃描 email 與 Slack，回報最重要的事。
+      </div>
+    </details>
+
+    <details class="stage-col">
+      <summary>
+        <span class="stage-badge">階 3</span>
+        <h3 class="stage-title">目標模式<span class="term-en">（Goal）</span></h3>
+        <p class="stage-def">給一個可驗證的完成條件，AI 跨數小時甚至數天持續工作到達標為止。</p>
+        <span class="stage-cta"><span class="mark">▾</span>點看案例</span>
+      </summary>
+      <div class="stage-case">
+        <span class="case-tag">案例</span>
+        Jason Liu 用它把 Python 套件 Rich 改寫成 Rust 版本；OpenAI 官方影片提到，已有不少使用者讓單一目標連續推進超過 100 小時。
+      </div>
+    </details>
+
+    <details class="stage-col">
+      <summary>
+        <span class="stage-badge">階 4</span>
+        <h3 class="stage-title">AI 管 AI<span class="term-en">（對話串互管）</span></h3>
+        <p class="stage-def">對話串能互相改名、傳訊息，長出「主管對話串」管理「執行對話串」的層級。</p>
+        <span class="stage-cta"><span class="mark">▾</span>點看案例</span>
+      </summary>
+      <div class="stage-case">
+        <span class="case-tag">案例</span>
+        Jason Liu 形容，你會從個人貢獻者，變成管理一組 AI 隊友的主管。
+      </div>
+    </details>
+
+  </div>
+
+  <footer>
+    <span class="f-chunk"><strong>《數位時代》</strong></span>
+    <span class="f-sep">|</span>
+    <span class="f-chunk">整理自 Jason Liu 於 AI Engineer 大會演講</span>
+    <span class="f-sep">|</span>
+    <span class="f-chunk">製圖：2026.07.27</span>
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>
