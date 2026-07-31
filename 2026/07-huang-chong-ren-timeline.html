@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>黃崇仁大事記：從醫學博士到力積電重返上市 ｜ 數位時代</title>
+<meta name="description" content="黃崇仁從醫學博士、大學教授跨入科技業，創辦力晶半導體，歷經下市危機與轉型，帶領力積電重返上市的重要生涯節點。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    padding: 24px 14px;
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", -apple-system, "Microsoft JhengHei", sans-serif;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    text-wrap: pretty;
+  }
+  h1, h2, .deck, .event-title { text-wrap: balance; }
+  a { color: inherit; }
+
+  .wrapper {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  .hero {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .hero img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .hero-label {
+    position: absolute;
+    left: 30px;
+    bottom: 28px;
+    max-width: 330px;
+    padding: 14px 18px 13px;
+    background: rgba(250, 247, 241, 0.9);
+    border-left: 4px solid var(--bn-orange);
+  }
+  .hero-label span {
+    display: block;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    line-height: 1.3;
+    letter-spacing: 1.6px;
+    color: var(--cool-600);
+    font-weight: 700;
+  }
+  .hero-label strong {
+    display: block;
+    margin-top: 5px;
+    font-family: "Noto Serif TC", "PingFang TC", serif;
+    font-size: 26px;
+    line-height: 1.35;
+    letter-spacing: 0.04em;
+    color: var(--bn-black);
+  }
+
+  header {
+    padding: 36px 38px 30px;
+    border-bottom: 3px solid var(--bn-black);
+  }
+  .kicker {
+    margin-bottom: 10px;
+    color: var(--bn-orange-deep);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 0 0 14px;
+    font-size: 34px;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    font-weight: 900;
+  }
+  h1 .underline {
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 7px;
+    text-decoration-color: var(--bn-orange);
+  }
+  .deck {
+    max-width: 730px;
+    margin: 0;
+    color: var(--cool-600);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+  .deck strong { color: var(--bn-black); font-weight: 700; }
+
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    padding: 12px 38px;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+    color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 13px;
+  }
+  .meta-chunk { white-space: nowrap; }
+  .meta-bar strong { color: var(--bn-black); }
+
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .summary-item {
+    min-height: 116px;
+    padding: 20px 24px;
+    border-right: 1px solid var(--warm-300);
+    background: var(--paper-2);
+  }
+  .summary-item:last-child { border-right: 0; }
+  .summary-num {
+    color: var(--bn-black);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: "tnum" 1;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+  .summary-item.key .summary-num { color: var(--bn-orange-deep); }
+  .summary-label {
+    margin-top: 6px;
+    color: var(--cool-600);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .timeline-section { padding: 40px 38px 42px; }
+  .section-kicker {
+    color: var(--cool-600);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+  }
+  h2 {
+    margin: 6px 0 30px;
+    font-size: 23px;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    font-weight: 900;
+  }
+
+  .timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 56px 1fr;
+    row-gap: 22px;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-1px);
+    background: var(--warm-300);
+  }
+  .event { display: contents; }
+  .event-card {
+    align-self: start;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+  }
+  .event:nth-child(odd) .event-card { grid-column: 1; }
+  .event:nth-child(even) .event-card { grid-column: 3; }
+  .event:nth-child(odd) .event-node { grid-column: 2; }
+  .event:nth-child(even) .event-node { grid-column: 2; }
+  .event-node {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 18px;
+  }
+  .node-dot {
+    width: 16px;
+    height: 16px;
+    background: var(--paper);
+    border: 3px solid var(--bn-navy);
+    border-radius: 50%;
+  }
+  .event.anchor .node-dot { background: var(--bn-orange); border-color: var(--bn-orange); }
+  .event.anchor .event-card { border-color: var(--bn-orange); }
+  .event-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    padding: 13px 17px 12px;
+    background: var(--paper-3);
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .event-year {
+    color: var(--bn-black);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-feature-settings: "tnum" 1;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+  .event.anchor .event-year { color: var(--bn-orange-deep); }
+  .event-title {
+    color: var(--bn-black);
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.45;
+  }
+  .event-body { padding: 13px 17px 16px; }
+  .event-desc {
+    margin: 0;
+    color: var(--bn-black);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+  .event-tag {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 8px;
+    color: var(--cool-600);
+    background: var(--paper-2);
+    border: 1px solid var(--warm-300);
+    border-radius: 0;
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  .note {
+    margin-top: 30px;
+    padding: 16px 18px;
+    background: var(--paper-3);
+    border-left: 4px solid var(--bn-orange);
+    color: var(--cool-600);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .note strong { color: var(--bn-black); }
+
+  footer {
+    padding: 18px 38px 20px;
+    background: var(--bn-navy);
+    color: var(--paper);
+    font-size: 12px;
+    line-height: 1.75;
+  }
+  footer strong { color: var(--paper); }
+  footer a { color: var(--paper); text-underline-offset: 3px; }
+  .source-line { margin-top: 6px; color: var(--paper-4); }
+
+  .preview-toolbar {
+    display: none;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    gap: 2px;
+    padding: 4px;
+    background: var(--bn-navy);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    font-family: "Inter", "Noto Sans TC", sans-serif;
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    padding: 7px 13px;
+    color: var(--paper-4);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .preview-toolbar button.active { color: var(--paper); background: var(--bn-orange); }
+
+  @container (max-width: 640px) {
+    .hero { aspect-ratio: 4 / 3; }
+    .hero img { object-position: 58% center; }
+    .hero-label { left: 18px; right: 18px; bottom: 18px; max-width: 280px; padding: 10px 13px; }
+    .hero-label strong { font-size: 20px; }
+    header { padding: 28px 22px 24px; }
+    h1 { font-size: 27px; }
+    .deck { font-size: 15px; }
+    .meta-bar { display: block; padding: 11px 22px; }
+    .meta-chunk { display: block; margin: 2px 0; }
+    .meta-sep { display: none; }
+    .summary { grid-template-columns: 1fr; }
+    .summary-item { min-height: 0; padding: 15px 22px; border-right: 0; border-bottom: 1px solid var(--warm-300); }
+    .summary-item:last-child { border-bottom: 0; }
+    .summary-num { font-size: 23px; }
+    .timeline-section { padding: 32px 22px 34px; }
+    h2 { margin-bottom: 24px; font-size: 21px; }
+    .timeline { display: block; padding-left: 28px; }
+    .timeline::before { left: 7px; transform: none; }
+    .event { display: block; position: relative; margin-bottom: 18px; }
+    .event:last-child { margin-bottom: 0; }
+    .event-node { position: absolute; left: -28px; top: 0; display: block; padding: 20px 0 0; }
+    .node-dot { width: 16px; height: 16px; }
+    .event-card { width: 100%; }
+    .event-head { padding: 12px 15px 11px; }
+    .event-body { padding: 12px 15px 14px; }
+    .event-year { font-size: 17px; }
+    .event-title { font-size: 15px; }
+    .event-desc { font-size: 14px; }
+    footer { padding: 17px 22px 19px; }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 10px 6px; }
+  }
+</style>
+</head>
+<body>
+<main class="wrapper" id="wrapper">
+  <div class="hero">
+    <img src="07-huang-chong-ren-memorial.png" alt="黃崇仁彩色素描紀念肖像">
+    <div class="hero-label">
+      <span>BUSINESS NEXT · PROFILE</span>
+      <strong>黃崇仁大事記</strong>
+    </div>
+  </div>
+
+  <header>
+    <div class="kicker">人物大事記 · TIMELINE</div>
+    <h1>從醫學博士到<span class="underline">半導體創業家</span></h1>
+    <p class="deck">黃崇仁從學界跨進科技業，創辦力晶半導體；歷經 DRAM 景氣崩盤、公司下市與千億元債務，再以晶圓代工轉型，帶領力積電重返上市。</p>
+  </header>
+
+  <div class="meta-bar">
+    <span class="meta-chunk">更新：<strong>2026 年 7 月 31 日</strong></span>
+    <span class="meta-sep">｜</span>
+    <span class="meta-chunk">製作：<strong>《數位時代》</strong></span>
+  </div>
+
+  <div class="summary" aria-label="黃崇仁生涯關鍵數字">
+    <div class="summary-item">
+      <div class="summary-num">1987</div>
+      <div class="summary-label">離開學界後投入科技創業，創立力捷電腦</div>
+    </div>
+    <div class="summary-item key">
+      <div class="summary-num">1,200 億元</div>
+      <div class="summary-label">2012 年力晶下市時，面對的負債規模</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-num">2021</div>
+      <div class="summary-label">力積電掛牌上市，完成近十年的轉型與重整</div>
+    </div>
+  </div>
+
+  <section class="timeline-section">
+    <div class="section-kicker">CHRONOLOGY · 8 MOMENTS</div>
+    <h2>跨界、危機與重返市場的 8 個節點</h2>
+
+    <div class="timeline">
+      <article class="event">
+        <div class="event-card">
+          <div class="event-head"><span class="event-year">1971、1980</span><span class="event-title">從物理系到醫學博士</span></div>
+          <div class="event-body">
+            <p class="event-desc">1971 年自台大物理系畢業，赴美取得醫學博士；1980 年返台後，任教於台北醫學院與台大。</p>
+            <span class="event-tag">學術養成</span>
+          </div>
+        </div>
+        <div class="event-node"><span class="node-dot"></span></div>
+      </article>
+
+      <article class="event">
+        <div class="event-card">
+          <div class="event-head"><span class="event-year">1987</span><span class="event-title">創立力捷電腦</span></div>
+          <div class="event-body">
+            <p class="event-desc">離開學界投入台灣高科技產業，從電腦周邊與軟體領域展開創業生涯。</p>
+            <span class="event-tag">跨界創業</span>
+          </div>
+        </div>
+        <div class="event-node"><span class="node-dot"></span></div>
+      </article>
+
+      <article class="event anchor">
+        <div class="event-card">
+          <div class="event-head"><span class="event-year">1994、1996</span><span class="event-title">創辦力晶，進軍 DRAM</span></div>
+          <div class="event-body">
+            <p class="event-desc">與日本三菱電機合作成立力晶半導體；1996 年第一座 8 吋晶圓廠投產，正式跨入記憶體製造。</p>
+            <span class="event-tag">半導體起點</span>
+          </div>
+        </div>
+        <div class="event-node"><span class="node-dot"></span></div>
+      </article>
+
+      <article class="event">
+        <div class="event-card">
+          <div class="event-head"><span class="event-year">2001 至 2008</span><span class="event-title">走上產業公協會領導位置</span></div>
+          <div class="event-body">
+            <p class="event-desc">先後出任台北市電腦公會、台灣半導體產業協會與世界半導體協會理事長。</p>
+            <span class="event-tag">產業角色</span>
+          </div>
+        </div>
+        <div class="event-node"><span class="node-dot"></span></div>
+      </article>
+
+      <article class="event anchor">
+        <div class="event-card">
+          <div class="event-head"><span class="event-year">2012</span><span class="event-title">力晶下市，轉向晶圓代工</span></div>
+          <div class="event-body">
+            <p class="event-desc">全球 DRAM 供過於求、價格崩盤，力晶背負約 1,200 億元債務並下市，隨後從記憶體製造轉向晶圓代工。</p>
+            <span class="event-tag">事業谷底</span>
+          </div>
+        </div>
+        <div class="event-node"><span class="node-dot"></span></div>
+      </article>
+
+      <article class="event">
+        <div class="event-card">
+          <div class="event-head"><span class="event-year">2019</span><span class="event-title">整合製造資源成立力積電</span></div>
+          <div class="event-body">
+            <p class="event-desc">將台灣半導體製造資源整合為力晶積成電子製造，重建集團的公司架構與產業定位。</p>
+            <span class="event-tag">組織重整</span>
+          </div>
+        </div>
+        <div class="event-node"><span class="node-dot"></span></div>
+      </article>
+
+      <article class="event anchor">
+        <div class="event-card">
+          <div class="event-head"><span class="event-year">2021 年 12 月 6 日</span><span class="event-title">力積電重返上市</span></div>
+          <div class="event-body">
+            <p class="event-desc">力積電在台灣證券交易所掛牌，完成從力晶下市危機到重返資本市場的近十年重整。</p>
+            <span class="event-tag">重返市場</span>
+          </div>
+        </div>
+        <div class="event-node"><span class="node-dot"></span></div>
+      </article>
+
+      <article class="event">
+        <div class="event-card">
+          <div class="event-head"><span class="event-year">2026 年 7 月 14 日</span><span class="event-title">公開說明 3D AI Foundry 布局</span></div>
+          <div class="event-body">
+            <p class="event-desc">親自主持力積電法人說明會，說明記憶體、邏輯代工與 3D AI 晶圓代工三大業務方向。</p>
+            <span class="event-tag">晚年布局</span>
+          </div>
+        </div>
+        <div class="event-node"><span class="node-dot"></span></div>
+      </article>
+    </div>
+
+    <div class="note"><strong>編輯註：</strong>本時間軸只採用截至 2026 年 7 月 31 日可公開核對的生涯資料；逝世日期、享壽與相關資訊，以公司或家屬正式公告為準。</div>
+  </section>
+
+  <footer>
+    <strong>《數位時代》製作</strong>　｜　更新：2026 年 7 月 31 日
+    <div class="source-line">資料來源：<a href="https://www.alumni.ntu.edu.tw/OutstandingAlumni/WinnerDetail/WL00000155" target="_blank" rel="noopener noreferrer">臺大校友中心</a>、<a href="https://www.nycu.edu.tw/sec/ch/app/multifunction/view?id=38552&amp;module=multifunction0001&amp;serno=3ccd94f4-a881-4069-a41b-27a6bb7de29a" target="_blank" rel="noopener noreferrer">陽明交通大學</a>、<a href="https://www.twse.com.tw/company/newlisting?response=html" target="_blank" rel="noopener noreferrer">臺灣證券交易所</a>、<a href="https://www.mirrormedia.mg/story/20260714-180fin-163011" target="_blank" rel="noopener noreferrer">鏡週刊</a></div>
+  </footer>
+</main>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <button type="button" id="desktopButton" class="active" aria-pressed="true">桌機</button>
+  <button type="button" id="mobileButton" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(() => {
+  if (!new URLSearchParams(location.search).has("preview")) return;
+  const wrapper = document.getElementById("wrapper");
+  const toolbar = document.getElementById("previewToolbar");
+  const desktopButton = document.getElementById("desktopButton");
+  const mobileButton = document.getElementById("mobileButton");
+  toolbar.classList.add("show");
+
+  const setMode = (mode) => {
+    const desktop = mode === "desktop";
+    wrapper.style.maxWidth = desktop ? "880px" : "390px";
+    desktopButton.classList.toggle("active", desktop);
+    mobileButton.classList.toggle("active", !desktop);
+    desktopButton.setAttribute("aria-pressed", String(desktop));
+    mobileButton.setAttribute("aria-pressed", String(!desktop));
+  };
+
+  desktopButton.addEventListener("click", () => setMode("desktop"));
+  mobileButton.addEventListener("click", () => setMode("mobile"));
+})();
+</script>
+</body>
+</html>
