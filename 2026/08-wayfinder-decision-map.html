@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wayfinder 決策地圖怎麼運作｜數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* ========================================================
+   BN Design Tokens（bwt-design-standard.md source of truth）
+   ======================================================== */
+:root {
+  --bn-orange:   #FF6B1A;
+  --bn-orange-d: #E55A0F;
+  --bn-orange-s: #FFE7D6;
+  --bn-navy:     #0F1A2E;
+  --bn-navy-2:   #1B2A45;
+  --bn-black:    #1A1A1A;
+
+  --paper:   #FAF7F1;
+  --paper-2: #F5F3EF;
+  --paper-3: #ECE8DF;
+  --paper-4: #E3DECF;
+
+  --warm-300: #D4D0C8;
+  --cool-600: #5C6470;
+  --cool-400: #8A93A0;
+  --slate-700: #2A3142;
+  --hairline:  rgba(15, 26, 46, 0.12);
+}
+
+/* ========================================================
+   Reset & Base
+   ======================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--bn-black);
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+h1, h2, h3, .deck, .section-headline { text-wrap: balance; }
+
+.num {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* ========================================================
+   Wrapper
+   ======================================================== */
+.wrapper {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px 24px;
+  container-type: inline-size;
+  transition: max-width 0.25s ease;
+}
+
+/* ========================================================
+   Header
+   ======================================================== */
+.header { margin-bottom: 18px; }
+.kicker {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bn-orange);
+  margin-bottom: 8px;
+}
+.header h1 {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--bn-black);
+  line-height: 1.35;
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+.header h1 span {
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 5px;
+  text-decoration-color: var(--bn-orange);
+}
+.deck {
+  font-size: 14px;
+  color: var(--cool-600);
+  line-height: 1.65;
+}
+
+/* ========================================================
+   Meta bar
+   ======================================================== */
+.meta-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--cool-600);
+  padding: 12px 0;
+  margin: 14px 0 20px;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+.meta-bar strong { color: var(--bn-black); font-weight: 700; }
+.meta-chunk { white-space: nowrap; }
+
+/* ========================================================
+   Concept strip（三個關鍵字定義）
+   ======================================================== */
+.concepts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.concept {
+  background: var(--paper-2);
+  border: 1px solid var(--warm-300);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.concept-term {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bn-black);
+  margin-bottom: 4px;
+}
+.concept-term .en {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cool-600);
+  letter-spacing: 0.02em;
+  margin-left: 4px;
+}
+.concept-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--slate-700);
+}
+
+/* ========================================================
+   Section
+   ======================================================== */
+.section { margin-bottom: 8px; }
+.section-title {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--cool-600);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.section-headline {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+/* ========================================================
+   State switch（讀者可切換的兩個狀態）
+   ======================================================== */
+.state-switch {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--warm-300);
+  border-radius: 0;
+  overflow: hidden;
+  margin-bottom: 6px;
+  width: 100%;
+}
+.state-switch button {
+  flex: 1;
+  border: 0;
+  background: var(--paper-2);
+  color: var(--cool-600);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.2s cubic-bezier(.2,.7,.2,1), color 0.2s cubic-bezier(.2,.7,.2,1);
+  line-height: 1.4;
+}
+.state-switch button + button { border-left: 1px solid var(--warm-300); }
+.state-switch button:hover { color: var(--bn-black); }
+.state-switch button.active {
+  background: var(--bn-orange);
+  color: var(--paper);
+}
+.state-caption {
+  font-size: 12px;
+  color: var(--cool-600);
+  margin-bottom: 16px;
+  min-height: 20px;
+}
+
+/* ========================================================
+   Map（桌機）
+   ======================================================== */
+.map {
+  border: 1px solid var(--warm-300);
+  border-radius: 8px;
+  background: var(--paper);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.map-head {
+  background: var(--paper-3);
+  border-bottom: 1px solid var(--warm-300);
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.map-head-label {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--cool-600);
+  text-transform: uppercase;
+}
+.map-head-dest {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--bn-black);
+}
+.map-head-dest .en {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cool-600);
+  margin-left: 4px;
+}
+.map-head-count {
+  font-size: 12px;
+  color: var(--cool-600);
+  white-space: nowrap;
+}
+.map-head-count b { color: var(--bn-black); font-weight: 700; }
+
+.zones {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.zone {
+  padding: 16px 14px 18px;
+  border-left: 1px solid var(--hairline);
+  min-height: 210px;
+}
+.zone:first-child { border-left: 0; }
+.zone-fog { background: var(--paper-2); }
+
+.zone-head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.zone-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bn-black);
+}
+.zone-name .en {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--cool-600);
+  margin-left: 3px;
+}
+.zone-count {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-feature-settings: 'tnum' 1;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--cool-600);
+}
+.zone-count.hot { color: var(--bn-orange); }
+.zone-tag-badge {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--cool-600);
+  background: var(--paper-3);
+  border: 1px solid var(--warm-300);
+  padding: 2px 7px;
+  border-radius: 0;
+  white-space: nowrap;
+}
+.zone-sub {
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--cool-600);
+  margin-bottom: 10px;
+  min-height: 34px;
+}
+
+.ticket {
+  background: var(--paper);
+  border: 1px solid var(--warm-300);
+  border-radius: 8px;
+  padding: 9px 11px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--slate-700);
+  margin-bottom: 8px;
+}
+.ticket-frontier { border-left: 4px solid var(--bn-orange); }
+.ticket-decided {
+  background: var(--paper-2);
+  color: var(--cool-600);
+}
+.ticket-decided::before {
+  content: "已結案 ";
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--cool-400);
+  letter-spacing: 0.04em;
+}
+.zone-empty {
+  font-size: 12px;
+  color: var(--cool-400);
+  padding: 4px 0;
+}
+
+/* 無名剪影卡（被卡住區，狀態一）：不放任何文字 */
+.ticket-blank {
+  height: 32px;
+  border: 1px dashed var(--warm-300);
+  border-radius: 8px;
+  background: var(--paper-2);
+  margin-bottom: 8px;
+}
+.ticket-blank:nth-of-type(1) { opacity: 0.9; }
+.ticket-blank:nth-of-type(2) { opacity: 0.72; }
+.ticket-blank:nth-of-type(3) { opacity: 0.55; }
+.ticket-blank:nth-of-type(4) { opacity: 0.4; }
+
+/* 抽象區塊（狀態二的機制示意）：不帶數字、不帶文字 */
+.zone-abstract {
+  height: 132px;
+  border: 1px dashed var(--warm-300);
+  border-radius: 8px;
+  background: var(--paper-2);
+  opacity: 0.55;
+}
+
+/* ========================================================
+   Map（手機替代版）
+   ======================================================== */
+.map-mobile { display: none; }
+.mzone {
+  border: 1px solid var(--warm-300);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.mzone-head {
+  background: var(--paper-3);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.mzone-name { font-size: 13px; font-weight: 700; }
+.mzone-name .en {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--cool-600);
+  margin-left: 3px;
+}
+.mzone-count {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-feature-settings: 'tnum' 1;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--cool-600);
+}
+.mzone-count.hot { color: var(--bn-orange); }
+.mzone-body { padding: 12px 14px; }
+.mzone-sub {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--cool-600);
+  margin-bottom: 10px;
+}
+.mzone-fog .mzone-body { background: var(--paper-2); }
+
+/* ========================================================
+   票型圖例
+   ======================================================== */
+.legend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.legend-item {
+  border: 1px solid var(--warm-300);
+  border-radius: 8px;
+  background: var(--paper-2);
+  padding: 12px 14px;
+}
+.legend-top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.legend-name { font-size: 13.5px; font-weight: 700; }
+.legend-name .en {
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cool-600);
+  margin-left: 3px;
+}
+.legend-hitl {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 0;
+  white-space: nowrap;
+}
+.hitl-yes { background: var(--paper-4); color: var(--slate-700); }
+.hitl-no  { background: var(--paper-3); color: var(--cool-600); }
+.legend-desc { font-size: 12.5px; line-height: 1.6; color: var(--slate-700); }
+
+/* ========================================================
+   Callout & Footer
+   ======================================================== */
+.callout {
+  border-left: 4px solid var(--bn-orange);
+  background: var(--paper-2);
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--slate-700);
+  margin-bottom: 18px;
+  border-radius: 0 8px 8px 0;
+}
+.callout b { color: var(--bn-black); }
+
+.footer-note {
+  border-top: 1px solid var(--hairline);
+  padding-top: 12px;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--cool-600);
+}
+.footer-note strong { color: var(--bn-black); }
+
+/* ========================================================
+   雙軌（@container 主軌）
+   ======================================================== */
+@container (max-width: 640px) {
+  .concepts { grid-template-columns: 1fr; gap: 8px; }
+  .concept-desc { font-size: 13px; }
+  .map { display: none; }
+  .map-mobile { display: block; }
+  .legend { grid-template-columns: 1fr; }
+  .state-switch { flex-direction: column; }
+  .state-switch button + button { border-left: 0; border-top: 1px solid var(--warm-300); }
+  .meta-bar .meta-sep { display: none; }
+  .meta-bar .meta-chunk { display: block; }
+  .header h1 { font-size: 21px; }
+}
+
+@media (max-width: 640px) {
+  body { padding: 10px 4px; }
+}
+
+/* ========================================================
+   Preview Toolbar
+   ======================================================== */
+.preview-toolbar {
+  display: none;
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 9999;
+  background: var(--bn-navy);
+  padding: 4px;
+  border-radius: 6px;
+  gap: 2px;
+  font-family: "Inter", "Noto Sans TC", sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  align-items: center;
+}
+.preview-toolbar.show { display: flex; }
+.preview-toolbar .label {
+  font-size: 10px;
+  color: rgba(250,247,241,0.45);
+  padding: 0 8px;
+  align-self: center;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.preview-toolbar button {
+  border: 0;
+  padding: 7px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  background: transparent;
+  color: rgba(250,247,241,0.55);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.preview-toolbar button:hover { color: var(--paper); }
+.preview-toolbar button.active {
+  background: var(--bn-orange);
+  color: var(--paper);
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="kicker">機制拆解 · MECHANISM</div>
+    <h1>wayfinder 的決策地圖怎麼運作？<span>解一張票，前緣就往前推一格</span></h1>
+    <p class="deck">
+      wayfinder 把一個模糊的想法攤成一張地圖，固定五塊：終點、已決定、還沒講清楚（霧）、備註、跳出範圍。
+      地圖上的每一張票都要人或子 agent 去解，解掉一張，前緣往前推一格，霧就散一塊。
+    </p>
+  </header>
+
+  <div class="meta-bar">
+    <div>
+      <span class="meta-chunk">資料來源：<strong>wayfinder 官方文件、Matt Pocock 影片</strong></span>
+      <span class="meta-sep">　|　</span>
+      <span class="meta-chunk">製圖：2026 年 8 月 4 日</span>
+    </div>
+    <div class="meta-chunk">《數位時代》</div>
+  </div>
+
+  <!-- 三個關鍵字 -->
+  <div class="concepts">
+    <div class="concept">
+      <div class="concept-term">前緣<span class="en">frontier</span></div>
+      <div class="concept-desc">開著的、沒被其他票卡住、也還沒有人認領的票，現在就能決定。</div>
+    </div>
+    <div class="concept">
+      <div class="concept-term">霧<span class="en">Not yet specified</span></div>
+      <div class="concept-desc">地圖裡還沒講清楚的那一塊，問題問得夠精準了才能升級成新票。</div>
+    </div>
+    <div class="concept">
+      <div class="concept-term">被卡住<span class="en">blocked</span></div>
+      <div class="concept-desc">還被其他票卡住的票，還不是前緣，要等前面的先解掉。</div>
+    </div>
+  </div>
+
+  <!-- FIGURE 01 -->
+  <div class="section">
+    <div class="section-title">FIGURE 01 · 地圖前後對照</div>
+    <h2 class="section-headline">同一張地圖，解掉三張前緣票之後長得不一樣</h2>
+  </div>
+
+  <div class="state-switch" id="stateSwitch" role="tablist" aria-label="地圖狀態切換">
+    <button type="button" class="active" data-state="0" role="tab" aria-selected="true">畫完地圖的當下</button>
+    <button type="button" data-state="1" role="tab" aria-selected="false">解完三張之後</button>
+  </div>
+  <p class="state-caption" id="stateCaption"></p>
+
+  <!-- 桌機 -->
+  <div class="map" id="mapDesktop">
+    <div class="map-head">
+      <div>
+        <div class="map-head-label">wayfinder:map</div>
+        <div class="map-head-dest">終點：指令面板功能<span class="en">Command Palette</span></div>
+      </div>
+      <div class="map-head-count" id="headCount"></div>
+    </div>
+    <div class="zones" id="zones"></div>
+  </div>
+
+  <!-- 手機 -->
+  <div class="map-mobile" id="mapMobile"></div>
+
+  <div class="callout" id="stateNote"></div>
+
+  <!-- FIGURE 02 -->
+  <div class="section">
+    <div class="section-title">FIGURE 02 · 票型</div>
+    <h2 class="section-headline">地圖上有四種票，兩種要你本人在場</h2>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-top">
+        <div class="legend-name">研究<span class="en">research</span></div>
+        <div class="legend-hitl hitl-no">不用真人</div>
+      </div>
+      <div class="legend-desc">交給子 agent（AI 分身）平行去查外部事實，查完回報。</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-top">
+        <div class="legend-name">原型<span class="en">prototype</span></div>
+        <div class="legend-hitl hitl-yes">要真人</div>
+      </div>
+      <div class="legend-desc">做一個便宜、粗略又具體的東西讓人有反應，可能是大綱、粗稿、程式框架或介面。</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-top">
+        <div class="legend-name">拷問<span class="en">grilling</span></div>
+        <div class="legend-hitl hitl-yes">要真人</div>
+      </div>
+      <div class="legend-desc">用一來一往的對話把某個實作細節或方向逼清楚。</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-top">
+        <div class="legend-name">雜務<span class="en">task</span></div>
+        <div class="legend-hitl hitl-no">兩者皆可</div>
+      </div>
+      <div class="legend-desc">現實世界的前置作業，例如申請帳號、開通資源、搬資料。</div>
+    </div>
+  </div>
+
+  <p class="footer-note">
+    <strong>《數位時代》</strong>｜「畫完地圖的當下」對應 Matt Pocock 影片中指令面板功能那張地圖的紀錄（7 張票、3 張前緣可動）；「解完三張之後」為機制示意，說明前緣如何往前推進。<br>
+    資料來源：wayfinder 官方文件、Matt Pocock「/wayfinder: Nothing is too big to plan anymore」影片｜製圖：2026 年 8 月 4 日
+  </p>
+
+</div><!-- .wrapper -->
+
+<!-- Preview Toolbar（?preview=1 才顯示） -->
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  /* ---- 單一資料源，桌機與手機共用 ----
+     mode 說明：
+     - named      有真實票名的清單（可 0 筆，顯示「還沒有」）
+     - silhouette 有真實數字，但卡面不放文字（無名剪影卡）
+     - nameonly   只顯示區塊名稱，不顯示數字、不顯示內容
+     - abstract   機制示意，不帶數字，卡面不放文字
+  */
+  var STATES = [
+    {
+      caption: '案例紀錄：地圖畫完後開出 7 張票，當下只有 3 張前緣票能動。',
+      totalHTML: '共 <b>7</b> 張票',
+      note: '<b>畫完地圖就停手。</b>這一輪不繼續手動解票，研究票是例外，會先派子 agent 平行去查。',
+      zones: [
+        { name: '已決定', en: 'Decisions so far', mode: 'named', count: 0, sub: '地圖固定分塊之一', items: [] },
+        { name: '前緣', en: 'frontier', mode: 'named', count: 3, hot: true, sub: '開著、沒被卡住、沒人認領的票', items: [
+          { cls: 'ticket-frontier', text: '圖示名稱從哪來' },
+          { cls: 'ticket-frontier', text: '元件儲存結構' },
+          { cls: 'ticket-frontier', text: '面板資訊架構' }
+        ]},
+        { name: '被卡住', en: null, mode: 'silhouette', count: 4, sub: '被其他票卡住，還不是前緣', blankCount: 4 },
+        { name: '霧', en: 'Not yet specified', mode: 'nameonly', count: null, sub: null }
+      ]
+    },
+    {
+      caption: '機制示意：前緣三張票分別在新對話裡解掉，移入已決定；被卡住與霧的變化為機制示意。',
+      totalHTML: '<span class="zone-tag-badge">機制示意</span>',
+      note: '一場 session 最多解一張票，研究票除外。',
+      zones: [
+        { name: '已決定', en: 'Decisions so far', mode: 'named', count: 3, sub: '前緣三張各自在新對話裡解掉後移入', items: [
+          { cls: 'ticket-decided', text: '圖示名稱從哪來' },
+          { cls: 'ticket-decided', text: '元件儲存結構' },
+          { cls: 'ticket-decided', text: '面板資訊架構' }
+        ]},
+        { name: '前緣', en: 'frontier', mode: 'abstract', sub: '前緣往前推一格' },
+        { name: '被卡住', en: null, mode: 'abstract', sub: '被卡住的票有機會鬆開' },
+        { name: '霧', en: 'Not yet specified', mode: 'abstract', sub: '霧散一塊，夠清楚的問題可以升級成新票' }
+      ]
+    }
+  ];
+
+  var zonesEl   = document.getElementById('zones');
+  var mobileEl  = document.getElementById('mapMobile');
+  var captionEl = document.getElementById('stateCaption');
+  var countEl   = document.getElementById('headCount');
+  var noteEl    = document.getElementById('stateNote');
+  var switchEl  = document.getElementById('stateSwitch');
+
+  function ticketHTML(t) {
+    return '<div class="ticket ' + t.cls + '">' + t.text + '</div>';
+  }
+
+  function zoneHeadHTML(z) {
+    var nameHTML = '<span class="zone-name">' + z.name +
+      (z.en ? '<span class="en">' + z.en + '</span>' : '') + '</span>';
+    var rightHTML = '';
+    if (z.mode === 'abstract') {
+      rightHTML = '<span class="zone-tag-badge">機制示意</span>';
+    } else if (z.count !== null && z.count !== undefined) {
+      rightHTML = '<span class="zone-count' + (z.hot ? ' hot' : '') + '">' + z.count + '</span>';
+    }
+    return '<div class="zone-head">' + nameHTML + rightHTML + '</div>';
+  }
+
+  function zoneBodyHTML(z, blockClass) {
+    if (z.mode === 'nameonly') {
+      return '';
+    }
+    var subHTML = z.sub ? '<div class="' + (blockClass === 'm' ? 'mzone-sub' : 'zone-sub') + '">' + z.sub + '</div>' : '';
+    if (z.mode === 'named') {
+      var listHTML = z.items.length
+        ? z.items.map(ticketHTML).join('')
+        : '<div class="zone-empty">還沒有</div>';
+      return subHTML + listHTML;
+    }
+    if (z.mode === 'silhouette') {
+      var blanks = '';
+      for (var i = 0; i < z.blankCount; i++) {
+        blanks += '<div class="ticket-blank" aria-hidden="true"></div>';
+      }
+      return subHTML + blanks;
+    }
+    if (z.mode === 'abstract') {
+      return subHTML + '<div class="zone-abstract" aria-hidden="true"></div>';
+    }
+    return subHTML;
+  }
+
+  function render(i) {
+    var s = STATES[i];
+
+    captionEl.textContent = s.caption;
+    countEl.innerHTML = s.totalHTML;
+    noteEl.innerHTML = s.note;
+
+    zonesEl.innerHTML = s.zones.map(function(z) {
+      return '<div class="zone' + (z.name === '霧' ? ' zone-fog' : '') + '">' +
+        zoneHeadHTML(z) +
+        zoneBodyHTML(z, 'd') +
+      '</div>';
+    }).join('');
+
+    mobileEl.innerHTML = s.zones.map(function(z) {
+      var nameHTML = '<span class="mzone-name">' + z.name +
+        (z.en ? '<span class="en">' + z.en + '</span>' : '') + '</span>';
+      var rightHTML = '';
+      if (z.mode === 'abstract') {
+        rightHTML = '<span class="zone-tag-badge">機制示意</span>';
+      } else if (z.count !== null && z.count !== undefined) {
+        rightHTML = '<span class="mzone-count' + (z.hot ? ' hot' : '') + '">' + z.count + '</span>';
+      }
+      var bodyInner = z.mode === 'nameonly' ? '' : zoneBodyHTML(z, 'm');
+      return '<div class="mzone' + (z.name === '霧' ? ' mzone-fog' : '') + '">' +
+        '<div class="mzone-head">' + nameHTML + rightHTML + '</div>' +
+        (bodyInner ? '<div class="mzone-body">' + bodyInner + '</div>' : '') +
+      '</div>';
+    }).join('');
+  }
+
+  switchEl.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-state]');
+    if (!btn) return;
+    switchEl.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+    });
+    render(Number(btn.dataset.state));
+  });
+
+  render(0);
+})();
+</script>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+
+</body>
+</html>
