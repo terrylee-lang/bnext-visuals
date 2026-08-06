@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>五關背後的 AI 裁判：HR Simulator 實驗流程拆解 ｜ 數位時代</title>
+<meta name="description" content="玩家寫信闖五關，但收信人回應、後續模擬、最終評分，全部由同一套 AI 系統扮演。拆解芝加哥大學 HR Simulator 實驗的九步流程。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bn-orange: #FF6B1A;
+    --bn-orange-deep: #E55A0F;
+    --bn-navy: #0F1A2E;
+    --bn-black: #1A1A1A;
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--bn-black);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, sans-serif;
+    text-wrap: pretty;
+  }
+
+  body { padding: 28px 20px 40px; }
+
+  @media (max-width: 640px) {
+    body { padding: 20px 10px 32px; }
+  }
+
+  .en { font-family: "Inter", "Noto Sans TC", sans-serif; }
+  h1, h2, h3, .deck { text-wrap: balance; }
+
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header { padding: 4px 4px 20px; border-bottom: 1px solid var(--hairline); margin-bottom: 22px; }
+  .kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--bn-orange); text-transform: uppercase; margin-bottom: 10px;
+  }
+  h1 { font-size: 28px; line-height: 1.35; font-weight: 900; margin: 0 0 12px; letter-spacing: 0.01em; }
+  .deck { font-size: 15.5px; line-height: 1.75; color: var(--cool-600); margin: 0; max-width: 680px; }
+
+  @container (max-width: 640px) {
+    h1 { font-size: 21px; }
+    .deck { font-size: 14px; }
+  }
+
+  /* ---------- Meta bar ---------- */
+  .meta-bar {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 16px;
+    font-size: 12.5px; color: var(--cool-600); margin-bottom: 22px;
+  }
+  .meta-bar strong { color: var(--bn-black); }
+
+  @container (max-width: 640px) {
+    .meta-bar { flex-direction: column; gap: 4px; }
+  }
+
+  /* ---------- Stats strip ---------- */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    margin-bottom: 30px;
+  }
+  .stat-card {
+    background: var(--paper-2); border: 1px solid var(--warm-300); border-radius: 8px;
+    padding: 14px 12px; text-align: center;
+  }
+  .stat-num {
+    font-family: "Inter", sans-serif; font-feature-settings: 'tnum' 1;
+    font-size: 20px; font-weight: 700; color: var(--bn-orange); line-height: 1.2;
+  }
+  .stat-label { font-size: 12px; color: var(--cool-600); margin-top: 4px; line-height: 1.5; }
+
+  @container (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat-num { font-size: 17px; }
+  }
+
+  /* ---------- Section ---------- */
+  .section-title {
+    font-family: "Inter", sans-serif; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.08em; color: var(--cool-600); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .section-headline { font-size: 20px; font-weight: 700; margin: 0 0 6px; }
+  .section-sub { font-size: 14px; color: var(--cool-600); margin: 0 0 22px; line-height: 1.7; }
+
+  /* ---------- Pipeline (desktop) ---------- */
+  .lane-label {
+    font-family: "Inter", sans-serif; font-size: 11.5px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .lane-label .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .lane-frontend .lane-label { color: var(--cool-600); }
+  .lane-frontend .lane-label .dot { background: var(--cool-400); }
+  .lane-backend .lane-label { color: var(--bn-orange-deep); }
+  .lane-backend .lane-label .dot { background: var(--bn-orange); }
+
+  .step-row { display: flex; gap: 10px; align-items: stretch; }
+  .step-card {
+    flex: 1 1 0; min-width: 0;
+    border: 1px solid var(--warm-300); border-radius: 8px;
+    background: var(--paper); padding: 14px 12px;
+  }
+  .step-num {
+    font-family: "Inter", sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--cool-400); margin-bottom: 6px;
+  }
+  .step-title { font-size: 13.5px; font-weight: 700; line-height: 1.4; margin: 0 0 6px; }
+  .step-desc { font-size: 12px; line-height: 1.6; color: var(--bn-black); margin: 0; }
+  .step-example {
+    display: block; margin-top: 8px; padding: 7px 9px;
+    background: var(--paper-2); border-left: 3px solid var(--warm-300);
+    font-size: 11.5px; line-height: 1.55; color: var(--cool-600);
+  }
+
+  .lane-backend-box {
+    border: 1px dashed var(--bn-orange); border-radius: 10px;
+    background: var(--paper-3); padding: 16px 14px 14px; margin-bottom: 6px;
+  }
+  .lane-backend-box .lane-label { margin-bottom: 12px; }
+  .lane-backend-box .step-card { background: var(--paper-4); border-color: var(--bn-orange); }
+  .lane-backend-box .step-num { color: var(--bn-orange-deep); }
+
+  .ai-note {
+    font-size: 12px; color: var(--bn-orange-deep); font-weight: 700;
+    margin: -2px 0 12px; line-height: 1.6;
+  }
+
+  .connector {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin: 14px 0; color: var(--cool-600); font-size: 12px;
+  }
+  .connector .arrow { font-size: 18px; line-height: 1; color: var(--bn-orange); }
+  .connector.down { flex-direction: column; }
+  .connector.up { flex-direction: column; }
+
+  .frontend-return { max-width: 260px; margin: 6px auto 0; }
+
+  /* ---------- Mobile: vertical stack ---------- */
+  .mobile-alt { display: none; }
+
+  @container (max-width: 640px) {
+    .step-row-desktop-only { display: none; }
+    .lane-backend-box.desktop-only { display: none; }
+    .connector.desktop-only { display: none; }
+
+    .mobile-alt { display: block; }
+    .mobile-steps { display: flex; flex-direction: column; gap: 10px; }
+    .mobile-steps .step-card { border-left-width: 3px; }
+    .mobile-steps .step-card.is-backend {
+      background: var(--paper-4); border-color: var(--bn-orange);
+    }
+    .mobile-steps .step-card.is-backend .step-num { color: var(--bn-orange-deep); }
+    .mobile-lane-tag {
+      display: inline-block; font-family: "Inter", sans-serif; font-size: 10.5px;
+      font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--bn-orange-deep); background: var(--paper-3);
+      border-radius: 4px; padding: 2px 6px; margin-bottom: 6px;
+    }
+  }
+
+  footer {
+    margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--hairline);
+    font-size: 12.5px; color: var(--cool-600); line-height: 1.7;
+    display: flex; flex-wrap: wrap; gap: 4px 10px;
+  }
+  footer strong { color: var(--bn-black); }
+  footer .f-chunk { white-space: nowrap; }
+  footer .f-sep { color: var(--warm-300); }
+
+  /* ---------- Preview toolbar ---------- */
+  .preview-toolbar {
+    display: none; position: fixed; top: 14px; right: 14px; z-index: 9999;
+    background: var(--bn-navy); padding: 4px; border-radius: 6px; gap: 2px;
+    font-family: "Inter", "Noto Sans TC", sans-serif; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    border: 0; padding: 7px 13px; font-size: 12px; font-weight: 700;
+    background: transparent; color: rgba(250, 247, 241, 0.55); cursor: pointer;
+    border-radius: 4px; transition: all 0.15s; font-family: inherit;
+  }
+  .preview-toolbar button:hover { color: var(--paper); }
+  .preview-toolbar button.active { background: var(--bn-orange); color: var(--paper); }
+  .preview-toolbar .label {
+    font-size: 10px; color: rgba(250, 247, 241, 0.45); padding: 0 8px;
+    align-self: center; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">實驗方法拆解 · HOW IT WORKS</div>
+    <h1>五關背後：收信人、模擬器、裁判，其實是同一個 AI</h1>
+    <p class="deck">玩家在「HR Simulator™」寫信闖五關，但那個回信的同事、推演後續的模擬器、最後打分的裁判，全部由同一套 LLM 系統扮演。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div>資料來源：<strong>《Moral Mazes in the Era of LLMs》</strong>（芝加哥大學團隊，arXiv 預印本）</div>
+    <div>製作：《數位時代》</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-num">5</div>
+      <div class="stat-label">關卡數<br>虛構公司 NeuroGrid</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num en">GPT-4o</div>
+      <div class="stat-label">裁判模型<br>2024-11-20 版本</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">第 4 關</div>
+      <div class="stat-label">唯一可多輪往返<br>不是一封信就結束</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">2 關</div>
+      <div class="stat-label">模擬器只在<br>第 4、5 關出場</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 01 · 實驗流程</div>
+    <h2 class="section-headline">玩家只看得到前端，判決全在後端完成</h2>
+    <p class="section-sub">論文 Figure 3 描繪的九個步驟。前端是玩家寫信、看結果的畫面；後端的收信人、模擬器、裁判，通通是 AI 在演。</p>
+
+    <!-- 桌機版：前端／後端 swimlane -->
+    <div class="step-row-desktop-only">
+      <div class="lane-frontend">
+        <div class="lane-label"><span class="dot"></span>前端 · 玩家看得到</div>
+        <div class="step-row">
+          <div class="step-card">
+            <div class="step-num en">01</div>
+            <h3 class="step-title">玩家讀情境信</h3>
+            <p class="step-desc">畫面模仿 Gmail 介面，顯示這一關的處境與待解問題。</p>
+            <span class="step-example">例（第 1 關）：Sam 剛到職，想要個人辦公室，但依規定不符資格，你必須回信拒絕。</span>
+          </div>
+          <div class="step-card">
+            <div class="step-num en">02</div>
+            <h3 class="step-title">玩家寫回信</h3>
+            <p class="step-desc">要不要打「你薪水比上一份高」這張說服牌？措辭決定信的得體程度。</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num en">03</div>
+            <h3 class="step-title">情境與信送往後端</h3>
+            <p class="step-desc">信一旦送出，語氣已經固定，接下來全部交給 AI 系統處理。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector down desktop-only">
+      <span class="arrow">▾</span>送出
+    </div>
+
+    <div class="lane-backend-box desktop-only">
+      <div class="lane-label"><span class="dot"></span>後端 · 全部由 AI 扮演</div>
+      <div class="ai-note">收信人、模擬器、裁判，三個角色都是同一套 LLM 系統在演。</div>
+      <div class="step-row">
+        <div class="step-card">
+          <div class="step-num en">04</div>
+          <h3 class="step-title">收信人回應</h3>
+          <p class="step-desc">GPT-4o 依角色設定，以「同事」身分回覆。</p>
+          <span class="step-example">"The email makes sense to me!"</span>
+        </div>
+        <div class="step-card">
+          <div class="step-num en">05</div>
+          <h3 class="step-title">模擬器推演後續</h3>
+          <p class="step-desc">僅第 4、5 關啟動，推演這封信寄出後的長期效果。</p>
+          <span class="step-example">好結局：Sam 感到被支持與歡迎。</span>
+        </div>
+        <div class="step-card">
+          <div class="step-num en">06</div>
+          <h3 class="step-title">彙整送交裁判</h3>
+          <p class="step-desc">收信人回應、模擬結局（若有）、原始情境與溝通目標，一併送交裁判。</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num en">07</div>
+          <h3 class="step-title">裁判評分</h3>
+          <p class="step-desc">GPT-4o（2024-11-20）依這一關專屬評分標準（rubric）與溝通目標判定過不過關。</p>
+          <span class="step-example">溝通目標：傳達政策，但不澆熄熱情。</span>
+        </div>
+        <div class="step-card">
+          <div class="step-num en">08</div>
+          <h3 class="step-title">評分結果回傳前端</h3>
+          <p class="step-desc">裁判的判定連同結果送回玩家畫面。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector up desktop-only">
+      <span class="arrow">▴</span>回傳結果
+    </div>
+
+    <div class="step-row-desktop-only">
+      <div class="lane-frontend">
+        <div class="step-row frontend-return">
+          <div class="step-card">
+            <div class="step-num en">09</div>
+            <h3 class="step-title">玩家看結果，決定要不要重試</h3>
+            <p class="step-desc">通過與否一次揭曉，沒通過可以重寫再送一次。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 手機版：直向排列 -->
+    <div class="mobile-alt">
+      <div class="mobile-steps">
+
+        <div class="step-card">
+          <span class="mobile-lane-tag">前端</span>
+          <div class="step-num en">01</div>
+          <h3 class="step-title">玩家讀情境信</h3>
+          <p class="step-desc">畫面模仿 Gmail 介面，顯示這一關的處境與待解問題。</p>
+          <span class="step-example">例（第 1 關）：Sam 剛到職，想要個人辦公室，但依規定不符資格，你必須回信拒絕。</span>
+        </div>
+
+        <div class="step-card">
+          <span class="mobile-lane-tag">前端</span>
+          <div class="step-num en">02</div>
+          <h3 class="step-title">玩家寫回信</h3>
+          <p class="step-desc">要不要打「你薪水比上一份高」這張說服牌？措辭決定信的得體程度。</p>
+        </div>
+
+        <div class="step-card">
+          <span class="mobile-lane-tag">前端</span>
+          <div class="step-num en">03</div>
+          <h3 class="step-title">情境與信送往後端</h3>
+          <p class="step-desc">信一旦送出，語氣已經固定，接下來全部交給 AI 系統處理。</p>
+        </div>
+
+        <div class="step-card is-backend">
+          <span class="mobile-lane-tag">後端 · AI 扮演</span>
+          <div class="step-num en">04</div>
+          <h3 class="step-title">收信人回應</h3>
+          <p class="step-desc">GPT-4o 依角色設定，以「同事」身分回覆。</p>
+          <span class="step-example">"The email makes sense to me!"</span>
+        </div>
+
+        <div class="step-card is-backend">
+          <span class="mobile-lane-tag">後端 · AI 扮演</span>
+          <div class="step-num en">05</div>
+          <h3 class="step-title">模擬器推演後續</h3>
+          <p class="step-desc">僅第 4、5 關啟動，推演這封信寄出後的長期效果。</p>
+          <span class="step-example">好結局：Sam 感到被支持與歡迎。</span>
+        </div>
+
+        <div class="step-card is-backend">
+          <span class="mobile-lane-tag">後端 · AI 扮演</span>
+          <div class="step-num en">06</div>
+          <h3 class="step-title">彙整送交裁判</h3>
+          <p class="step-desc">收信人回應、模擬結局（若有）、原始情境與溝通目標，一併送交裁判。</p>
+        </div>
+
+        <div class="step-card is-backend">
+          <span class="mobile-lane-tag">後端 · AI 扮演</span>
+          <div class="step-num en">07</div>
+          <h3 class="step-title">裁判評分</h3>
+          <p class="step-desc">GPT-4o（2024-11-20）依這一關專屬評分標準（rubric）與溝通目標判定過不過關。</p>
+          <span class="step-example">溝通目標：傳達政策，但不澆熄熱情。</span>
+        </div>
+
+        <div class="step-card is-backend">
+          <span class="mobile-lane-tag">後端 · AI 扮演</span>
+          <div class="step-num en">08</div>
+          <h3 class="step-title">評分結果回傳前端</h3>
+          <p class="step-desc">裁判的判定連同結果送回玩家畫面。</p>
+        </div>
+
+        <div class="step-card">
+          <span class="mobile-lane-tag">前端</span>
+          <div class="step-num en">09</div>
+          <h3 class="step-title">玩家看結果，決定要不要重試</h3>
+          <p class="step-desc">通過與否一次揭曉，沒通過可以重寫再送一次。</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span class="f-chunk"><strong>《數位時代》</strong></span>
+    <span class="f-sep">|</span>
+    <span class="f-chunk">資料來源：《Moral Mazes in the Era of LLMs》（arXiv：2603.20231）</span>
+    <span class="f-sep">|</span>
+    <span class="f-chunk">製圖：2026.08.06</span>
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function() {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.querySelector('.wrapper');
+  if (!toolbar || !wrapper) return;
+  toolbar.classList.add('show');
+  toolbar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.dataset.mode;
+    toolbar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+    });
+    wrapper.style.maxWidth = (mode === 'mobile') ? '390px' : '880px';
+  });
+})();
+</script>
+</body>
+</html>
