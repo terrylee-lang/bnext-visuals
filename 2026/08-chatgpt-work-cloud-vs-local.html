@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatGPT Work：雲端版與本機版對照 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --paper: #FAF7F1;
+    --paper-2: #F5F3EF;
+    --paper-3: #ECE8DF;
+    --paper-4: #E3DECF;
+    --black: #1A1A1A;
+    --orange: #FF6B1A;
+    --orange-deep: #E55A0F;
+    --warm-300: #D4D0C8;
+    --cool-600: #5C6470;
+    --cool-400: #8A93A0;
+    --hairline: rgba(15, 26, 46, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--paper); }
+  body {
+    margin: 0;
+    padding: 28px 16px 20px;
+    font-family: "Noto Sans TC", "PingFang TC", -apple-system, "Microsoft JhengHei", sans-serif;
+    color: var(--black);
+    text-wrap: pretty;
+  }
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header { margin-bottom: 22px; }
+  .deck {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--cool-600);
+    margin: 0 0 8px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  h1 {
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 900;
+    margin: 0;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+  h1 .u {
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 5px;
+    text-decoration-color: var(--orange);
+  }
+
+  /* ---------- Compare table (desktop) ---------- */
+  .compare {
+    border: 1px solid var(--warm-300);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .compare-head {
+    display: grid;
+    grid-template-columns: 168px 1fr 1fr;
+  }
+  .compare-head > div {
+    padding: 14px 18px;
+    background: var(--paper-3);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--warm-300);
+  }
+  .compare-head .col-blank { background: var(--paper-4); }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 168px 1fr 1fr;
+  }
+  .compare-row:nth-of-type(even) .row-label,
+  .compare-row:nth-of-type(even) .cell { background: var(--paper-2); }
+  .compare-row + .compare-row { border-top: 1px solid var(--warm-300); }
+  .row-label {
+    padding: 16px 18px;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--warm-300);
+  }
+  .cell {
+    padding: 16px 18px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .cell + .cell { border-left: 1px solid var(--warm-300); }
+  .status-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .status-icon {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.5;
+    width: 20px;
+    text-align: center;
+  }
+  .status-icon.yes { color: var(--black); }
+  .status-icon.no { color: var(--cool-400); }
+  .status-icon.cond { color: var(--orange-deep); }
+  .cell.no-text { color: var(--cool-600); }
+  .cond-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--black);
+    background: var(--paper-3);
+    border: 1px solid var(--warm-300);
+    border-radius: 0;
+    padding: 1px 7px;
+    margin-bottom: 6px;
+  }
+  .skill-label {
+    display: block;
+    font-weight: 700;
+    font-size: 14.5px;
+    margin-bottom: 4px;
+  }
+  .skill-desc { color: var(--cool-600); font-size: 14px; line-height: 1.65; }
+
+  /* mobile-only column tag inside each cell, hidden on desktop */
+  .cell-tag { display: none; }
+
+  /* ---------- Callout note ---------- */
+  .callout {
+    margin-top: 18px;
+    padding: 12px 16px;
+    background: var(--paper-2);
+    border-left: 4px solid var(--orange);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--black);
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--cool-600);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  footer strong { color: var(--black); }
+
+  /* ================= Mobile / narrow container ================= */
+  @container (max-width: 640px) {
+    h1 { font-size: 21px; }
+    .deck { font-size: 13.5px; }
+
+    .compare-head { display: none; }
+
+    .compare-row {
+      display: block;
+      padding: 14px 16px 12px;
+    }
+    .compare-row:nth-of-type(even) { background: var(--paper-2); }
+    .compare-row:nth-of-type(even) .row-label,
+    .compare-row:nth-of-type(even) .cell { background: transparent; }
+
+    .row-label {
+      padding: 0 0 10px;
+      border-right: none;
+      font-size: 15.5px;
+      display: block;
+    }
+    .cell {
+      padding: 10px 0;
+      border-top: 1px dashed var(--warm-300);
+    }
+    .cell + .cell { border-left: none; }
+
+    .cell-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--cool-600);
+      background: var(--paper-3);
+      border-radius: 3px;
+      padding: 2px 6px;
+      margin-bottom: 6px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 18px 10px 16px; }
+  }
+
+  /* ---------- Preview toolbar (editor-only, ?preview=1) ---------- */
+  .preview-toolbar {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 9999;
+    display: none;
+    gap: 4px;
+    background: #0F1A2E;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  }
+  .preview-toolbar.show { display: flex; }
+  .preview-toolbar button {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--paper);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  .preview-toolbar button[aria-pressed="true"] { background: var(--orange); color: var(--black); }
+</style>
+</head>
+<body>
+<div class="wrapper" id="wrapper">
+
+  <header>
+    <p class="deck">一條分界線，決定任務跑不跑得動</p>
+    <h1>ChatGPT Work：<span class="u">雲端版</span>與<span class="u">本機版</span>，差在哪？</h1>
+  </header>
+
+  <div class="compare">
+    <div class="compare-head">
+      <div class="col-blank"></div>
+      <div>雲端版</div>
+      <div>本機版</div>
+    </div>
+
+    <div class="compare-row">
+      <div class="row-label">跨裝置接續</div>
+      <div class="cell">
+        <span class="cell-tag">雲端版</span>
+        <div class="status-line">
+          <span class="status-icon yes">✓</span>
+          <span>手機與電腦隨時互相接手，筆電闔上照樣跑</span>
+        </div>
+      </div>
+      <div class="cell no-text">
+        <span class="cell-tag">本機版</span>
+        <div class="status-line">
+          <span class="status-icon no">✗</span>
+          <span>無法跨裝置接續，電腦一關任務就停</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="compare-row">
+      <div class="row-label">排程自動化</div>
+      <div class="cell">
+        <span class="cell-tag">雲端版</span>
+        <div class="status-line">
+          <span class="status-icon yes">✓</span>
+          <span>不依賴電腦開機</span>
+        </div>
+      </div>
+      <div class="cell">
+        <span class="cell-tag">本機版</span>
+        <div class="status-line">
+          <span class="status-icon cond">△</span>
+          <span>
+            <span class="cond-tag">有條件的能</span><br>
+            能執行，但要電腦開著、ChatGPT 桌面 app 持續運作、專案仍在原位
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="compare-row">
+      <div class="row-label">本機檔案與軟體</div>
+      <div class="cell no-text">
+        <span class="cell-tag">雲端版</span>
+        <div class="status-line">
+          <span class="status-icon no">✗</span>
+          <span>碰不到電腦裡的檔案與軟體</span>
+        </div>
+      </div>
+      <div class="cell">
+        <span class="cell-tag">本機版</span>
+        <div class="status-line">
+          <span class="status-icon yes">✓</span>
+          <span>能開本機檔案、操作桌面軟體與內建瀏覽器</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="compare-row">
+      <div class="row-label">可用的 skills</div>
+      <div class="cell">
+        <span class="cell-tag">雲端版</span>
+        <span class="skill-label">plugin 內 skills</span>
+        <span class="skill-desc">網頁、桌面、行動版的 Chat 與 Work 都能用</span>
+      </div>
+      <div class="cell">
+        <span class="cell-tag">本機版</span>
+        <span class="skill-label">standalone skills</span>
+        <span class="skill-desc">放在 Codex 本機資料夾，供桌面 app、Codex CLI、IDE 使用</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">standalone skills 與 plugin 內 skills 的可用範圍不同，建立前先想好要在哪裡用。</div>
+
+  <footer>
+    <span>資料整理自 OpenAI 官方文件與 Riley Brown 實測影片（2026 年 8 月）</span>
+    <span><strong>《數位時代》</strong>製圖：2026.08.14</span>
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <button id="btnDesktop" type="button" aria-pressed="true">桌機</button>
+  <button id="btnMobile" type="button" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function () {
+  if (!new URLSearchParams(location.search).has('preview')) return;
+  var toolbar = document.getElementById('previewToolbar');
+  var wrapper = document.getElementById('wrapper');
+  var btnDesktop = document.getElementById('btnDesktop');
+  var btnMobile = document.getElementById('btnMobile');
+  toolbar.classList.add('show');
+  function setMode(mode) {
+    if (mode === 'mobile') {
+      wrapper.style.maxWidth = '390px';
+      btnMobile.setAttribute('aria-pressed', 'true');
+      btnDesktop.setAttribute('aria-pressed', 'false');
+    } else {
+      wrapper.style.maxWidth = '880px';
+      btnDesktop.setAttribute('aria-pressed', 'true');
+      btnMobile.setAttribute('aria-pressed', 'false');
+    }
+  }
+  btnDesktop.addEventListener('click', function () { setMode('desktop'); });
+  btnMobile.addEventListener('click', function () { setMode('mobile'); });
+})();
+</script>
+
+</body>
+</html>
