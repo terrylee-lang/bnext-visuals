@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>幕僚長模式：用 @ 統籌專責 Bot ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  :root{
+    --paper:#FAF7F1;
+    --paper-2:#F5F3EF;
+    --paper-3:#ECE8DF;
+    --paper-4:#E3DECF;
+    --ink:#1A1A1A;
+    --orange:#FF6B1A;
+    --navy:#0F1A2E;
+    --navy-2:#1B2A45;
+    --warm-300:#D4D0C8;
+    --cool-600:#5C6470;
+    --cool-400:#8A93A0;
+    --hairline: rgba(15,26,46,0.12);
+    --font-tc:"Noto Sans TC","PingFang TC",-apple-system,"Microsoft JhengHei",sans-serif;
+    --font-en:"Inter","Noto Sans TC",-apple-system,BlinkMacSystemFont,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:var(--paper); }
+  body{
+    font-family: var(--font-en);
+    color:var(--ink);
+    padding:24px 16px 40px;
+    text-wrap: pretty;
+  }
+  @media (max-width:640px){
+    body{ padding:16px 8px 32px; }
+  }
+  .wrapper{
+    max-width:880px;
+    margin:0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+  h1,h2,.deck{ text-wrap: balance; }
+
+  header{ margin-bottom:16px; }
+  .kicker{
+    font-family: var(--font-en);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    color:var(--orange);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h1{
+    font-family: var(--font-tc);
+    font-size:26px;
+    line-height:1.35;
+    font-weight:900;
+    letter-spacing:0.01em;
+    margin:0 0 10px;
+    color:var(--ink);
+  }
+  h1 .em{
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+    text-decoration-color: var(--orange);
+  }
+  .deck{
+    font-family: var(--font-tc);
+    font-size:15px;
+    line-height:1.75;
+    color:#3A3A3A;
+    margin:0;
+  }
+  .meta-bar{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:12.5px;
+    color:var(--cool-600);
+    padding:10px 0;
+    margin:16px 0 20px;
+    border-top:1px solid var(--warm-300);
+    border-bottom:1px solid var(--warm-300);
+  }
+  .meta-bar strong{ color:var(--ink); font-weight:600; }
+  .meta-chunk{ white-space:nowrap; }
+
+  .section{ margin-bottom:28px; }
+  .section-title{
+    font-family: var(--font-en);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    color:var(--cool-600);
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .section-headline{
+    font-family: var(--font-tc);
+    font-size:19px;
+    font-weight:700;
+    margin:0 0 16px;
+    color:var(--ink);
+  }
+
+  /* ----- flow ----- */
+  .flow{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+  }
+  .you-row, .arrow-note, .hub, .bots, .shared{
+    width:100%;
+  }
+  .you-row{
+    display:flex;
+    justify-content:center;
+  }
+  .you-chip{
+    font-family:var(--font-tc);
+    font-size:13px;
+    font-weight:700;
+    background:var(--paper-3);
+    border:1px solid var(--warm-300);
+    border-radius:8px;
+    padding:8px 14px;
+    color:var(--ink);
+  }
+  .arrow-note{
+    text-align:center;
+    font-size:12px;
+    font-weight:600;
+    color:var(--cool-600);
+    padding:8px 0;
+    letter-spacing:0.04em;
+  }
+  .arrow-note span{ color:var(--orange); font-weight:700; }
+
+  .hub{
+    background:var(--navy);
+    color:var(--paper);
+    border-radius:16px;
+    padding:22px 24px 20px;
+  }
+  .hub-kicker{
+    font-family:var(--font-en);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--orange);
+    margin-bottom:6px;
+  }
+  .hub-title{
+    font-family:var(--font-tc);
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:0.02em;
+    margin:0 0 8px;
+  }
+  .hub-desc{
+    font-family:var(--font-tc);
+    font-size:14px;
+    line-height:1.7;
+    color:#ECE8DF;
+    margin:0 0 14px;
+  }
+  .at-demo{
+    background:var(--navy-2);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:8px;
+    padding:12px 14px;
+  }
+  .at-label{
+    font-family:var(--font-en);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--cool-400);
+    margin-bottom:8px;
+  }
+  .at-input{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(250,247,241,0.06);
+    border:1px solid rgba(255,107,26,0.55);
+    border-radius:8px;
+    padding:10px 12px;
+    font-family:var(--font-mono);
+    font-size:14px;
+    color:var(--paper);
+  }
+  .at-caret{
+    display:inline-block;
+    width:2px;
+    height:16px;
+    background:var(--orange);
+    margin-left:2px;
+  }
+  .at-hint{
+    margin-top:8px;
+    font-family:var(--font-tc);
+    font-size:12.5px;
+    line-height:1.6;
+    color:#D4D0C8;
+  }
+  .at-pills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:10px;
+  }
+  .at-pill{
+    font-family:var(--font-mono);
+    font-size:12px;
+    font-weight:500;
+    background:rgba(255,107,26,0.16);
+    color:#FFE7D6;
+    border:1px solid rgba(255,107,26,0.45);
+    border-radius:0;
+    padding:4px 8px;
+  }
+
+  .split{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin:8px 0;
+  }
+  .split-tag{
+    text-align:center;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.06em;
+    padding:8px 6px;
+    border:1px solid var(--warm-300);
+    background:var(--paper-2);
+    color:var(--cool-600);
+    border-radius:8px;
+  }
+  .split-tag.out{ border-left:4px solid var(--orange); color:var(--ink); }
+  .split-tag.in{ border-right:4px solid var(--navy); color:var(--ink); }
+
+  .bots{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+  }
+  .bot{
+    background:var(--paper-2);
+    border:1px solid var(--warm-300);
+    border-radius:8px;
+    padding:14px 14px 16px;
+  }
+  .bot-role{
+    font-family:var(--font-en);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--cool-600);
+    margin-bottom:4px;
+  }
+  .bot-name{
+    font-family:var(--font-tc);
+    font-size:17px;
+    font-weight:700;
+    margin:0 0 6px;
+  }
+  .bot-duty{
+    font-family:var(--font-tc);
+    font-size:13.5px;
+    line-height:1.65;
+    color:#3A3A3A;
+    margin:0;
+  }
+
+  .shared{
+    margin-top:12px;
+    background:var(--paper-3);
+    border:1px solid var(--warm-300);
+    border-radius:8px;
+    padding:14px 16px;
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+  }
+  .shared-mark{
+    flex-shrink:0;
+    width:4px;
+    align-self:stretch;
+    background:var(--navy);
+    border-radius:0;
+  }
+  .shared-kicker{
+    font-family:var(--font-en);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--cool-600);
+    margin-bottom:4px;
+  }
+  .shared-title{
+    font-family:var(--font-tc);
+    font-size:15px;
+    font-weight:700;
+    margin:0 0 4px;
+  }
+  .shared-desc{
+    font-family:var(--font-tc);
+    font-size:13.5px;
+    line-height:1.65;
+    color:#3A3A3A;
+    margin:0;
+  }
+
+  /* ----- dialogue ----- */
+  .rules{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .rule{
+    font-family:var(--font-tc);
+    font-size:13px;
+    font-weight:700;
+    background:var(--paper);
+    border:1px solid var(--warm-300);
+    border-radius:0;
+    padding:6px 10px;
+    color:var(--ink);
+  }
+  .rule em{
+    font-style:normal;
+    color:var(--orange);
+    font-weight:900;
+  }
+  .script{
+    background:var(--paper-2);
+    border:1px solid var(--warm-300);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .script-head{
+    background:var(--paper-3);
+    padding:10px 16px;
+    font-family:var(--font-tc);
+    font-size:13px;
+    font-weight:700;
+    border-bottom:1px solid var(--warm-300);
+  }
+  .turn{
+    padding:14px 16px;
+    border-bottom:1px solid var(--warm-300);
+  }
+  .turn:last-child{ border-bottom:none; }
+  .turn-who{
+    font-family:var(--font-mono);
+    font-size:13px;
+    font-weight:500;
+    color:var(--orange);
+    margin-bottom:6px;
+  }
+  .turn-body{
+    font-family:var(--font-tc);
+    font-size:14.5px;
+    line-height:1.75;
+    margin:0;
+    color:var(--ink);
+  }
+
+  footer{
+    margin-top:24px;
+    padding-top:12px;
+    border-top:1px solid var(--warm-300);
+    font-size:12px;
+    color:var(--cool-600);
+  }
+  footer strong{ color:var(--ink); }
+
+  @container (max-width: 640px){
+    h1{ font-size:21px; }
+    .deck{ font-size:14px; }
+    .meta-bar{ flex-direction:column; gap:6px; }
+    .meta-bar .meta-sep{ display:none; }
+    .meta-bar .meta-chunk{ display:block; }
+    .section-headline{ font-size:17px; }
+    .bots{ grid-template-columns:1fr; }
+    .hub{ padding:18px 16px; }
+    .hub-title{ font-size:20px; }
+    .shared{ flex-direction:row; }
+    .split{ grid-template-columns:1fr; }
+  }
+
+  .preview-toolbar{
+    position:fixed; top:14px; right:14px; z-index:9999;
+    display:none;
+    background:var(--navy);
+    border-radius:8px;
+    padding:6px;
+    gap:6px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  }
+  .preview-toolbar.active{ display:flex; }
+  .preview-toolbar button{
+    font-family:var(--font-en);
+    font-size:12px;
+    font-weight:600;
+    border:none;
+    border-radius:6px;
+    padding:6px 12px;
+    background:transparent;
+    color:var(--paper);
+    cursor:pointer;
+  }
+  .preview-toolbar button[aria-pressed="true"]{
+    background:var(--orange);
+    color:var(--ink);
+  }
+</style>
+</head>
+<body>
+<div class="wrapper" id="wrapper">
+
+  <header>
+    <div class="kicker">How it works · 幕僚長模式</div>
+    <h1>人只待在幕僚長視窗，用 <span class="em">@</span> 把工作點名出去</h1>
+    <p class="deck">在幕僚長的對話框打「@」（小老鼠），就能指定不同專責 Bot 去做各自的事。不用分別打開每一支 Bot 的對話；統籌、轉派、收回結果，都在同一個視窗完成。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div>
+      <span class="meta-chunk">搭配：Grok Bot 新手上手指南</span>
+      <span class="meta-sep">　|　</span>
+      <span class="meta-chunk">範例編制：研究員、企劃、審稿</span>
+    </div>
+    <div class="meta-chunk">製作：《數位時代》</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 01 · ORG</div>
+    <h2 class="section-headline">你只跟幕僚長講話，它再轉派給專責 Bot</h2>
+
+    <div class="flow">
+      <div class="you-row"><div class="you-chip">你（編輯）</div></div>
+      <div class="arrow-note">只打開這一支的對話 ↓</div>
+
+      <div class="hub">
+        <div class="hub-kicker">Hub · 唯一窗口</div>
+        <div class="hub-title">幕僚長</div>
+        <p class="hub-desc">讀每個專責 Bot 的職責，判斷該給誰、把工作轉派出去，再把結果帶回來。沒有適合的專責 Bot，才自己做。</p>
+        <div class="at-demo">
+          <div class="at-label">幕僚長對話框</div>
+          <div class="at-input">@<span class="at-caret"></span> 研究員　企劃　審稿</div>
+          <div class="at-pills">
+            <span class="at-pill">@研究員</span>
+            <span class="at-pill">@企劃</span>
+            <span class="at-pill">@審稿</span>
+          </div>
+          <p class="at-hint">打 @ 會跳出已建立的 Bot 名單。點名之後，工作仍留在這個視窗裡跑，你不用切到對方的對話。</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="split-tag out">↓ 轉派任務</div>
+        <div class="split-tag in">↑ 回報結果</div>
+      </div>
+
+      <div class="bots">
+        <div class="bot">
+          <div class="bot-role">Specialist 01</div>
+          <div class="bot-name">研究員</div>
+          <p class="bot-duty">找名單、逐一研究、標出訊號最強的對象。每則結果都附來源。</p>
+        </div>
+        <div class="bot">
+          <div class="bot-role">Specialist 02</div>
+          <div class="bot-name">企劃</div>
+          <p class="bot-duty">接手研究員標出的對象，各寫一封有具體切入點的開發信。只備稿。</p>
+        </div>
+        <div class="bot">
+          <div class="bot-role">Specialist 03</div>
+          <div class="bot-name">審稿</div>
+          <p class="bot-duty">檢查語氣，把讀起來不像真人寫的地方標出來。不負責寄出。</p>
+        </div>
+      </div>
+
+      <div class="shared">
+        <div class="shared-mark"></div>
+        <div>
+          <div class="shared-kicker">Shared computer</div>
+          <div class="shared-title">同一台雲端電腦</div>
+          <p class="shared-desc">檔案、瀏覽器工作階段、登入狀態全隊共用。拆成很多支 Bot，不是資安隔離。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 02 · PROMPT</div>
+    <h2 class="section-headline">貼在幕僚長視窗的交辦範例（業務開發）</h2>
+
+    <div class="rules">
+      <span class="rule">未經同意，<em>不准發布或寄出</em></span>
+      <span class="rule">每個階段只有一位負責人，不要平行交接</span>
+    </div>
+
+    <div class="script">
+      <div class="script-head">在幕僚長對話框一次貼上，用 @ 點名</div>
+      <div class="turn">
+        <div class="turn-who">@研究員</div>
+        <p class="turn-body">找出 40 位符合［條件］的潛在客戶，逐一研究後標出訊號最強的 10 位。</p>
+      </div>
+      <div class="turn">
+        <div class="turn-who">@企劃</div>
+        <p class="turn-body">接手研究員標出的 10 位，各寫一封客製化開發信，每封都要有一個具體的切入點。只備稿，不要寄出。</p>
+      </div>
+      <div class="turn">
+        <div class="turn-who">@審稿</div>
+        <p class="turn-body">企劃的草稿好了之後檢查語氣，把讀起來不像真人寫的地方標出來。</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：李先泰　|　製圖：2026.08.25
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <button id="btnDesktop" aria-pressed="true">桌機</button>
+  <button id="btnMobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+  (function(){
+    var params = new URLSearchParams(location.search);
+    if(!params.has('preview')) return;
+    var toolbar = document.getElementById('previewToolbar');
+    toolbar.classList.add('active');
+    var wrapper = document.getElementById('wrapper');
+    var btnDesktop = document.getElementById('btnDesktop');
+    var btnMobile = document.getElementById('btnMobile');
+    btnDesktop.addEventListener('click', function(){
+      wrapper.style.maxWidth = '880px';
+      btnDesktop.setAttribute('aria-pressed','true');
+      btnMobile.setAttribute('aria-pressed','false');
+    });
+    btnMobile.addEventListener('click', function(){
+      wrapper.style.maxWidth = '390px';
+      btnMobile.setAttribute('aria-pressed','true');
+      btnDesktop.setAttribute('aria-pressed','false');
+    });
+  })();
+</script>
+</body>
+</html>
