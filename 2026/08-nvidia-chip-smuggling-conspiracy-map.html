@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>輝達晶片走私案：分工關係圖 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --paper:#FAF7F1;
+    --paper-2:#F5F3EF;
+    --paper-3:#ECE8DF;
+    --paper-4:#E3DECF;
+    --ink:#1A1A1A;
+    --orange:#FF6B1A;
+    --orange-deep:#E55A0F;
+    --navy:#0F1A2E;
+    --navy-2:#1B2A45;
+    --warm-300:#D4D0C8;
+    --cool-600:#5C6470;
+    --cool-400:#8A93A0;
+    --hairline: rgba(15,26,46,0.12);
+    --red:#E63946;
+    --font-tc:"Noto Sans TC","PingFang TC",-apple-system,"Microsoft JhengHei",sans-serif;
+    --font-en:"Inter","Noto Sans TC",-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:var(--paper); }
+  body{
+    font-family: var(--font-en);
+    color:var(--ink);
+    padding:24px 16px 40px;
+    text-wrap: pretty;
+  }
+  @media (max-width:640px){
+    body{ padding:16px 8px 32px; }
+  }
+  .wrapper{
+    max-width:880px;
+    margin:0 auto;
+    container-type: inline-size;
+    transition: max-width 0.25s ease;
+  }
+  h1,h2,.deck{ text-wrap: balance; }
+
+  header{ margin-bottom:16px; }
+  .kicker{
+    font-family: var(--font-en);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    color:var(--orange);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h1{
+    font-family: var(--font-tc);
+    font-size:26px;
+    line-height:1.35;
+    font-weight:900;
+    letter-spacing:0.01em;
+    margin:0 0 10px;
+    color:var(--ink);
+  }
+  .deck{
+    font-family: var(--font-tc);
+    font-size:15px;
+    line-height:1.75;
+    color:#3A3A3A;
+    margin:0;
+  }
+
+  .meta-bar{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:12.5px;
+    color:var(--cool-600);
+    padding:10px 0;
+    margin:16px 0 20px;
+    border-top:1px solid var(--warm-300);
+    border-bottom:1px solid var(--warm-300);
+  }
+  .meta-bar strong{ color:var(--ink); font-weight:600; }
+  .meta-chunk{ white-space:nowrap; }
+
+  /* ---------- legend ---------- */
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 18px;
+    font-size:12px;
+    color:var(--cool-600);
+    background:var(--paper-2);
+    border:1px solid var(--warm-300);
+    border-radius:8px;
+    padding:12px 16px;
+    margin-bottom:22px;
+  }
+  .legend-item{ display:flex; align-items:center; gap:6px; white-space:nowrap; }
+  .legend-swatch{ width:20px; height:0; border-top:2px solid var(--cool-600); flex-shrink:0; }
+  .legend-swatch.dashed{ border-top-style:dashed; }
+  .legend-swatch.box{ width:14px; height:14px; border-radius:3px; border-top:none; }
+
+  /* ---------- section ---------- */
+  .section{ margin-bottom:26px; }
+  .section-title{
+    font-family: var(--font-en);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    color:var(--cool-600);
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .section-headline{
+    font-family: var(--font-tc);
+    font-size:19px;
+    font-weight:700;
+    margin:0 0 16px;
+    color:var(--ink);
+  }
+
+  /* ================= DESKTOP NETWORK DIAGRAM ================= */
+  .network{
+    position:relative;
+    width:100%;
+    aspect-ratio: 900 / 580;
+    margin:0 auto;
+  }
+  .network svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    overflow:visible;
+  }
+  .node{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    background:var(--paper-2);
+    border:1px solid var(--warm-300);
+    border-radius:8px;
+    padding:10px 12px;
+    text-align:center;
+  }
+  .node .role{
+    font-family:var(--font-en);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--cool-600);
+    margin-bottom:4px;
+  }
+  .node .person{
+    font-family:var(--font-tc);
+    font-size:13.5px;
+    font-weight:700;
+    line-height:1.4;
+    color:var(--ink);
+    margin-bottom:4px;
+  }
+  .node .duty{
+    font-family:var(--font-tc);
+    font-size:12px;
+    line-height:1.55;
+    color:#3A3A3A;
+  }
+
+  .node.n-release{ left:56.7%; top:15.5%; width:23.3%; border-left:4px solid var(--orange); }
+  .node.n-fund{ left:84.4%; top:32.8%; width:23.3%; }
+  .node.n-export{ left:84.4%; top:81%; width:23.3%; }
+  .node.n-cover{ left:28.9%; top:81%; width:25.6%; }
+  .node.n-intel{ left:28.9%; top:32.8%; width:23.3%; }
+
+  .node.n-hub{
+    left:56.7%; top:55.2%; width:33.3%;
+    background:var(--navy);
+    border:none;
+    padding:12px 14px;
+  }
+  .node.n-hub .role{ color:var(--paper-4); }
+  .node.n-hub .person{ color:var(--paper); font-size:13.5px; }
+  .node.n-hub .duty{ color:var(--paper-4); font-size:11.5px; }
+  .node.n-hub .status-row{
+    display:flex; flex-wrap:wrap; justify-content:center; align-items:center;
+    gap:4px 8px;
+    margin-bottom:6px;
+  }
+  .node.n-hub .status-line{
+    font-family:var(--font-tc);
+    font-size:11px;
+    color:var(--paper-4);
+    display:flex; align-items:center; gap:4px;
+    white-space:nowrap;
+  }
+  .tag{
+    display:inline-block;
+    font-family:var(--font-en);
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    padding:1px 6px;
+    border-radius:0px;
+    white-space:nowrap;
+  }
+  .tag.tag-indicted{ background:var(--paper-4); color:var(--navy); }
+  .tag.tag-wanted{
+    background:var(--paper);
+    color:var(--red);
+    border:1px solid var(--red);
+  }
+
+  .node.n-profit{
+    left:7.8%; top:44.8%; width:15.6%;
+    border-style:dashed;
+    padding:8px 10px;
+  }
+  .node.n-profit .role{ font-size:10px; }
+  .node.n-profit .person{ font-size:12px; }
+  .node.n-profit .duty{ font-size:11px; }
+
+  /* ---------- mobile alt (hidden by default, shown under 640) ---------- */
+  .mobile-alt{ display:none; }
+  .malt-card{
+    background:var(--paper-2);
+    border:1px solid var(--warm-300);
+    border-left:4px solid var(--cool-400);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .malt-card.critical{ border-left-color:var(--orange); }
+  .malt-card.hub{
+    background:var(--navy);
+    border:none;
+  }
+  .malt-card.hub .malt-role,
+  .malt-card.hub .malt-duty{ color:var(--paper-4); }
+  .malt-card.hub .malt-person{ color:var(--paper); }
+  .malt-card.dashed{ border-style:dashed; }
+  .malt-role{
+    font-family:var(--font-en);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--cool-600);
+    margin-bottom:5px;
+  }
+  .malt-person{
+    font-family:var(--font-tc);
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:5px;
+    display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  }
+  .malt-duty{
+    font-family:var(--font-tc);
+    font-size:13px;
+    line-height:1.65;
+    color:#3A3A3A;
+  }
+  .malt-status{
+    font-family:var(--font-tc);
+    font-size:12.5px;
+    line-height:1.6;
+    color:var(--paper-4);
+    margin-bottom:3px;
+  }
+
+  /* ---------- side-plot strip ---------- */
+  .sideplot{
+    background:var(--paper-3);
+    border:1px dashed var(--warm-300);
+    border-radius:8px;
+    padding:16px 18px;
+    margin-top:22px;
+  }
+  .sideplot-label{
+    font-family:var(--font-en);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--cool-600);
+    margin-bottom:8px;
+  }
+  .sideplot-title{
+    font-family:var(--font-tc);
+    font-size:15px;
+    font-weight:700;
+    color:var(--ink);
+    margin:0 0 8px;
+  }
+  .sideplot-chips{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-bottom:10px;
+  }
+  .chip{
+    background:var(--paper);
+    border:1px solid var(--warm-300);
+    border-radius:0px;
+    padding:4px 10px;
+    font-family:var(--font-tc);
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+  .sideplot-desc{
+    font-family:var(--font-tc);
+    font-size:13px;
+    line-height:1.7;
+    color:#3A3A3A;
+    margin:0;
+  }
+
+  /* ---------- roster recap ---------- */
+  .roster{
+    margin-top:20px;
+    padding-top:14px;
+    border-top:1px solid var(--warm-300);
+    font-family:var(--font-tc);
+    font-size:12.5px;
+    line-height:1.8;
+    color:var(--cool-600);
+  }
+  .roster strong{ color:var(--ink); }
+
+  footer{
+    margin-top:24px;
+    padding-top:12px;
+    border-top:1px solid var(--warm-300);
+    font-size:12px;
+    color:var(--cool-600);
+  }
+  footer strong{ color:var(--ink); }
+
+  /* ================= CONTAINER QUERY: MOBILE ================= */
+  @container (max-width: 640px){
+    h1{ font-size:21px; }
+    .deck{ font-size:14px; }
+    .meta-bar{ flex-direction:column; gap:6px; }
+    .network{ display:none; }
+    .mobile-alt{ display:block; }
+    .legend{ display:none; }
+    .section-headline{ font-size:17px; }
+  }
+
+  /* ---------- preview toolbar (editor only, ?preview=1) ---------- */
+  .preview-toolbar{
+    position:fixed; top:14px; right:14px; z-index:9999;
+    display:none;
+    background:var(--navy);
+    border-radius:8px;
+    padding:6px;
+    gap:6px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  }
+  .preview-toolbar.active{ display:flex; }
+  .preview-toolbar button{
+    font-family:var(--font-en);
+    font-size:12px;
+    font-weight:600;
+    border:none;
+    border-radius:6px;
+    padding:6px 12px;
+    background:transparent;
+    color:var(--paper);
+    cursor:pointer;
+  }
+  .preview-toolbar button[aria-pressed="true"]{
+    background:var(--orange);
+    color:var(--ink);
+  }
+</style>
+</head>
+<body>
+<div class="wrapper" id="wrapper">
+
+  <header>
+    <div class="kicker">起訴書拆解 · CONSPIRACY MAP</div>
+    <h1>晶片走私案：五個環節，缺一不可</h1>
+    <p class="deck">基隆地檢署起訴 9 人，這張圖不畫時間軸，只畫清楚：每個人各自負責哪個環節、彼此的工作怎麼交叉，才讓一批伺服器真正出得了境。</p>
+  </header>
+
+  <div class="meta-bar">
+    <div class="meta-chunk">資料來源：<strong>基隆地檢署起訴書、路透、彭博、公視、中央社、聯合報</strong></div>
+    <div class="meta-chunk">起訴日期：<strong>2026 / 08 / 24</strong></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-swatch"></span>實線：分工回饋到主謀</div>
+    <div class="legend-item"><span class="legend-swatch dashed"></span>虛線：事後加入的關聯</div>
+    <div class="legend-item"><span class="legend-swatch box" style="background:var(--paper-2); border:1px solid var(--orange);"></span>橘框：壓垮審查機制的最後一關</div>
+    <div class="legend-item"><span class="legend-swatch box" style="background:var(--paper); border:1px dashed var(--red);"></span>紅框：通緝中，尚未到案</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">FIGURE 01 · NETWORK</div>
+    <h2 class="section-headline">飛虎需要五個環節到位，才能讓伺服器真正出境</h2>
+
+    <!-- 桌機：關係網絡圖 -->
+    <div class="network chart-desktop">
+      <svg viewBox="0 0 900 580" preserveAspectRatio="none">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#5C6470"/>
+          </marker>
+        </defs>
+        <!-- 五條實線：各環節 -> 飛虎主謀 -->
+        <line x1="510" y1="90" x2="510" y2="320" stroke="#5C6470" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="760" y1="190" x2="510" y2="320" stroke="#5C6470" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="760" y1="470" x2="510" y2="320" stroke="#5C6470" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="260" y1="470" x2="510" y2="320" stroke="#5C6470" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="260" y1="190" x2="510" y2="320" stroke="#5C6470" stroke-width="2" marker-end="url(#arrow)"/>
+        <!-- 虛線：情報 -> 事後分潤 -->
+        <line x1="141" y1="260" x2="154" y2="190" stroke="#8A93A0" stroke-width="2" stroke-dasharray="5 5"/>
+      </svg>
+
+      <div class="node n-release">
+        <div class="role">放行 · 最後一關</div>
+        <div class="person">張登隆<br>（輝達資深合作夥伴經理）</div>
+        <div class="duty">明知資金來源與機房不足，仍回報「已完成現場查核」，促成美超微核准出貨</div>
+      </div>
+
+      <div class="node n-fund">
+        <div class="role">資金</div>
+        <div class="person">呂男<br>（青雲國際科技總經理）</div>
+        <div class="duty">安排由青雲代墊資金，讓飛虎規避美超微對資金來源的審查</div>
+      </div>
+
+      <div class="node n-export">
+        <div class="role">執行出境</div>
+        <div class="person">游男</div>
+        <div class="duty">負責報關與實際出口操作，經印尼、日本、香港等地轉運出境</div>
+      </div>
+
+      <div class="node n-cover">
+        <div class="role">假象</div>
+        <div class="person">蔡男（是方電訊專案經理）<br>王男（長頴負責人）</div>
+        <div class="duty">蔡男事先佈置機房外觀營造「確有運作」假象；王男隨隊到場應付勘查</div>
+      </div>
+
+      <div class="node n-intel">
+        <div class="role">情報</div>
+        <div class="person">林男<br>（美超微資深業務協理）</div>
+        <div class="duty">向飛虎透露美超微出售伺服器的審查流程，讓飛虎備妥矇混文件</div>
+      </div>
+
+      <div class="node n-hub">
+        <div class="role">發起 · 轉售主謀</div>
+        <div class="status-row">
+          <div class="status-line">陳姓總經理　<span class="tag tag-indicted">起訴</span></div>
+          <div class="status-line">陳姓實際負責人　<span class="tag tag-wanted">通緝中</span></div>
+        </div>
+        <div class="duty">起意轉售牟利，自行取得輝達白名單、赴日本設境外轉運據點</div>
+      </div>
+
+      <div class="node n-profit">
+        <div class="role">事後分潤</div>
+        <div class="person">王男（美超微協理）</div>
+        <div class="duty">發現林男經手訂單流向中國，要求分潤，之後知情參與</div>
+      </div>
+    </div>
+
+    <!-- 手機：直向分工卡片 -->
+    <div class="mobile-alt">
+      <div class="malt-card hub">
+        <div class="malt-role">發起 · 轉售主謀</div>
+        <div class="malt-status">陳姓總經理　<span class="tag tag-indicted">起訴</span></div>
+        <div class="malt-status">陳姓實際負責人　<span class="tag tag-wanted">通緝中，未到案</span></div>
+        <div class="malt-duty">起意轉售牟利，自行以不詳方式取得輝達白名單資格，並在日本設境外轉運據點（兩件事平行進行，非因果自其他共犯）。</div>
+      </div>
+
+      <div class="malt-card">
+        <div class="malt-role">情報</div>
+        <div class="malt-person">林男（美超微資深業務協理）</div>
+        <div class="malt-duty">向飛虎透露美超微出售伺服器的審查流程，讓飛虎備妥矇混文件。</div>
+      </div>
+
+      <div class="malt-card">
+        <div class="malt-role">資金</div>
+        <div class="malt-person">呂男（青雲國際科技總經理）</div>
+        <div class="malt-duty">安排由青雲代墊資金，讓飛虎規避美超微對資金來源的審查。</div>
+      </div>
+
+      <div class="malt-card">
+        <div class="malt-role">假象</div>
+        <div class="malt-person">蔡男（是方電訊專案經理）、王男（長頴負責人）</div>
+        <div class="malt-duty">蔡男事先佈置機房外觀，營造「確有運作」的假象；王男則隨隊到場應付勘查。</div>
+      </div>
+
+      <div class="malt-card critical">
+        <div class="malt-role">放行 · 最後一關</div>
+        <div class="malt-person">張登隆（輝達資深合作夥伴經理）</div>
+        <div class="malt-duty">明知資金來源與機房不足，仍向輝達主管回報「已完成現場查核」，促成美超微核准出貨。</div>
+      </div>
+
+      <div class="malt-card">
+        <div class="malt-role">執行出境</div>
+        <div class="malt-person">游男</div>
+        <div class="malt-duty">負責報關與實際出口操作，把伺服器經印尼、日本、香港等地轉運出境。</div>
+      </div>
+
+      <div class="malt-card dashed">
+        <div class="malt-role">事後分潤（虛線關聯，非起始分工）</div>
+        <div class="malt-person">王男（美超微協理）</div>
+        <div class="malt-duty">發現林男經手的訂單流向中國後，要求林男讓他分潤，之後知情參與。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sideplot">
+    <div class="sideplot-label">另案，不算進上圖分工</div>
+    <div class="sideplot-title">掏空青雲資金案，與出口共謀是兩件事</div>
+    <div class="sideplot-chips">
+      <span class="chip">林男（美超微協理）</span>
+      <span class="chip">呂男（青雲國際科技總經理）</span>
+      <span class="chip">何男（昆泰電子負責人）</span>
+    </div>
+    <p class="sideplot-desc">林男、呂男，加上圈外人何男（林男友人），另外用假發票詐領青雲公司款項。這條線和上方伺服器出口共謀是分開的關係，何男不參與出口案的分工網絡。</p>
+  </div>
+
+  <div class="roster">
+    起訴 <strong>9</strong> 人：張登隆、林男（美超微）、王男（美超微）、呂男、蔡男、陳姓總經理（飛虎）、王男（長頴）、游男、何男（僅涉掏空案）。飛虎陳姓實際負責人另行通緝，尚未到案，不在本次起訴名單內。
+  </div>
+
+  <footer>
+    <strong>《數位時代》</strong>　|　資料整理：編輯部　|　製圖：2026.08.25
+  </footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <button id="btnDesktop" aria-pressed="true">桌機</button>
+  <button id="btnMobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+  (function(){
+    var params = new URLSearchParams(location.search);
+    if(!params.has('preview')) return;
+    var toolbar = document.getElementById('previewToolbar');
+    toolbar.classList.add('active');
+    var wrapper = document.getElementById('wrapper');
+    var btnDesktop = document.getElementById('btnDesktop');
+    var btnMobile = document.getElementById('btnMobile');
+    btnDesktop.addEventListener('click', function(){
+      wrapper.style.maxWidth = '880px';
+      btnDesktop.setAttribute('aria-pressed','true');
+      btnMobile.setAttribute('aria-pressed','false');
+    });
+    btnMobile.addEventListener('click', function(){
+      wrapper.style.maxWidth = '390px';
+      btnMobile.setAttribute('aria-pressed','true');
+      btnDesktop.setAttribute('aria-pressed','false');
+    });
+  })();
+</script>
+
+</body>
+</html>
