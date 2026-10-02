@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>四種 AI 解說格式選擇器｜數位時代</title>
+  <meta name="description" content="輸入想理解的主題，依需求選擇簡潔文字、圖解、互動網頁或解說影片，一鍵複製提示詞。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* Tokens from the authorized BN Design System, colors_and_type.css. */
+    :root{--orange:#FF6B1A;--orange-soft:#FFE7D6;--ink:#1A1A1A;--paper:#FAF7F1;--paper2:#F5F3EF;--paper3:#ECE8DF;--line:#D4D0C8;--muted:#5C6470;--font:Inter,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+    *{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--paper);color:var(--ink)}body{font-family:var(--font);font-size:17px;line-height:1.8;-webkit-font-smoothing:antialiased}button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}a{color:var(--ink);text-underline-offset:3px}button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+    .wrapper{max-width:880px;margin:0 auto;border:1px solid var(--line);container-type:inline-size}.inner{padding:32px}.kicker{font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:0 0 12px}.kicker::before{content:"";display:inline-block;width:12px;height:12px;background:var(--orange);margin-right:8px}h1{font-size:28px;line-height:1.4;letter-spacing:.02em;margin:0 0 12px;font-weight:900}h1 span{text-decoration:underline;text-decoration-color:var(--orange);text-decoration-thickness:3px;text-underline-offset:6px}.intro{font-size:15px;color:var(--muted);margin:0 0 28px}.field-label,.section-label{display:block;font-size:15px;font-weight:700;margin:0 0 10px}.topic-row{display:flex;align-items:center;gap:12px}input{width:100%;min-width:0;background:var(--paper);border:1px solid var(--ink);border-radius:0;padding:12px 14px;font-size:17px}input::placeholder{color:var(--muted)}.examples{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 24px;font-size:13px;color:var(--muted)}.example{background:transparent;border:1px solid var(--line);padding:4px 10px;font-size:13px}.example:hover{border-color:var(--ink);background:var(--paper3)}
+    .choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:24px}.choice{display:flex;flex-direction:column;text-align:left;background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:16px 12px;position:relative;min-width:0;transition:background 120ms,border-color 120ms}.choice:hover{background:var(--paper3);border-color:var(--ink)}.choice[aria-pressed=true]{background:var(--orange-soft);border:2px solid var(--orange);padding:15px 11px}.choice .icon{width:30px;height:30px;display:block;margin-bottom:16px}.choice svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.choice .need{font-size:15px;font-weight:700;line-height:1.6;min-height:48px}.choice .format{font-size:13px;margin-top:8px;color:var(--muted)}.choice .selected{width:7px;height:7px;border:1px solid var(--line);border-radius:50%;position:absolute;top:16px;right:12px}.choice[aria-pressed=true] .selected{background:var(--ink);border-color:var(--ink)}
+    .result{border-top:2px solid var(--ink);padding-top:22px}.result-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:6px}.result h2{font-size:22px;line-height:1.45;margin:0}.result-tag{font-size:13px;color:var(--muted);white-space:nowrap}.reason{font-size:15px;margin:8px 0 18px;color:var(--muted)}.prompt-label{display:flex;justify-content:space-between;gap:12px;margin-bottom:8px;font-size:13px;font-weight:700}.prompt-label span{font-weight:400;color:var(--muted)}textarea{display:block;width:100%;height:252px;resize:vertical;border:1px solid var(--line);border-radius:8px;background:var(--paper2);padding:16px;font-size:15px;line-height:1.8;overflow:auto}.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}.copy{background:var(--orange);color:var(--ink);border:1px solid var(--ink);border-radius:0 0 8px 8px;padding:10px 22px;font-size:15px;font-weight:700;min-height:44px}.copy:hover{background:var(--orange-soft)}.select{background:transparent;border:1px solid var(--ink);padding:10px 16px;font-size:15px;min-height:44px}.select:hover{background:var(--paper3)}.status{font-size:13px;color:var(--muted);min-height:24px;margin:8px 0 0}.how{display:grid;grid-template-columns:95px 1fr;gap:8px 16px;padding:18px 0 0;margin:12px 0 0;border-top:1px solid var(--line);font-size:15px}.how dt{font-weight:700}.how dd{margin:0}.standard-note{font-size:13px;color:var(--muted);margin:14px 0 0}.footer{padding:16px 32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13px}.footer strong{font-size:15px}.footer span{color:var(--muted)}
+    .preview-bar{display:none;max-width:880px;margin:0 auto;padding:10px 16px;background:var(--ink);color:var(--paper);align-items:center;gap:8px;font-size:13px}.preview-bar.visible{display:flex}.preview-bar>span{margin-right:auto}.preview-bar button{background:transparent;color:var(--paper);border:1px solid var(--line);padding:6px 12px;font-size:13px}.preview-bar button[aria-pressed=true]{background:var(--paper);color:var(--ink)}.wrapper.mobile-preview{max-width:390px}.preview-bar button:focus-visible{outline-color:var(--paper)}
+    @container(max-width:640px){.inner{padding:24px 20px}.choices{grid-template-columns:1fr;gap:8px}.choice{flex-direction:row;align-items:center;gap:14px;padding:12px 14px}.choice[aria-pressed=true]{padding:11px 13px}.choice .icon{width:26px;height:26px;flex-shrink:0;margin:0}.choice .need{font-size:16px;min-height:0}.choice .format{margin:2px 0 0}.choice .selected{top:50%;transform:translateY(-50%);right:14px}.choice .labels{padding-right:12px}h1{font-size:25px}.intro{margin-bottom:24px}.result-top{align-items:flex-start}.result h2{font-size:22px}.result-tag{font-size:12px;padding-top:3px}textarea{height:300px;font-size:16px;padding:14px}.how{grid-template-columns:1fr;gap:4px}.how dd+dt{margin-top:12px}.footer{padding:16px 20px;align-items:flex-start;flex-direction:column;gap:4px}}
+    @media(max-width:640px){body{font-size:16px}.inner{padding:24px 20px}.choices{grid-template-columns:1fr;gap:8px}.choice{flex-direction:row;align-items:center;gap:14px;padding:12px 14px}.choice[aria-pressed=true]{padding:11px 13px}.choice .icon{width:26px;height:26px;flex-shrink:0;margin:0}.choice .need{font-size:16px;min-height:0}.choice .format{margin:2px 0 0}.choice .selected{top:50%;transform:translateY(-50%);right:14px}.choice .labels{padding-right:12px}h1{font-size:25px}.intro{margin-bottom:24px}.result-top{align-items:flex-start}.result-tag{font-size:12px;padding-top:3px}textarea{height:300px;font-size:16px;padding:14px}.how{grid-template-columns:1fr;gap:4px}.how dd+dt{margin-top:12px}.footer{padding:16px 20px;align-items:flex-start;flex-direction:column;gap:4px}.preview-bar{flex-wrap:wrap}.preview-bar>span{width:100%}}
+    @container(max-width:640px){h1 span{display:block}}
+    @media(max-width:640px){h1 span{display:block}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="preview-bar" aria-label="版型預覽"><span>配件預覽</span><button type="button" data-mode="desktop" aria-pressed="true">桌機</button><button type="button" data-mode="mobile" aria-pressed="false">手機</button></div>
+  <main class="wrapper">
+    <div class="inner">
+      <header><p class="kicker">AI 解說工具箱</p><h1>想搞懂一個主題，<span>先選解說方式</span></h1><p class="intro">輸入主題、選擇需求，再把提示詞複製到 AI 工具。四種格式各有用途，依想理解的內容選擇。</p></header>
+      <label class="field-label" for="topic">想理解什麼？</label>
+      <div class="topic-row"><input id="topic" maxlength="120" autocomplete="off" placeholder="例如：KV cache、複利、碳交易" aria-describedby="topic-help"></div>
+      <div class="examples" id="topic-help"><span>試試看</span><button class="example" type="button" data-topic="KV cache">KV cache</button><button class="example" type="button" data-topic="複利">複利</button><button class="example" type="button" data-topic="碳交易">碳交易</button></div>
+      <p class="section-label" id="choices-label">希望怎麼理解？</p>
+      <div class="choices" role="group" aria-labelledby="choices-label">
+        <button class="choice" type="button" data-format="text" aria-pressed="true" aria-controls="result"><span class="icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 5h18v22H7zM11 11h10M11 16h10M11 21h6"/></svg></span><span class="labels"><span class="need">快速讀懂</span><span class="format" style="display:block">簡潔文字</span></span><span class="selected" aria-hidden="true"></span></button>
+        <button class="choice" type="button" data-format="diagram" aria-pressed="false" aria-controls="result"><span class="icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M11 4h10v7H11zM3 21h10v7H3zM19 21h10v7H19zM16 11v5M8 21v-5h16v5"/></svg></span><span class="labels"><span class="need">看懂流程與關係</span><span class="format" style="display:block">圖解</span></span><span class="selected" aria-hidden="true"></span></button>
+        <button class="choice" type="button" data-format="html" aria-pressed="false" aria-controls="result"><span class="icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M3 5h26v22H3zM3 11h26M8 8h.1M11 8h.1M8 18h16M8 23h16"/><circle cx="14" cy="18" r="2" fill="var(--paper2)"/><circle cx="21" cy="23" r="2" fill="var(--paper2)"/></svg></span><span class="labels"><span class="need">調整參數、觀察變化</span><span class="format" style="display:block">互動網頁</span></span><span class="selected" aria-hidden="true"></span></button>
+        <button class="choice" type="button" data-format="video" aria-pressed="false" aria-controls="result"><span class="icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="3" y="5" width="26" height="22" rx="2"/><path d="m13 11 9 5-9 5z"/></svg></span><span class="labels"><span class="need">觀看動態講解</span><span class="format" style="display:block">解說影片</span></span><span class="selected" aria-hidden="true"></span></button>
+      </div>
+      <section class="result" id="result" aria-labelledby="result-title">
+        <div class="result-top"><h2 id="result-title">簡潔文字</h2><span class="result-tag" id="result-tag">直接閱讀</span></div>
+        <p class="reason" id="reason"></p>
+        <label class="prompt-label" for="prompt">可複製的提示詞<span>選主題後自動帶入</span></label>
+        <textarea id="prompt" readonly spellcheck="false" aria-describedby="status"></textarea>
+        <div class="actions"><button class="copy" type="button" id="copy">一鍵複製提示詞</button><button class="select" type="button" id="select">選取全文</button></div>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <dl class="how"><dt>怎麼用</dt><dd id="usage"></dd><dt>需要準備</dt><dd id="setup"></dd></dl>
+        <p class="standard-note" id="standard-note"></p>
+      </section>
+    </div>
+    <footer class="footer"><strong>數位時代 Business Next</strong><span>提示詞依文章四種格式改寫</span></footer>
+  </main>
+  <noscript><p>請啟用 JavaScript，才能選擇格式並複製提示詞。</p></noscript>
+  <script>
+    'use strict';
+    const wrapper=document.querySelector('.wrapper');
+    const topic=document.getElementById('topic');
+    const prompt=document.getElementById('prompt');
+    const status=document.getElementById('status');
+    const copy=document.getElementById('copy');
+    let format='text';
+    let version=0;
+    const formats={
+      text:{title:'簡潔文字',tag:'直接閱讀',reason:'先掌握核心概念，再請 AI 補上需要的細節。',usage:'貼進聊天介面，直接閱讀回答；不熟悉的詞可以再追問。',setup:'可使用的 AI 聊天工具。',note:'中文提示詞借用 ASD-STE100 的清晰寫作原則，不是官方英文標準，也不代表通過標準檢核。',template:t=>`請用中文解釋「${t}」，對象是第一次接觸這個主題的讀者。\n\n借用 ASD-STE100 的清晰寫作原則：\n1. 句子要短，每句盡量不超過 30 個字。\n2. 一句只講一件事。\n3. 同一個概念從頭到尾用同一個詞。\n4. 用主動語態，每句的主詞要清楚。\n5. 避免堆疊名詞，術語第一次出現時要白話說明。\n\n先說核心概念，再用一個具體例子說明。最後簡短列出這次省略、可再深入的細節。這是中文寫作建議，不要求符合官方英文標準。`},
+      diagram:{title:'圖解',tag:'查看成圖',reason:'把關鍵元件、關係與流程放在同一張圖上，方便對照。',usage:'直接查看圖片；若拿到 Mermaid 程式碼，貼到 Mermaid 線上編輯器查看成圖。',setup:'能生成圖片或圖表程式碼的 AI 工具。',note:'提示詞指定要呈現的關係與方向，避免只把長篇文字搬進方框。',template:t=>`請用一張圖解釋「${t}」，對象是第一次接觸這個主題的讀者。\n\n圖上要標出：\n1. 關鍵元件。\n2. 元件之間的關係。\n3. 流程方向；若沒有先後順序，不要畫成流程。\n\n每個標籤盡量不超過 10 個字，術語附簡短白話說明。不要用長篇文字代替圖解。\n若無法直接生成圖片，請輸出可在 Mermaid 線上編輯器使用的程式碼。`},
+      html:{title:'互動網頁',tag:'操作與觀察',reason:'自己改變條件，看看結果如何變化，適合探索因果或規則。',usage:'在聊天介面預覽；若沒有預覽功能，把程式碼存成 .html 檔，再用瀏覽器開啟。',setup:'能生成 HTML 的 AI 工具，以及瀏覽器。',note:'參數與結果要有合理的對應關係；若主題不適合數值模擬，可以改用可切換條件的互動。',template:t=>`請用 HTML 做一個單頁互動網頁，解釋「${t}」，對象是第一次接觸這個主題的讀者。\n\n網頁要有：\n1. 核心概念的白話說明。\n2. 可以點開查看的段落說明。\n3. 一個可以調整參數、即時看到結果變化的互動元件。若不適合數值模擬，改用可切換條件的互動。\n\n標明參數意義、結果單位、計算規則與簡化假設。示意數字要註明，不能假稱真實資料。\n所有 HTML、CSS、JavaScript 放在同一個 .html 檔案，不串接 API，讓手機和桌機都能使用。`},
+      video:{title:'解說影片',tag:'需要渲染環境',reason:'用動畫逐步展開概念，適合需要看見變化過程的主題。',usage:'把提示詞交給能執行程式的 AI agent，例如 Claude Code 或 Codex，再產出影片檔。',setup:'可執行程式、安裝依賴及渲染影片的環境；一般聊天介面不一定能直接產出影片。',note:'配音可選。可先做字幕版，或採用免費本機配音；使用付費語音 API 時才另有費用。',template:t=>`請製作一支主題為「${t}」的中文解說影片，對象是第一次接觸這個主題的讀者。\n\n參考 3Blue1Brown 的動畫講解方式：用清楚的圖形與動態變化，逐步呈現概念，不要只播放文字投影片。\n\n先確認環境能執行程式、安裝所需依賴及渲染影片，再選擇適合的工具，例如 Manim。先規畫分鏡，再執行程式、渲染並檢查影片。\n\n預設製作中文字幕版，不需要配音。若加配音，優先考慮免費本機方案；不要把付費語音 API 視為必要。\n提供可播放的影片檔與製作程式碼；若環境無法渲染，明確說明缺少的條件。`}
+    };
+    function update(){
+      version++;
+      const data=formats[format];
+      const subject=topic.value.trim()||'[請填入主題]';
+      document.getElementById('result-title').textContent=data.title;
+      document.getElementById('result-tag').textContent=data.tag;
+      document.getElementById('reason').textContent=data.reason;
+      document.getElementById('usage').textContent=data.usage;
+      document.getElementById('setup').textContent=data.setup;
+      document.getElementById('standard-note').textContent=data.note;
+      prompt.value=data.template(subject);
+      copy.textContent='一鍵複製提示詞';
+      status.textContent=topic.value.trim()?'複製後，貼到適合的 AI 工具使用。':'尚未填主題：可以先複製，再替換「[請填入主題]」。';
+      document.querySelectorAll('[data-format]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.format===format)));
+      sendHeight();
+    }
+    topic.addEventListener('input',update);
+    document.querySelectorAll('[data-format]').forEach(button=>button.addEventListener('click',()=>{format=button.dataset.format;update()}));
+    document.querySelectorAll('[data-topic]').forEach(button=>button.addEventListener('click',()=>{topic.value=button.dataset.topic;update()}));
+    function selectPrompt(){prompt.focus();prompt.select();prompt.setSelectionRange(0,prompt.value.length)}
+    document.getElementById('select').addEventListener('click',()=>{selectPrompt();status.textContent='已選取全文，請用裝置的複製功能複製。'});
+    copy.addEventListener('click',async()=>{
+      const currentVersion=version;
+      const value=prompt.value;
+      let copied=false;
+      copy.disabled=true;
+      try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value);copied=true}}catch(error){/* Fall back when iframe/browser blocks Clipboard API. */}
+      if(!copied&&currentVersion===version){selectPrompt();try{copied=document.execCommand('copy')}catch(error){copied=false}}
+      if(currentVersion===version){copy.textContent=copied?'已複製':'請手動複製';status.textContent=copied?'已複製提示詞，貼到 AI 工具即可使用。':'瀏覽器未允許自動複製。全文已選取，請用裝置的複製功能。'}
+      copy.disabled=false;
+    });
+    if(new URLSearchParams(location.search).get('preview')==='1')document.querySelector('.preview-bar').classList.add('visible');
+    document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{wrapper.classList.toggle('mobile-preview',button.dataset.mode==='mobile');document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));sendHeight()}));
+    let lastHeight=0;
+    function sendHeight(){requestAnimationFrame(()=>{const height=Math.ceil(document.documentElement.scrollHeight);if(height!==lastHeight){lastHeight=height;if(parent!==window)parent.postMessage({type:'iframe-height',height},'*')}})}
+    new ResizeObserver(sendHeight).observe(wrapper);
+    window.addEventListener('resize',sendHeight);
+    document.fonts.ready.then(sendHeight);
+    update();
+  </script>
+</body>
+</html>
