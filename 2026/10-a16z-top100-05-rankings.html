@@ -216,7 +216,7 @@
   </div>
 <div class="section-title">FIGURE 04 · THE RANKINGS</div>
     <h2 class="section-headline">Top 50互動榜單：三張榜，一次看完</h2>
-    <p class="section-sub">切換網頁版、手機版、支出榜三張榜單。搜尋產品名稱，或用右側篩選只看「三榜交集」與「隱形冠軍」（有上支出榜、但流量榜缺席的產品，排名以支出榜為準）。</p>
+    <p class="section-sub">切換網頁版、手機版、支出榜三張榜單。搜尋產品名稱，或用右側篩選只看「三榜交集」與「隱形贏家」（有上支出榜、但流量榜缺席的產品，排名以支出榜為準）。</p>
     <div class="tabs" role="group" aria-label="榜單切換" style="margin-bottom:16px">
       <button aria-pressed="true" data-rank="web">網頁版Top 50</button>
       <button aria-pressed="false" data-rank="mobile">手機版Top 50</button>
@@ -226,7 +226,7 @@
       <input class="search" id="rankSearch" type="search" placeholder="搜尋產品名稱" aria-label="搜尋產品名稱">
       <div class="chips">
         <button class="chip" id="chipTriple" aria-pressed="false">三榜交集</button>
-        <button class="chip" id="chipHidden" aria-pressed="false">隱形冠軍</button>
+        <button class="chip" id="chipHidden" aria-pressed="false">隱形贏家</button>
       </div>
     </div>
     <p class="rank-src" id="rankSrc"></p>
@@ -317,7 +317,7 @@
       if (q && name.toLowerCase().indexOf(q) < 0 && c.toLowerCase().indexOf(q) < 0) return;
       var badges = "";
       if (isTriple) badges += '<span class="badge triple">三榜交集</span>';
-      if (isHidden) badges += '<span class="badge hidden">隱形冠軍</span>';
+      if (isHidden) badges += '<span class="badge hidden">隱形贏家</span>';
       var logo = LOGO[name]
         ? '<img class="logo" src="https://www.google.com/s2/favicons?sz=64&domain=' + LOGO[name] + '" alt="" width="22" height="22" loading="lazy" onerror="this.style.visibility=\'hidden\'">'
         : '<span class="logo ph"></span>';
