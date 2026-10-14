@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Motion 三步操作流程｜數位時代</title>
+<meta name="description" content="從提供資料、指定風格，到修改與匯出 MP4，三步掌握 Claude Motion。可點選步驟查看提示詞範例。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{--orange:#FF6B1A;--paper:#FAF7F1;--paper2:#F5F3EF;--paper3:#ECE8DF;--ink:#1A1A1A;--line:#D4D0C8;--navy:#0F1A2E;--font:"Inter","Noto Sans TC","PingFang TC",-apple-system,"Microsoft JhengHei",sans-serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--paper);color:var(--ink)}body{padding:24px 16px;font-family:var(--font);font-size:17px;line-height:1.8;text-wrap:pretty;font-feature-settings:"tnum" 1}button,textarea{font:inherit;color:var(--ink)}button{cursor:pointer}a{color:var(--ink);text-underline-offset:3px}a:hover{text-decoration-color:var(--orange)}button:focus-visible,a:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:4px}.wrapper{max-width:880px;margin:0 auto;container-type:inline-size;transition:max-width .25s ease}.content{border-top:4px solid var(--ink);padding:24px 0 0}.kicker{font-size:14px;font-weight:700;letter-spacing:.02em;margin:0 0 8px}.headline{font-size:28px;line-height:1.35;letter-spacing:.02em;margin:0 0 12px;text-wrap:balance}.headline span{text-decoration:underline;text-decoration-color:var(--orange);text-decoration-thickness:4px;text-underline-offset:6px}.deck{margin:0 0 24px;font-size:17px;line-height:1.8}.start{padding:12px 16px;border:1px solid var(--line);background:var(--paper2);border-radius:8px;font-size:15px;line-height:1.7;margin-bottom:24px}.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:0;margin:0;list-style:none}.step{display:flex;position:relative}.step:not(:last-child)::after{content:"→";position:absolute;z-index:1;right:-15px;top:43px;line-height:1.2;background:var(--paper);font-size:18px}.step-button{width:100%;padding:20px;text-align:left;border:1px solid var(--line);border-radius:8px;background:var(--paper);display:flex;flex-direction:column;gap:12px;transition:border-color .12s ease,background .12s ease}.step-button:hover{background:var(--paper2);border-color:var(--ink)}.step-button[aria-pressed="true"]{border:2px solid var(--orange);padding:19px;background:var(--paper2)}.top{display:flex;align-items:center;justify-content:space-between}.number{font-size:28px;line-height:1.35;font-weight:700}.icon{width:32px;height:32px;fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.step-title{font-size:22px;line-height:1.45;font-weight:700}.materials{font-size:15px;line-height:1.7;display:block;font-weight:700}.action{font-size:15px;line-height:1.7;display:block}.hint{font-size:14px;line-height:1.5;text-decoration:underline;text-underline-offset:3px;margin-top:auto;padding-top:4px}.example{margin-top:24px;padding:20px 24px;background:var(--paper3);border-radius:8px}.example-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px}.example h2{font-size:18px;line-height:1.8;margin:0}.copy{padding:8px 16px;background:var(--paper);border:1px solid var(--ink);border-radius:0;font-size:14px;line-height:1.5;flex-shrink:0}.copy:hover{background:var(--paper2)}.prompt{margin:0;font-size:17px;line-height:1.8}.example-note{font-size:13px;line-height:1.5;margin:12px 0 0}.copy-status{font-size:14px;line-height:1.5;margin:8px 0 0}.copy-status:empty{display:none}.manual-copy{width:100%;margin:12px 0 0;padding:12px;min-height:128px;border:1px solid var(--line);background:var(--paper);font-size:15px;line-height:1.7;resize:vertical}.manual-copy[hidden]{display:none}.limits{margin-top:24px;padding:16px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.7}.limits p{margin:0 0 8px}.limits p:last-child{margin:0}.date{white-space:nowrap}.sources{margin-top:16px;font-size:13px;line-height:1.7}.sources p{margin:0}.footer{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);margin-top:16px;padding-top:12px;font-size:13px;line-height:1.5}.preview{position:fixed;right:14px;top:14px;z-index:9999;display:none;gap:4px;padding:8px;background:var(--navy);align-items:center}.preview.enabled{display:flex}.preview button{font-size:14px;line-height:1.5;padding:8px 12px;border:0;background:var(--paper);color:var(--ink)}.preview button[aria-pressed="true"]{background:var(--orange)}body.preview-mode{padding-top:80px}
+@container(max-width:640px){.content{padding-top:20px}.headline{font-size:28px}.deck{margin-bottom:20px}.steps{grid-template-columns:1fr;gap:20px}.step:not(:last-child)::after{content:"↓";right:auto;left:34px;top:auto;bottom:-18px}.step-button,.step-button[aria-pressed="true"]{display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px 16px;padding:16px}.step-button[aria-pressed="true"]{padding:15px}.top{grid-column:1;grid-row:1 / 5;flex-direction:column;justify-content:flex-start;gap:12px}.step-title,.materials,.action,.hint{grid-column:2}.hint{padding:0}.example{padding:20px 16px}.example-head{gap:8px;align-items:flex-start}.example h2{font-size:17px}.copy{padding:8px 12px}.footer{flex-direction:column;gap:4px}}
+@media(max-width:640px){body{padding:16px 12px}body.preview-mode{padding-top:80px}}
+</style>
+</head>
+<body>
+<main class="wrapper">
+<div class="content">
+<header>
+<p class="kicker">CLAUDE MOTION · 動畫製作指南</p>
+<h1 class="headline">從資料到 MP4，<span>三步怎麼走？</span></h1>
+<p class="deck">先說清楚內容與風格，再修改細節。點選步驟，查看可直接使用的提示詞範例。</p>
+</header>
+<div class="start"><strong>從哪裡開始？</strong>在 Claude 訊息框選擇「Output → Motion」，或到「Artifacts」選擇 Motion 範本。</div>
+<ol class="steps" aria-label="Claude Motion 三步操作流程">
+<li class="step"><button type="button" class="step-button" data-step="0" aria-pressed="true" aria-controls="prompt-panel"><span class="top"><span class="number">01</span><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="4" width="20" height="24" rx="2"/><path d="M11 11h10M11 16h10M11 21h6"/></svg></span><span class="step-title">餵資料</span><span class="materials">準備：試算表、報告或圖片</span><span class="action">說清楚誰要看、用在哪裡，以及影片長度。</span><span class="hint">查看提示詞範例</span></button></li>
+<li class="step"><button type="button" class="step-button" data-step="1" aria-pressed="false" aria-controls="prompt-panel"><span class="top"><span class="number">02</span><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="6" width="24" height="20" rx="2"/><circle cx="11" cy="12" r="2"/><path d="m5 23 8-7 5 4 4-7 5 10"/></svg></span><span class="step-title">給參考</span><span class="materials">準備：喜歡的風格截圖</span><span class="action">指定配色、字體與轉場方向，減少來回猜測。</span><span class="hint">查看提示詞範例</span></button></li>
+<li class="step"><button type="button" class="step-button" data-step="2" aria-pressed="false" aria-controls="prompt-panel"><span class="top"><span class="number">03</span><svg class="icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 5h20v17H14l-8 6V5Z"/><path d="M11 11h10M11 16h7"/></svg></span><span class="step-title">留言修改</span><span class="materials">準備：第一版動畫</span><span class="action">指定要改的元素、文字與時序，確認後匯出 MP4。</span><span class="hint">查看提示詞範例</span></button></li>
+</ol>
+<section class="example" id="prompt-panel" aria-label="提示詞範例">
+<div class="example-head"><h2 id="example-title">步驟 1：把內容與用途交代清楚</h2><button type="button" class="copy" id="copy-prompt">複製提示詞</button></div>
+<p class="prompt" id="prompt-text" aria-live="polite">請把附件的季度報告做成 30 秒動畫，給公司全體員工觀看，用於內部簡報。以 3 個重點呈現，保留資料中的數字與單位，不要加入未提供的數據。</p>
+<p class="example-note">編輯建議範例，可依自己的資料與需求調整。</p>
+<p class="copy-status" id="copy-status" role="status"></p>
+<textarea class="manual-copy" id="manual-copy" aria-label="請選取並手動複製提示詞" readonly hidden></textarea>
+</section>
+<aside class="limits" aria-label="使用方案與限制">
+<p><strong>誰能使用？</strong><span class="date">截至 2026 年 10 月 14 日</span>，Motion 為 Team、Enterprise 方案測試功能。Team 預設開啟；Enterprise 須由組織擁有者啟用。</p>
+<p><strong>用量怎麼算？</strong>計入方案使用額度，動畫越長、越複雜，消耗通常越多。</p>
+</aside>
+<div class="sources"><p>資料來源：<a href="https://support.claude.com/en/articles/17454997-get-started-with-claude-motion" target="_blank" rel="noopener">Claude Motion 官方操作說明</a>、<a href="https://claude.com/resources/articles/dashboards-and-motion" target="_blank" rel="noopener">Anthropic 官方公告</a></p></div>
+<footer class="footer"><strong>數位時代 Business Next</strong><span>資料核對：2026 年 10 月 14 日</span></footer>
+</div>
+</main>
+<div class="preview" role="toolbar" aria-label="預覽模式切換"><button type="button" data-width="880" aria-pressed="true">桌機</button><button type="button" data-width="390" aria-pressed="false">手機</button></div>
+<script>
+(()=>{
+const examples=[
+{title:'步驟 1：把內容與用途交代清楚',text:'請把附件的季度報告做成 30 秒動畫，給公司全體員工觀看，用於內部簡報。以 3 個重點呈現，保留資料中的數字與單位，不要加入未提供的數據。'},
+{title:'步驟 2：用參考圖指定風格',text:'請參考附件截圖的視覺風格，使用米色背景、深色文字與簡潔字體。圖表依序出現，轉場保持簡單，數字停留久一點，讓觀眾看得清楚。'},
+{title:'步驟 3：指出要改的細節',text:'請把第二幕的標題放大，並把圖表出現的時間放慢。保留其他畫面、數字與配色。修改後讓我確認，再由我點選 Export，選擇 MP4 下載。'}
+];
+let active=0;const buttons=[...document.querySelectorAll('.step-button')];const status=document.querySelector('#copy-status');const manual=document.querySelector('#manual-copy');
+buttons.forEach((button,index)=>button.addEventListener('click',()=>{active=index;buttons.forEach((item,i)=>item.setAttribute('aria-pressed',String(i===index)));document.querySelector('#example-title').textContent=examples[index].title;document.querySelector('#prompt-text').textContent=examples[index].text;status.textContent='';manual.hidden=true;}));
+document.querySelector('#copy-prompt').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(examples[active].text);status.textContent='已複製提示詞。';manual.hidden=true;}catch{manual.hidden=false;manual.value=examples[active].text;manual.focus();manual.select();status.textContent='請選取下方文字，手動複製。';}});
+if(new URLSearchParams(location.search).get('preview')==='1'){document.body.classList.add('preview-mode');document.querySelector('.preview').classList.add('enabled');const previewButtons=[...document.querySelectorAll('.preview button')];previewButtons.forEach(button=>button.addEventListener('click',()=>{document.querySelector('.wrapper').style.maxWidth=button.dataset.width+'px';previewButtons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));}));}
+})();
+</script>
+</body>
+</html>

@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| Claude Motion 三步操作流程 | Claude Motion 教學文（標題待定）：餵資料、給參考、留言修改三步，點選步驟帶出可複製提示詞範例，附方案限制與用量說明。桌機三卡橫排、手機直排。建議 iframe 高度 1,057px。 | 2026-10-14 | [`2026/10-claude-motion-three-steps.html`](./2026/10-claude-motion-three-steps.html) |
 | 四種 AI 解說格式選擇器 | Karpathy AI 解說教學：輸入主題，選簡潔文字、圖解、互動網頁或解說影片，自動帶入可複製提示詞。桌機四卡並列、手機直排，附操作門檻與複製備援。桌機實測高度 1,247px，建議 iframe 高度 1,338px；手機在 iframe 內捲動。 | 2026-10-02 | [`2026/10-karpathy-explanation-format-selector.html`](./2026/10-karpathy-explanation-format-selector.html) |
 | 歐洲備戰地圖：各國在準備什麼？ | 歐洲備戰現況盤點：六國地圖與德國赴立陶宛駐軍示意，點選查看措施、規模、時程及來源。手機改為國家卡片；區分情境估算、執行進度與未來目標。桌機實測高度 1,103px，建議 iframe 高度 1,194px | 2026-09-21 | [`2026/09-europe-preparedness-map.html`](./2026/09-europe-preparedness-map.html) |
 | 幕僚長用 @ 轉派專責 Bot | 教學文「Grok Bot 怎麼上手」：人只待在幕僚長視窗，對話框打 @ 點名研究員、企劃、審稿。上面是轉派／回報編制與共用雲端電腦，下面是業務開發交辦範例。桌機三欄專責 Bot、手機改單欄堆疊，CSS container query 雙軌 | 2026-08-25 | [`2026/08-grok-bot-chief-of-staff.html`](./2026/08-grok-bot-chief-of-staff.html) |
