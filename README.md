@@ -10,6 +10,8 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| PHP 漏洞，我該做什麼？ | PHP 重大資安漏洞懶人包：一般使用者、代管網站經營者與系統管理者的行動卡，核心資訊直接顯示，附修補版本及可複製的代管商詢問文字。建議 iframe 高度 891px。 | 2026-10-22 | [`2026/10-php-security-action-cards.html`](./2026/10-php-security-action-cards.html) |
+| 為什麼網站突然進入維護？ | PHP 重大資安漏洞懶人包：五個關鍵轉折：修補卡關、AI 證實風險、消息曝光打亂時程、網站預防性停站與更新後檢查。建議 iframe 高度 1118px。 | 2026-10-22 | [`2026/10-php-security-timeline.html`](./2026/10-php-security-timeline.html) |
 | Zeabur三年半：從創立到宣布停運 | 八節點互動時間軸，區分官方公告、前員工回顧與預定停服時程，Nuphos作為產品旁支，逐節附來源。 | 2026-10-19 | [`2026/10-zeabur-timeline.html`](./2026/10-zeabur-timeline.html) |
 | 跟著黃仁勳與 Lex 吃台北 | 黃仁勳遊台灣影片美食配件：六家店可依豬腳午餐、寧夏夜市與台式早餐篩選，附影片時間、地址與地圖。桌機實測高度 1,895px，建議 iframe 高度 1,986px；手機在 iframe 內捲動。 | 2026-10-15 | [`2026/10-jensen-taiwan-food.html`](./2026/10-jensen-taiwan-food.html) |
 | Claude Motion 三步操作流程 | Claude Motion 教學文（標題待定）：餵資料、給參考、留言修改三步，點選步驟帶出可複製提示詞範例，附方案限制與用量說明。桌機三卡橫排、手機直排。建議 iframe 高度 1,057px。 | 2026-10-14 | [`2026/10-claude-motion-three-steps.html`](./2026/10-claude-motion-three-steps.html) |
