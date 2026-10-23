@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| 6 起事件，鑰匙在哪一關失守？ | 資安事件六張互動卡：入口、憑證、影響、處置及官方來源。Zeabur 八月路徑另加註，調查中保留不確定性。桌機展開最大 1789px，建議 iframe 高度 1880px；手機於框內捲動。 | 2026-10-23 | [`2026/10-security-breach-key-cards.html`](./2026/10-security-breach-key-cards.html) |
 | PHP 漏洞，我該做什麼？ | PHP 重大資安漏洞懶人包：一般使用者、代管網站經營者與系統管理者的行動卡，核心資訊直接顯示，附修補版本及可複製的代管商詢問文字。建議 iframe 高度 891px。 | 2026-10-22 | [`2026/10-php-security-action-cards.html`](./2026/10-php-security-action-cards.html) |
 | 為什麼網站突然進入維護？ | PHP 重大資安漏洞懶人包：五個關鍵轉折：修補卡關、AI 證實風險、消息曝光打亂時程、網站預防性停站與更新後檢查。建議 iframe 高度 1118px。 | 2026-10-22 | [`2026/10-php-security-timeline.html`](./2026/10-php-security-timeline.html) |
 | Zeabur三年半：從創立到宣布停運 | 八節點互動時間軸，區分官方公告、前員工回顧與預定停服時程，Nuphos作為產品旁支，逐節附來源。 | 2026-10-19 | [`2026/10-zeabur-timeline.html`](./2026/10-zeabur-timeline.html) |
