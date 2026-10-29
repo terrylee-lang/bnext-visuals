@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| 91APP資安事件時間軸一次看 | 91APP資安事件更新：最大可能影響範圍、補償進度及11月2日起通知安排。可展開事件說明，建議 iframe 高度1550px，手機於框內捲動。 | 2026-10-29 | [`2026/10-91app-incident-timeline.html`](./2026/10-91app-incident-timeline.html) |
 | Anthropic 的 807 億美元虧損，怎麼算？ | Anthropic S-1 數字解析：五個損益項目與非現金重估說明，另列營業現金流及單季營業利益。桌機實測 1311px，建議 iframe 高度 1402px；手機於框內捲動。 | 2026-10-27 | [`2026/10-anthropic-ipo-loss-breakdown.html`](./2026/10-anthropic-ipo-loss-breakdown.html) |
 | 6 起事件，鑰匙在哪一關失守？ | 資安事件六張互動卡：入口、憑證、影響、處置及官方來源。Zeabur 八月路徑另加註，調查中保留不確定性。桌機展開最大 1789px，建議 iframe 高度 1880px；手機於框內捲動。 | 2026-10-23 | [`2026/10-security-breach-key-cards.html`](./2026/10-security-breach-key-cards.html) |
 | PHP 漏洞，我該做什麼？ | PHP 重大資安漏洞懶人包：一般使用者、代管網站經營者與系統管理者的行動卡，核心資訊直接顯示，附修補版本及可複製的代管商詢問文字。建議 iframe 高度 891px。 | 2026-10-22 | [`2026/10-php-security-action-cards.html`](./2026/10-php-security-action-cards.html) |
