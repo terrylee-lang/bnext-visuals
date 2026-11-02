@@ -97,7 +97,8 @@ body.has-steps .progress{display:none}
 .opts{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
 .opt{position:relative;display:block}
 .opt[hidden]{display:none}
-.opt input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+/* 只隱藏選項卡裡的單選、複選原生元件；「其他：請說明」的文字框不能被這條規則蓋到 */
+.opt > label > input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .opt span{display:block;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:0;background:var(--paper);font-size:16px;line-height:1.5;transition:background 120ms var(--ease),border-color 120ms var(--ease)}
 .opt:hover span{border-color:var(--ink)}
 .opt input:checked + span{background:var(--paper3);border-color:var(--ink);border-left-color:var(--orange)}
@@ -114,10 +115,21 @@ body.has-steps .progress{display:none}
 .max-count{display:inline-block;white-space:nowrap;margin-left:8px;padding:0 8px;border:1px solid var(--line);font-family:Inter,"Noto Sans TC",sans-serif;font-size:13px;line-height:22px;font-weight:600;color:var(--muted);font-feature-settings:'tnum' 1;vertical-align:1px;transition:color 120ms var(--ease),border-color 120ms var(--ease)}
 .max-count.full{border-color:var(--orange);color:var(--orange-deep)}
 .max-count.shake{animation:shake 360ms var(--ease)}
+/* 互斥選項：分隔線＋小字，圓點外觀，被清除時提示 */
+.opt-sep{display:flex;align-items:center;gap:10px;margin:6px 0 2px;font-size:13px;line-height:1.4;color:var(--muted);list-style:none}
+.opt-sep::before,.opt-sep::after{content:"";flex:1;border-top:1px dashed var(--line)}
+.opts.two .opt-sep{grid-column:1/-1}
+.ck-x .ring{fill:var(--paper);stroke:var(--muted2);stroke-width:1.5;transition:stroke 120ms var(--ease)}
+.ck-x .dot{fill:var(--ink);transform:scale(0);transform-origin:center;transform-box:fill-box;transition:transform 200ms cubic-bezier(.34,1.56,.64,1)}
+.opt:hover .ck-x .ring{stroke:var(--ink)}
+.opt input:checked + span .ck-x .ring{stroke:var(--ink)}
+.opt input:checked + span .ck-x .dot{transform:scale(1)}
+.excl-hint{display:none;font-size:14px;color:var(--orange-deep);margin:0 0 8px 34px}
 /* 漏答輕震 */
 .q.shake .q-text,.q.shake .err{animation:shake 360ms var(--ease)}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
 .opt-text{display:flex;gap:8px;align-items:center;margin-top:8px;margin-left:18px}
+.opt-text[hidden]{display:none}
 .opt-text input[type=text]{flex:1;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:0;background:var(--paper2);font:inherit;font-size:16px;color:var(--ink)}
 
 /* scale rows */
@@ -225,7 +237,7 @@ footer strong{color:var(--ink);font-weight:700}
 @media (prefers-reduced-motion:reduce){
   .steps-line i,.step-dot{transition:none}
   .step.done .step-check{animation:none;transform:scale(1)}
-  .ck path{transition:none}
+  .ck path,.ck-x .dot{transition:none}
   .q.shake .q-text,.q.shake .err,.max-count.shake,.step.shake .step-dot{animation:none}
   .is-loading .btn-spin{animation-duration:1.6s}
   .is-done .btn-ok{animation:none;transform:scale(1)}
@@ -332,7 +344,7 @@ footer strong{color:var(--ink);font-weight:700}
         <li class="opt"><label><input type="radio" name="q4" value="做決策時有依據"><span>做決策時有依據</span></label></li>
         <li class="opt"><label><input type="radio" name="q4" value="找題目跟同事聊"><span>找題目跟同事聊</span></label></li>
         <li class="opt"><label><input type="radio" name="q4" value="其他"><span>其他</span></label>
-          <div class="opt-text"><label for="q4_other" class="q-hint">請說明</label><input type="text" id="q4_other" name="q4_other" maxlength="100" placeholder="一句話就好"></div>
+          <div class="opt-text" hidden><label for="q4_other" class="q-hint">請說明</label><input type="text" id="q4_other" name="q4_other" maxlength="100" placeholder="一句話就好"></div>
         </li>
       </ul>
     </div>
@@ -1008,10 +1020,13 @@ document.addEventListener('change', function(e){
   if (!el || el.type !== 'checkbox') return;
   var group = qsa('input[name="' + el.name + '"]');
   var q = el.closest('.q');
+  var cleared = [];
   if (el.hasAttribute('data-exclusive') && el.checked){
-    group.forEach(function(x){ if (x !== el) x.checked = false; });
+    group.forEach(function(x){ if (x !== el && x.checked){ x.checked = false; cleared.push(x.value); } });
+    if (cleared.length) showExclHint(q, '「' + el.value + '」只能單獨選，已取消其他選項');
   } else if (el.checked){
-    group.forEach(function(x){ if (x.hasAttribute('data-exclusive')) x.checked = false; });
+    group.forEach(function(x){ if (x.hasAttribute('data-exclusive') && x.checked){ x.checked = false; cleared.push(x.value); } });
+    if (cleared.length) showExclHint(q, '已取消「' + cleared.join('」「') + '」');
     var max = q && Number(q.getAttribute('data-max'));
     if (max && group.filter(function(x){ return x.checked; }).length > max){
       el.checked = false;
@@ -1020,8 +1035,22 @@ document.addEventListener('change', function(e){
       updateProgress(); bump(qs('.max-count', q));
     }
   }
+  if (cleared.length){ updateProgress(); saveDraft(); }
   if (q) q.classList.remove('missing');
 });
+function showExclHint(q, text){
+  var h = q && qs('.excl-hint', q); if (!h) return;
+  h.textContent = text; h.style.display = 'block';
+  clearTimeout(h._t); h._t = setTimeout(function(){ h.style.display = 'none'; }, 2500);
+}
+/* 第 4 題：選「其他」才展開說明欄；改選就收起（已打的字保留，但只有選「其他」時才送出） */
+function syncQ4Other(focus){
+  var box = qs('.q[data-q="q4"] .opt-text'); if (!box) return;
+  var on = checked('q4') === '其他';
+  box.hidden = !on;
+  if (on && focus) $('q4_other').focus({preventScroll:true});
+}
+document.addEventListener('change', function(e){ if (e.target && e.target.name === 'q4') syncQ4Other(true); });
 document.addEventListener('change', function(e){
   var el = e.target;
   if (!el || el.type !== 'radio') return;
@@ -1074,7 +1103,7 @@ function collect(){
     q2: checkedAll('q2'),
     q3: checked('q3'),
     q4: checked('q4'),
-    q4_other: ($('q4_other').value || '').trim().slice(0, 100),
+    q4_other: checked('q4') === '其他' ? ($('q4_other').value || '').trim().slice(0, 100) : '',
     q5: q5, q5_order: state.q4Order,
     q6: state.answers5.map(function(a){ return {pos:a.pos, left:a.left, right:a.right, pick:a.pick, ms:a.ms, interrupted:a.interrupted, timed:a.timed !== false}; }),
     q6_repeat_consistent: !!(rep && last && rep.pick === last.pick),
@@ -1213,7 +1242,16 @@ function showSuccess(){
 renderScales();
 renderProfile();
 qsa('.opt input[type=checkbox] + span').forEach(function(sp){
-  sp.insertAdjacentHTML('afterbegin', '<svg class="ck" viewBox="0 0 18 18" aria-hidden="true"><rect x=".75" y=".75" width="16.5" height="16.5" rx="1"/><path d="M4.5 9.5 7.8 12.8 13.5 5.8"/></svg>');
+  var excl = sp.previousElementSibling.hasAttribute('data-exclusive');
+  sp.insertAdjacentHTML('afterbegin', excl
+    ? '<svg class="ck ck-x" viewBox="0 0 18 18" aria-hidden="true"><circle class="ring" cx="9" cy="9" r="8.25"/><circle class="dot" cx="9" cy="9" r="4.25"/></svg>'
+    : '<svg class="ck" viewBox="0 0 18 18" aria-hidden="true"><rect x=".75" y=".75" width="16.5" height="16.5" rx="1"/><path d="M4.5 9.5 7.8 12.8 13.5 5.8"/></svg>');
+});
+qsa('.opts').forEach(function(ul){
+  var first = qs('input[type=checkbox][data-exclusive]', ul); if (!first) return;
+  var li = first.closest('.opt');
+  li.insertAdjacentHTML('beforebegin', '<li class="opt-sep">或選以下其中一項</li>');
+  ul.insertAdjacentHTML('beforebegin', '<p class="excl-hint" role="status" aria-live="polite"></p>');
 });
 qsa('.q[data-max] .q-hint').forEach(function(h){ h.insertAdjacentHTML('afterend', '<span class="max-count" aria-hidden="true"></span>'); });
 qsa('.q').forEach(function(q){
@@ -1231,6 +1269,7 @@ if (recovered && Array.isArray(recovered.fields)) recovered.fields.forEach(funct
   });
 });
 if (pending) qsa('input,textarea', $('survey')).forEach(function(el){ el.disabled = true; });
+syncQ4Other(false);
 applySkip(); updateProgress();
 if (state.completed){ showSuccess(); }
 else { showPair(); saveDraft(); }
