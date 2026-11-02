@@ -28,12 +28,46 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px soli
 
 .wrapper{max-width:720px;margin:0 auto;padding:0 16px 64px}
 .progress{position:fixed;top:0;left:0;right:0;height:4px;background:var(--paper3);z-index:50}
+html{scroll-padding-top:var(--steps-h,0px)}
+body.has-steps .progress{display:none}
+.steps{position:sticky;top:0;z-index:50;background:var(--paper2);border-bottom:1px solid var(--line);margin:0 -16px;padding:10px 16px 8px;display:flex;align-items:center;gap:16px}
+.steps-track{position:relative;flex:1;min-width:0}
+.steps-line{position:absolute;left:14px;right:14px;top:14px;height:2px;background:var(--paper4);overflow:hidden}
+.steps-line i{display:block;height:100%;width:100%;background:var(--orange);transform-origin:left center;transform:scaleX(0);transition:transform 500ms var(--ease)}
+.steps-list{list-style:none;margin:0;padding:0;display:flex;justify-content:space-between;position:relative}
+.step{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.step-dot{position:relative;width:28px;height:28px;border-radius:50%;border:2px solid var(--line);background:var(--paper);color:var(--muted);font-family:Inter,"Noto Sans TC",sans-serif;font-size:12px;font-weight:600;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:transform 200ms var(--ease),border-color 200ms var(--ease),background 200ms var(--ease),color 200ms var(--ease)}
+.step-dot::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid transparent;transition:border-color 200ms var(--ease)}
+.step-check{position:absolute;width:14px;height:14px;transform:scale(0);opacity:0}
+.step.done .step-dot{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.step.done .step-num{opacity:0}
+.step.done .step-check{opacity:1;animation:step-pop 420ms cubic-bezier(.34,1.56,.64,1) forwards}
+.step.on .step-dot{border-color:var(--orange);color:var(--orange);transform:scale(1.15)}
+.step.on.done .step-dot{background:var(--orange);border-color:var(--orange);color:var(--paper)}
+.step.on .step-dot::after{border-color:var(--orange-soft)}
+.step-label{font-size:11px;line-height:1.3;color:var(--muted);white-space:nowrap;letter-spacing:.02em}
+.step.on .step-label{color:var(--ink);font-weight:600}
+.steps-nav{display:flex;gap:6px;flex:none}
+.steps-nav button{min-height:36px;padding:6px 12px;border:1px solid var(--ink);border-radius:0;background:transparent;font-size:13px;font-weight:600;letter-spacing:.02em;transition:background 120ms var(--ease)}
+.steps-nav button:hover{background:var(--paper3)}
+.steps-nav button:disabled{border-color:var(--line);color:var(--muted2);cursor:default;background:transparent}
+.steps-nav .short{display:none}
+@keyframes step-pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.step.miss:not(.done) .step-dot{border-color:var(--red);color:var(--red)}
+.step.shake .step-dot{animation:shake 360ms var(--ease)}
+@media (max-width:520px){.step-label{display:none}.steps{gap:10px}.steps-nav .long{display:none}.steps-nav .short{display:inline}.steps-nav button{padding:6px 10px}}
 .progress i{display:block;height:100%;width:0;background:var(--orange);transition:width 200ms var(--ease)}
 .q.skipped{display:none}
 .submit-note{font-size:14px;color:var(--muted);margin:0}
 
 /* header */
 .head{padding:36px 0 20px;border-top:5px solid var(--orange)}
+.head{position:relative}
+.ptitle-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none}
+.head.particles .ptitle-canvas{display:block}
+.head.particles .ptitle-text{color:transparent}
+.head.particles .ptitle-text::selection{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.ptitle-canvas{display:none !important}.head.particles .ptitle-text{color:inherit}}
 .logo{display:block;height:36px;width:auto;margin:0 0 18px}
 .kicker{font-family:Inter,"Noto Sans TC",sans-serif;font-size:13px;letter-spacing:.14em;font-weight:600;color:var(--muted);text-transform:uppercase}
 .head h1{font-size:34px;line-height:1.25;margin:10px 0 12px;font-weight:900}
@@ -68,6 +102,21 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px soli
 .opt:hover span{border-color:var(--ink)}
 .opt input:checked + span{background:var(--paper3);border-color:var(--ink);border-left-color:var(--orange)}
 .opt input:focus-visible + span{outline:3px solid var(--ink);outline-offset:2px}
+/* 複選框：方框加畫出來的勾，和單選卡一眼分開 */
+.opt input[type=checkbox] + span{position:relative;padding-left:44px}
+.ck{position:absolute;left:14px;top:13px;width:18px;height:18px;overflow:visible}
+.ck rect{fill:var(--paper);stroke:var(--muted2);stroke-width:1.5;transition:fill 120ms var(--ease),stroke 120ms var(--ease)}
+.ck path{fill:none;stroke:var(--paper);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:16;stroke-dashoffset:16;transition:stroke-dashoffset 240ms cubic-bezier(0,.7,.3,1) 40ms}
+.opt:hover .ck rect{stroke:var(--ink)}
+.opt input:checked + span .ck rect{fill:var(--ink);stroke:var(--ink)}
+.opt input:checked + span .ck path{stroke-dashoffset:0}
+/* 複選上限計數 */
+.max-count{display:inline-block;white-space:nowrap;margin-left:8px;padding:0 8px;border:1px solid var(--line);font-family:Inter,"Noto Sans TC",sans-serif;font-size:13px;line-height:22px;font-weight:600;color:var(--muted);font-feature-settings:'tnum' 1;vertical-align:1px;transition:color 120ms var(--ease),border-color 120ms var(--ease)}
+.max-count.full{border-color:var(--orange);color:var(--orange-deep)}
+.max-count.shake{animation:shake 360ms var(--ease)}
+/* 漏答輕震 */
+.q.shake .q-text,.q.shake .err{animation:shake 360ms var(--ease)}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
 .opt-text{display:flex;gap:8px;align-items:center;margin-top:8px;margin-left:18px}
 .opt-text input[type=text]{flex:1;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:0;background:var(--paper2);font:inherit;font-size:16px;color:var(--ink)}
 
@@ -110,6 +159,16 @@ textarea{width:100%;min-height:96px;padding:10px 12px;border:1px solid var(--lin
 .btn-primary{min-height:52px;padding:12px 28px;border:0;border-radius:0 0 8px 8px;background:var(--orange);color:var(--paper);font-size:17px;font-weight:700;letter-spacing:.04em;transition:background 120ms var(--ease)}
 .btn-primary:hover{background:var(--orange-deep)}
 .btn-primary:disabled{background:var(--paper4);color:var(--muted);cursor:default}
+/* 送出鍵：轉圈 → 打勾 */
+.btn-primary{position:relative}
+.btn-primary.is-loading:disabled,.btn-primary.is-done:disabled{background:var(--orange);color:var(--paper)}
+.btn-spin,.btn-ok{position:absolute;left:50%;top:50%;pointer-events:none}
+.btn-spin{width:20px;height:20px;margin:-10px 0 0 -10px;border:2.5px solid rgba(250,247,241,.35);border-top-color:var(--paper);border-radius:50%;opacity:0}
+.btn-ok{width:22px;height:22px;margin:-11px 0 0 -11px;transform:scale(0)}
+.is-loading .btn-label,.is-done .btn-label{visibility:hidden}
+.is-loading .btn-spin{opacity:1;animation:btn-spin 700ms linear infinite}
+.is-done .btn-ok{animation:step-pop 420ms cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes btn-spin{to{transform:rotate(360deg)}}
 .btn-ghost{min-height:44px;padding:8px 18px;border:1px solid var(--ink);border-radius:0;background:transparent;font-size:15px;font-weight:600}
 .status{font-size:15px;color:var(--muted);margin:0}
 .status.bad{color:var(--red)}
@@ -152,21 +211,60 @@ footer strong{color:var(--ink);font-weight:700}
   .scale-btns{justify-content:space-between}
   .scale-btns span{width:44px;height:44px}
 }
+/* 矮視窗（手機橫放、App 內建瀏覽器工具列）：步驟列不貼頂，配對選項收緊，讓兩個選項能完整進入畫面 */
+@media (max-height:500px){
+  .steps{position:static}
+}
+@media (max-height:420px){
+  .pair-stage{padding:12px}
+  .pair-bar{margin-bottom:10px}
+  .pair-grid{gap:8px}
+  .pair-btn{min-height:0;padding:10px 12px;font-size:15px;line-height:1.45}
+}
+/* 減少動態偏好：必須在所有動畫規則之後 */
+@media (prefers-reduced-motion:reduce){
+  .steps-line i,.step-dot{transition:none}
+  .step.done .step-check{animation:none;transform:scale(1)}
+  .ck path{transition:none}
+  .q.shake .q-text,.q.shake .err,.max-count.shake,.step.shake .step-dot{animation:none}
+  .is-loading .btn-spin{animation-duration:1.6s}
+  .is-done .btn-ok{animation:none;transform:scale(1)}
+}
 </style>
 </head>
 <body>
 <div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>
 <div class="wrapper">
 
-<header class="head">
+<header class="head" id="head">
   <img class="logo" src="../_assets/logos/bnext-2026.svg" alt="數位時代" width="98" height="36">
   <div class="kicker">會員專刊 · 讀者問卷</div>
-  <h1>下一期，你想讀什麼？</h1>
+  <h1 class="ptitle"><span class="ptitle-text" id="ptitleText">下一期，你想讀什麼？</span></h1>
+  <canvas class="ptitle-canvas" id="ptitleCanvas" aria-hidden="true"></canvas>
   <p class="deck">本問卷共 23 題，耗時約 5 分鐘。<br>哪裡卡住、哪裡不夠好，告訴我。請讓我成為，你的編輯。</p>
   <p class="privacy"><strong>本問卷匿名</strong>，不蒐集任何可識別個人的資料，不留 email，不記 IP。</p>
 </header>
 
 <form id="survey" novalidate autocomplete="off">
+
+<nav class="steps" id="steps" aria-label="填答進度">
+  <div class="steps-track">
+    <div class="steps-line" aria-hidden="true"><i id="steps-fill"></i></div>
+    <ol class="steps-list">
+    <li class="step" data-sec="sec1"><button type="button" class="step-dot" data-go="sec1" aria-label="第 1 段 怎麼讀"><span class="step-num">1</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">怎麼讀</span></li>
+    <li class="step" data-sec="sec2"><button type="button" class="step-dot" data-go="sec2" aria-label="第 2 段 為什麼訂"><span class="step-num">2</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">為什麼訂</span></li>
+    <li class="step" data-sec="sec3"><button type="button" class="step-dot" data-go="sec3" aria-label="第 3 段 想讀什麼"><span class="step-num">3</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">想讀什麼</span></li>
+    <li class="step" data-sec="sec4"><button type="button" class="step-dot" data-go="sec4" aria-label="第 4 段 怎麼寫"><span class="step-num">4</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">怎麼寫</span></li>
+    <li class="step" data-sec="sec5"><button type="button" class="step-dot" data-go="sec5" aria-label="第 5 段 怎麼收到"><span class="step-num">5</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">怎麼收到</span></li>
+    <li class="step" data-sec="sec6"><button type="button" class="step-dot" data-go="sec6" aria-label="第 6 段 關於你"><span class="step-num">6</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">關於你</span></li>
+    <li class="step" data-sec="sec7"><button type="button" class="step-dot" data-go="sec7" aria-label="第 7 段 想說的話"><span class="step-num">7</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">想說的話</span></li>
+    </ol>
+  </div>
+  <div class="steps-nav">
+    <button type="button" id="step-prev" aria-label="上一步"><span class="long">上一步</span><span class="short" aria-hidden="true">‹</span></button>
+    <button type="button" id="step-next" aria-label="下一步"><span class="long">下一步</span><span class="short" aria-hidden="true">›</span></button>
+  </div>
+</nav>
 
 <!-- 01 閱讀行為 -->
 <section class="sec" id="sec1">
@@ -187,7 +285,7 @@ footer strong{color:var(--ink);font-weight:700}
 
     <div class="q" data-q="q2" data-required="check">
       <p class="q-text"><span class="q-no">2</span><span>哪幾期對你有實際幫助？用上了、或改變了你的看法或做法都算。<span class="q-hint">可複選</span></span></p>
-      <p class="err">至少勾一項，沒有的話選最後兩項之一</p>
+      <p class="err">至少勾一項，沒有的話選最後三項之一</p>
       <ul class="opts two">
         <li class="opt"><label><input type="checkbox" name="q2" value="4月 Claude.AI 新手指南"><span>4月 Claude.AI 新手指南</span></label></li>
         <li class="opt"><label><input type="checkbox" name="q2" value="5月 Claude Skills"><span>5月 Claude Skills</span></label></li>
@@ -196,7 +294,8 @@ footer strong{color:var(--ink);font-weight:700}
         <li class="opt"><label><input type="checkbox" name="q2" value="8月 Codex 與 ChatGPT Work 對照"><span>8月 Codex 與 ChatGPT Work 對照</span></label></li>
         <li class="opt"><label><input type="checkbox" name="q2" value="9月 Sheets Canvas 與 Grok Bot"><span>9月 Sheets Canvas 與 Grok Bot</span></label></li>
         <li class="opt"><label><input type="checkbox" name="q2" value="10月 建構 Grok Bot 小隊"><span>10月 建構 Grok Bot 小隊</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="讀過但沒有用上" data-exclusive><span>讀過但沒有用上</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="讀過，但沒有明顯幫助" data-exclusive><span>讀過，但沒有明顯幫助</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="讀過，但記不清哪些期有幫助" data-exclusive><span>讀過，但記不清哪些期有幫助</span></label></li>
         <li class="opt"><label><input type="checkbox" name="q2" value="都沒讀過" data-exclusive><span>都沒讀過</span></label></li>
       </ul>
     </div>
@@ -370,7 +469,7 @@ footer strong{color:var(--ink);font-weight:700}
 <div class="submit-wrap">
   <p class="form-err" id="form-err" role="alert">還有題目沒作答，已標成紅字，請往上找。</p>
   <p class="submit-note">送出後答案就會鎖定，無法再修改。</p>
-  <button type="submit" class="btn-primary" id="submit-btn">送出問卷</button>
+  <button type="submit" class="btn-primary" id="submit-btn"><span class="btn-label">送出問卷</span><span class="btn-spin" aria-hidden="true"></span><svg class="btn-ok" viewBox="0 0 22 22" aria-hidden="true"><path d="M5 11.5 9.5 16 17.5 6.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <p class="status" id="status" role="status" aria-live="polite"></p>
   <button type="button" class="btn-ghost" id="retry-btn" style="display:none">再試一次</button>
 </div>
@@ -607,6 +706,25 @@ if (recovered){
   state.restoredElapsed = recovered.elapsed || 0;
   state.restoredInterrupted = true;
 }
+/* 收據確認後只留一筆「已完成」紀錄（同分頁、同 sessionStorage），重新整理直接回到感謝頁，不重送也不換 id */
+var DONE_KEY = DRAFT_KEY + '-done';
+function loadDone(){
+  try {
+    var d = JSON.parse(sessionStorage.getItem(DONE_KEY) || 'null');
+    if (!d || d.version !== 1 || typeof d.id !== 'string' || !Array.isArray(d.answers5) ||
+        !d.answers5.every(function(a){ return a && TITLE_BY_ID[a.left] && TITLE_BY_ID[a.right] && TITLE_BY_ID[a.pick]; })) return null;
+    return d;
+  } catch (e){ return null; }
+}
+function saveDone(){
+  try { sessionStorage.setItem(DONE_KEY, JSON.stringify({version:1, id:state.id, completedAt:Date.now(), answers5:state.answers5})); } catch (e) {}
+}
+var doneRecord = loadDone();
+if (doneRecord){
+  recovered = null;
+  state.completed = true; state.id = doneRecord.id; state.answers5 = doneRecord.answers5;
+  state.pairIndex = PAIR_TOTAL;
+}
 function saveDraft(){
   if (state.completed) return;
   try {
@@ -697,9 +815,11 @@ function showPair(){
 }
 function refreshPairVisibility(){
   var el = qs('.pair-grid'), rect = el.getBoundingClientRect();
-  var overlap = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+  // 兩個選項完整落在「步驟列下緣到視窗底」之間才計時，不再以部分可見代替
+  var topInset = stepsBottom();
+  var overlap = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, topInset));
   var visible = state.pairReady && document.visibilityState === 'visible' && state.windowFocused &&
-    overlap >= Math.min(rect.height, window.innerHeight * 0.7) - 1;
+    overlap >= rect.height - 1;
   if (!visible && state.pairShownAt !== null){
     state.pairElapsed += performance.now() - state.pairShownAt;
     state.pairShownAt = null; state.pairInterrupted = true;
@@ -794,7 +914,92 @@ function updateProgress(){
     else if (type === 'scale'){ var rows = qsa('.scale-row', q); done += rows.filter(function(row){ return !!checked(row.getAttribute('data-name')); }).length / rows.length; }
   });
   var bar = $('progress-bar'); if (bar) bar.style.width = Math.round(done / qs_.length * 100) + '%';
+  updateStepsDone();
+  updateMaxCounts();
 }
+function updateMaxCounts(){
+  qsa('.q[data-max]').forEach(function(q){
+    var c = qs('.max-count', q); if (!c) return;
+    var max = Number(q.getAttribute('data-max')), n = checkedAll(q.getAttribute('data-q')).length;
+    c.textContent = '已選 ' + n + '／' + max;
+    c.classList.toggle('full', n >= max);
+  });
+}
+function bump(el){
+  if (!el) return;
+  el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake');
+  el.addEventListener('animationend', function off(){ el.classList.remove('shake'); el.removeEventListener('animationend', off); });
+}
+function markMissingSteps(){
+  stepsValidated = true;
+  updateStepsDone();
+  STEPS.forEach(function(li){ if (li.classList.contains('miss')) bump(li); });
+}
+
+/* ---------- 步驟列（七段） ---------- */
+var STEPS = qsa('#steps .step'), SEC_IDS = STEPS.map(function(li){ return li.getAttribute('data-sec'); });
+var stepsOn = 0, stepsValidated = false;   // 第一次按送出被擋下後，紅點才開始依實際作答狀態顯示
+function stepsHeight(){   // 貼頂時占用的高度（矮視窗不貼頂即為 0）
+  var n = $('steps');
+  return (n && n.offsetParent !== null && getComputedStyle(n).position === 'sticky') ? n.offsetHeight : 0;
+}
+function stepsBottom(){   // 步驟列在視窗中實際蓋住的下緣
+  var n = $('steps');
+  return (n && n.offsetParent !== null) ? Math.max(0, n.getBoundingClientRect().bottom) : 0;
+}
+function prefersReduce(){ return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+function syncStepsVar(){ document.documentElement.style.setProperty('--steps-h', stepsHeight() + 'px'); }
+function sectionDone(secId){
+  var reqs = qsa('#' + secId + ' .q[data-required]').filter(function(q){ return !q.classList.contains('skipped'); });
+  if (!reqs.length) return true;   // 沒有必答題的段落（第七段）視為完成
+  return reqs.every(function(q){
+    var type = q.getAttribute('data-required'), name = q.getAttribute('data-q');
+    if (type === 'radio') return !!checked(name);
+    if (type === 'check') return checkedAll(name).length > 0;
+    if (type === 'pairs') return state.answers5.length >= PAIR_TOTAL;
+    if (type === 'scale') return qsa('.scale-row', q).every(function(row){ return !!checked(row.getAttribute('data-name')); });
+    return true;
+  });
+}
+function updateStepsDone(){
+  STEPS.forEach(function(li, i){
+    var d = i === STEPS.length - 1 ? false : sectionDone(SEC_IDS[i]);   // 最後一段選填，不打勾
+    li.classList.toggle('done', d);
+    li.classList.toggle('miss', stepsValidated && !sectionDone(SEC_IDS[i]));
+  });
+}
+function setStepOn(i){
+  i = Math.max(0, Math.min(STEPS.length - 1, i));
+  if (i === stepsOn && STEPS[i].classList.contains('on')) return;
+  stepsOn = i;
+  STEPS.forEach(function(li, k){ li.classList.toggle('on', k === i); li.setAttribute('aria-current', k === i ? 'step' : 'false'); });
+  var fill = $('steps-fill'); if (fill) fill.style.transform = 'scaleX(' + (i / (STEPS.length - 1)) + ')';
+  $('step-prev').disabled = i === 0;
+  $('step-next').disabled = i === STEPS.length - 1;
+}
+function spyStep(){
+  var line = stepsHeight() + window.innerHeight * 0.35, idx = 0;
+  SEC_IDS.forEach(function(id, i){ var el = $(id); if (el && el.getBoundingClientRect().top <= line) idx = i; });
+  setStepOn(idx);
+}
+function goStep(i){
+  i = Math.max(0, Math.min(STEPS.length - 1, i));
+  var el = $(SEC_IDS[i]); if (!el) return;
+  setStepOn(i);
+  el.scrollIntoView({behavior: prefersReduce() ? 'auto' : 'smooth', block:'start'});
+}
+(function initSteps(){
+  if (!STEPS.length) return;
+  document.body.classList.add('has-steps');
+  syncStepsVar();
+  $('step-prev').addEventListener('click', function(){ goStep(stepsOn - 1); });
+  $('step-next').addEventListener('click', function(){ goStep(stepsOn + 1); });
+  qsa('#steps .step-dot').forEach(function(b){ b.addEventListener('click', function(){ goStep(SEC_IDS.indexOf(b.getAttribute('data-go'))); }); });
+  var ticking = false;
+  window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(function(){ ticking = false; spyStep(); }); } }, {passive:true});
+  window.addEventListener('resize', function(){ syncStepsVar(); spyStep(); });
+  spyStep();
+})();
 document.addEventListener('change', function(){ Promise.resolve().then(updateProgress); });
 
 /* ---------- 互斥選項（都沒有／不便透露／沒有付費） ---------- */
@@ -812,6 +1017,7 @@ document.addEventListener('change', function(e){
       el.checked = false;
       var hint = qs('.max-hint', q);
       if (hint){ hint.style.display = 'block'; clearTimeout(hint._t); hint._t = setTimeout(function(){ hint.style.display = 'none'; }, 2000); }
+      updateProgress(); bump(qs('.max-count', q));
     }
   }
   if (q) q.classList.remove('missing');
@@ -927,6 +1133,7 @@ function submit(payload){
   qsa('input,textarea', $('survey')).forEach(function(el){ el.disabled = true; });
   var btn = $('submit-btn'), st = $('status'), retry = $('retry-btn');
   btn.disabled = true; retry.style.display = 'none';
+  btn.classList.remove('is-done'); btn.classList.add('is-loading');
   $('survey').setAttribute('aria-busy', 'true');
   st.className = 'status'; st.textContent = '送出中⋯';
   return post(payload).catch(function(err){
@@ -935,11 +1142,14 @@ function submit(payload){
     return wait(1500).then(function(){ return post(payload); });
   }).then(function(){
     st.textContent = '';
-    showSuccess();
     pending = null;
-    try { sessionStorage.removeItem(DRAFT_KEY); } catch (e) {}
     state.completed = true;
+    saveDone();
+    try { sessionStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    btn.classList.remove('is-loading'); btn.classList.add('is-done');
+    return wait(650).then(showSuccess);
   }).catch(function(err){
+    btn.classList.remove('is-loading', 'is-done');
     btn.disabled = false;
     st.className = 'status bad';
     var rejected = err.code === 'invalid' || err.code === 'bad payload';
@@ -964,7 +1174,8 @@ $('survey').addEventListener('submit', function(e){
   var bad = validate();
   var fe = $('form-err');
   if (bad){ fe.classList.add('show'); bad.scrollIntoView({behavior:'smooth', block:'center'});
-    var focus = qs('input,textarea,button', bad); if (focus) focus.focus({preventScroll:true}); return; }
+    var focus = qs('input,textarea,button', bad); if (focus) focus.focus({preventScroll:true});
+    markMissingSteps(); setTimeout(function(){ bump(bad); }, 450); return; }
   fe.classList.remove('show');
   submit(collect());
 });
@@ -992,6 +1203,7 @@ function showSuccess(){
   try { renderResultCard(); } catch (e) { qs('.card-dark').style.display = 'none'; }
   $('survey').style.display = 'none';
   var pb = qs('.progress'); if (pb) pb.style.display = 'none';
+  document.documentElement.style.setProperty('--steps-h', '0px');
   var result = $('result'); result.classList.add('show');
   result.focus({preventScroll:true});
   result.scrollIntoView({behavior:'smooth', block:'start'});
@@ -1000,6 +1212,10 @@ function showSuccess(){
 /* ---------- 啟動 ---------- */
 renderScales();
 renderProfile();
+qsa('.opt input[type=checkbox] + span').forEach(function(sp){
+  sp.insertAdjacentHTML('afterbegin', '<svg class="ck" viewBox="0 0 18 18" aria-hidden="true"><rect x=".75" y=".75" width="16.5" height="16.5" rx="1"/><path d="M4.5 9.5 7.8 12.8 13.5 5.8"/></svg>');
+});
+qsa('.q[data-max] .q-hint').forEach(function(h){ h.insertAdjacentHTML('afterend', '<span class="max-count" aria-hidden="true"></span>'); });
 qsa('.q').forEach(function(q){
   var title = qs('.q-text', q), err = qs('.err', q), key = q.getAttribute('data-q');
   if (title){ title.id = 'title-' + key; q.setAttribute('role','group'); q.setAttribute('aria-labelledby',title.id); }
@@ -1016,9 +1232,175 @@ if (recovered && Array.isArray(recovered.fields)) recovered.fields.forEach(funct
 });
 if (pending) qsa('input,textarea', $('survey')).forEach(function(el){ el.disabled = true; });
 applySkip(); updateProgress();
-showPair();
-saveDraft();
+if (state.completed){ showSuccess(); }
+else { showPair(); saveDraft(); }
 if (LOCAL) window.__survey = {buildPairs: buildPairs, state: state, collect: collect, TITLES: TITLES, submit:submit};
+})();
+</script>
+<script>
+/* 標題粒子化：目標點取樣自 DOM 真實字位；標題區捲離畫面或粒子靜止即停止迴圈；
+   減少動態偏好、無 canvas 時不啟動（真實文字照常顯示）。 */
+(function(){
+'use strict';
+var head = document.getElementById('head');
+var span = document.getElementById('ptitleText');
+var canvas = document.getElementById('ptitleCanvas');
+if (!head || !span || !canvas || !canvas.getContext || !window.requestAnimationFrame) return;
+if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+var ctx = canvas.getContext('2d');
+if (!ctx) return;
+
+var INK = '#1A1A1A', ACCENT = '#FF6B1A';
+var SPRING = 0.075, DAMP = 0.80;
+var px = [], py = [], vx = [], vy = [], tx = [], ty = [];   // 位置、速度、目標
+var N = 0, dot = 2, dpr = 1, W = 0, H = 0;
+var mx = -1e4, my = -1e4, mouseOn = false, R = 60, PUSH = 5;
+var raf = 0, running = false, inView = true, built = false, stillFrames = 0;
+
+function sampleTargets(){
+  var hb = head.getBoundingClientRect();
+  W = Math.round(hb.width); H = Math.round(hb.height);
+  if (!W || !H) return false;
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // 用 Range 取每個字在版面上的實際矩形，畫到離屏畫布
+  var cs = getComputedStyle(span);
+  var off = document.createElement('canvas');
+  off.width = W; off.height = H;
+  var oc = off.getContext('2d', { willReadFrequently: true });
+  oc.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+  oc.textBaseline = 'middle'; oc.fillStyle = '#000';
+  var node = span.firstChild, text = span.textContent, range = document.createRange();
+  for (var i = 0; i < text.length; i++) {
+    var ch = text.charAt(i);
+    if (!ch.trim()) continue;
+    range.setStart(node, i); range.setEnd(node, i + 1);
+    var r = range.getBoundingClientRect();
+    if (!r.width) continue;
+    oc.fillText(ch, r.left - hb.left, r.top - hb.top + r.height / 2);
+  }
+  var step = 2;
+  dot = 1.7;
+  var data = oc.getImageData(0, 0, W, H).data, nx = [], ny = [];
+  for (var y = 0; y < H; y += step) for (var x = 0; x < W; x += step) {
+    if (data[(y * W + x) * 4 + 3] > 90) { nx.push(x + step / 2); ny.push(y + step / 2); }
+  }
+  if (!nx.length) return false;
+  var first = !built, oldN = N;
+  N = nx.length; tx = nx; ty = ny;
+  if (first) {
+    px = new Array(N); py = new Array(N); vx = new Array(N); vy = new Array(N);
+    var vw = window.innerWidth, vh = window.innerHeight;
+    for (var k = 0; k < N; k++) {
+      // 進場：從視窗各處（含標題區外）飛來
+      px[k] = (Math.random() - 0.5) * vw * 2 + W / 2;
+      py[k] = (Math.random() - 0.5) * vh * 2 + H / 2;
+      vx[k] = 0; vy[k] = 0;
+    }
+  } else if (oldN !== N) {
+    // 重取樣（字體晚到、旋轉、改寬）：沿用現有粒子位置，平滑移到新字形，不重播進場
+    var npx = new Array(N), npy = new Array(N), nvx = new Array(N), nvy = new Array(N);
+    for (var j = 0; j < N; j++) {
+      var src = j < oldN ? j : Math.floor(Math.random() * oldN);
+      npx[j] = px[src]; npy[j] = py[src]; nvx[j] = j < oldN ? vx[j] : 0; nvy[j] = j < oldN ? vy[j] : 0;
+    }
+    px = npx; py = npy; vx = nvx; vy = nvy;
+  }
+  built = true;
+  return true;
+}
+
+function frame(){
+  raf = 0;
+  if (!running) return;
+  ctx.clearRect(0, 0, W, H);
+  var home = true, still = true, half = dot / 2;
+  var r2 = R * R;
+  for (var i = 0; i < N; i++) {
+    var x = px[i], y = py[i];
+    var ax = (tx[i] - x) * SPRING, ay = (ty[i] - y) * SPRING;
+    if (mouseOn) {
+      var dx = x - mx, dy = y - my, d2 = dx * dx + dy * dy;
+      if (d2 < r2 && d2 > 0.01) {
+        var d = Math.sqrt(d2), f = (R - d) / R * PUSH;
+        ax += dx / d * f; ay += dy / d * f;
+      }
+    }
+    var nvx = (vx[i] + ax) * DAMP, nvy = (vy[i] + ay) * DAMP;
+    x += nvx; y += nvy;
+    var ox = x - tx[i], oy = y - ty[i], off2 = ox * ox + oy * oy;
+    var slow = Math.abs(nvx) < 0.02 && Math.abs(nvy) < 0.02;
+    if (off2 < 0.04 && slow) { x = tx[i]; y = ty[i]; nvx = 0; nvy = 0; off2 = 0; }
+    else { home = false; if (!slow) still = false; }
+    px[i] = x; py[i] = y; vx[i] = nvx; vy[i] = nvy;
+    ctx.fillStyle = off2 > 2.25 ? ACCENT : INK;   // 離原位超過 1.5px 用強調色
+    ctx.fillRect(x - half, y - half, dot, dot);
+  }
+  // 停幀條件看實際運動：全部歸位，或游標停住後粒子已靜止連續 10 幀（游標再動時由 pointermove 喚醒）
+  stillFrames = still ? stillFrames + 1 : 0;
+  if (home || stillFrames >= 10) { running = false; stillFrames = 0; return; }
+  raf = requestAnimationFrame(frame);
+}
+
+function wake(){
+  if (!built || !inView || document.hidden) return;
+  stillFrames = 0;
+  if (!running) { running = true; if (!raf) raf = requestAnimationFrame(frame); }
+}
+function sleep(){ running = false; if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+function start(){
+  if (!sampleTargets()) return;
+  head.classList.add('particles');
+  wake();
+}
+function rebuild(){
+  if (!head.classList.contains('particles')) return;
+  if (sampleTargets()) wake();
+}
+
+// 游標／手指：只在標題區附近有效
+function onMove(e){
+  if (!built || !inView) return;
+  var hb = head.getBoundingClientRect();
+  var x = e.clientX - hb.left, y = e.clientY - hb.top;
+  var near = x > -R && y > -R && x < W + R && y < H + R;
+  if (near) { mx = x; my = y; mouseOn = true; wake(); }
+  else if (mouseOn) { mouseOn = false; wake(); }
+}
+function onLeave(){ if (mouseOn) { mouseOn = false; wake(); } }
+window.addEventListener('pointermove', onMove, { passive: true });
+window.addEventListener('pointerdown', onMove, { passive: true });
+window.addEventListener('pointerup', onLeave, { passive: true });
+window.addEventListener('pointercancel', onLeave, { passive: true });
+document.addEventListener('mouseleave', onLeave);
+
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(function(entries){
+    inView = entries[0].isIntersecting;
+    if (inView) wake(); else sleep();
+  }, { threshold: 0 }).observe(head);
+}
+document.addEventListener('visibilitychange', function(){ if (document.hidden) sleep(); else wake(); });
+
+var resizeT = 0;
+window.addEventListener('resize', function(){ clearTimeout(resizeT); resizeT = setTimeout(rebuild, 150); });
+if ('ResizeObserver' in window) {
+  var lastW = 0;
+  new ResizeObserver(function(){ var w = head.clientWidth; if (w !== lastW) { lastW = w; clearTimeout(resizeT); resizeT = setTimeout(rebuild, 150); } }).observe(head);
+}
+
+// 等字體載入再取樣；2.5 秒逾時先用當下字體啟動，字體之後到了再重取樣
+var started = false;
+function startOnce(){ if (!started) { started = true; start(); } }
+function fontsArrived(){ if (!started) startOnce(); else { clearTimeout(resizeT); resizeT = setTimeout(rebuild, 60); } }
+if (document.fonts && document.fonts.ready) {
+  setTimeout(startOnce, 2500);
+  document.fonts.ready.then(fontsArrived, startOnce);
+  if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', function(){ if (started) fontsArrived(); });
+} else startOnce();
 })();
 </script>
 </body>
