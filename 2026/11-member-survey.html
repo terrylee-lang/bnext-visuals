@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<meta property="og:title" content="下一期，你想讀什麼？數位時代會員專刊讀者問卷">
+<meta property="og:description" content="23 題，約 5 分鐘，完全匿名。哪裡卡住、哪裡不夠好，告訴我。">
+<meta property="og:type" content="website">
+<title>會員專刊讀者問卷 ｜ 數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --orange:#FF6B1A;--orange-deep:#E55A0F;--orange-soft:#FFE7D6;
+  --navy:#0F1A2E;--navy2:#1B2A45;--ink:#1A1A1A;
+  --paper:#FAF7F1;--paper2:#F5F3EF;--paper3:#ECE8DF;--paper4:#E3DECF;
+  --line:#D4D0C8;--muted:#5C6470;--muted2:#8A93A0;--red:#E63946;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper);color:var(--ink)}
+body{font-family:"Noto Sans TC","PingFang TC",Inter,-apple-system,"Microsoft JhengHei",sans-serif;font-size:17px;line-height:1.8;-webkit-font-smoothing:antialiased;text-wrap:pretty}
+h1,h2,h3,.deck{text-wrap:balance;letter-spacing:.02em}
+button{font:inherit;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.num{font-family:Inter,"Noto Sans TC",sans-serif;font-feature-settings:'tnum' 1}
+
+.wrapper{max-width:720px;margin:0 auto;padding:0 16px 64px}
+.progress{position:fixed;top:0;left:0;right:0;height:4px;background:var(--paper3);z-index:50}
+.progress i{display:block;height:100%;width:0;background:var(--orange);transition:width 200ms var(--ease)}
+.q.skipped{display:none}
+.submit-note{font-size:14px;color:var(--muted);margin:0}
+
+/* header */
+.head{padding:36px 0 20px;border-top:5px solid var(--orange)}
+.logo{display:block;height:36px;width:auto;margin:0 0 18px}
+.kicker{font-family:Inter,"Noto Sans TC",sans-serif;font-size:13px;letter-spacing:.14em;font-weight:600;color:var(--muted);text-transform:uppercase}
+.head h1{font-size:34px;line-height:1.25;margin:10px 0 12px;font-weight:900}
+.deck{margin:0;font-size:17px;color:var(--muted)}
+.privacy{margin:18px 0 0;padding:12px 16px;background:var(--paper3);font-size:15px;line-height:1.7;border-left:4px solid var(--orange)}
+.privacy strong{font-weight:700}
+
+/* section */
+.sec{margin-top:28px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+.sec-head{padding:14px 20px;background:var(--paper3);border-bottom:1px solid var(--line);border-radius:8px 8px 0 0;display:flex;align-items:baseline;gap:12px}
+.sec-head .sec-no{font-family:Inter,"Noto Sans TC",sans-serif;font-size:13px;letter-spacing:.14em;color:var(--muted);font-weight:600}
+.sec-head h2{margin:0;font-size:20px;line-height:1.4;font-weight:700}
+.sec-body{padding:8px 20px 20px}
+
+/* question */
+.q{padding:18px 0;border-top:1px solid var(--line)}
+.q:first-child{border-top:0}
+.q-text{display:flex;gap:10px;align-items:baseline;margin:0 0 12px;font-size:17px;font-weight:700;line-height:1.6}
+.q-no{font-family:Inter,"Noto Sans TC",sans-serif;font-size:14px;color:var(--muted);font-weight:600;min-width:24px;font-feature-settings:'tnum' 1}
+.q-hint{display:inline-block;white-space:nowrap;font-size:14px;color:var(--muted);font-weight:400;margin-left:4px}
+.q.missing .q-text{color:var(--red)}
+.q .err{display:none;font-size:14px;color:var(--red);margin:0 0 8px 34px}
+.q.missing .err{display:block}
+.max-hint{display:none;font-size:14px;color:var(--orange-deep);margin:0 0 8px 34px}
+
+/* options */
+.opts{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.opt{position:relative;display:block}
+.opt[hidden]{display:none}
+.opt input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.opt span{display:block;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:0;background:var(--paper);font-size:16px;line-height:1.5;transition:background 120ms var(--ease),border-color 120ms var(--ease)}
+.opt:hover span{border-color:var(--ink)}
+.opt input:checked + span{background:var(--paper3);border-color:var(--ink);border-left-color:var(--orange)}
+.opt input:focus-visible + span{outline:3px solid var(--ink);outline-offset:2px}
+.opt-text{display:flex;gap:8px;align-items:center;margin-top:8px;margin-left:18px}
+.opt-text input[type=text]{flex:1;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:0;background:var(--paper2);font:inherit;font-size:16px;color:var(--ink)}
+
+/* scale rows */
+.scale-anchor{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin:0 0 8px;font-family:Inter,"Noto Sans TC",sans-serif}
+.scale-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px dashed var(--line)}
+.scale-row:first-of-type{border-top:0}
+.scale-label{font-size:16px;line-height:1.5}
+.scale-btns{display:flex;gap:6px}
+.scale-btns label{position:relative}
+.scale-btns input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.scale-btns span{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--line);border-radius:0;background:var(--paper);font-family:Inter,"Noto Sans TC",sans-serif;font-size:16px;font-weight:600;transition:background 120ms var(--ease),border-color 120ms var(--ease)}
+.scale-btns label:hover span{border-color:var(--ink)}
+.scale-btns input:checked + span{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.scale-btns input:focus-visible + span{outline:3px solid var(--ink);outline-offset:2px}
+.scale-row.missing .scale-label{color:var(--red)}
+
+/* pair stage */
+.pair-stage{margin:4px 0 0;border:1px solid var(--line);border-radius:8px;background:var(--paper2);padding:16px}
+.pair-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}
+.pair-count{font-family:Inter,"Noto Sans TC",sans-serif;font-size:14px;color:var(--muted);font-feature-settings:'tnum' 1;font-weight:600}
+.pair-bar{height:4px;background:var(--paper4);margin:0 0 14px;overflow:hidden}
+.pair-bar i{display:block;height:100%;width:0;background:var(--orange);transition:width 200ms var(--ease)}
+.pair-stem{margin:0 0 14px;font-size:17px;font-weight:700;line-height:1.6}
+.pair-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.pair-btn{display:block;width:100%;min-height:64px;text-align:left;padding:14px 16px;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:0;background:var(--paper);font-size:16px;line-height:1.55;font-weight:500;transition:background 120ms var(--ease),border-color 120ms var(--ease)}
+.pair-btn:hover{border-color:var(--ink)}
+.pair-btn.picked{background:var(--paper3);border-color:var(--ink);border-left-color:var(--orange)}
+.pair-btn:disabled{cursor:default}
+.pair-done{display:none;padding:14px 4px 4px;font-size:16px}
+.pair-done strong{color:var(--orange);font-weight:700}
+.pair-stage.done .pair-grid,.pair-stage.done .pair-stem{display:none}
+.pair-stage.done .pair-done{display:block}
+
+/* textarea */
+textarea{width:100%;min-height:96px;padding:10px 12px;border:1px solid var(--line);border-radius:0;background:var(--paper2);font:inherit;font-size:16px;line-height:1.7;color:var(--ink);resize:vertical}
+
+/* submit */
+.submit-wrap{margin-top:28px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.btn-primary{min-height:52px;padding:12px 28px;border:0;border-radius:0 0 8px 8px;background:var(--orange);color:var(--paper);font-size:17px;font-weight:700;letter-spacing:.04em;transition:background 120ms var(--ease)}
+.btn-primary:hover{background:var(--orange-deep)}
+.btn-primary:disabled{background:var(--paper4);color:var(--muted);cursor:default}
+.btn-ghost{min-height:44px;padding:8px 18px;border:1px solid var(--ink);border-radius:0;background:transparent;font-size:15px;font-weight:600}
+.status{font-size:15px;color:var(--muted);margin:0}
+.status.bad{color:var(--red)}
+.form-err{display:none;font-size:15px;color:var(--red);margin:0}
+.form-err.show{display:block}
+
+/* result */
+.result{display:none;margin-top:28px}
+.result.show{display:block}
+.card-dark{background:var(--navy);color:var(--paper);border-radius:24px;padding:32px}
+.card-dark .kicker{color:var(--muted2)}
+.card-dark h2{margin:8px 0 18px;font-size:28px;line-height:1.35;font-weight:900}
+.top3{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.top3 li{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:baseline;padding:12px 0;border-top:1px solid var(--navy2)}
+.top3 .rank{font-family:Inter,"Noto Sans TC",sans-serif;font-size:26px;font-weight:700;color:var(--orange);line-height:1;font-feature-settings:'tnum' 1}
+.top3 .ttl{font-size:17px;line-height:1.6;font-weight:500}
+.top3 .tag{display:inline-block;margin-top:4px;font-size:12px;letter-spacing:.08em;color:var(--muted2);font-family:Inter,"Noto Sans TC",sans-serif}
+.taste{margin:22px 0 0;padding:16px 0 0;border-top:1px solid var(--navy2);font-size:16px;line-height:1.8}
+.taste strong{color:var(--orange)}
+.thanks{margin-top:20px;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--paper2);font-size:16px}
+.thanks p{margin:0 0 8px}
+.thanks p:last-child{margin:0}
+
+footer{margin-top:40px;padding-top:16px;border-top:2px solid var(--ink);font-size:13px;color:var(--muted);line-height:1.8}
+footer strong{color:var(--ink);font-weight:700}
+
+@media (min-width:421px){
+  .scale-anchor{width:244px;margin-left:auto}
+}
+@media (min-width:640px){
+  .pair-grid{grid-template-columns:1fr 1fr}
+  .pair-btn{min-height:112px}
+  .sec-body{padding:8px 28px 24px}
+  .sec-head{padding:14px 28px}
+  .head h1{font-size:40px}
+  .opts.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+}
+@media (max-width:420px){
+  .scale-row{grid-template-columns:1fr}
+  .scale-btns{justify-content:space-between}
+  .scale-btns span{width:44px;height:44px}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>
+<div class="wrapper">
+
+<header class="head">
+  <img class="logo" src="../_assets/logos/bnext-2026.svg" alt="數位時代" width="98" height="36">
+  <div class="kicker">會員專刊 · 讀者問卷</div>
+  <h1>下一期，你想讀什麼？</h1>
+  <p class="deck">本問卷共 23 題，耗時約 5 分鐘。<br>哪裡卡住、哪裡不夠好，告訴我。請讓我成為，你的編輯。</p>
+  <p class="privacy"><strong>本問卷匿名</strong>，不蒐集任何可識別個人的資料，不留 email，不記 IP。</p>
+</header>
+
+<form id="survey" novalidate autocomplete="off">
+
+<!-- 01 閱讀行為 -->
+<section class="sec" id="sec1">
+  <div class="sec-head"><span class="sec-no num">01</span><h2>你怎麼讀專刊</h2></div>
+  <div class="sec-body">
+
+    <div class="q" data-q="q1" data-required="radio">
+      <p class="q-text"><span class="q-no">1</span><span>過去半年的專刊，你通常怎麼讀？<span class="q-hint">單選</span></span></p>
+      <p class="err">這題還沒選</p>
+      <ul class="opts">
+        <li class="opt"><label><input type="radio" name="q1" value="每期完整讀完"><span>每期完整讀完</span></label></li>
+        <li class="opt"><label><input type="radio" name="q1" value="挑有興趣的段落讀"><span>挑有興趣的段落讀</span></label></li>
+        <li class="opt"><label><input type="radio" name="q1" value="存起來但很少打開"><span>存起來但很少打開</span></label></li>
+        <li class="opt"><label><input type="radio" name="q1" value="沒注意到有這份刊物"><span>沒注意到有這份刊物</span></label></li>
+        <li class="opt"><label><input type="radio" name="q1" value="剛加入，還沒讀過"><span>剛加入，還沒讀過</span></label></li>
+      </ul>
+    </div>
+
+    <div class="q" data-q="q2" data-required="check">
+      <p class="q-text"><span class="q-no">2</span><span>哪幾期對你有實際幫助？用上了、或改變了你的看法或做法都算。<span class="q-hint">可複選</span></span></p>
+      <p class="err">至少勾一項，沒有的話選最後兩項之一</p>
+      <ul class="opts two">
+        <li class="opt"><label><input type="checkbox" name="q2" value="4月 Claude.AI 新手指南"><span>4月 Claude.AI 新手指南</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="5月 Claude Skills"><span>5月 Claude Skills</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="6月 Cowork 工作流"><span>6月 Cowork 工作流</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="7月 Claude Code"><span>7月 Claude Code</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="8月 Codex 與 ChatGPT Work 對照"><span>8月 Codex 與 ChatGPT Work 對照</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="9月 Sheets Canvas 與 Grok Bot"><span>9月 Sheets Canvas 與 Grok Bot</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="10月 建構 Grok Bot 小隊"><span>10月 建構 Grok Bot 小隊</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="讀過但沒有用上" data-exclusive><span>讀過但沒有用上</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="都沒讀過" data-exclusive><span>都沒讀過</span></label></li>
+      </ul>
+    </div>
+
+    <div class="q" data-q="q3" data-required="radio">
+      <p class="q-text"><span class="q-no">3</span><span>如果你很少讀或常沒讀完，主要原因是？<span class="q-hint">單選</span></span></p>
+      <p class="err">這題還沒選，大多有讀就選最後一項</p>
+      <ul class="opts">
+        <li class="opt"><label><input type="radio" name="q3" value="太長，沒時間"><span>太長，沒時間</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="主題不是我需要的"><span>主題不是我需要的</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="PDF 不方便讀"><span>PDF 不方便讀</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="內容太基礎"><span>內容太基礎</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="內容太難"><span>內容太難</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="常沒注意到信"><span>常沒注意到信</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="不適用，我大多有讀"><span>不適用，我大多有讀</span></label></li>
+        <li class="opt" hidden><label><input type="radio" name="q3" value="剛加入，還沒讀過" tabindex="-1"><span>剛加入，還沒讀過</span></label></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- 02 訂閱動機 -->
+<section class="sec" id="sec2">
+  <div class="sec-head"><span class="sec-no num">02</span><h2>你為什麼訂</h2></div>
+  <div class="sec-body">
+
+    <div class="q" data-q="q4" data-required="radio">
+      <p class="q-text"><span class="q-no">4</span><span>你訂《數位時代》會員主要是為了？<span class="q-hint">單選</span></span></p>
+      <p class="err">這題還沒選</p>
+      <ul class="opts">
+        <li class="opt"><label><input type="radio" name="q4" value="跟上產業動態"><span>跟上產業動態</span></label></li>
+        <li class="opt"><label><input type="radio" name="q4" value="學會用工具"><span>學會用工具</span></label></li>
+        <li class="opt"><label><input type="radio" name="q4" value="做決策時有依據"><span>做決策時有依據</span></label></li>
+        <li class="opt"><label><input type="radio" name="q4" value="找題目跟同事聊"><span>找題目跟同事聊</span></label></li>
+        <li class="opt"><label><input type="radio" name="q4" value="其他"><span>其他</span></label>
+          <div class="opt-text"><label for="q4_other" class="q-hint">請說明</label><input type="text" id="q4_other" name="q4_other" maxlength="100" placeholder="一句話就好"></div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- 03 題材興趣 -->
+<section class="sec" id="sec3">
+  <div class="sec-head"><span class="sec-no num">03</span><h2>你想讀什麼</h2></div>
+  <div class="sec-body">
+
+    <div class="q" data-q="q5" data-required="scale">
+      <p class="q-text"><span class="q-no">5</span><span>以下九類題材，你有多想讀？<span class="q-hint">每類各打一個分數</span></span></p>
+      <p class="err">還有類別沒打分</p>
+      <div class="scale-anchor"><span>1 = 不想讀</span><span>5 = 很想讀</span></div>
+      <div id="q5-rows"></div>
+    </div>
+
+    <div class="q" data-q="q6" data-required="pairs">
+      <p class="q-text"><span class="q-no">6</span><span>兩篇標題，你會先點哪一篇？<span class="q-hint">共 18 組，憑直覺點</span></span></p>
+      <p class="err">18 組還沒點完</p>
+      <div class="pair-stage" id="pair-stage">
+        <div class="pair-top"><span class="pair-count num" id="pair-count" role="status" aria-live="polite">第 1 組 / 18</span></div>
+        <div class="pair-bar"><i id="pair-bar"></i></div>
+        <p class="pair-stem" id="pair-stem" tabindex="-1">這兩篇只能先看一篇，你點哪個？</p>
+        <div class="pair-grid">
+          <button type="button" class="pair-btn" id="pair-left" data-side="left"></button>
+          <button type="button" class="pair-btn" id="pair-right" data-side="right"></button>
+        </div>
+        <p class="pair-done"><strong>18 組完成。</strong>請繼續填寫下方問題，最後按「送出問卷」。</p>
+      </div>
+    </div>
+
+    <div class="q" data-q="q7">
+      <p class="q-text"><span class="q-no">7</span><span>最近有沒有一件事你想搞懂、但沒時間自己查？<span class="q-hint">選填</span></span></p>
+      <textarea name="q7" maxlength="500" placeholder="一句話也可以"></textarea>
+    </div>
+
+  </div>
+</section>
+
+<!-- 04 寫法與教學需求 -->
+<section class="sec" id="sec4">
+  <div class="sec-head"><span class="sec-no num">04</span><h2>你想要怎麼寫</h2></div>
+  <div class="sec-body">
+
+    <div class="q" data-q="q8" data-required="radio">
+      <p class="q-text"><span class="q-no">8</span><span>下一期你最希望增加哪一種寫法？<span class="q-hint">單選</span></span></p>
+      <p class="err">這題還沒選</p>
+      <ul class="opts">
+        <li class="opt"><label><input type="radio" name="q8" value="教學"><span>操作教學：提供步驟、示範與注意事項</span></label></li>
+        <li class="opt"><label><input type="radio" name="q8" value="判斷"><span>比較判斷：比較選項、適用情境與限制</span></label></li>
+        <li class="opt"><label><input type="radio" name="q8" value="分析"><span>趨勢分析：說明產業變化、原因與影響</span></label></li>
+        <li class="opt"><label><input type="radio" name="q8" value="案例"><span>實務案例：介紹實際做法、成果與遇到的問題</span></label></li>
+      </ul>
+    </div>
+
+    <div class="q" data-q="q9" data-required="scale">
+      <p class="q-text"><span class="q-no">9 到 11</span><span>以下三句，你同意嗎？</span></p>
+      <p class="err">還有句子沒打分</p>
+      <div class="scale-anchor"><span>1 = 非常不同意</span><span>5 = 非常同意</span></div>
+      <div id="q9-rows"></div>
+    </div>
+
+    <div class="q" data-q="q12" data-required="check" data-max="2">
+      <p class="q-text"><span class="q-no">12</span><span>對你已經熟悉的 AI 工具，你最希望專刊提供什麼？<span class="q-hint">最多選 2 項</span></span></p>
+      <p class="err">至少勾一項</p>
+      <p class="max-hint">最多選 2 項，想換請先取消一項</p>
+      <ul class="opts">
+        <li class="opt"><label><input type="checkbox" name="q12" value="新功能與重要變動"><span>新功能與重要變動</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q12" value="能直接套用的工作案例"><span>能直接套用的工作案例</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q12" value="進階技巧與疑難排解"><span>進階技巧與疑難排解</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q12" value="方案、費用與限制比較"><span>方案、費用與限制比較</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q12" value="基礎操作與入門教學"><span>基礎操作與入門教學</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q12" value="暫時不需要" data-exclusive><span>暫時不需要</span></label></li>
+        <li class="opt"><label><input type="checkbox" name="q12" value="沒有熟悉的AI工具" data-exclusive><span>沒有熟悉的AI工具</span></label></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- 05 格式偏好 -->
+<section class="sec" id="sec5">
+  <div class="sec-head"><span class="sec-no num">05</span><h2>你想怎麼收到</h2></div>
+  <div class="sec-body">
+
+    <div class="q" data-q="q13" data-required="radio">
+      <p class="q-text"><span class="q-no">13</span><span>每期約一萬字，你希望篇幅？<span class="q-hint">單選</span></span></p>
+      <p class="err">這題還沒選</p>
+      <ul class="opts">
+        <li class="opt"><label><input type="radio" name="q13" value="短一些"><span>短一些</span></label></li>
+        <li class="opt"><label><input type="radio" name="q13" value="維持差不多"><span>維持差不多</span></label></li>
+        <li class="opt"><label><input type="radio" name="q13" value="長一些"><span>長一些</span></label></li>
+        <li class="opt"><label><input type="radio" name="q13" value="讀得不夠多，無法判斷"><span>讀得不夠多，無法判斷</span></label></li>
+      </ul>
+    </div>
+
+    <div class="q" data-q="q14" data-required="radio">
+      <p class="q-text"><span class="q-no">14</span><span>你最想用哪種方式讀？<span class="q-hint">單選</span></span></p>
+      <p class="err">這題還沒選</p>
+      <ul class="opts">
+        <li class="opt"><label><input type="radio" name="q14" value="現在的PDF"><span>現在的PDF</span></label></li>
+        <li class="opt"><label><input type="radio" name="q14" value="網頁版"><span>網頁版</span></label></li>
+        <li class="opt"><label><input type="radio" name="q14" value="Email內文直接讀"><span>Email內文直接讀</span></label></li>
+        <li class="opt"><label><input type="radio" name="q14" value="沒有偏好"><span>沒有偏好</span></label></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- 06 關於你 -->
+<section class="sec" id="sec6">
+  <div class="sec-head"><span class="sec-no num">06</span><h2>關於你</h2></div>
+  <div class="sec-body">
+    <p style="margin:12px 0 4px;font-size:15px;color:var(--muted)">只用來看不同讀者的差異，每題都可以選「不便透露」。</p>
+    <div id="profile-rows"></div>
+  </div>
+</section>
+
+<!-- 07 想說的話 -->
+<section class="sec" id="sec7">
+  <div class="sec-head"><span class="sec-no num">07</span><h2>想對編輯部說的話</h2></div>
+  <div class="sec-body">
+    <div class="q" data-q="q23">
+      <p class="q-text"><span class="q-no">23</span><span>最後，有任何想對編輯部說的嗎？想看的題目、對專刊的建議、或任何想法都可以寫。<span class="q-hint">選填</span></span></p>
+      <textarea name="q23" maxlength="1000" placeholder="長短都可以"></textarea>
+    </div>
+  </div>
+</section>
+
+<div class="submit-wrap">
+  <p class="form-err" id="form-err" role="alert">還有題目沒作答，已標成紅字，請往上找。</p>
+  <p class="submit-note">送出後答案就會鎖定，無法再修改。</p>
+  <button type="submit" class="btn-primary" id="submit-btn">送出問卷</button>
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+  <button type="button" class="btn-ghost" id="retry-btn" style="display:none">再試一次</button>
+</div>
+
+</form>
+
+<section class="result" id="result" aria-live="polite" aria-labelledby="success-title" tabindex="-1">
+  <div class="thanks">
+    <h2 id="success-title">問卷已送出，謝謝你。</h2>
+    <p>下一期，順起來。</p>
+  </div>
+  <div class="card-dark" style="margin-top:20px">
+    <div class="kicker">你的答案</div>
+    <h2>你最先想點的三篇</h2>
+    <ol class="top3" id="top3"></ol>
+    <p class="taste" id="taste"></p>
+  </div>
+</section>
+
+<footer>
+  <strong>《數位時代》會員專刊</strong>　|　2026 年 11 月號讀者問卷　|　本問卷匿名，不蒐集任何可識別個人的資料。
+</footer>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- 設定 ---------- */
+// 部署 Apps Script Web App 後，把網址貼到這裡（以 /exec 結尾）
+var ENDPOINT = 'https://script.google.com/macros/s/AKfycbwd1B3DC6z_uUc1h-z59cLvZsiKCyzJBQ9RtjURSoiitgyHf51swpSMr_jYokK6I71TpA/exec';
+var LOCAL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+if (LOCAL) ENDPOINT = location.origin + '/submit';
+var PAIR_TOTAL = 18;
+var REPEAT_OF = 3;            // 第 18 組重複第 3 組（左右對調）
+var MIN_FIXED_POS = 4;        // 兩組同題雙版至少放在第 4 組以後，避免落在被重複的第 3 組
+
+/* ---------- 題庫 ---------- */
+var TITLES = [
+  {id:'1',  text:'三個免費AI助理，30件不用付費就能交辦的事', style:'教學', cat:'ai'},
+  {id:'3',  text:'0056息養0050划算嗎？用AI跑一次17年回測', style:'教學', cat:'finance'},
+  {id:'4',  text:'我該付哪一家AI月費？ChatGPT、Claude、Gemini、Grok方案決策樹', style:'判斷', cat:'ai'},
+  {id:'5',  text:'該不該把密碼交給AI代理？1Password、Muse、Instinct三種做法比較', style:'判斷', cat:'security'},
+  {id:'6',  text:'勞退自提、勞保年金、65歲免健保費：2027退休規則一次算清楚', style:'判斷', cat:'finance'},
+  {id:'7',  text:'統一、全聯、全家的點數戰爭：你的消費資料正被誰接走', style:'分析', cat:'retail'},
+  {id:'7b', text:'三步驟查出統一、全聯、全家拿你的消費資料做了什麼，以及怎麼關掉', style:'教學', cat:'retail'},
+  {id:'8',  text:'玻璃基板、光通訊、玻纖布：AI伺服器缺什麼，台廠誰接得住', style:'分析', cat:'semi'},
+  {id:'8b', text:'三步驟用AI畫出玻璃基板供應鏈圖，看懂台廠誰接得住', style:'教學', cat:'semi'},
+  {id:'9',  text:'Z世代用AI最兇卻最反感：AI進公司後，年輕員工在怕什麼', style:'分析', cat:'work'},
+  {id:'10', text:'連虧15年到光通訊之戰：三家台灣老廠的翻身帳本', style:'案例', cat:'startup'},
+  {id:'11', text:'振宇五金從1家開到98家：賣螺絲做到22.9億的開店公式', style:'案例', cat:'startup'},
+  {id:'12', text:'91APP、Zeabur到PHP漏洞：一把金鑰怎麼放倒六家公司', style:'案例', cat:'security'},
+  {id:'13', text:'故宮南院小編怎麼用一句「幹嘛」拿到9.5萬讚', style:'案例', cat:'marketing'},
+  {id:'14', text:'記憶體真的缺貨嗎？DDR4、HBM與你現在該不該換電腦', style:'判斷', cat:'tech3c'},
+  {id:'15', text:'Lean3駕艙機車值不值得買：駕照、售價、為什麼中南部先搶', style:'判斷', cat:'tech3c'}
+];
+var FIXED = [['7','7b'],['8','8b']];   // 同題雙版，固定對撞
+var FIXED_IDS = ['7','7b','8','8b'];
+var TITLE_BY_ID = {};
+TITLES.forEach(function(t){ TITLE_BY_ID[t.id] = t; });
+
+var Q4 = [
+  {key:'ai', label:'AI工具與應用'},
+  {key:'semi', label:'半導體與硬體'},
+  {key:'security', label:'資訊安全'},
+  {key:'retail', label:'零售與消費'},
+  {key:'finance', label:'金融理財'},
+  {key:'startup', label:'創業與經營'},
+  {key:'marketing', label:'行銷與新媒體'},
+  {key:'work', label:'職場與工作術'},
+  {key:'tech3c', label:'3C與交通科技'}
+];
+var Q8 = [   // 第 9 到 11 題；第 10、11 句反向
+  {key:'q9',  label:'最近半年我用新的AI工具，愈來愈不需要看教學'},
+  {key:'q10', label:'我願意花30分鐘跟著一篇教學一步步做'},
+  {key:'q11', label:'遇到沒用過的AI工具，我會先找一篇教學從頭跟著做'}
+];
+var PROFILE = [
+  {key:'q15', no:'15', text:'你最常希望AI幫你完成哪些工作？', hint:'最多選 3 項', multi:true, max:3,
+   opts:['查資料與整理摘要','寫作、簡報與企畫','數據分析與試算表','寫程式與自動化','行銷內容與社群','行政與流程，如信件、排程、文件','學習新知','生活用途，如旅遊、購物、理財','目前沒有特別需要'], exclusive:['目前沒有特別需要']},
+  {key:'q16', no:'16', text:'年齡', opts:['24歲以下','25到34歲','35到44歲','45到54歲','55到64歲','65歲以上']},
+  {key:'q17', no:'17', text:'你的角色', opts:['企業主、創辦人或高階主管','中階主管','專業人員（工程、產品、行銷、財務等）','自由工作者','學生','其他']},
+  {key:'q18', no:'18', text:'產業', opts:['資訊科技與軟體','半導體與硬體製造','金融與保險','零售與消費品','媒體、行銷與廣告','醫療、教育與公部門','其他']},
+  {key:'q19', no:'19', text:'公司規模', opts:['10人以下','11到100人','101到1,000人','1,001人以上','不適用']},
+  {key:'q20', no:'20', text:'所在地', opts:['北部','中部','南部','東部與離島','海外']},
+  {key:'q21', no:'21', text:'你用AI工具的頻率', opts:['每天多次','每天一次左右','每周幾次','很少或沒有']},
+  {key:'q22', no:'22', text:'過去30天你實際用過哪些AI工具？含免費版與公司提供的。', hint:'可複選', multi:true,
+   opts:['ChatGPT','Gemini','Claude','Grok','Perplexity','Microsoft Copilot','GitHub Copilot','Cursor','Codex','Claude Code','其他','都沒用'], exclusive:['都沒用']}
+];
+var OPT_OUT = '不便透露';
+/* ---------- 工具 ---------- */
+function rnd(n){
+  if (window.crypto && crypto.getRandomValues){ var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; }
+  return Math.floor(Math.random() * n);
+}
+function shuffle(arr){ var a = arr.slice(); for (var i = a.length - 1; i > 0; i--){ var j = rnd(i + 1); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function pkey(a, b){ return a < b ? a + '|' + b : b + '|' + a; }
+function isFixed(a, b){ return FIXED.some(function(f){ return pkey(f[0], f[1]) === pkey(a, b); }); }
+function uuid(){
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  var s = ''; for (var i = 0; i < 32; i++) s += rnd(16).toString(16); return s;
+}
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function $(id){ return document.getElementById(id); }
+function qs(sel, root){ return (root || document).querySelector(sel); }
+function qsa(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+/* ---------- 第 5 題：配對產生 ---------- */
+function matching(ids, used){
+  for (var attempt = 0; attempt < 300; attempt++){
+    var s = shuffle(ids), pairs = [], ok = true;
+    for (var i = 0; i < s.length; i += 2){
+      var a = s[i], b = s[i + 1];
+      if (used[pkey(a, b)] || isFixed(a, b)){ ok = false; break; }
+      pairs.push([a, b]);
+    }
+    if (ok) return pairs;
+  }
+  return null;
+}
+function buildOnce(){
+  var all = TITLES.map(function(t){ return t.id; });
+  var used = {};
+  FIXED.forEach(function(f){ used[pkey(f[0], f[1])] = true; });
+  var r1 = matching(all, used); if (!r1) return null;
+  r1.forEach(function(p){ used[pkey(p[0], p[1])] = true; });
+  var rest = all.filter(function(id){ return FIXED_IDS.indexOf(id) < 0; });
+  var r2 = matching(rest, used); if (!r2) return null;
+  r2.forEach(function(p){ used[pkey(p[0], p[1])] = true; });
+  var extra = null;
+  for (var k = 0; k < 1000 && !extra; k++){
+    var a = all[rnd(all.length)], b = all[rnd(all.length)];
+    if (a !== b && !used[pkey(a, b)]) extra = [a, b];
+  }
+  if (!extra) return null;
+  var seq = shuffle(r1.concat(r2, [extra]));           // 15 組隨機配對
+  shuffle(FIXED).forEach(function(fp){                 // 插入 2 組同題雙版，位置 >= 第 4 組
+    var pos = (MIN_FIXED_POS - 1) + rnd(seq.length - (MIN_FIXED_POS - 1) + 1);
+    seq.splice(pos, 0, fp.slice());
+  });                                                   // 17 組不重複
+  return finishPairs(seq);
+}
+// Add a temporary vertex to odd-degree nodes, orient Euler circuits, then remove
+// temporary edges. Every real vertex has |left-right| <= 1, without retry bias.
+function finishPairs(seq){
+  var graph = {}, edges = [], oriented = [];
+  function add(a, b, index){
+    var e = {a:a, b:b, index:index, used:false};
+    edges.push(e); (graph[a] || (graph[a] = [])).push(e);
+    (graph[b] || (graph[b] = [])).push(e);
+  }
+  seq.forEach(function(p, i){ add(p[0], p[1], i); });
+  Object.keys(graph).forEach(function(id){ if (graph[id].length % 2) add(id, '_odd', -1); });
+  Object.keys(graph).forEach(function(start){
+    var stack = [start];
+    while (stack.length){
+      var v = stack[stack.length - 1], e;
+      while (graph[v].length && graph[v][graph[v].length - 1].used) graph[v].pop();
+      if (!graph[v].length){ stack.pop(); continue; }
+      e = graph[v].pop(); e.used = true;
+      var to = e.a === v ? e.b : e.a;
+      if (e.index >= 0) oriented[e.index] = {left:v, right:to};
+      stack.push(to);
+    }
+  });
+  // Randomly mirror the whole balanced schedule to avoid orientation-order bias.
+  if (rnd(2)) oriented = oriented.map(function(p){ return {left:p.right,right:p.left}; });
+  var rep = oriented[REPEAT_OF - 1];
+  oriented.push({left:rep.right, right:rep.left, repeatOf:REPEAT_OF});
+  return {pairs:oriented, balanced:true};
+}
+function buildPairs(){
+  for (var i = 0; i < 100; i++){
+    var r = buildOnce();
+    if (r) return r.pairs;
+  }
+  // Guaranteed valid fallback: a cycle covers every title twice, plus one edge.
+  var ids = TITLES.map(function(t){ return t.id; }), seq = [];
+  ids.forEach(function(id, i){
+    var next = ids[(i + 1) % ids.length];
+    if (!isFixed(id, next)) seq.push([id, next]);
+  });
+  seq.push(['1','4']);
+  seq = shuffle(seq);
+  FIXED.forEach(function(p){ seq.push(p.slice()); });
+  return finishPairs(seq).pairs;
+}
+
+/* ---------- 狀態 ---------- */
+var state = {
+  id: uuid(),
+  startedAt: new Date().toISOString(),
+  t0: Date.now(),
+  pairs: buildPairs(),
+  pairIndex: 0,
+  pairShownAt: null,
+  pairElapsed: 0,
+  pairInterrupted: false,
+  pairVisible: false,
+  windowFocused: document.hasFocus(),
+  pairReady: false,
+  pairToken: 0,
+  inputHeld: false,
+  focusPair: false,
+  answers5: [],
+  q4Order: [],
+  q8Order: [],
+  locked: false
+};
+
+/* Per-tab recovery only. No cookies, remote draft endpoint or persistent device id. */
+var DRAFT_KEY = 'member-survey-2026-11-v3';
+function loadDraft(){
+  try {
+    var d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null');
+    if (!d || d.version !== 3 || Date.now() - d.savedAt > 14 * 86400000 ||
+        !d.state || !Array.isArray(d.state.pairs) || d.state.pairs.length !== PAIR_TOTAL ||
+        typeof d.state.id !== 'string' || !Number.isFinite(d.state.t0) ||
+        !Array.isArray(d.state.q4Order) || d.state.q4Order.length !== Q4.length ||
+        !Q4.every(function(q){ return d.state.q4Order.indexOf(q.key) >= 0; }) ||
+        !Array.isArray(d.state.q8Order) || d.state.q8Order.length !== Q8.length ||
+        !Q8.every(function(q){ return d.state.q8Order.indexOf(q.key) >= 0; }) ||
+        !Array.isArray(d.state.answers5) || d.state.answers5.length > PAIR_TOTAL ||
+        !d.state.answers5.every(function(a,i){ var p=d.state.pairs[i]; return p && a.left===p.left && a.right===p.right && [p.left,p.right].indexOf(a.pick)>=0 && Number.isFinite(a.ms) && a.ms>=0; }) ||
+        !d.state.pairs.every(function(p){ return TITLE_BY_ID[p.left] && TITLE_BY_ID[p.right] && p.left !== p.right; })) return null;
+    return d;
+  } catch (e){ return null; }
+}
+var recovered = loadDraft();
+if (recovered){
+  ['id','startedAt','t0','pairs','answers5','q4Order','q8Order'].forEach(function(k){ state[k] = recovered.state[k]; });
+  state.pairIndex = state.answers5.length;
+  state.restoredElapsed = recovered.elapsed || 0;
+  state.restoredInterrupted = true;
+}
+function saveDraft(){
+  if (state.completed) return;
+  try {
+    var elapsed = state.answers5.length > state.pairIndex ? 0 : state.pairElapsed +
+      (state.pairShownAt === null ? 0 : performance.now() - state.pairShownAt);
+    var fields = qsa('input,textarea').map(function(el){ return {id:el.id,name:el.name,value:el.value,checked:el.checked}; });
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify({version:3,savedAt:Date.now(),state:{
+      id:state.id,startedAt:state.startedAt,t0:state.t0,pairs:state.pairs,
+      answers5:state.answers5,q4Order:state.q4Order,q8Order:state.q8Order
+    }, elapsed:elapsed, fields:fields, pending:pending}));
+  } catch (e){ /* Storage may be unavailable in private or restricted sessions. */ }
+}
+document.addEventListener('change',function(){ Promise.resolve().then(saveDraft); });
+document.addEventListener('input',function(){ Promise.resolve().then(saveDraft); });
+window.addEventListener('pagehide',saveDraft);
+document.addEventListener('visibilitychange',function(){ if (document.visibilityState === 'hidden') saveDraft(); });
+
+/* ---------- 畫面：第 4 題、第 8 到 10 題、輪廓 ---------- */
+function scaleRow(name, label, extraClass){
+  var h = '<div class="scale-row' + (extraClass ? ' ' + extraClass : '') + '" data-name="' + name + '"><div class="scale-label">' + esc(label) + '</div><div class="scale-btns" role="radiogroup" aria-label="' + esc(label) + '">';
+  for (var v = 1; v <= 5; v++) h += '<label><input type="radio" name="' + name + '" value="' + v + '"><span class="num">' + v + '</span></label>';
+  return h + '</div></div>';
+}
+function renderScales(){
+  state.q4Order = state.q4Order.length ? state.q4Order : shuffle(Q4).map(function(c){ return c.key; });
+  $('q5-rows').innerHTML = state.q4Order.map(function(k){
+    var c = Q4.filter(function(x){ return x.key === k; })[0];
+    return scaleRow('q5_' + c.key, c.label);
+  }).join('');
+  state.q8Order = state.q8Order.length ? state.q8Order : shuffle(Q8).map(function(s){ return s.key; });
+  $('q9-rows').innerHTML = state.q8Order.map(function(k){
+    var s = Q8.filter(function(x){ return x.key === k; })[0];
+    return scaleRow(s.key, s.label);
+  }).join('');
+}
+function renderProfile(){
+  $('profile-rows').innerHTML = PROFILE.map(function(p){
+    var type = p.multi ? 'checkbox' : 'radio';
+    var opts = p.opts.concat([OPT_OUT]);
+    var items = opts.map(function(o){
+      var excl = (o === OPT_OUT || (p.exclusive && p.exclusive.indexOf(o) >= 0)) ? ' data-exclusive' : '';
+      return '<li class="opt"><label><input type="' + type + '" name="' + p.key + '" value="' + esc(o) + '"' + excl + '><span>' + esc(o) + '</span></label></li>';
+    }).join('');
+    var grid = (p.multi ? p.opts.length > 6 : p.opts.length <= 6) ? ' two' : '';
+    var hint = p.hint ? '<span class="q-hint">' + esc(p.hint) + '</span>' : '';
+    var maxAttr = p.max ? ' data-max="' + p.max + '"' : '';
+    var maxHint = p.max ? '<p class="max-hint">最多選 ' + p.max + ' 項，想換請先取消一項</p>' : '';
+    return '<div class="q" data-q="' + p.key + '" data-required="' + (p.multi ? 'check' : 'radio') + '"' + maxAttr + '>' +
+      '<p class="q-text"><span class="q-no">' + p.no + '</span><span>' + esc(p.text) + hint + '</span></p>' +
+      '<p class="err">這題還沒選，可以選「不便透露」</p>' + maxHint +
+      '<ul class="opts' + grid + '">' + items + '</ul></div>';
+  }).join('');
+}
+
+/* ---------- 第 5 題：顯示與作答 ---------- */
+function showPair(){
+  var i = state.pairIndex;
+  if (i >= PAIR_TOTAL){
+    $('pair-stage').classList.add('done');
+    $('pair-count').textContent = '18 組 / 18';
+    $('pair-bar').style.width = '100%';
+    return;
+  }
+  var p = state.pairs[i];
+  var L = $('pair-left'), R = $('pair-right');
+  L.textContent = TITLE_BY_ID[p.left].text;
+  R.textContent = TITLE_BY_ID[p.right].text;
+  L.className = 'pair-btn'; R.className = 'pair-btn';
+  L.disabled = true; R.disabled = true;
+  state.pairReady = false;
+  state.pairElapsed = state.restoredElapsed || 0; state.restoredElapsed = 0;
+  state.pairShownAt = null; state.pairInterrupted = !!state.restoredInterrupted; state.restoredInterrupted = false;
+  state.pairToken++;
+  var token = state.pairToken;
+  // Wait until text has been painted before timing or accepting input.
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    if (token !== state.pairToken) return;
+    if (state.focusPair){
+      $('pair-stem').focus({preventScroll:true}); state.focusPair = false;
+      // 換題後把兩個選項捲進畫面，計時才會立刻開始，讀者也不會點到畫面外的按鈕
+      qs('.pair-grid').scrollIntoView({block:'nearest'});
+    }
+    state.pairReady = true; refreshPairVisibility();
+  }); });
+  $('pair-count').textContent = '第 ' + (i + 1) + ' 組 / 18';
+  $('pair-bar').style.width = Math.round(i / PAIR_TOTAL * 100) + '%';
+
+}
+function refreshPairVisibility(){
+  var el = qs('.pair-grid'), rect = el.getBoundingClientRect();
+  var overlap = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+  var visible = state.pairReady && document.visibilityState === 'visible' && state.windowFocused &&
+    overlap >= Math.min(rect.height, window.innerHeight * 0.7) - 1;
+  if (!visible && state.pairShownAt !== null){
+    state.pairElapsed += performance.now() - state.pairShownAt;
+    state.pairShownAt = null; state.pairInterrupted = true;
+  }
+  state.pairVisible = visible;
+  if (state.pairReady && !state.locked && state.pairIndex < PAIR_TOTAL){
+    // 畫好就開放作答；可見與否只決定計時，不鎖按鈕（部分被切到畫面外時點了才不會沒反應）
+    $('pair-left').disabled = false; $('pair-right').disabled = false;
+    if (visible && state.pairShownAt === null) state.pairShownAt = performance.now();
+  }
+}
+// 任何觸控或按鍵都證明視窗有焦點：部分 App 內建瀏覽器的 hasFocus() 起始為 false 且不會再觸發 focus
+['pointerdown','touchstart','keydown'].forEach(function(event){
+  document.addEventListener(event, function(){ if (!state.windowFocused){ state.windowFocused = true; refreshPairVisibility(); } }, {passive:true});
+});
+window.addEventListener('blur',function(){ state.windowFocused = false; refreshPairVisibility(); });
+window.addEventListener('focus',function(){ state.windowFocused = true; refreshPairVisibility(); });
+['scroll','resize'].forEach(function(event){ window.addEventListener(event, refreshPairVisibility); });
+document.addEventListener('visibilitychange', refreshPairVisibility);
+if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone',function(){
+  if (state.pairShownAt !== null) state.pairInterrupted = true;
+  refreshPairVisibility();
+});
+document.addEventListener('keydown', function(e){
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('pair-btn')){
+    if (e.repeat || state.inputHeld) e.preventDefault();
+    state.inputHeld = true;
+  }
+});
+document.addEventListener('keyup', function(){ state.inputHeld = false; });
+function pickPair(side){
+  if (state.pairIndex >= PAIR_TOTAL || state.locked || !state.pairReady) return;
+  var now = performance.now();
+  var ranBefore = state.pairShownAt !== null;   // 點擊前計時是否已在跑
+  var timed = ranBefore || state.pairElapsed > 0;          // 有沒有量到時間（含暫停後累加）
+  var ms = Math.round(state.pairElapsed + (ranBefore ? now - state.pairShownAt : 0));
+  var interrupted = state.pairInterrupted || !ranBefore;
+  state.windowFocused = true;                   // 真實點擊即證明有焦點
+  state.pairShownAt = null;
+  state.locked = true;
+  var i = state.pairIndex, p = state.pairs[i];
+  var pick = side === 'left' ? p.left : p.right;
+  state.answers5.push({pos:i + 1, left:p.left, right:p.right, pick:pick, side:side, ms:ms, repeatOf:p.repeatOf || null, interrupted:interrupted, timed:timed});
+  saveDraft(); updateProgress();
+  var btn = $('pair-' + side);
+  btn.classList.add('picked');
+  $('pair-left').disabled = true; $('pair-right').disabled = true;
+  setTimeout(function(){
+    state.pairIndex++;
+    state.focusPair = true;
+    state.locked = false;
+    showPair();
+  }, 350);
+}
+$('pair-left').addEventListener('click', function(e){ if (e.detail <= 1) pickPair('left'); });
+$('pair-right').addEventListener('click', function(e){ if (e.detail <= 1) pickPair('right'); });
+
+/* ---------- 第 1 題選「剛加入」：第 2、3 題收起並自動填 ---------- */
+var NEW_MEMBER = '剛加入，還沒讀過';
+var skipStash = null;   // 跳題前第 2、3 題的原答案；切回時恢復
+function applySkip(){
+  var fresh = checked('q1') === NEW_MEMBER;
+  var none = qs('input[name="q2"][value="都沒讀過"]'), auto3 = qs('input[name="q3"][value="' + NEW_MEMBER + '"]');
+  var q2 = qs('.q[data-q="q2"]'), q3 = qs('.q[data-q="q3"]');
+  if (fresh && !q2.classList.contains('skipped')){
+    skipStash = {q2: checkedAll('q2'), q3: (checked('q3') !== NEW_MEMBER ? checked('q3') : null)};
+  }
+  [q2, q3].forEach(function(q){ q.classList.toggle('skipped', fresh); if (fresh) q.classList.remove('missing'); });
+  if (fresh){
+    qsa('input[name="q2"]').forEach(function(x){ x.checked = (x === none); });
+    auto3.checked = true;
+  } else {
+    // 切回一般讀者：兩題的自動值一律清掉，有暫存就恢復
+    qsa('input[name="q2"],input[name="q3"]').forEach(function(x){ x.checked = false; });
+    if (skipStash){
+      qsa('input[name="q2"]').forEach(function(x){ x.checked = skipStash.q2.indexOf(x.value) >= 0; });
+      if (skipStash.q3){ var r = qs('input[name="q3"][value="' + skipStash.q3 + '"]'); if (r) r.checked = true; }
+      skipStash = null;
+    }
+  }
+}
+document.addEventListener('change', function(e){ if (e.target && e.target.name === 'q1'){ applySkip(); } });
+
+/* ---------- 進度條：以必答題完成數計 ---------- */
+function updateProgress(){
+  var qs_ = qsa('.q[data-required]').filter(function(q){ return !q.classList.contains('skipped'); }), done = 0;
+  qs_.forEach(function(q){
+    var type = q.getAttribute('data-required'), name = q.getAttribute('data-q');
+    if (type === 'radio') done += checked(name) ? 1 : 0;
+    else if (type === 'check') done += checkedAll(name).length ? 1 : 0;
+    else if (type === 'pairs') done += Math.min(1, state.answers5.length / PAIR_TOTAL);
+    else if (type === 'scale'){ var rows = qsa('.scale-row', q); done += rows.filter(function(row){ return !!checked(row.getAttribute('data-name')); }).length / rows.length; }
+  });
+  var bar = $('progress-bar'); if (bar) bar.style.width = Math.round(done / qs_.length * 100) + '%';
+}
+document.addEventListener('change', function(){ Promise.resolve().then(updateProgress); });
+
+/* ---------- 互斥選項（都沒有／不便透露／沒有付費） ---------- */
+document.addEventListener('change', function(e){
+  var el = e.target;
+  if (!el || el.type !== 'checkbox') return;
+  var group = qsa('input[name="' + el.name + '"]');
+  var q = el.closest('.q');
+  if (el.hasAttribute('data-exclusive') && el.checked){
+    group.forEach(function(x){ if (x !== el) x.checked = false; });
+  } else if (el.checked){
+    group.forEach(function(x){ if (x.hasAttribute('data-exclusive')) x.checked = false; });
+    var max = q && Number(q.getAttribute('data-max'));
+    if (max && group.filter(function(x){ return x.checked; }).length > max){
+      el.checked = false;
+      var hint = qs('.max-hint', q);
+      if (hint){ hint.style.display = 'block'; clearTimeout(hint._t); hint._t = setTimeout(function(){ hint.style.display = 'none'; }, 2000); }
+    }
+  }
+  if (q) q.classList.remove('missing');
+});
+document.addEventListener('change', function(e){
+  var el = e.target;
+  if (!el || el.type !== 'radio') return;
+  var q = el.closest('.q'); if (q) q.classList.remove('missing');
+  var row = el.closest('.scale-row'); if (row) row.classList.remove('missing');
+});
+// 第 3 題「其他」：打字自動選到「其他」
+$('q4_other').addEventListener('input', function(){
+  if (this.value.trim()){ var r = qs('input[name="q4"][value="其他"]'); r.checked = true; r.closest('.q').classList.remove('missing'); }
+});
+
+/* ---------- 驗證 ---------- */
+function checked(name){ var el = qs('input[name="' + name + '"]:checked'); return el ? el.value : null; }
+function checkedAll(name){ return qsa('input[name="' + name + '"]:checked').map(function(x){ return x.value; }); }
+function validate(){
+  var firstBad = null;
+  qsa('.q[data-required]').forEach(function(q){
+    var type = q.getAttribute('data-required'), name = q.getAttribute('data-q'), bad = false;
+    q.classList.remove('missing'); q.removeAttribute('aria-invalid');
+    if (type === 'radio') bad = !checked(name);
+    else if (type === 'check') bad = checkedAll(name).length === 0;
+    else if (type === 'pairs') bad = state.answers5.length < PAIR_TOTAL;
+    else if (type === 'scale'){
+      qsa('.scale-row', q).forEach(function(row){
+        row.classList.remove('missing');
+        if (!checked(row.getAttribute('data-name'))){ row.classList.add('missing'); bad = true; }
+      });
+    }
+    if (bad){ q.classList.add('missing'); q.setAttribute('aria-invalid','true'); firstBad = firstBad || q; }
+  });
+  return firstBad;
+}
+
+/* ---------- 收集 ---------- */
+function device(){
+  var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  if (coarse) return window.innerWidth < 768 ? 'mobile' : 'tablet';
+  return 'desktop';
+}
+function collect(){
+  var q5 = {}; Q4.forEach(function(c){ q5[c.key] = Number(checked('q5_' + c.key)); });
+  var rep = state.answers5[REPEAT_OF - 1], last = state.answers5[PAIR_TOTAL - 1];
+  var payload = {
+    id: state.id,
+    client_ts: new Date().toISOString(),
+    started_at: state.startedAt,
+    duration_sec: Math.round((Date.now() - state.t0) / 1000),
+    device: device(), vw: window.innerWidth, vh: window.innerHeight,
+    q1: checked('q1'),
+    q2: checkedAll('q2'),
+    q3: checked('q3'),
+    q4: checked('q4'),
+    q4_other: ($('q4_other').value || '').trim().slice(0, 100),
+    q5: q5, q5_order: state.q4Order,
+    q6: state.answers5.map(function(a){ return {pos:a.pos, left:a.left, right:a.right, pick:a.pick, ms:a.ms, interrupted:a.interrupted, timed:a.timed !== false}; }),
+    q6_repeat_consistent: !!(rep && last && rep.pick === last.pick),
+    q7: (qs('textarea[name="q7"]').value || '').trim().slice(0, 500),
+    q8: checked('q8'),
+    q9: Number(checked('q9')), q10: Number(checked('q10')), q11: Number(checked('q11')),
+    q9_11_order: state.q8Order,
+    q12: checkedAll('q12'),
+    q13: checked('q13'), q14: checked('q14'),
+    q15: checkedAll('q15'),
+    q16: checked('q16'), q17: checked('q17'), q18: checked('q18'), q19: checked('q19'),
+    q20: checked('q20'), q21: checked('q21'),
+    q22: checkedAll('q22'),
+    q23: (qs('textarea[name="q23"]').value || '').trim().slice(0, 1000)
+  };
+  return payload;
+}
+
+/* ---------- 送出 ---------- */
+var submitting = false;
+function configured(){ return LOCAL || /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(ENDPOINT); }
+function post(payload){
+  var controller = new AbortController();
+  var timeout = setTimeout(function(){ controller.abort(); }, 20000);
+  return fetch(ENDPOINT, {
+    method: 'POST', mode: 'cors', redirect: 'follow', signal:controller.signal,
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(payload)
+  }).then(function(res){
+    return res.text().then(function(t){
+      var d = null; try { d = JSON.parse(t); } catch (e) {}
+      if (!res.ok || !d || d.ok !== true){
+        var err = new Error('bad response ' + res.status);
+        err.code = d && d.error;
+        err.permanent = !!(d && ['invalid','closed','id conflict','bad payload','header mismatch'].indexOf(d.error) >= 0);
+        throw err;
+      }
+      if (d.id !== payload.id) throw new Error('receipt mismatch');
+      return d;
+    });
+  }).finally(function(){ clearTimeout(timeout); });
+}
+function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+var pending = recovered ? recovered.pending : null;
+function submit(payload){
+  if (submitting) return Promise.resolve();
+  if (!configured()){
+    $('status').textContent = '問卷尚未開放送出，請稍後再試。';
+    return Promise.resolve();
+  }
+  submitting = true;
+  // Freeze the first submitted snapshot. Retrying an uncertain receipt must not
+  // silently change data associated with the same anonymous id.
+  pending = pending || JSON.parse(JSON.stringify(payload));
+  payload = pending; saveDraft();
+  qsa('input,textarea', $('survey')).forEach(function(el){ el.disabled = true; });
+  var btn = $('submit-btn'), st = $('status'), retry = $('retry-btn');
+  btn.disabled = true; retry.style.display = 'none';
+  $('survey').setAttribute('aria-busy', 'true');
+  st.className = 'status'; st.textContent = '送出中⋯';
+  return post(payload).catch(function(err){
+    if (err.permanent || navigator.onLine === false) throw err;
+    st.textContent = '尚未收到確認，再試一次⋯';
+    return wait(1500).then(function(){ return post(payload); });
+  }).then(function(){
+    st.textContent = '';
+    showSuccess();
+    pending = null;
+    try { sessionStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    state.completed = true;
+  }).catch(function(err){
+    btn.disabled = false;
+    st.className = 'status bad';
+    var rejected = err.code === 'invalid' || err.code === 'bad payload';
+    if (rejected){
+      // 伺服器沒有收下任何東西，解除凍結讓讀者檢查後重新送出
+      pending = null;
+      qsa('input,textarea', $('survey')).forEach(function(el){ el.disabled = false; });
+      saveDraft();
+    }
+    st.textContent = err.code === 'closed' ? '問卷已截止，謝謝你的關注。'
+      : rejected ? '資料未被接受，請往上檢查每一題都有作答，再按一次「送出問卷」；若仍失敗請聯絡編輯部。'
+      : err.permanent ? '資料未被接受，請聯絡編輯部。'
+      : '送出失敗，尚未收到確認。答案仍留在本頁，請確認網路後按「再試一次」。';
+    if (!err.permanent) retry.style.display = 'inline-block';
+  }).finally(function(){ submitting = false; $('survey').removeAttribute('aria-busy'); });
+}
+$('retry-btn').addEventListener('click', function(){ if (pending) submit(pending); });
+$('survey').addEventListener('submit', function(e){
+  e.preventDefault();
+  if (submitting) return;
+  if (pending){ submit(pending); return; }
+  var bad = validate();
+  var fe = $('form-err');
+  if (bad){ fe.classList.add('show'); bad.scrollIntoView({behavior:'smooth', block:'center'});
+    var focus = qs('input,textarea,button', bad); if (focus) focus.focus({preventScroll:true}); return; }
+  fe.classList.remove('show');
+  submit(collect());
+});
+
+/* ---------- 送出成功 ---------- */
+function renderResultCard(){
+  var wins = {}, apps = {};
+  TITLES.forEach(function(t){ wins[t.id] = 0; apps[t.id] = 0; });
+  state.answers5.forEach(function(a){ apps[a.left]++; apps[a.right]++; wins[a.pick]++; });
+  var tieOrder = shuffle(TITLES.map(function(t){ return t.id; }));   // 平手時隨機，不偏向題庫順序
+  var ranked = TITLES.filter(function(t){ return wins[t.id] > 0; }).sort(function(a, b){
+    var ra = wins[a.id] / Math.max(1, apps[a.id]), rb = wins[b.id] / Math.max(1, apps[b.id]);
+    return (rb - ra) || (wins[b.id] - wins[a.id]) || (tieOrder.indexOf(a.id) - tieOrder.indexOf(b.id));
+  }).slice(0, 3);
+  $('top3').innerHTML = ranked.map(function(t, i){
+    return '<li><span class="rank">' + (i + 1) + '</span><span><span class="ttl">' + esc(t.text) + '</span><br><span class="tag">' + t.style + '型</span></span></li>';
+  }).join('');
+  var byStyle = {};
+  state.answers5.forEach(function(a){ var st = TITLE_BY_ID[a.pick].style; byStyle[st] = (byStyle[st] || 0) + 1; });
+  var styles = Object.keys(byStyle).sort(function(a, b){ return byStyle[b] - byStyle[a]; });
+  var tops = styles.filter(function(s){ return byStyle[s] === byStyle[styles[0]]; });   // 平手並列
+  $('taste').innerHTML = tops.length ? '18 組對比裡，你有 <strong>' + byStyle[tops[0]] + ' 次</strong>選了' + esc(tops.join('型與')) + '型的標題。' : '';
+}
+function showSuccess(){
+  try { renderResultCard(); } catch (e) { qs('.card-dark').style.display = 'none'; }
+  $('survey').style.display = 'none';
+  var pb = qs('.progress'); if (pb) pb.style.display = 'none';
+  var result = $('result'); result.classList.add('show');
+  result.focus({preventScroll:true});
+  result.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- 啟動 ---------- */
+renderScales();
+renderProfile();
+qsa('.q').forEach(function(q){
+  var title = qs('.q-text', q), err = qs('.err', q), key = q.getAttribute('data-q');
+  if (title){ title.id = 'title-' + key; q.setAttribute('role','group'); q.setAttribute('aria-labelledby',title.id); }
+  if (err){ err.id = 'error-' + key; qsa('input,textarea,button',q).forEach(function(el){ el.setAttribute('aria-describedby',err.id); }); }
+});
+if (recovered && Array.isArray(recovered.fields)) recovered.fields.forEach(function(field){
+  qsa('input,textarea').forEach(function(el){
+    if ((field.id && el.id === field.id) || (!field.id && el.name === field.name &&
+        ((el.type !== 'radio' && el.type !== 'checkbox') || el.value === field.value))){
+      if (el.type === 'radio' || el.type === 'checkbox') el.checked = !!field.checked;
+      else el.value = field.value;
+    }
+  });
+});
+if (pending) qsa('input,textarea', $('survey')).forEach(function(el){ el.disabled = true; });
+applySkip(); updateProgress();
+showPair();
+saveDraft();
+if (LOCAL) window.__survey = {buildPairs: buildPairs, state: state, collect: collect, TITLES: TITLES, submit:submit};
+})();
+</script>
+</body>
+</html>
