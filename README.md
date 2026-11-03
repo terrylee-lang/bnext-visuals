@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| Anthropic近7季：營收一路升，營業利益又轉負 | Anthropic S-1/A更新：2025年Q1至2026年Q3營收與GAAP營業損益，桌機雙軸共零線、手機直接顯示7季數字。桌機實測1133px，建議iframe高度1224px；手機於框內捲動。 | 2026-11-03 | [`2026/11-anthropic-quarterly-revenue-profit.html`](./2026/11-anthropic-quarterly-revenue-profit.html) |
 | 下一期，你想讀什麼？會員專刊讀者問卷 | 11 月號會員專刊「編者的話」隨刊問卷：23 題、約 5 分鐘、完全匿名，含九類題材評分、16 標題兩兩對比 18 組、教學獨立度量表。獨立單頁非 iframe 配件，答案經 Google Apps Script 寫入試算表，收卷至 2026-11-23。 | 2026-11-05 | [`2026/11-member-survey.html`](./2026/11-member-survey.html) |
 | 91APP資安事件時間軸一次看 | 91APP資安事件更新：最大可能影響範圍、補償進度及11月2日起通知安排。可展開事件說明，建議 iframe 高度1550px，手機於框內捲動。 | 2026-10-29 | [`2026/10-91app-incident-timeline.html`](./2026/10-91app-incident-timeline.html) |
 | Anthropic 的 807 億美元虧損，怎麼算？ | Anthropic S-1 數字解析：五個損益項目與非現金重估說明，另列營業現金流及單季營業利益。桌機實測 1311px，建議 iframe 高度 1402px；手機於框內捲動。 | 2026-10-27 | [`2026/10-anthropic-ipo-loss-breakdown.html`](./2026/10-anthropic-ipo-loss-breakdown.html) |
