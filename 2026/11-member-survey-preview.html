@@ -134,7 +134,7 @@ body.has-steps .progress{display:none}
 .opt input:checked + span .ck-x .dot{transform:scale(1)}
 .excl-hint{display:none;font-size:14px;color:var(--orange-deep);margin:0 0 8px 34px}
 /* 漏答輕震 */
-.q.shake .q-text,.q.shake .err{animation:shake 360ms var(--ease)}
+.q.shake .q-text,.q.shake .err,.opt.shake > label > span{animation:shake 360ms var(--ease)}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
 .opt-text{display:flex;gap:8px;align-items:center;margin-top:8px;margin-left:18px}
 .opt-text[hidden]{display:none}
@@ -221,6 +221,7 @@ textarea{width:100%;min-height:96px;padding:10px 12px;border:1px solid var(--lin
 .top3 .tag{display:inline-block;margin-top:4px;font-size:12px;letter-spacing:.08em;color:var(--muted2);font-family:Inter,"Noto Sans TC",sans-serif}
 .taste{margin:22px 0 0;padding:16px 0 0;border-top:1px solid var(--navy2);font-size:16px;line-height:1.8}
 .taste strong{color:var(--orange)}
+.taste .gloss{display:block;margin-top:6px;font-size:14px;color:var(--muted2)}
 .thanks{margin-top:20px;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--paper2);font-size:16px}
 .thanks p{margin:0 0 8px}
 .thanks p:last-child{margin:0}
@@ -259,7 +260,7 @@ footer strong{color:var(--ink);font-weight:700}
   .steps-line i,.step-dot{transition:none}
   .step.done .step-check{animation:none;transform:scale(1)}
   .ck path,.ck-x .dot{transition:none}
-  .q.shake .q-text,.q.shake .err,.max-count.shake,.step.shake .step-dot{animation:none}
+  .q.shake .q-text,.q.shake .err,.max-count.shake,.step.shake .step-dot,.opt.shake > label > span{animation:none}
   .is-loading .btn-spin{animation-duration:1.6s}
   .is-done .btn-ok{animation:none;transform:scale(1)}
   .ripple,.pop{display:none}
@@ -339,6 +340,7 @@ footer strong{color:var(--ink);font-weight:700}
         <li class="opt"><label><input type="radio" name="q3" value="PDF 不方便讀"><span>PDF 不方便讀</span></label></li>
         <li class="opt"><label><input type="radio" name="q3" value="內容太簡單"><span>內容太簡單</span></label></li>
         <li class="opt"><label><input type="radio" name="q3" value="內容太難"><span>內容太難</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="存了就忘了打開"><span>存了就忘了打開</span></label></li>
         <!-- 自動值：依第 1 題收起本題時由程式勾選，讀者看不到 -->
         <li class="opt" hidden><label><input type="radio" name="q3" value="不適用，我大多有讀" tabindex="-1"><span>不適用，我大多有讀</span></label></li>
       </ul>
@@ -359,7 +361,7 @@ footer strong{color:var(--ink);font-weight:700}
       <p class="err">15 組還沒點完</p>
       <div class="pair-stage" id="pair-stage">
         <div class="pair-bar"><i id="pair-bar"></i></div>
-        <p class="pair-stem" id="pair-stem" tabindex="-1"><span class="pair-count num" id="pair-count" role="status" aria-live="polite">第 1 組 / 15</span><span class="pair-sep">・</span>憑直覺點</p>
+        <p class="pair-stem" id="pair-stem" tabindex="-1"><span class="pair-count num" id="pair-count" role="status" aria-live="polite">第 1 組 / 15</span><span class="pair-sep">・</span><span id="pair-tip">憑直覺點</span></p>
         <div class="pair-grid">
           <button type="button" class="pair-btn" id="pair-left" data-side="left"></button>
           <button type="button" class="pair-btn" id="pair-right" data-side="right"></button>
@@ -565,7 +567,7 @@ var PROFILE = [
   {key:'q16', no:'12', text:'年齡', opts:['24歲以下','25到34歲','35到44歲','45到54歲','55到64歲','65歲以上']},
   {key:'q17', no:'13', text:'你的角色', opts:['企業主、創辦人或高階主管','中階主管','專業人員（工程、產品、行銷、財務等）','自由工作者','學生','其他']},
   {key:'q18', no:'14', text:'產業', opts:['資訊科技與軟體','半導體與硬體製造','金融與保險','零售與消費品','媒體、行銷與廣告','醫療、教育與公部門','其他']},
-  {key:'q21', no:'15', text:'過去30天，你用AI工具的頻率？', opts:['每天多次','每天一次左右','每周幾次','用過，但不到每周一次','完全沒用']},
+  {key:'q21', no:'15', text:'過去30天，你用AI工具的頻率？', hint:'ChatGPT、Gemini 這類對話工具都算', opts:['每天多次','每天一次左右','每周幾次','用過，但不到每周一次','完全沒用']},
   {key:'q22', no:'16', text:'過去30天你實際用過哪些AI工具？含免費版與公司提供的。', hint:'可複選', multi:true,
    opts:['ChatGPT','Codex','Claude','Claude Code','Grok','GrokBot','Gemini / NotebookLM','Microsoft Copilot','GitHub Copilot / Cursor','Perplexity','Dot / Claude Duet / Meta Muse','OpenClaw','Instinct','Gamma / Canva AI','其他'],
    descs:{'GitHub Copilot / Cursor':'編輯器裡的程式助理','Dot / Claude Duet / Meta Muse':'會主動做事的個人代理'},
@@ -760,6 +762,7 @@ function showPair(){
     state.pairReady = true; refreshPairVisibility();
   }); });
   $('pair-count').textContent = '第 ' + (i + 1) + ' 組 / ' + PAIR_TOTAL;
+  $('pair-tip').textContent = (i + 1 === Math.ceil(PAIR_TOTAL / 2)) ? '過一半了' : '憑直覺點';
   $('pair-bar').style.width = Math.round(i / PAIR_TOTAL * 100) + '%';
 
 }
@@ -965,7 +968,7 @@ document.addEventListener('change', function(e){
       el.checked = false;
       var hint = qs('.max-hint', q);
       if (hint){ hint.style.display = 'block'; clearTimeout(hint._t); hint._t = setTimeout(function(){ hint.style.display = 'none'; }, 2000); }
-      updateProgress(); bump(qs('.max-count', q));
+      updateProgress(); bump(qs('.max-count', q)); bump(el.closest('.opt'));
     }
   }
   if (cleared.length){ updateProgress(); saveDraft(); }
@@ -1184,7 +1187,8 @@ function renderResultCard(){
   state.answers5.forEach(function(a){ var st = TITLE_BY_ID[a.pick].style; byStyle[st] = (byStyle[st] || 0) + 1; });
   var styles = Object.keys(byStyle).sort(function(a, b){ return byStyle[b] - byStyle[a]; });
   var tops = styles.filter(function(s){ return byStyle[s] === byStyle[styles[0]]; });   // 平手並列
-  $('taste').innerHTML = tops.length ? PAIR_TOTAL + ' 組對比裡，你有 <strong>' + byStyle[tops[0]] + ' 次</strong>選了' + esc(tops.join('型與')) + '型的標題。' : '';
+  var STYLE_GLOSS = {'教學':'教學型是帶你一步步做', '判斷':'判斷型是幫你做選擇', '分析':'分析型是講為什麼', '案例':'案例型是看別人怎麼做'};
+  $('taste').innerHTML = tops.length ? PAIR_TOTAL + ' 組對比裡，你有 <strong>' + byStyle[tops[0]] + ' 次</strong>選了' + esc(tops.join('型與')) + '型的標題。<span class="gloss">' + esc(tops.map(function(t){ return STYLE_GLOSS[t]; }).join('，')) + '。</span>' : '';
 }
 function showSuccess(){
   try { renderResultCard(); } catch (e) { qs('.card-dark').style.display = 'none'; }

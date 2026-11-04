@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:,">
 <meta property="og:title" content="下一期，你想讀什麼？數位時代會員專刊讀者問卷">
-<meta property="og:description" content="23 題，約 5 分鐘，完全匿名。哪裡卡住、哪裡不夠好，告訴我。">
+<meta property="og:description" content="17 題，約 5 分鐘，完全匿名。哪裡卡住、哪裡不夠好，告訴我。">
 <meta property="og:type" content="website">
 <title>會員專刊讀者問卷 ｜ 數位時代</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
@@ -92,6 +92,8 @@ body.has-steps .progress{display:none}
 .q .err{display:none;font-size:14px;color:var(--red);margin:0 0 8px 34px}
 .q.missing .err{display:block}
 .max-hint{display:none;font-size:14px;color:var(--orange-deep);margin:0 0 8px 34px}
+.q-note{font-size:14px;line-height:1.6;color:var(--muted);margin:-4px 0 10px 34px}
+.preview-note{margin:0 0 16px;padding:10px 14px;border:1px dashed var(--orange-deep);background:var(--orange-soft);font-size:14px;line-height:1.6;color:var(--ink)}
 
 /* options */
 .opts{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
@@ -103,6 +105,11 @@ body.has-steps .progress{display:none}
 .opt:hover span{border-color:var(--ink)}
 .opt input:checked + span{background:var(--paper3);border-color:var(--ink);border-left-color:var(--orange)}
 .opt input:focus-visible + span{outline:3px solid var(--ink);outline-offset:2px}
+.opt-issue input + span{padding-right:64px}
+.issue-mon{display:block;font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:600;font-family:Inter,"Noto Sans TC",sans-serif}
+.opt-link{position:absolute;right:8px;top:50%;transform:translateY(-50%);padding:10px 8px;font-size:13px;color:var(--orange-deep);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.opt-link:hover{color:var(--orange)}
+.opt-link:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 /* 複選框：方框加畫出來的勾，和單選卡一眼分開 */
 .opt input[type=checkbox] + span{position:relative;padding-left:44px}
 .ck{position:absolute;left:14px;top:13px;width:18px;height:18px;overflow:visible}
@@ -126,7 +133,7 @@ body.has-steps .progress{display:none}
 .opt input:checked + span .ck-x .dot{transform:scale(1)}
 .excl-hint{display:none;font-size:14px;color:var(--orange-deep);margin:0 0 8px 34px}
 /* 漏答輕震 */
-.q.shake .q-text,.q.shake .err{animation:shake 360ms var(--ease)}
+.q.shake .q-text,.q.shake .err,.opt.shake > label > span{animation:shake 360ms var(--ease)}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
 .opt-text{display:flex;gap:8px;align-items:center;margin-top:8px;margin-left:18px}
 .opt-text[hidden]{display:none}
@@ -137,6 +144,8 @@ body.has-steps .progress{display:none}
 .scale-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px dashed var(--line)}
 .scale-row:first-of-type{border-top:0}
 .scale-label{font-size:16px;line-height:1.5}
+.scale-desc,.opt-desc{display:block;font-size:13px;line-height:1.5;color:var(--muted)}
+.opt .opt-desc{min-height:0;padding:0;border:0;background:none;font-weight:400}
 .scale-btns{display:flex;gap:6px}
 .scale-btns label{position:relative}
 .scale-btns input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
@@ -152,7 +161,9 @@ body.has-steps .progress{display:none}
 .pair-count{font-family:Inter,"Noto Sans TC",sans-serif;font-size:14px;color:var(--muted);font-feature-settings:'tnum' 1;font-weight:600}
 .pair-bar{height:4px;background:var(--paper4);margin:0 0 14px;overflow:hidden}
 .pair-bar i{display:block;height:100%;width:0;background:var(--orange);transition:width 200ms var(--ease)}
-.pair-stem{margin:0 0 14px;font-size:17px;font-weight:700;line-height:1.6}
+.pair-stem{margin:0 0 12px;font-family:Inter,"Noto Sans TC",sans-serif;font-size:14px;font-weight:600;line-height:1.6;color:var(--muted)}
+.pair-stem .pair-count{font-size:inherit}
+.pair-sep{margin:0 2px}
 .pair-grid{display:grid;grid-template-columns:1fr;gap:10px}
 .pair-btn{display:block;width:100%;min-height:64px;text-align:left;padding:14px 16px;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:0;background:var(--paper);font-size:16px;line-height:1.55;font-weight:500;transition:background 120ms var(--ease),border-color 120ms var(--ease)}
 .pair-btn:hover{border-color:var(--ink)}
@@ -172,7 +183,16 @@ textarea{width:100%;min-height:96px;padding:10px 12px;border:1px solid var(--lin
 .btn-primary:hover{background:var(--orange-deep)}
 .btn-primary:disabled{background:var(--paper4);color:var(--muted);cursor:default}
 /* 送出鍵：轉圈 → 打勾 */
-.btn-primary{position:relative}
+.btn-primary{position:relative;overflow:hidden}
+/* 按鈕漣漪：從按下的點擴散、蓋住整顆按鈕並淡出；用紙色半透明，不另加色 */
+.ripple{position:absolute;border-radius:50%;background:rgba(250,247,241,.38);transform:scale(0);opacity:1;pointer-events:none;animation:ripple 700ms var(--ease) forwards}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+/* 送出成功噴一次：品牌色圓點與小方塊從送出鍵噴出，固定定位不被按鈕裁掉 */
+.pop{position:fixed;left:0;top:0;width:0;height:0;pointer-events:none;z-index:50}
+.pop i{position:absolute;left:0;top:0;display:block;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--orange);will-change:transform,opacity}
+.pop i.sq{border-radius:1px;width:7px;height:7px;margin:-3.5px 0 0 -3.5px}
+.pop i.deep{background:var(--orange-deep)}.pop i.ink{background:var(--ink)}.pop i.soft{background:var(--orange-soft)}
+.pop b{position:absolute;left:0;top:0;width:28px;height:28px;margin:-14px 0 0 -14px;border:1.5px solid var(--ink);border-radius:50%;transform:scale(0);opacity:.7}
 .btn-primary.is-loading:disabled,.btn-primary.is-done:disabled{background:var(--orange);color:var(--paper)}
 .btn-spin,.btn-ok{position:absolute;left:50%;top:50%;pointer-events:none}
 .btn-spin{width:20px;height:20px;margin:-10px 0 0 -10px;border:2.5px solid rgba(250,247,241,.35);border-top-color:var(--paper);border-radius:50%;opacity:0}
@@ -200,6 +220,7 @@ textarea{width:100%;min-height:96px;padding:10px 12px;border:1px solid var(--lin
 .top3 .tag{display:inline-block;margin-top:4px;font-size:12px;letter-spacing:.08em;color:var(--muted2);font-family:Inter,"Noto Sans TC",sans-serif}
 .taste{margin:22px 0 0;padding:16px 0 0;border-top:1px solid var(--navy2);font-size:16px;line-height:1.8}
 .taste strong{color:var(--orange)}
+.taste .gloss{display:block;margin-top:6px;font-size:14px;color:var(--muted2)}
 .thanks{margin-top:20px;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--paper2);font-size:16px}
 .thanks p{margin:0 0 8px}
 .thanks p:last-child{margin:0}
@@ -238,9 +259,11 @@ footer strong{color:var(--ink);font-weight:700}
   .steps-line i,.step-dot{transition:none}
   .step.done .step-check{animation:none;transform:scale(1)}
   .ck path,.ck-x .dot{transition:none}
-  .q.shake .q-text,.q.shake .err,.max-count.shake,.step.shake .step-dot{animation:none}
+  .q.shake .q-text,.q.shake .err,.max-count.shake,.step.shake .step-dot,.opt.shake > label > span{animation:none}
   .is-loading .btn-spin{animation-duration:1.6s}
   .is-done .btn-ok{animation:none;transform:scale(1)}
+  .ripple,.pop{display:none}
+  .step-dot::after,.steps-nav button,.progress i,.btn-primary,.opt span{transition:none}
 }
 </style>
 </head>
@@ -253,7 +276,7 @@ footer strong{color:var(--ink);font-weight:700}
   <div class="kicker">會員專刊 · 讀者問卷</div>
   <h1 class="ptitle"><span class="ptitle-text" id="ptitleText">下一期，你想讀什麼？</span></h1>
   <canvas class="ptitle-canvas" id="ptitleCanvas" aria-hidden="true"></canvas>
-  <p class="deck">本問卷共 23 題，耗時約 5 分鐘。<br>哪裡卡住、哪裡不夠好，告訴我。請讓我成為，你的編輯。</p>
+  <p class="deck">本問卷共 17 題，耗時約 5 分鐘。<br>哪裡卡住、哪裡不夠好，告訴我。請讓我成為，你的編輯。</p>
   <p class="privacy"><strong>本問卷匿名</strong>，不蒐集任何可識別個人的資料，不留 email，不記 IP。</p>
 </header>
 
@@ -264,12 +287,11 @@ footer strong{color:var(--ink);font-weight:700}
     <div class="steps-line" aria-hidden="true"><i id="steps-fill"></i></div>
     <ol class="steps-list">
     <li class="step" data-sec="sec1"><button type="button" class="step-dot" data-go="sec1" aria-label="第 1 段 怎麼讀"><span class="step-num">1</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">怎麼讀</span></li>
-    <li class="step" data-sec="sec2"><button type="button" class="step-dot" data-go="sec2" aria-label="第 2 段 為什麼訂"><span class="step-num">2</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">為什麼訂</span></li>
-    <li class="step" data-sec="sec3"><button type="button" class="step-dot" data-go="sec3" aria-label="第 3 段 想讀什麼"><span class="step-num">3</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">想讀什麼</span></li>
-    <li class="step" data-sec="sec4"><button type="button" class="step-dot" data-go="sec4" aria-label="第 4 段 怎麼寫"><span class="step-num">4</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">怎麼寫</span></li>
-    <li class="step" data-sec="sec5"><button type="button" class="step-dot" data-go="sec5" aria-label="第 5 段 怎麼收到"><span class="step-num">5</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">怎麼收到</span></li>
-    <li class="step" data-sec="sec6"><button type="button" class="step-dot" data-go="sec6" aria-label="第 6 段 關於你"><span class="step-num">6</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">關於你</span></li>
-    <li class="step" data-sec="sec7"><button type="button" class="step-dot" data-go="sec7" aria-label="第 7 段 想說的話"><span class="step-num">7</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">想說的話</span></li>
+    <li class="step" data-sec="sec2"><button type="button" class="step-dot" data-go="sec2" aria-label="第 2 段 你想看的題目"><span class="step-num">2</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">想看的題目</span></li>
+    <li class="step" data-sec="sec3"><button type="button" class="step-dot" data-go="sec3" aria-label="第 3 段 你期待的題型"><span class="step-num">3</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">期待的題型</span></li>
+    <li class="step" data-sec="sec4"><button type="button" class="step-dot" data-go="sec4" aria-label="第 4 段 怎麼收到"><span class="step-num">4</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">怎麼收到</span></li>
+    <li class="step" data-sec="sec5"><button type="button" class="step-dot" data-go="sec5" aria-label="第 5 段 關於你"><span class="step-num">5</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">關於你</span></li>
+    <li class="step" data-sec="sec6"><button type="button" class="step-dot" data-go="sec6" aria-label="第 6 段 想說的話"><span class="step-num">6</span><svg class="step-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.5 6 10.5 11 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="step-label" aria-hidden="true">想說的話</span></li>
     </ol>
   </div>
   <div class="steps-nav">
@@ -285,194 +307,157 @@ footer strong{color:var(--ink);font-weight:700}
 
     <div class="q" data-q="q1" data-required="radio">
       <p class="q-text"><span class="q-no">1</span><span>過去半年的專刊，你通常怎麼讀？<span class="q-hint">單選</span></span></p>
-      <p class="err">這題還沒選</p>
+      <p class="err">請選一項</p>
       <ul class="opts">
         <li class="opt"><label><input type="radio" name="q1" value="每期完整讀完"><span>每期完整讀完</span></label></li>
         <li class="opt"><label><input type="radio" name="q1" value="挑有興趣的段落讀"><span>挑有興趣的段落讀</span></label></li>
         <li class="opt"><label><input type="radio" name="q1" value="存起來但很少打開"><span>存起來但很少打開</span></label></li>
-        <li class="opt"><label><input type="radio" name="q1" value="沒注意到有這份刊物"><span>沒注意到有這份刊物</span></label></li>
-        <li class="opt"><label><input type="radio" name="q1" value="剛加入，還沒讀過"><span>剛加入，還沒讀過</span></label></li>
       </ul>
     </div>
 
     <div class="q" data-q="q2" data-required="check">
-      <p class="q-text"><span class="q-no">2</span><span>哪幾期對你有實際幫助？用上了、或改變了你的看法或做法都算。<span class="q-hint">可複選</span></span></p>
-      <p class="err">至少勾一項，沒有的話選最後三項之一</p>
+      <p class="q-text"><span class="q-no">2</span><span>哪幾期對你有實際幫助？用上了、或改變了你的看法或做法都算。<span class="q-hint">可複選，點「下載」可以再拿一次</span></span></p>
+      <p class="err">至少勾一項，沒有的話選最後一項</p>
       <ul class="opts two">
-        <li class="opt"><label><input type="checkbox" name="q2" value="4月 Claude.AI 新手指南"><span>4月 Claude.AI 新手指南</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="5月 Claude Skills"><span>5月 Claude Skills</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="6月 Cowork 工作流"><span>6月 Cowork 工作流</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="7月 Claude Code"><span>7月 Claude Code</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="8月 Codex 與 ChatGPT Work 對照"><span>8月 Codex 與 ChatGPT Work 對照</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="9月 Sheets Canvas 與 Grok Bot"><span>9月 Sheets Canvas 與 Grok Bot</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="10月 建構 Grok Bot 小隊"><span>10月 建構 Grok Bot 小隊</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="讀過，但沒有明顯幫助" data-exclusive><span>讀過，但沒有明顯幫助</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="讀過，但記不清哪些期有幫助" data-exclusive><span>讀過，但記不清哪些期有幫助</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q2" value="都沒讀過" data-exclusive><span>都沒讀過</span></label></li>
+        <li class="opt opt-issue"><label><input type="checkbox" name="q2" value="4月 Claude.AI 新手指南"><span><b class="issue-mon">4月</b>2026 全球 AI 100 強名單 × Claude 完全新手指南</span></label><a class="opt-link" href="https://www.bnext.com.tw/member/special-issue/view/1443" target="_blank" rel="noopener">下載</a></li>
+        <li class="opt opt-issue"><label><input type="checkbox" name="q2" value="5月 Claude Skills"><span><b class="issue-mon">5月</b>Claude Skills初心者指南！4單元教你做出個人專屬Skill，升級AI工作流</span></label><a class="opt-link" href="https://www.bnext.com.tw/member/special-issue/view/1444" target="_blank" rel="noopener">下載</a></li>
+        <li class="opt opt-issue"><label><input type="checkbox" name="q2" value="6月 Cowork 工作流"><span><b class="issue-mon">6月</b>Claude Cowork基礎教學！10分鐘把AI搬下本機，7步驟打造「會做事的AI助理」</span></label><a class="opt-link" href="https://www.bnext.com.tw/member/special-issue/view/1446" target="_blank" rel="noopener">下載</a></li>
+        <li class="opt opt-issue"><label><input type="checkbox" name="q2" value="7月 Claude Code"><span><b class="issue-mon">7月</b>Claude Code 新手實戰！不用寫程式，動嘴就做出你的專屬工具</span></label><a class="opt-link" href="https://www.bnext.com.tw/member/special-issue/view/1447" target="_blank" rel="noopener">下載</a></li>
+        <li class="opt opt-issue"><label><input type="checkbox" name="q2" value="8月 Codex 與 ChatGPT Work 對照"><span><b class="issue-mon">8月</b>Codex漫遊指南：如何無痛搬移Claude工作流？</span></label><a class="opt-link" href="https://www.bnext.com.tw/member/special-issue/view/1448" target="_blank" rel="noopener">下載</a></li>
+        <li class="opt opt-issue"><label><input type="checkbox" name="q2" value="9月 Sheets Canvas 與 Grok Bot"><span><b class="issue-mon">9月</b>Google Sheets Canvas實測</span></label><a class="opt-link" href="https://www.bnext.com.tw/member/special-issue/view/1449" target="_blank" rel="noopener">下載</a></li>
+        <li class="opt opt-issue"><label><input type="checkbox" name="q2" value="10月 建構 Grok Bot 小隊"><span><b class="issue-mon">10月</b>GrokBot小隊下載！把零散Bot組成會分工的AI團隊</span></label><a class="opt-link" href="https://www.bnext.com.tw/member/special-issue/view/1450" target="_blank" rel="noopener">下載</a></li>
+        <li class="opt"><label><input type="checkbox" name="q2" value="說不出哪一期特別有幫助" data-exclusive><span>說不出哪一期特別有幫助</span></label></li>
       </ul>
     </div>
 
     <div class="q" data-q="q3" data-required="radio">
       <p class="q-text"><span class="q-no">3</span><span>如果你很少讀或常沒讀完，主要原因是？<span class="q-hint">單選</span></span></p>
-      <p class="err">這題還沒選，大多有讀就選最後一項</p>
+      <p class="err">請選一項</p>
       <ul class="opts">
-        <li class="opt"><label><input type="radio" name="q3" value="太長，沒時間"><span>太長，沒時間</span></label></li>
-        <li class="opt"><label><input type="radio" name="q3" value="主題不是我需要的"><span>主題不是我需要的</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="太長，看不完"><span>太長，看不完</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="題目跟我的需求不搭"><span>題目跟我的需求不搭</span></label></li>
         <li class="opt"><label><input type="radio" name="q3" value="PDF 不方便讀"><span>PDF 不方便讀</span></label></li>
-        <li class="opt"><label><input type="radio" name="q3" value="內容太基礎"><span>內容太基礎</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="內容太簡單"><span>內容太簡單</span></label></li>
         <li class="opt"><label><input type="radio" name="q3" value="內容太難"><span>內容太難</span></label></li>
-        <li class="opt"><label><input type="radio" name="q3" value="常沒注意到信"><span>常沒注意到信</span></label></li>
-        <li class="opt"><label><input type="radio" name="q3" value="不適用，我大多有讀"><span>不適用，我大多有讀</span></label></li>
-        <li class="opt" hidden><label><input type="radio" name="q3" value="剛加入，還沒讀過" tabindex="-1"><span>剛加入，還沒讀過</span></label></li>
+        <li class="opt"><label><input type="radio" name="q3" value="存了就忘了打開"><span>存了就忘了打開</span></label></li>
+        <!-- 自動值：依第 1 題收起本題時由程式勾選，讀者看不到 -->
+        <li class="opt" hidden><label><input type="radio" name="q3" value="不適用，我大多有讀" tabindex="-1"><span>不適用，我大多有讀</span></label></li>
       </ul>
     </div>
 
   </div>
 </section>
 
-<!-- 02 訂閱動機 -->
+<!-- 02 題材興趣 -->
 <section class="sec" id="sec2">
-  <div class="sec-head"><span class="sec-no num">02</span><h2>你為什麼訂</h2></div>
+  <div class="sec-head"><span class="sec-no num">02</span><h2>你想看的題目</h2></div>
   <div class="sec-body">
 
-    <div class="q" data-q="q4" data-required="radio">
-      <p class="q-text"><span class="q-no">4</span><span>你訂《數位時代》會員主要是為了？<span class="q-hint">單選</span></span></p>
-      <p class="err">這題還沒選</p>
-      <ul class="opts">
-        <li class="opt"><label><input type="radio" name="q4" value="跟上產業動態"><span>跟上產業動態</span></label></li>
-        <li class="opt"><label><input type="radio" name="q4" value="學會用工具"><span>學會用工具</span></label></li>
-        <li class="opt"><label><input type="radio" name="q4" value="做決策時有依據"><span>做決策時有依據</span></label></li>
-        <li class="opt"><label><input type="radio" name="q4" value="找題目跟同事聊"><span>找題目跟同事聊</span></label></li>
-        <li class="opt"><label><input type="radio" name="q4" value="其他"><span>其他</span></label>
-          <div class="opt-text" hidden><label for="q4_other" class="q-hint">請說明</label><input type="text" id="q4_other" name="q4_other" maxlength="100" placeholder="一句話就好"></div>
-        </li>
-      </ul>
-    </div>
-
-  </div>
-</section>
-
-<!-- 03 題材興趣 -->
-<section class="sec" id="sec3">
-  <div class="sec-head"><span class="sec-no num">03</span><h2>你想讀什麼</h2></div>
-  <div class="sec-body">
-
-    <div class="q" data-q="q5" data-required="scale">
-      <p class="q-text"><span class="q-no">5</span><span>以下九類題材，你有多想讀？<span class="q-hint">每類各打一個分數</span></span></p>
-      <p class="err">還有類別沒打分</p>
-      <div class="scale-anchor"><span>1 = 不想讀</span><span>5 = 很想讀</span></div>
-      <div id="q5-rows"></div>
-    </div>
-
+    <!-- v4：畫面題號對調（標題對比為第 5 題、九類評分為第 6 題），資料鍵沿用 v3：q6＝標題對比、q5＝九類評分 -->
     <div class="q" data-q="q6" data-required="pairs">
-      <p class="q-text"><span class="q-no">6</span><span>兩篇標題，你會先點哪一篇？<span class="q-hint">共 18 組，憑直覺點</span></span></p>
-      <p class="err">18 組還沒點完</p>
+      <p class="q-text"><span class="q-no">4</span><span>兩篇標題，你會先點哪一篇？<span class="q-hint">共 15 組</span></span></p>
+      <p class="q-note">兩個標題內容切角不同，以識別你的興趣取向。</p>
+      <p class="err">15 組還沒點完</p>
       <div class="pair-stage" id="pair-stage">
-        <div class="pair-top"><span class="pair-count num" id="pair-count" role="status" aria-live="polite">第 1 組 / 18</span></div>
         <div class="pair-bar"><i id="pair-bar"></i></div>
-        <p class="pair-stem" id="pair-stem" tabindex="-1">這兩篇只能先看一篇，你點哪個？</p>
+        <p class="pair-stem" id="pair-stem" tabindex="-1"><span class="pair-count num" id="pair-count" role="status" aria-live="polite">第 1 組 / 15</span><span class="pair-sep">・</span><span id="pair-tip">憑直覺點</span></p>
         <div class="pair-grid">
           <button type="button" class="pair-btn" id="pair-left" data-side="left"></button>
           <button type="button" class="pair-btn" id="pair-right" data-side="right"></button>
         </div>
-        <p class="pair-done"><strong>18 組完成。</strong>請繼續填寫下方問題，最後按「送出問卷」。</p>
+        <p class="pair-done"><strong>15 組完成。</strong>請繼續填寫下方問題，最後按「送出問卷」。</p>
       </div>
     </div>
 
+    <div class="q" data-q="q5" data-required="check" data-max="3">
+      <p class="q-text"><span class="q-no">5</span><span>最多選 3 個你最感興趣的選題方向<span class="q-hint">可複選</span></span></p>
+      <p class="err">至少勾一項</p>
+      <p class="max-hint">最多選 3 項，取消一項即可更換</p>
+      <ul class="opts" id="q5-rows"></ul>
+    </div>
+
     <div class="q" data-q="q7">
-      <p class="q-text"><span class="q-no">7</span><span>最近有沒有一件事你想搞懂、但沒時間自己查？<span class="q-hint">選填</span></span></p>
+      <p class="q-text"><span class="q-no">6</span><span>最近有沒有一件事你想搞懂、但沒時間自己查？<span class="q-hint">選填</span></span></p>
       <textarea name="q7" maxlength="500" placeholder="一句話也可以"></textarea>
     </div>
 
   </div>
 </section>
 
-<!-- 04 寫法與教學需求 -->
-<section class="sec" id="sec4">
-  <div class="sec-head"><span class="sec-no num">04</span><h2>你想要怎麼寫</h2></div>
+<!-- 03 寫法與教學需求 -->
+<section class="sec" id="sec3">
+  <div class="sec-head"><span class="sec-no num">03</span><h2>你期待的題型</h2></div>
   <div class="sec-body">
 
     <div class="q" data-q="q8" data-required="radio">
-      <p class="q-text"><span class="q-no">8</span><span>下一期你最希望增加哪一種寫法？<span class="q-hint">單選</span></span></p>
-      <p class="err">這題還沒選</p>
+      <p class="q-text"><span class="q-no">7</span><span>下一期你最希望增加哪一種寫法？<span class="q-hint">單選</span></span></p>
+      <p class="err">請選一項</p>
       <ul class="opts">
         <li class="opt"><label><input type="radio" name="q8" value="教學"><span>操作教學：提供步驟、示範與注意事項</span></label></li>
         <li class="opt"><label><input type="radio" name="q8" value="判斷"><span>比較判斷：比較選項、適用情境與限制</span></label></li>
         <li class="opt"><label><input type="radio" name="q8" value="分析"><span>趨勢分析：說明產業變化、原因與影響</span></label></li>
-        <li class="opt"><label><input type="radio" name="q8" value="案例"><span>實務案例：介紹實際做法、成果與遇到的問題</span></label></li>
       </ul>
     </div>
 
-    <div class="q" data-q="q9" data-required="scale">
-      <p class="q-text"><span class="q-no">9 到 11</span><span>以下三句，你同意嗎？</span></p>
-      <p class="err">還有句子沒打分</p>
-      <div class="scale-anchor"><span>1 = 非常不同意</span><span>5 = 非常同意</span></div>
-      <div id="q9-rows"></div>
-    </div>
-
     <div class="q" data-q="q12" data-required="check" data-max="2">
-      <p class="q-text"><span class="q-no">12</span><span>對你已經熟悉的 AI 工具，你最希望專刊提供什麼？<span class="q-hint">最多選 2 項</span></span></p>
+      <p class="q-text"><span class="q-no">8</span><span>對你已經熟悉的 AI 工具，你最希望專刊提供什麼？<span class="q-hint">最多選 2 項</span></span></p>
       <p class="err">至少勾一項</p>
-      <p class="max-hint">最多選 2 項，想換請先取消一項</p>
+      <p class="max-hint">最多選 2 項，取消一項即可更換</p>
       <ul class="opts">
         <li class="opt"><label><input type="checkbox" name="q12" value="新功能與重要變動"><span>新功能與重要變動</span></label></li>
         <li class="opt"><label><input type="checkbox" name="q12" value="能直接套用的工作案例"><span>能直接套用的工作案例</span></label></li>
         <li class="opt"><label><input type="checkbox" name="q12" value="進階技巧與疑難排解"><span>進階技巧與疑難排解</span></label></li>
         <li class="opt"><label><input type="checkbox" name="q12" value="方案、費用與限制比較"><span>方案、費用與限制比較</span></label></li>
         <li class="opt"><label><input type="checkbox" name="q12" value="基礎操作與入門教學"><span>基礎操作與入門教學</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q12" value="暫時不需要" data-exclusive><span>暫時不需要</span></label></li>
-        <li class="opt"><label><input type="checkbox" name="q12" value="沒有熟悉的AI工具" data-exclusive><span>沒有熟悉的AI工具</span></label></li>
       </ul>
     </div>
 
   </div>
 </section>
 
-<!-- 05 格式偏好 -->
-<section class="sec" id="sec5">
-  <div class="sec-head"><span class="sec-no num">05</span><h2>你想怎麼收到</h2></div>
+<!-- 04 格式偏好 -->
+<section class="sec" id="sec4">
+  <div class="sec-head"><span class="sec-no num">04</span><h2>你想怎麼收到</h2></div>
   <div class="sec-body">
 
     <div class="q" data-q="q13" data-required="radio">
-      <p class="q-text"><span class="q-no">13</span><span>每期約一萬字，你希望篇幅？<span class="q-hint">單選</span></span></p>
-      <p class="err">這題還沒選</p>
+      <p class="q-text"><span class="q-no">9</span><span>每期約一萬字，你希望篇幅？<span class="q-hint">單選</span></span></p>
+      <p class="err">請選一項</p>
       <ul class="opts">
-        <li class="opt"><label><input type="radio" name="q13" value="短一些"><span>短一些</span></label></li>
-        <li class="opt"><label><input type="radio" name="q13" value="維持差不多"><span>維持差不多</span></label></li>
-        <li class="opt"><label><input type="radio" name="q13" value="長一些"><span>長一些</span></label></li>
-        <li class="opt"><label><input type="radio" name="q13" value="讀得不夠多，無法判斷"><span>讀得不夠多，無法判斷</span></label></li>
+        <li class="opt"><label><input type="radio" name="q13" value="短一些"><span>拜託短一些 (´;ω;`)</span></label></li>
+        <li class="opt"><label><input type="radio" name="q13" value="維持差不多"><span>現在這樣剛好 d(d＇∀＇)</span></label></li>
+        <li class="opt"><label><input type="radio" name="q13" value="長一些"><span>我還讀不夠 (┛`д´)┛</span></label></li>
       </ul>
     </div>
 
     <div class="q" data-q="q14" data-required="radio">
-      <p class="q-text"><span class="q-no">14</span><span>你最想用哪種方式讀？<span class="q-hint">單選</span></span></p>
-      <p class="err">這題還沒選</p>
+      <p class="q-text"><span class="q-no">10</span><span>專刊的形式，你怎麼看？<span class="q-hint">單選</span></span></p>
+      <p class="err">請選一項</p>
       <ul class="opts">
-        <li class="opt"><label><input type="radio" name="q14" value="現在的PDF"><span>現在的PDF</span></label></li>
-        <li class="opt"><label><input type="radio" name="q14" value="網頁版"><span>網頁版</span></label></li>
-        <li class="opt"><label><input type="radio" name="q14" value="Email內文直接讀"><span>Email內文直接讀</span></label></li>
-        <li class="opt"><label><input type="radio" name="q14" value="沒有偏好"><span>沒有偏好</span></label></li>
+        <li class="opt"><label><input type="radio" name="q14" value="現在的PDF"><span>我愛PDF，收藏很方便📚</span></label></li>
+        <li class="opt"><label><input type="radio" name="q14" value="網頁版"><span>若有網頁版，我會增加閱讀意願🔗</span></label></li>
+        <li class="opt"><label><input type="radio" name="q14" value="沒意見"><span>沒意見，《數位時代》出品我都愛❤️</span></label></li>
       </ul>
     </div>
 
   </div>
 </section>
 
-<!-- 06 關於你 -->
-<section class="sec" id="sec6">
-  <div class="sec-head"><span class="sec-no num">06</span><h2>關於你</h2></div>
+<!-- 05 關於你 -->
+<section class="sec" id="sec5">
+  <div class="sec-head"><span class="sec-no num">05</span><h2>關於你</h2></div>
   <div class="sec-body">
-    <p style="margin:12px 0 4px;font-size:15px;color:var(--muted)">只用來看不同讀者的差異，每題都可以選「不便透露」。</p>
+    <p style="margin:12px 0 4px;font-size:15px;color:var(--muted)">只用來看不同讀者的差異。</p>
     <div id="profile-rows"></div>
   </div>
 </section>
 
-<!-- 07 想說的話 -->
-<section class="sec" id="sec7">
-  <div class="sec-head"><span class="sec-no num">07</span><h2>想對編輯部說的話</h2></div>
+<!-- 06 想說的話 -->
+<section class="sec" id="sec6">
+  <div class="sec-head"><span class="sec-no num">06</span><h2>想對編輯部說的話</h2></div>
   <div class="sec-body">
     <div class="q" data-q="q23">
-      <p class="q-text"><span class="q-no">23</span><span>最後，有任何想對編輯部說的嗎？想看的題目、對專刊的建議、或任何想法都可以寫。<span class="q-hint">選填</span></span></p>
+      <p class="q-text"><span class="q-no">17</span><span>最後有想對編輯部說的話嗎？題目、建議、任何想法都可以...... (´▽`ʃ♡ƪ)<span class="q-hint">選填</span></span></p>
       <textarea name="q23" maxlength="1000" placeholder="長短都可以"></textarea>
     </div>
   </div>
@@ -490,15 +475,16 @@ footer strong{color:var(--ink);font-weight:700}
 
 <section class="result" id="result" aria-live="polite" aria-labelledby="success-title" tabindex="-1">
   <div class="thanks">
-    <h2 id="success-title">問卷已送出，謝謝你。</h2>
-    <p>下一期，順起來。</p>
+    <h2 id="success-title">問卷已送出，謝謝你，我的讀者超人。</h2>
+    <p>下一期，順起來ヽ(●´∀`●)ﾉ</p>
   </div>
   <div class="card-dark" style="margin-top:20px">
     <div class="kicker">你的答案</div>
-    <h2>你最先想點的三篇</h2>
+    <h2>你最常挑的題材</h2>
     <ol class="top3" id="top3"></ol>
     <p class="taste" id="taste"></p>
   </div>
+  <p id="redo-wrap" hidden style="margin:20px 0 0"><button type="button" class="btn-ghost" id="redo-btn">再做一次（只有預覽版有這顆）</button></p>
 </section>
 
 <footer>
@@ -514,11 +500,13 @@ footer strong{color:var(--ink);font-weight:700}
 /* ---------- 設定 ---------- */
 // 部署 Apps Script Web App 後，把網址貼到這裡（以 /exec 結尾）
 var ENDPOINT = 'https://script.google.com/macros/s/AKfycbwd1B3DC6z_uUc1h-z59cLvZsiKCyzJBQ9RtjURSoiitgyHf51swpSMr_jYokK6I71TpA/exec';
-var LOCAL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+// 本機與區網預覽（手機連同一個 Wi-Fi）都送到本機收集器，不碰正式試算表
+var LOCAL = /^(localhost|127\.0\.0\.1|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)$/.test(location.hostname);
 if (LOCAL) ENDPOINT = location.origin + '/submit';
-var PAIR_TOTAL = 18;
-var REPEAT_OF = 3;            // 第 18 組重複第 3 組（左右對調）
-var MIN_FIXED_POS = 4;        // 兩組同題雙版至少放在第 4 組以後，避免落在被重複的第 3 組
+// 公開預覽版（檔名以 -preview.html 結尾）：給第三方測試用，送出只回假收據，不打任何伺服器、不寫試算表
+var PREVIEW = /-preview\.html$/i.test(location.pathname);
+var PAIR_TOTAL = 15;          // 30 篇各出現一次：13 組跨類隨機配對＋2 組同題雙版
+var MIN_FIXED_POS = 4;        // 兩組同題雙版放在第 4 組以後，讓讀者先熟悉題型
 
 /* ---------- 題庫 ---------- */
 var TITLES = [
@@ -527,60 +515,69 @@ var TITLES = [
   {id:'4',  text:'我該付哪一家AI月費？ChatGPT、Claude、Gemini、Grok方案決策樹', style:'判斷', cat:'ai'},
   {id:'5',  text:'該不該把密碼交給AI代理？1Password、Muse、Instinct三種做法比較', style:'判斷', cat:'security'},
   {id:'6',  text:'勞退自提、勞保年金、65歲免健保費：2027退休規則一次算清楚', style:'判斷', cat:'finance'},
-  {id:'7',  text:'統一、全聯、全家的點數戰爭：你的消費資料正被誰接走', style:'分析', cat:'retail'},
+  {id:'7',  text:'統一、全聯、全家搶會員點數，背後在搶你哪些消費資料', style:'分析', cat:'retail'},
   {id:'7b', text:'三步驟查出統一、全聯、全家拿你的消費資料做了什麼，以及怎麼關掉', style:'教學', cat:'retail'},
-  {id:'8',  text:'玻璃基板、光通訊、玻纖布：AI伺服器缺什麼，台廠誰接得住', style:'分析', cat:'semi'},
-  {id:'8b', text:'三步驟用AI畫出玻璃基板供應鏈圖，看懂台廠誰接得住', style:'教學', cat:'semi'},
+  {id:'8',  text:'AI伺服器缺玻璃基板、光通訊、玻纖布，哪些台廠有機會補上', style:'分析', cat:'semi'},
+  {id:'8b', text:'三步驟用AI畫出玻璃基板供應鏈圖，自己找出受惠台廠', style:'教學', cat:'semi'},
   {id:'9',  text:'Z世代用AI最兇卻最反感：AI進公司後，年輕員工在怕什麼', style:'分析', cat:'work'},
-  {id:'10', text:'連虧15年到光通訊之戰：三家台灣老廠的翻身帳本', style:'案例', cat:'startup'},
+  {id:'10', text:'連虧15年到轉虧為盈：三家台灣老廠怎麼翻身', style:'案例', cat:'startup'},
   {id:'11', text:'振宇五金從1家開到98家：賣螺絲做到22.9億的開店公式', style:'案例', cat:'startup'},
   {id:'12', text:'91APP、Zeabur到PHP漏洞：一把金鑰怎麼放倒六家公司', style:'案例', cat:'security'},
   {id:'13', text:'故宮南院小編怎麼用一句「幹嘛」拿到9.5萬讚', style:'案例', cat:'marketing'},
   {id:'14', text:'記憶體真的缺貨嗎？DDR4、HBM與你現在該不該換電腦', style:'判斷', cat:'tech3c'},
-  {id:'15', text:'Lean3駕艙機車值不值得買：駕照、售價、為什麼中南部先搶', style:'判斷', cat:'tech3c'}
+  {id:'15', text:'Lean3駕艙機車值不值得買：駕照、售價、為什麼中南部先搶', style:'判斷', cat:'tech3c'},
+  /* v4 新增 14 篇（2026-11-03 依 Pluto 排行補齊九類各 3 篇、AI 4 篇） */
+  {id:'16', text:'Gemini Notebook上手：用AI筆記本整理資料、做簡報、讀財報', style:'教學', cat:'ai'},
+  {id:'17', text:'用AI 4小時做出爆紅網頁遊戲：「80億分之1」開發者的做法', style:'案例', cat:'ai'},
+  {id:'18', text:'村田停產部分MLCC：被動元件缺貨潮會不會重演？', style:'判斷', cat:'semi'},
+  {id:'19', text:'台積電在鳳凰城帶起一座新城：規模是北士科40倍，人力從哪裡來', style:'案例', cat:'semi'},
+  {id:'20', text:'104履歷外洩，我有沒有中？查詢方法與外洩後的自保清單', style:'教學', cat:'security'},
+  {id:'21', text:'7-Eleven退出印度：每賣1元虧1元，為何打不過巷口小店與10分鐘外送', style:'分析', cat:'retail'},
+  {id:'22', text:'特力屋撤掉6成商品、業績反而翻倍：從賣貨架轉向到府服務', style:'案例', cat:'retail'},
+  {id:'23', text:'00403A首次配息掛蛋、79萬人撲空：主動式ETF的高息期待錯在哪', style:'分析', cat:'finance'},
+  {id:'24', text:'Character.AI聲請破產：月虧逾800萬美元，AI陪聊生意為何撐不住', style:'分析', cat:'startup'},
+  {id:'25', text:'星巴克去冰補奶多收15元：一筆小收費，怎麼賠掉品牌好感', style:'分析', cat:'marketing'},
+  {id:'26', text:'Z世代都在Discord：品牌經營社群，該不該從LINE搬過去', style:'判斷', cat:'marketing'},
+  {id:'27', text:'2027請假攻略：春節請5休16，全年連假怎麼排最划算', style:'教學', cat:'work'},
+  {id:'28', text:'乖乖廠房賣給日月光、員工走上罷工：一場廠房交易的勞資攻防', style:'案例', cat:'work'},
+  {id:'29', text:'三星做到第8代、蘋果才推摺疊iPhone：晚了這麼多年，卡在哪些技術難關', style:'分析', cat:'tech3c'}
 ];
 var FIXED = [['7','7b'],['8','8b']];   // 同題雙版，固定對撞
 var FIXED_IDS = ['7','7b','8','8b'];
 var TITLE_BY_ID = {};
 TITLES.forEach(function(t){ TITLE_BY_ID[t.id] = t; });
 
-var Q4 = [
-  {key:'ai', label:'AI工具與應用'},
-  {key:'semi', label:'半導體與硬體'},
-  {key:'security', label:'資訊安全'},
-  {key:'retail', label:'零售與消費'},
-  {key:'finance', label:'金融理財'},
-  {key:'startup', label:'創業與經營'},
-  {key:'marketing', label:'行銷與新媒體'},
-  {key:'work', label:'職場與工作術'},
-  {key:'tech3c', label:'3C與交通科技'}
+var Q4 = [   // 畫面第 5 題九類（資料鍵 q5，最多選 3 項）；desc 是類別界線的短說明
+  {key:'ai', label:'AI工具與應用', desc:'ChatGPT、Claude 這類工具怎麼用、怎麼選、怎麼付費'},
+  {key:'semi', label:'半導體與硬體', desc:'台積電、輝達、鴻海這類供應鏈動態'},
+  {key:'security', label:'資訊安全', desc:'銀行盜轉、個資外洩、新詐騙手法與自保'},
+  {key:'retail', label:'零售與消費', desc:'7-Eleven、全家、星巴克的會員點數與消費趨勢'},
+  {key:'finance', label:'金融理財', desc:'ETF 配息、勞保勞退、房貸與保險'},
+  {key:'startup', label:'創業與經營', desc:'新創募資、老廠轉型、企業經營案例'},
+  {key:'marketing', label:'行銷與新媒體', desc:'品牌社群操作、爆紅貼文、小編經營'},
+  {key:'work', label:'職場與工作術', desc:'薪資請假、職涯選擇、帶人與工作方法'},
+  {key:'tech3c', label:'3C與交通科技', desc:'iPhone、記憶體、特斯拉與電動機車新品'}
 ];
-var Q8 = [   // 第 9 到 11 題；第 10、11 句反向
-  {key:'q9',  label:'最近半年我用新的AI工具，愈來愈不需要看教學'},
-  {key:'q10', label:'我願意花30分鐘跟著一篇教學一步步做'},
-  {key:'q11', label:'遇到沒用過的AI工具，我會先找一篇教學從頭跟著做'}
-];
+var CAT_LABEL = {};
+Q4.forEach(function(c){ CAT_LABEL[c.key] = c.label; });
 var PROFILE = [
-  {key:'q15', no:'15', text:'你最常希望AI幫你完成哪些工作？', hint:'最多選 3 項', multi:true, max:3,
-   opts:['查資料與整理摘要','寫作、簡報與企畫','數據分析與試算表','寫程式與自動化','行銷內容與社群','行政與流程，如信件、排程、文件','學習新知','生活用途，如旅遊、購物、理財','目前沒有特別需要'], exclusive:['目前沒有特別需要']},
-  {key:'q16', no:'16', text:'年齡', opts:['24歲以下','25到34歲','35到44歲','45到54歲','55到64歲','65歲以上']},
-  {key:'q17', no:'17', text:'你的角色', opts:['企業主、創辦人或高階主管','中階主管','專業人員（工程、產品、行銷、財務等）','自由工作者','學生','其他']},
-  {key:'q18', no:'18', text:'產業', opts:['資訊科技與軟體','半導體與硬體製造','金融與保險','零售與消費品','媒體、行銷與廣告','醫療、教育與公部門','其他']},
-  {key:'q19', no:'19', text:'公司規模', opts:['10人以下','11到100人','101到1,000人','1,001人以上','不適用']},
-  {key:'q20', no:'20', text:'所在地', opts:['北部','中部','南部','東部與離島','海外']},
-  {key:'q21', no:'21', text:'你用AI工具的頻率', opts:['每天多次','每天一次左右','每周幾次','很少或沒有']},
-  {key:'q22', no:'22', text:'過去30天你實際用過哪些AI工具？含免費版與公司提供的。', hint:'可複選', multi:true,
-   opts:['ChatGPT','Gemini','Claude','Grok','Perplexity','Microsoft Copilot','GitHub Copilot','Cursor','Codex','Claude Code','其他','都沒用'], exclusive:['都沒用']}
+  {key:'q15', no:'11', text:'你最常希望AI幫你完成哪些工作？', hint:'最多選 3 項', multi:true, max:3,
+   opts:['查資料與整理摘要','寫作、簡報與企畫','數據分析與試算表','寫程式與自動化','行銷內容與社群','行政與流程，如信件、排程、文件','學習新知','生活用途，如旅遊、購物、理財']},
+  {key:'q16', no:'12', text:'年齡', opts:['24歲以下','25到34歲','35到44歲','45到54歲','55到64歲','65歲以上']},
+  {key:'q17', no:'13', text:'你的角色', opts:['企業主、創辦人或高階主管','中階主管','專業人員（工程、產品、行銷、財務等）','自由工作者','學生','其他']},
+  {key:'q18', no:'14', text:'產業', opts:['資訊科技與軟體','半導體與硬體製造','金融與保險','零售與消費品','媒體、行銷與廣告','醫療、教育與公部門','其他']},
+  {key:'q21', no:'15', text:'過去30天，你用AI工具的頻率？', hint:'ChatGPT、Gemini 這類對話工具都算', opts:['每天多次','每天一次左右','每周幾次','用過，但不到每周一次','完全沒用']},
+  {key:'q22', no:'16', text:'過去30天你實際用過哪些AI工具？含免費版與公司提供的。', hint:'可複選', multi:true,
+   opts:['ChatGPT','Codex','Claude','Claude Code','Grok','GrokBot','Gemini / NotebookLM','Microsoft Copilot','GitHub Copilot / Cursor','Perplexity','Dot / Claude Duet / Meta Muse','OpenClaw','Instinct','Gamma / Canva AI','其他'],
+   descs:{'GitHub Copilot / Cursor':'編輯器裡的程式助理','Dot / Claude Duet / Meta Muse':'會主動做事的個人代理'},
+   auto:'都沒用'}   // 第 15 題選「完全沒用」時本題收起、自動填 auto（讀者看不到）
 ];
-var OPT_OUT = '不便透露';
 /* ---------- 工具 ---------- */
 function rnd(n){
   if (window.crypto && crypto.getRandomValues){ var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; }
   return Math.floor(Math.random() * n);
 }
 function shuffle(arr){ var a = arr.slice(); for (var i = a.length - 1; i > 0; i--){ var j = rnd(i + 1); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
-function pkey(a, b){ return a < b ? a + '|' + b : b + '|' + a; }
-function isFixed(a, b){ return FIXED.some(function(f){ return pkey(f[0], f[1]) === pkey(a, b); }); }
 function uuid(){
   if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
   var s = ''; for (var i = 0; i < 32; i++) s += rnd(16).toString(16); return s;
@@ -590,85 +587,34 @@ function $(id){ return document.getElementById(id); }
 function qs(sel, root){ return (root || document).querySelector(sel); }
 function qsa(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
 
-/* ---------- 第 5 題：配對產生 ---------- */
-function matching(ids, used){
-  for (var attempt = 0; attempt < 300; attempt++){
+/* ---------- 第 5 題（資料鍵 q6）：配對產生 ----------
+   每篇只出現一次：兩組同題雙版固定對撞，其餘 26 篇隨機兩兩配成 13 組且兩篇類別不同。
+   洗牌後檢查、不合就重洗（拒絕抽樣，所有合格配法機率相同）；analyze.py --check-pairs 用同一套規格模擬。 */
+function crossMatching(ids){
+  for (var attempt = 0; attempt < 2000; attempt++){
     var s = shuffle(ids), pairs = [], ok = true;
     for (var i = 0; i < s.length; i += 2){
-      var a = s[i], b = s[i + 1];
-      if (used[pkey(a, b)] || isFixed(a, b)){ ok = false; break; }
-      pairs.push([a, b]);
+      if (TITLE_BY_ID[s[i]].cat === TITLE_BY_ID[s[i + 1]].cat){ ok = false; break; }
+      pairs.push([s[i], s[i + 1]]);
     }
     if (ok) return pairs;
   }
-  return null;
-}
-function buildOnce(){
-  var all = TITLES.map(function(t){ return t.id; });
-  var used = {};
-  FIXED.forEach(function(f){ used[pkey(f[0], f[1])] = true; });
-  var r1 = matching(all, used); if (!r1) return null;
-  r1.forEach(function(p){ used[pkey(p[0], p[1])] = true; });
-  var rest = all.filter(function(id){ return FIXED_IDS.indexOf(id) < 0; });
-  var r2 = matching(rest, used); if (!r2) return null;
-  r2.forEach(function(p){ used[pkey(p[0], p[1])] = true; });
-  var extra = null;
-  for (var k = 0; k < 1000 && !extra; k++){
-    var a = all[rnd(all.length)], b = all[rnd(all.length)];
-    if (a !== b && !used[pkey(a, b)]) extra = [a, b];
-  }
-  if (!extra) return null;
-  var seq = shuffle(r1.concat(r2, [extra]));           // 15 組隨機配對
-  shuffle(FIXED).forEach(function(fp){                 // 插入 2 組同題雙版，位置 >= 第 4 組
-    var pos = (MIN_FIXED_POS - 1) + rnd(seq.length - (MIN_FIXED_POS - 1) + 1);
-    seq.splice(pos, 0, fp.slice());
-  });                                                   // 17 組不重複
-  return finishPairs(seq);
-}
-// Add a temporary vertex to odd-degree nodes, orient Euler circuits, then remove
-// temporary edges. Every real vertex has |left-right| <= 1, without retry bias.
-function finishPairs(seq){
-  var graph = {}, edges = [], oriented = [];
-  function add(a, b, index){
-    var e = {a:a, b:b, index:index, used:false};
-    edges.push(e); (graph[a] || (graph[a] = [])).push(e);
-    (graph[b] || (graph[b] = [])).push(e);
-  }
-  seq.forEach(function(p, i){ add(p[0], p[1], i); });
-  Object.keys(graph).forEach(function(id){ if (graph[id].length % 2) add(id, '_odd', -1); });
-  Object.keys(graph).forEach(function(start){
-    var stack = [start];
-    while (stack.length){
-      var v = stack[stack.length - 1], e;
-      while (graph[v].length && graph[v][graph[v].length - 1].used) graph[v].pop();
-      if (!graph[v].length){ stack.pop(); continue; }
-      e = graph[v].pop(); e.used = true;
-      var to = e.a === v ? e.b : e.a;
-      if (e.index >= 0) oriented[e.index] = {left:v, right:to};
-      stack.push(to);
-    }
-  });
-  // Randomly mirror the whole balanced schedule to avoid orientation-order bias.
-  if (rnd(2)) oriented = oriented.map(function(p){ return {left:p.right,right:p.left}; });
-  var rep = oriented[REPEAT_OF - 1];
-  oriented.push({left:rep.right, right:rep.left, repeatOf:REPEAT_OF});
-  return {pairs:oriented, balanced:true};
+  // 保底：同類相鄰排好，第 i 篇配第 i+13 篇（最大類別 4 篇，必定跨類）
+  var sorted = ids.slice().sort(function(a, b){ return TITLE_BY_ID[a].cat < TITLE_BY_ID[b].cat ? -1 : TITLE_BY_ID[a].cat > TITLE_BY_ID[b].cat ? 1 : 0; });
+  var half = sorted.length / 2, out = [];
+  for (var k = 0; k < half; k++) out.push([sorted[k], sorted[k + half]]);
+  return out;
 }
 function buildPairs(){
-  for (var i = 0; i < 100; i++){
-    var r = buildOnce();
-    if (r) return r.pairs;
-  }
-  // Guaranteed valid fallback: a cycle covers every title twice, plus one edge.
-  var ids = TITLES.map(function(t){ return t.id; }), seq = [];
-  ids.forEach(function(id, i){
-    var next = ids[(i + 1) % ids.length];
-    if (!isFixed(id, next)) seq.push([id, next]);
+  var rest = TITLES.map(function(t){ return t.id; }).filter(function(id){ return FIXED_IDS.indexOf(id) < 0; });
+  var seq = shuffle(crossMatching(rest));                // 13 組跨類配對
+  shuffle(FIXED).forEach(function(fp){                   // 插入 2 組同題雙版，位置 >= 第 4 組
+    var pos = (MIN_FIXED_POS - 1) + rnd(seq.length - (MIN_FIXED_POS - 1) + 1);
+    seq.splice(pos, 0, fp.slice());
   });
-  seq.push(['1','4']);
-  seq = shuffle(seq);
-  FIXED.forEach(function(p){ seq.push(p.slice()); });
-  return finishPairs(seq).pairs;
+  return seq.map(function(p){                            // 左右各半隨機
+    return rnd(2) ? {left:p[1], right:p[0]} : {left:p[0], right:p[1]};
+  });
 }
 
 /* ---------- 狀態 ---------- */
@@ -689,22 +635,19 @@ var state = {
   focusPair: false,
   answers5: [],
   q4Order: [],
-  q8Order: [],
   locked: false
 };
 
 /* Per-tab recovery only. No cookies, remote draft endpoint or persistent device id. */
-var DRAFT_KEY = 'member-survey-2026-11-v3';
+var DRAFT_KEY = 'member-survey-2026-11-v4';
 function loadDraft(){
   try {
     var d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null');
-    if (!d || d.version !== 3 || Date.now() - d.savedAt > 14 * 86400000 ||
+    if (!d || d.version !== 4 || Date.now() - d.savedAt > 14 * 86400000 ||
         !d.state || !Array.isArray(d.state.pairs) || d.state.pairs.length !== PAIR_TOTAL ||
         typeof d.state.id !== 'string' || !Number.isFinite(d.state.t0) ||
         !Array.isArray(d.state.q4Order) || d.state.q4Order.length !== Q4.length ||
         !Q4.every(function(q){ return d.state.q4Order.indexOf(q.key) >= 0; }) ||
-        !Array.isArray(d.state.q8Order) || d.state.q8Order.length !== Q8.length ||
-        !Q8.every(function(q){ return d.state.q8Order.indexOf(q.key) >= 0; }) ||
         !Array.isArray(d.state.answers5) || d.state.answers5.length > PAIR_TOTAL ||
         !d.state.answers5.every(function(a,i){ var p=d.state.pairs[i]; return p && a.left===p.left && a.right===p.right && [p.left,p.right].indexOf(a.pick)>=0 && Number.isFinite(a.ms) && a.ms>=0; }) ||
         !d.state.pairs.every(function(p){ return TITLE_BY_ID[p.left] && TITLE_BY_ID[p.right] && p.left !== p.right; })) return null;
@@ -713,7 +656,7 @@ function loadDraft(){
 }
 var recovered = loadDraft();
 if (recovered){
-  ['id','startedAt','t0','pairs','answers5','q4Order','q8Order'].forEach(function(k){ state[k] = recovered.state[k]; });
+  ['id','startedAt','t0','pairs','answers5','q4Order'].forEach(function(k){ state[k] = recovered.state[k]; });
   state.pairIndex = state.answers5.length;
   state.restoredElapsed = recovered.elapsed || 0;
   state.restoredInterrupted = true;
@@ -743,9 +686,9 @@ function saveDraft(){
     var elapsed = state.answers5.length > state.pairIndex ? 0 : state.pairElapsed +
       (state.pairShownAt === null ? 0 : performance.now() - state.pairShownAt);
     var fields = qsa('input,textarea').map(function(el){ return {id:el.id,name:el.name,value:el.value,checked:el.checked}; });
-    sessionStorage.setItem(DRAFT_KEY, JSON.stringify({version:3,savedAt:Date.now(),state:{
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify({version:4,savedAt:Date.now(),state:{
       id:state.id,startedAt:state.startedAt,t0:state.t0,pairs:state.pairs,
-      answers5:state.answers5,q4Order:state.q4Order,q8Order:state.q8Order
+      answers5:state.answers5,q4Order:state.q4Order
     }, elapsed:elapsed, fields:fields, pending:pending}));
   } catch (e){ /* Storage may be unavailable in private or restricted sessions. */ }
 }
@@ -754,9 +697,9 @@ document.addEventListener('input',function(){ Promise.resolve().then(saveDraft);
 window.addEventListener('pagehide',saveDraft);
 document.addEventListener('visibilitychange',function(){ if (document.visibilityState === 'hidden') saveDraft(); });
 
-/* ---------- 畫面：第 4 題、第 8 到 10 題、輪廓 ---------- */
-function scaleRow(name, label, extraClass){
-  var h = '<div class="scale-row' + (extraClass ? ' ' + extraClass : '') + '" data-name="' + name + '"><div class="scale-label">' + esc(label) + '</div><div class="scale-btns" role="radiogroup" aria-label="' + esc(label) + '">';
+/* ---------- 畫面：第 5 題九類、輪廓 ---------- */
+function scaleRow(name, label, desc){
+  var h = '<div class="scale-row" data-name="' + name + '"><div class="scale-label">' + esc(label) + (desc ? '<span class="scale-desc">' + esc(desc) + '</span>' : '') + '</div><div class="scale-btns" role="radiogroup" aria-label="' + esc(label) + '">';
   for (var v = 1; v <= 5; v++) h += '<label><input type="radio" name="' + name + '" value="' + v + '"><span class="num">' + v + '</span></label>';
   return h + '</div></div>';
 }
@@ -764,39 +707,35 @@ function renderScales(){
   state.q4Order = state.q4Order.length ? state.q4Order : shuffle(Q4).map(function(c){ return c.key; });
   $('q5-rows').innerHTML = state.q4Order.map(function(k){
     var c = Q4.filter(function(x){ return x.key === k; })[0];
-    return scaleRow('q5_' + c.key, c.label);
-  }).join('');
-  state.q8Order = state.q8Order.length ? state.q8Order : shuffle(Q8).map(function(s){ return s.key; });
-  $('q9-rows').innerHTML = state.q8Order.map(function(k){
-    var s = Q8.filter(function(x){ return x.key === k; })[0];
-    return scaleRow(s.key, s.label);
+    return '<li class="opt"><label><input type="checkbox" name="q5" value="' + c.key + '"><span>' + esc(c.label) + '<span class="opt-desc">' + esc(c.desc) + '</span></span></label></li>';
   }).join('');
 }
 function renderProfile(){
   $('profile-rows').innerHTML = PROFILE.map(function(p){
     var type = p.multi ? 'checkbox' : 'radio';
-    var opts = p.opts.concat([OPT_OUT]);
-    var items = opts.map(function(o){
-      var excl = (o === OPT_OUT || (p.exclusive && p.exclusive.indexOf(o) >= 0)) ? ' data-exclusive' : '';
-      return '<li class="opt"><label><input type="' + type + '" name="' + p.key + '" value="' + esc(o) + '"' + excl + '><span>' + esc(o) + '</span></label></li>';
+    var items = p.opts.map(function(o){
+      var excl = (p.exclusive && p.exclusive.indexOf(o) >= 0) ? ' data-exclusive' : '';
+      var d = p.descs && p.descs[o] ? '<span class="opt-desc">' + esc(p.descs[o]) + '</span>' : '';
+      return '<li class="opt"><label><input type="' + type + '" name="' + p.key + '" value="' + esc(o) + '"' + excl + '><span>' + esc(o) + d + '</span></label></li>';
     }).join('');
+    if (p.auto) items += '<li class="opt" hidden><label><input type="' + type + '" name="' + p.key + '" value="' + esc(p.auto) + '" tabindex="-1"><span>' + esc(p.auto) + '</span></label></li>';
     var grid = (p.multi ? p.opts.length > 6 : p.opts.length <= 6) ? ' two' : '';
     var hint = p.hint ? '<span class="q-hint">' + esc(p.hint) + '</span>' : '';
     var maxAttr = p.max ? ' data-max="' + p.max + '"' : '';
-    var maxHint = p.max ? '<p class="max-hint">最多選 ' + p.max + ' 項，想換請先取消一項</p>' : '';
+    var maxHint = p.max ? '<p class="max-hint">最多選 ' + p.max + ' 項，取消一項即可更換</p>' : '';
     return '<div class="q" data-q="' + p.key + '" data-required="' + (p.multi ? 'check' : 'radio') + '"' + maxAttr + '>' +
       '<p class="q-text"><span class="q-no">' + p.no + '</span><span>' + esc(p.text) + hint + '</span></p>' +
-      '<p class="err">這題還沒選，可以選「不便透露」</p>' + maxHint +
+      '<p class="err">' + (p.multi ? '至少勾一項' : '請選一項') + '</p>' + maxHint +
       '<ul class="opts' + grid + '">' + items + '</ul></div>';
   }).join('');
 }
 
-/* ---------- 第 5 題：顯示與作答 ---------- */
+/* ---------- 第 5 題（資料鍵 q6）：顯示與作答 ---------- */
 function showPair(){
   var i = state.pairIndex;
   if (i >= PAIR_TOTAL){
     $('pair-stage').classList.add('done');
-    $('pair-count').textContent = '18 組 / 18';
+    $('pair-count').textContent = PAIR_TOTAL + ' 組 / ' + PAIR_TOTAL;
     $('pair-bar').style.width = '100%';
     return;
   }
@@ -821,7 +760,8 @@ function showPair(){
     }
     state.pairReady = true; refreshPairVisibility();
   }); });
-  $('pair-count').textContent = '第 ' + (i + 1) + ' 組 / 18';
+  $('pair-count').textContent = '第 ' + (i + 1) + ' 組 / ' + PAIR_TOTAL;
+  $('pair-tip').textContent = (i + 1 === Math.ceil(PAIR_TOTAL / 2)) ? '過一半了' : '憑直覺點';
   $('pair-bar').style.width = Math.round(i / PAIR_TOTAL * 100) + '%';
 
 }
@@ -874,7 +814,7 @@ function pickPair(side){
   state.locked = true;
   var i = state.pairIndex, p = state.pairs[i];
   var pick = side === 'left' ? p.left : p.right;
-  state.answers5.push({pos:i + 1, left:p.left, right:p.right, pick:pick, side:side, ms:ms, repeatOf:p.repeatOf || null, interrupted:interrupted, timed:timed});
+  state.answers5.push({pos:i + 1, left:p.left, right:p.right, pick:pick, side:side, ms:ms, interrupted:interrupted, timed:timed});
   saveDraft(); updateProgress();
   var btn = $('pair-' + side);
   btn.classList.add('picked');
@@ -889,31 +829,26 @@ function pickPair(side){
 $('pair-left').addEventListener('click', function(e){ if (e.detail <= 1) pickPair('left'); });
 $('pair-right').addEventListener('click', function(e){ if (e.detail <= 1) pickPair('right'); });
 
-/* ---------- 第 1 題選「剛加入」：第 2、3 題收起並自動填 ---------- */
-var NEW_MEMBER = '剛加入，還沒讀過';
-var skipStash = null;   // 跳題前第 2、3 題的原答案；切回時恢復
+/* ---------- 跳題：第 1 題「每期完整讀完」→ 第 3 題收起填「不適用」；第 15 題「完全沒用」→ 第 16 題收起填「都沒用」 ---------- */
+var SKIPS = [
+  {src:'q1',  dst:'q3',  auto:{'每期完整讀完': '不適用，我大多有讀'}},
+  {src:'q21', dst:'q22', auto:{'完全沒用': '都沒用'}}
+];
+var Q3_AUTO = SKIPS[0].auto;                          // 供既有程式與測試參照
+var stash = {};                                       // 收起前的作答，切回時恢復
 function applySkip(){
-  var fresh = checked('q1') === NEW_MEMBER;
-  var none = qs('input[name="q2"][value="都沒讀過"]'), auto3 = qs('input[name="q3"][value="' + NEW_MEMBER + '"]');
-  var q2 = qs('.q[data-q="q2"]'), q3 = qs('.q[data-q="q3"]');
-  if (fresh && !q2.classList.contains('skipped')){
-    skipStash = {q2: checkedAll('q2'), q3: (checked('q3') !== NEW_MEMBER ? checked('q3') : null)};
-  }
-  [q2, q3].forEach(function(q){ q.classList.toggle('skipped', fresh); if (fresh) q.classList.remove('missing'); });
-  if (fresh){
-    qsa('input[name="q2"]').forEach(function(x){ x.checked = (x === none); });
-    auto3.checked = true;
-  } else {
-    // 切回一般讀者：兩題的自動值一律清掉，有暫存就恢復
-    qsa('input[name="q2"],input[name="q3"]').forEach(function(x){ x.checked = false; });
-    if (skipStash){
-      qsa('input[name="q2"]').forEach(function(x){ x.checked = skipStash.q2.indexOf(x.value) >= 0; });
-      if (skipStash.q3){ var r = qs('input[name="q3"][value="' + skipStash.q3 + '"]'); if (r) r.checked = true; }
-      skipStash = null;
-    }
-  }
+  SKIPS.forEach(function(k){
+    var a = checked(k.src), auto = a ? (k.auto[a] || null) : null;
+    var q = qs('.q[data-q="' + k.dst + '"]'); if (!q) return;
+    var was = q.classList.contains('skipped');
+    var autoVals = Object.keys(k.auto).map(function(x){ return k.auto[x]; });
+    if (auto && !was) stash[k.dst] = checkedAll(k.dst).filter(function(v){ return autoVals.indexOf(v) < 0; });
+    q.classList.toggle('skipped', !!auto); if (auto) q.classList.remove('missing');
+    if (auto) qsa('input[name="' + k.dst + '"]').forEach(function(x){ x.checked = (x.value === auto); });
+    else if (was){ var keep = stash[k.dst] || []; qsa('input[name="' + k.dst + '"]').forEach(function(x){ x.checked = keep.indexOf(x.value) >= 0; }); delete stash[k.dst]; }
+  });
 }
-document.addEventListener('change', function(e){ if (e.target && e.target.name === 'q1'){ applySkip(); } });
+document.addEventListener('change', function(e){ if (e.target && (e.target.name === 'q1' || e.target.name === 'q21')){ applySkip(); updateProgress(); } });
 
 /* ---------- 進度條：以必答題完成數計 ---------- */
 function updateProgress(){
@@ -1014,7 +949,7 @@ function goStep(i){
 })();
 document.addEventListener('change', function(){ Promise.resolve().then(updateProgress); });
 
-/* ---------- 互斥選項（都沒有／不便透露／沒有付費） ---------- */
+/* ---------- 互斥選項（說不出哪一期／都沒用） ---------- */
 document.addEventListener('change', function(e){
   var el = e.target;
   if (!el || el.type !== 'checkbox') return;
@@ -1032,7 +967,7 @@ document.addEventListener('change', function(e){
       el.checked = false;
       var hint = qs('.max-hint', q);
       if (hint){ hint.style.display = 'block'; clearTimeout(hint._t); hint._t = setTimeout(function(){ hint.style.display = 'none'; }, 2000); }
-      updateProgress(); bump(qs('.max-count', q));
+      updateProgress(); bump(qs('.max-count', q)); bump(el.closest('.opt'));
     }
   }
   if (cleared.length){ updateProgress(); saveDraft(); }
@@ -1043,23 +978,11 @@ function showExclHint(q, text){
   h.textContent = text; h.style.display = 'block';
   clearTimeout(h._t); h._t = setTimeout(function(){ h.style.display = 'none'; }, 2500);
 }
-/* 第 4 題：選「其他」才展開說明欄；改選就收起（已打的字保留，但只有選「其他」時才送出） */
-function syncQ4Other(focus){
-  var box = qs('.q[data-q="q4"] .opt-text'); if (!box) return;
-  var on = checked('q4') === '其他';
-  box.hidden = !on;
-  if (on && focus) $('q4_other').focus({preventScroll:true});
-}
-document.addEventListener('change', function(e){ if (e.target && e.target.name === 'q4') syncQ4Other(true); });
 document.addEventListener('change', function(e){
   var el = e.target;
   if (!el || el.type !== 'radio') return;
   var q = el.closest('.q'); if (q) q.classList.remove('missing');
   var row = el.closest('.scale-row'); if (row) row.classList.remove('missing');
-});
-// 第 3 題「其他」：打字自動選到「其他」
-$('q4_other').addEventListener('input', function(){
-  if (this.value.trim()){ var r = qs('input[name="q4"][value="其他"]'); r.checked = true; r.closest('.q').classList.remove('missing'); }
 });
 
 /* ---------- 驗證 ---------- */
@@ -1091,8 +1014,6 @@ function device(){
   return 'desktop';
 }
 function collect(){
-  var q5 = {}; Q4.forEach(function(c){ q5[c.key] = Number(checked('q5_' + c.key)); });
-  var rep = state.answers5[REPEAT_OF - 1], last = state.answers5[PAIR_TOTAL - 1];
   var payload = {
     id: state.id,
     client_ts: new Date().toISOString(),
@@ -1102,30 +1023,65 @@ function collect(){
     q1: checked('q1'),
     q2: checkedAll('q2'),
     q3: checked('q3'),
-    q4: checked('q4'),
-    q4_other: checked('q4') === '其他' ? ($('q4_other').value || '').trim().slice(0, 100) : '',
-    q5: q5, q5_order: state.q4Order,
+    q5: checkedAll('q5'), q5_order: state.q4Order,
     q6: state.answers5.map(function(a){ return {pos:a.pos, left:a.left, right:a.right, pick:a.pick, ms:a.ms, interrupted:a.interrupted, timed:a.timed !== false}; }),
-    q6_repeat_consistent: !!(rep && last && rep.pick === last.pick),
     q7: (qs('textarea[name="q7"]').value || '').trim().slice(0, 500),
     q8: checked('q8'),
-    q9: Number(checked('q9')), q10: Number(checked('q10')), q11: Number(checked('q11')),
-    q9_11_order: state.q8Order,
     q12: checkedAll('q12'),
     q13: checked('q13'), q14: checked('q14'),
     q15: checkedAll('q15'),
-    q16: checked('q16'), q17: checked('q17'), q18: checked('q18'), q19: checked('q19'),
-    q20: checked('q20'), q21: checked('q21'),
+    q16: checked('q16'), q17: checked('q17'), q18: checked('q18'),
+    q21: checked('q21'),
     q22: checkedAll('q22'),
     q23: (qs('textarea[name="q23"]').value || '').trim().slice(0, 1000)
   };
   return payload;
 }
 
+/* ---------- 送出成功：從送出鍵噴一次小物（只在收據確認後，不碰作答） ---------- */
+function popConfetti(x, y){
+  if (prefersReduce() || !('animate' in Element.prototype)) return;
+  var box = document.createElement('div'); box.className = 'pop'; box.setAttribute('aria-hidden', 'true');
+  box.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  document.body.appendChild(box);
+  var ring = document.createElement('b'); box.appendChild(ring);
+  ring.animate([{transform:'scale(0)', opacity:.7}, {transform:'scale(2.4)', opacity:0}], {duration:520, easing:'cubic-bezier(.2,.7,.2,1)', fill:'forwards'});
+  var tones = ['', 'deep', 'ink', 'soft', '', 'deep', ''];
+  for (var i = 0; i < 14; i++){
+    var piece = document.createElement('i');
+    piece.className = (i % 3 === 1 ? 'sq ' : '') + tones[i % tones.length];
+    box.appendChild(piece);
+    var ang = (-90 + (Math.random() * 130 - 65)) * Math.PI / 180;      // 往上方 130 度扇形
+    var dist = 55 + Math.random() * 70, dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist;
+    var sc = .7 + Math.random() * .7, rot = Math.round(Math.random() * 540 - 270);
+    // 第一段快速噴出（ease-out），第二段下落淡出（ease-in）；各段 easing 寫在起點關鍵影格
+    piece.animate([
+      {transform:'translate(0,0) scale(.5) rotate(0deg)', opacity:1, offset:0, easing:'cubic-bezier(.1,.8,.3,1)'},
+      {transform:'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ') rotate(' + rot / 2 + 'deg)', opacity:1, offset:.45, easing:'cubic-bezier(.5,0,.9,.6)'},
+      {transform:'translate(' + (dx * 1.15) + 'px,' + (dy + 70 + Math.random() * 40) + 'px) scale(' + (sc * .9) + ') rotate(' + rot + 'deg)', opacity:0, offset:1}
+    ], {duration:900 + Math.random() * 250, easing:'linear', fill:'forwards'});
+  }
+  setTimeout(function(){ box.remove(); }, 1300);
+}
+
+/* ---------- 送出鍵漣漪 ---------- */
+$('submit-btn').addEventListener('pointerdown', function(e){
+  if (this.disabled || prefersReduce()) return;
+  var r = this.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+  var d = 2 * Math.max(Math.hypot(x, y), Math.hypot(r.width - x, y), Math.hypot(x, r.height - y), Math.hypot(r.width - x, r.height - y));
+  var sp = document.createElement('span');
+  sp.className = 'ripple'; sp.setAttribute('aria-hidden', 'true');
+  sp.style.width = sp.style.height = d + 'px';
+  sp.style.left = (x - d / 2) + 'px'; sp.style.top = (y - d / 2) + 'px';
+  sp.addEventListener('animationend', function(){ sp.remove(); });
+  this.appendChild(sp);
+});
+
 /* ---------- 送出 ---------- */
 var submitting = false;
-function configured(){ return LOCAL || /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(ENDPOINT); }
+function configured(){ return LOCAL || PREVIEW || /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(ENDPOINT); }
 function post(payload){
+  if (PREVIEW) return new Promise(function(r){ setTimeout(function(){ r({ok:true, id:payload.id, preview:true}); }, 600); });
   var controller = new AbortController();
   var timeout = setTimeout(function(){ controller.abort(); }, 20000);
   return fetch(ENDPOINT, {
@@ -1176,6 +1132,7 @@ function submit(payload){
     saveDone();
     try { sessionStorage.removeItem(DRAFT_KEY); } catch (e) {}
     btn.classList.remove('is-loading'); btn.classList.add('is-done');
+    var r = btn.getBoundingClientRect(); popConfetti(r.left + r.width / 2, r.top + r.height / 2);
     return wait(650).then(showSuccess);
   }).catch(function(err){
     btn.classList.remove('is-loading', 'is-done');
@@ -1202,7 +1159,7 @@ $('survey').addEventListener('submit', function(e){
   if (pending){ submit(pending); return; }
   var bad = validate();
   var fe = $('form-err');
-  if (bad){ fe.classList.add('show'); bad.scrollIntoView({behavior:'smooth', block:'center'});
+  if (bad){ fe.classList.add('show'); bad.scrollIntoView({behavior: prefersReduce() ? 'auto' : 'smooth', block:'center'});
     var focus = qs('input,textarea,button', bad); if (focus) focus.focus({preventScroll:true});
     markMissingSteps(); setTimeout(function(){ bump(bad); }, 450); return; }
   fe.classList.remove('show');
@@ -1211,22 +1168,26 @@ $('survey').addEventListener('submit', function(e){
 
 /* ---------- 送出成功 ---------- */
 function renderResultCard(){
+  // 每篇只出現一次，排不出個人的標題名次；改看各類「看到幾篇、挑了幾篇」，照實計（含同題雙版）
   var wins = {}, apps = {};
-  TITLES.forEach(function(t){ wins[t.id] = 0; apps[t.id] = 0; });
-  state.answers5.forEach(function(a){ apps[a.left]++; apps[a.right]++; wins[a.pick]++; });
-  var tieOrder = shuffle(TITLES.map(function(t){ return t.id; }));   // 平手時隨機，不偏向題庫順序
-  var ranked = TITLES.filter(function(t){ return wins[t.id] > 0; }).sort(function(a, b){
-    var ra = wins[a.id] / Math.max(1, apps[a.id]), rb = wins[b.id] / Math.max(1, apps[b.id]);
-    return (rb - ra) || (wins[b.id] - wins[a.id]) || (tieOrder.indexOf(a.id) - tieOrder.indexOf(b.id));
+  Q4.forEach(function(c){ wins[c.key] = 0; apps[c.key] = 0; });
+  state.answers5.forEach(function(a){
+    apps[TITLE_BY_ID[a.left].cat]++; apps[TITLE_BY_ID[a.right].cat]++; wins[TITLE_BY_ID[a.pick].cat]++;
+  });
+  var tieOrder = shuffle(Q4.map(function(c){ return c.key; }));   // 平手時隨機，不偏向題庫順序
+  var ranked = Q4.filter(function(c){ return wins[c.key] > 0; }).sort(function(a, b){
+    var ra = wins[a.key] / Math.max(1, apps[a.key]), rb = wins[b.key] / Math.max(1, apps[b.key]);
+    return (rb - ra) || (wins[b.key] - wins[a.key]) || (tieOrder.indexOf(a.key) - tieOrder.indexOf(b.key));
   }).slice(0, 3);
-  $('top3').innerHTML = ranked.map(function(t, i){
-    return '<li><span class="rank">' + (i + 1) + '</span><span><span class="ttl">' + esc(t.text) + '</span><br><span class="tag">' + t.style + '型</span></span></li>';
+  $('top3').innerHTML = ranked.map(function(c, i){
+    return '<li><span class="rank">' + (i + 1) + '</span><span><span class="ttl">' + esc(c.label) + '</span><br><span class="tag">' + apps[c.key] + ' 篇裡挑了 ' + wins[c.key] + ' 篇</span></span></li>';
   }).join('');
   var byStyle = {};
   state.answers5.forEach(function(a){ var st = TITLE_BY_ID[a.pick].style; byStyle[st] = (byStyle[st] || 0) + 1; });
   var styles = Object.keys(byStyle).sort(function(a, b){ return byStyle[b] - byStyle[a]; });
   var tops = styles.filter(function(s){ return byStyle[s] === byStyle[styles[0]]; });   // 平手並列
-  $('taste').innerHTML = tops.length ? '18 組對比裡，你有 <strong>' + byStyle[tops[0]] + ' 次</strong>選了' + esc(tops.join('型與')) + '型的標題。' : '';
+  var STYLE_GLOSS = {'教學':'教學型是帶你一步步做', '判斷':'判斷型是幫你做選擇', '分析':'分析型是講為什麼', '案例':'案例型是看別人怎麼做'};
+  $('taste').innerHTML = tops.length ? PAIR_TOTAL + ' 組對比裡，你有 <strong>' + byStyle[tops[0]] + ' 次</strong>選了' + esc(tops.join('型與')) + '型的標題。<span class="gloss">' + esc(tops.map(function(t){ return STYLE_GLOSS[t]; }).join('，')) + '。</span>' : '';
 }
 function showSuccess(){
   try { renderResultCard(); } catch (e) { qs('.card-dark').style.display = 'none'; }
@@ -1235,7 +1196,7 @@ function showSuccess(){
   document.documentElement.style.setProperty('--steps-h', '0px');
   var result = $('result'); result.classList.add('show');
   result.focus({preventScroll:true});
-  result.scrollIntoView({behavior:'smooth', block:'start'});
+  result.scrollIntoView({behavior: prefersReduce() ? 'auto' : 'smooth', block:'start'});
 }
 
 /* ---------- 啟動 ---------- */
@@ -1250,7 +1211,8 @@ qsa('.opt input[type=checkbox] + span').forEach(function(sp){
 qsa('.opts').forEach(function(ul){
   var first = qs('input[type=checkbox][data-exclusive]', ul); if (!first) return;
   var li = first.closest('.opt');
-  li.insertAdjacentHTML('beforebegin', '<li class="opt-sep">或選以下其中一項</li>');
+  var many = qsa('input[type=checkbox][data-exclusive]', ul).length > 1;
+  li.insertAdjacentHTML('beforebegin', '<li class="opt-sep">' + (many ? '或選以下其中一項' : '或') + '</li>');
   ul.insertAdjacentHTML('beforebegin', '<p class="excl-hint" role="status" aria-live="polite"></p>');
 });
 qsa('.q[data-max] .q-hint').forEach(function(h){ h.insertAdjacentHTML('afterend', '<span class="max-count" aria-hidden="true"></span>'); });
@@ -1269,11 +1231,23 @@ if (recovered && Array.isArray(recovered.fields)) recovered.fields.forEach(funct
   });
 });
 if (pending) qsa('input,textarea', $('survey')).forEach(function(el){ el.disabled = true; });
-syncQ4Other(false);
 applySkip(); updateProgress();
 if (state.completed){ showSuccess(); }
 else { showPair(); saveDraft(); }
-if (LOCAL) window.__survey = {buildPairs: buildPairs, state: state, collect: collect, TITLES: TITLES, submit:submit};
+if (LOCAL || PREVIEW) window.__survey = {buildPairs: buildPairs, state: state, collect: collect, TITLES: TITLES, submit:submit};
+if (PREVIEW){
+  var pv = document.createElement('p'); pv.className = 'preview-note'; pv.setAttribute('role', 'note');
+  pv.textContent = '預覽版：這一頁的答案不會送出，也不會被保存，可以放心測試。';
+  $('head').insertAdjacentElement('afterend', pv);
+}
+// 本機與公開預覽專用：清掉同分頁的草稿與已完成紀錄，重新來一份；正式網址不顯示
+if (LOCAL || PREVIEW){
+  $('redo-wrap').hidden = false;
+  $('redo-btn').addEventListener('click', function(){
+    try { sessionStorage.removeItem(DRAFT_KEY); sessionStorage.removeItem(DONE_KEY); } catch (e) {}
+    location.reload();
+  });
+}
 })();
 </script>
 <script>
