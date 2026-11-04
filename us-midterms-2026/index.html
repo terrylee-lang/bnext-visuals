@@ -62,6 +62,7 @@ ul { padding: 0; list-style: none; }
 #races li { border-top: 1px solid #D4D0C8; padding: 8px 0; }
 a { color: #0F1A2E; text-underline-offset: 3px; }
 small { color: #5C6470; }
+#map[hidden], #geo[hidden] { display: none !important; }
 #map { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; }
 #map button { padding: 3px 0; font-size: clamp(9px, 2.5vw, 13px); background: #ECE8DF; }
 
@@ -109,6 +110,10 @@ small { color: #5C6470; }
 #dem-fill { background: #176697; border-radius: 4px 0 0 4px; }
 #rep-fill { background: #B52640; border-radius: 0 4px 4px 0; margin-left: auto; }
 .summary-mid { text-align: center; font-size: 12px; }
+#districts:not([hidden]) { display: grid; grid-template-columns: repeat(auto-fit,minmax(130px,1fr)); gap: 12px; }
+.district-group { border-top: 1px solid #D4D0C8; padding-top: 5px; }
+.district-group button { width: 38px; margin: 2px; padding: 4px 0; font-size: 13px; background: var(--map-color); color: #FAF7F1; }
+.district-group button[aria-pressed="true"] { outline: 2px solid #FF6B1A; outline-offset: 1px; }
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
@@ -130,6 +135,7 @@ small { color: #5C6470; }
   <span data-lead="D">民主黨</span><span data-lead="R">共和黨</span>
   <span data-lead="other">其他</span><span data-lead="mixed">各場不一／並列</span><span>尚無票數</span>
 </div>
+<p id="district-count" hidden></p><div id="districts" hidden></div>
 <div id="geo" role="group" aria-label="美國州界地圖"></div>
 <div id="map" role="group" aria-label="美國各州格網地圖"></div>
 <p><button id="reset" hidden>回到重點選區</button></p>
@@ -154,6 +160,7 @@ const mapRows = [
   '-- -- -- -- TX -- -- -- FL -- -- --'
 ];
 let stateFilter = '';
+let districtFilter = '';
 let selected = 'Senate';
 let timer;
 let request;
@@ -181,15 +188,22 @@ function render(error = false) {
   byId('live').dataset.live = String(live);
   byId('live-label').textContent = live ? '即時開票' : data ? '暫計票數' : '';
   renderVoteSummary(data);
+  const house = selected === 'House';
+  byId('geo').hidden = house;
+  byId('map').hidden = house;
+  byId('districts').hidden = !house;
+  byId('district-count').hidden = !house;
+  if (house) renderDistricts(data);
   byId('cards').replaceChildren();
   if (!data) {
     byId('map').replaceChildren();
     byId('reset').hidden = true;
     return;
   }
-  renderMap(data);
+  if (!house) renderMap(data);
+  byId('reset').hidden = !(districtFilter || stateFilter);
   const stateKeys = Object.keys(data.races).filter(key => key.slice(0, 2) === stateFilter).sort();
-  const keys = (stateFilter ? stateKeys : [...focus[selected]]).sort(
+  const keys = (districtFilter ? [districtFilter] : stateFilter ? stateKeys : [...focus[selected]]).sort(
     (a, b) => Number(hasVotes(data.races[b])) - Number(hasVotes(data.races[a]))
   );
   if (stateFilter && !keys.length) {
@@ -274,6 +288,45 @@ function renderVoteSummary(data) {
   byId('vote-scope').textContent = '統計已回傳票數的 ' + races + ' 場選舉。灰色為其他政黨及無黨籍。';
 }
 
+function renderDistricts(data) {
+  const grid = byId('districts');
+  grid.replaceChildren();
+  byId('map-note').textContent = '每格代表一個已取得票數的選區，顏色表示暫時領先。';
+  const entries = Object.entries(data?.races || {}).filter(([key, race]) =>
+    /^[A-Z]{2}-\d{2}$/.test(key) && hasVotes(race)).sort(([a], [b]) => a.localeCompare(b));
+  byId('district-count').textContent = '已取得 ' + entries.length + ' 區票數';
+  const groups = new Map();
+  for (const [key, race] of entries) {
+    const [state, district] = key.split('-');
+    if (!groups.has(state)) {
+      const group = document.createElement('section');
+      group.className = 'district-group';
+      const label = document.createElement('b');
+      label.textContent = state;
+      group.append(label, document.createElement('br'));
+      groups.set(state, group);
+      grid.append(group);
+    }
+    const top = Math.max(...race.cands.map(c => c.v).filter(Number.isFinite));
+    const leaders = race.cands.filter(c => c.v === top);
+    const party = leaders[0]?.p;
+    const lead = leaders.length !== 1 || !party ? 'mixed' : ['D','R'].includes(party) ? party : 'other';
+    const button = document.createElement('button');
+    button.textContent = district === '00' ? '全州' : district;
+    button.dataset.lead = lead;
+    const status = { D: '民主黨領先', R: '共和黨領先', other: '其他領先', mixed: '並列或未確認領先黨' };
+    button.setAttribute('aria-label', key + ' ' + status[lead]);
+    button.setAttribute('aria-pressed', String(key === districtFilter));
+    button.addEventListener('click', () => {
+      districtFilter = key;
+      render();
+      byId('districts').querySelector('[aria-pressed="true"]')?.focus({ preventScroll: true });
+      byId('cards').scrollIntoView({ block: 'nearest' });
+    });
+    groups.get(state).append(button);
+  }
+}
+
 function renderMap(data) {
   const map = byId('map');
   const leadsByState = new Map();
@@ -318,7 +371,7 @@ function renderMap(data) {
   byId('reset').hidden = !stateFilter;
 }
 
-byId('reset').addEventListener('click', () => { stateFilter = ''; render(); });
+byId('reset').addEventListener('click', () => { stateFilter = ''; districtFilter = ''; render(); });
 
 async function refresh(office, failures = 0) {
   const controller = new AbortController();
@@ -350,6 +403,7 @@ function select(office) {
   request?.abort();
   selected = office;
   stateFilter = '';
+  districtFilter = '';
   for (const button of document.querySelectorAll('nav button')) {
     button.setAttribute('aria-pressed', String(button.dataset.office === office));
   }
@@ -439,7 +493,7 @@ async function loadGeography() {
   svg.append(labelsLayer);
   byId('geo').append(svg);
   byId('map').style.display = 'none';
-  if (cache.has(selected)) renderMap(cache.get(selected));
+  if (selected !== 'House' && cache.has(selected)) renderMap(cache.get(selected));
 }
 loadGeography().catch(() => {});
 
