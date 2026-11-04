@@ -121,9 +121,28 @@ small { color: #5C6470; }
   from { opacity: 0; transform: translateY(3px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  @supports (background-clip: text) {
+    .title-flow { animation: title-flow 3s ease-in-out; }
+  }
+}
+@keyframes title-flow {
+  0%, 100% {
+    color: inherit;
+    background-position: 100% 50%;
+  }
+  1%, 99% {
+    color: transparent;
+    background-image: linear-gradient(90deg, #1A1A1A 32%, #0F1A2E 50%, #1A1A1A 68%);
+    background-size: 300% 100%;
+    background-clip: text;
+  }
+  1% { background-position: 100% 50%; }
+  99%, 100% { background-position: 0% 50%; }
+}
 </style>
 <main>
-<h1>2026 美國期中選舉｜重點選區開票</h1>
+<h1>2026 美國期中選舉｜<span class="title-flow">重點選區開票</span></h1>
 <div id="status-line"><span id="live"><span class="pulse" aria-hidden="true"><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-dot"></i></span><span id="live-label"></span></span><small id="stamp"></small></div>
 <nav aria-label="選舉類型"></nav>
 <p id="notice" role="status"></p>
