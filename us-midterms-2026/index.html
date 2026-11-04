@@ -118,11 +118,11 @@ small { color: #5C6470; }
 main > h1 { color: #FF6B1A; }
 #results-layout.house #map button[aria-pressed="true"] { outline: 2px solid #FF6B1A; }
 #results-layout.house #districts:not([hidden]) { display: block; }
-#results-layout.house #cards { grid-template-columns: minmax(0,1fr); }
+#results-layout.side-details #cards { grid-template-columns: minmax(0,1fr); }
 #house-coverage { font-size: 13px; }
 @media (min-width: 700px) {
-  #results-layout.house { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 16px; align-items: start; }
-  #results-layout.house #details { max-height: 510px; overflow: auto; padding-right: 4px; }
+  #results-layout.side-details { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  #results-layout.side-details #details { max-height: 510px; overflow: auto; padding-right: 4px; }
 }
 main > nav { justify-content: center; }
 main > nav button { flex: 0 0 auto; border-radius: 999px; padding: 5px 14px; font-size: 15px; min-height: 34px; }
@@ -164,8 +164,7 @@ main > nav button[aria-pressed="true"] {
 <ul id="cards"></ul>
 <small id="missing-focus" hidden></small>
 </div></div>
-<p><a href="https://openamerica.io/elections/api/#coverage" target="_blank" rel="noopener noreferrer">哪些州有提供開票資料？</a></p>
-<small>資料來源： <a href="https://openamerica.io/elections/api/" target="_blank" rel="noopener noreferrer">各州選務機關經 Open America 提供</a><br>
+<small>資料來源： <a href="https://openamerica.io/elections/api/" target="_blank" rel="noopener noreferrer">各州選務機關經 Open America 提供</a>（<a href="https://openamerica.io/elections/api/#coverage" target="_blank" rel="noopener noreferrer">查看涵蓋州別</a>）<br>
 註：地圖顏色依已回傳票數標示暫時領先情況。勝負以各州認證結果為準。</small>
 </main>
 <script>
@@ -228,6 +227,7 @@ function render(error = false, previous) {
   renderVoteSummary(data, Boolean(previous));
   const house = selected === 'House';
   byId('results-layout').classList.toggle('house', house);
+  byId('results-layout').classList.toggle('side-details', house || Boolean(stateFilter));
   byId('party-legend').hidden = false;
   byId('house-coverage').hidden = !house;
   byId('districts').hidden = !house;
