@@ -119,7 +119,6 @@ main > h1 { color: #FF6B1A; }
 #results-layout.house #map button[aria-pressed="true"] { outline: 2px solid #FF6B1A; }
 #results-layout.house #districts:not([hidden]) { display: block; }
 #results-layout.side-details #cards { grid-template-columns: minmax(0,1fr); }
-#house-coverage { font-size: 13px; }
 @media (min-width: 700px) {
   #results-layout.side-details { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 16px; align-items: start; }
   #results-layout.side-details #details { max-height: 510px; overflow: auto; padding-right: 4px; }
@@ -148,12 +147,12 @@ main > nav button[aria-pressed="true"] {
   <div class="summary-mid" aria-hidden="true">50%</div>
   <small id="vote-scope"></small>
 </section>
-<small id="map-note"></small>
-<div id="party-legend" class="map-legend" aria-label="地圖圖例"><b>暫時領先</b>
+
+<div id="party-legend" class="map-legend" aria-label="地圖圖例"><b id="legend-title">候選人暫時領先</b>
   <span data-lead="D">民主黨</span><span data-lead="R">共和黨</span>
-  <span data-lead="other">其他</span><span data-lead="mixed">並列／無明確領先</span><span>尚無票數</span>
+  <span data-lead="other">其他</span><span data-lead="mixed">並列／無明確領先</span><span>未取得票數</span>
 </div>
-<p id="house-coverage" hidden>州色表示在已回傳票數的選區中，暫時領先區數最多的政黨。點州查看各區。</p>
+<p><small id="map-note"></small></p>
 <div id="results-layout"><div>
 <div id="geo" role="group" aria-label="美國州界地圖"></div>
 <div id="map" role="group" aria-label="美國各州格網地圖"></div>
@@ -227,15 +226,18 @@ function render(error = false, previous) {
   renderVoteSummary(data, Boolean(previous));
   const house = selected === 'House';
   byId('results-layout').classList.toggle('house', house);
-  byId('results-layout').classList.toggle('side-details', house || Boolean(stateFilter));
+  byId('results-layout').classList.toggle('side-details', Boolean(stateFilter));
   byId('party-legend').hidden = false;
-  byId('house-coverage').hidden = !house;
+  byId('legend-title').textContent = house ? '暫時領先區數最多的政黨' : '候選人暫時領先';
+  byId('map-note').textContent = house
+    ? '州色只統計已回傳票數的選區。點州查看各區。'
+    : '點州查看候選人的暫計票數。';
   byId('districts').hidden = !house;
   byId('district-count').hidden = !house;
 
   const focusTitle = byId('focus-title');
-  focusTitle.textContent = house ? '眾議院焦點選區' : '參議院焦點選區';
-  focusTitle.hidden = !data || selected === 'Governor' || Boolean(stateFilter || districtFilter);
+  focusTitle.textContent = labels[selected] + '焦點選區';
+  focusTitle.hidden = !data || Boolean(stateFilter || districtFilter);
   byId('cards').replaceChildren();
   byId('cards').removeAttribute('data-four');
   byId('missing-focus').hidden = true;
@@ -261,7 +263,7 @@ function render(error = false, previous) {
   }
   if (stateFilter && !keys.length && !house) {
     const empty = document.createElement('li');
-    empty.textContent = placeName(stateFilter) + '｜來源未提供此州的' + labels[selected] + '票數';
+    empty.textContent = placeName(stateFilter) + '｜本配件尚未取得此州票數';
     byId('cards').append(empty);
   }
   for (const key of keys) {
@@ -275,7 +277,7 @@ function render(error = false, previous) {
     ).sort((a,b) => b.v - a.v) : [];
     if (!candidates.some(c => c.v > 0)) {
       card.setAttribute('data-empty', '');
-      card.append(race ? '尚無票數' : '來源未提供此選區資料');
+      card.append('本配件尚未取得此選區票數');
     } else {
       const header = document.createElement('div');
       header.className = 'candidate-head';
@@ -375,7 +377,7 @@ function renderDistricts(data) {
     /^[A-Z]{2}-\d{2}$/.test(key) && hasVotes(race)).sort(([a], [b]) => a.localeCompare(b));
   const visible = entries.filter(([key]) => key.startsWith(stateFilter + '-'));
   byId('district-count').textContent = stateFilter
-    ? placeName(stateFilter) + '｜' + (visible.length ? '已取得 ' + visible.length + ' 區票數，色塊表示暫時領先。' : '尚未取得選區票數。')
+    ? placeName(stateFilter) + '｜' + (visible.length ? '已取得 ' + visible.length + ' 區票數，色塊表示暫時領先。' : '本配件尚未取得此州的選區票數。')
     : '已取得 ' + entries.length + ' 區票數。點州查看選區。';
   const groups = new Map();
   for (const [key, race] of visible) {
@@ -431,9 +433,6 @@ function renderMap(data) {
       counts.set(party, (counts.get(party) || 0) + 1);
     }
   }
-  byId('map-note').textContent = selected === 'House'
-    ? ''
-    : '顏色表示暫時領先。點州查看暫計票數。';
   if (!map.children.length) {
     mapRows.forEach((row, y) => row.split(' ').forEach((state, x) => {
       if (state === '--') return;
@@ -457,7 +456,7 @@ function renderMap(data) {
     }
     tile.dataset.lead = lead;
     const status = { D: '民主黨領先', R: '共和黨領先', other: '其他領先',
-      mixed: '並列或無明確領先', '': '尚無票數' };
+      mixed: '並列或無明確領先', '': '未取得票數' };
     tile.dataset.votes = String(available);
     tile.setAttribute('aria-label', (tile.dataset.name || state) + ' ' + status[lead]);
     tile.setAttribute('aria-pressed', String(state === stateFilter));
