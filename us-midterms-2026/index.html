@@ -234,7 +234,7 @@ function render(error = false, previous) {
   byId('district-count').hidden = !house;
 
   const focusTitle = byId('focus-title');
-  focusTitle.textContent = house ? '眾議院焦點選區' : '參議院焦點四州';
+  focusTitle.textContent = house ? '眾議院焦點選區' : '參議院焦點選區';
   focusTitle.hidden = !data || selected === 'Governor' || Boolean(stateFilter || districtFilter);
   byId('cards').replaceChildren();
   byId('cards').removeAttribute('data-four');
