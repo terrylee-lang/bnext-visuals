@@ -66,6 +66,8 @@ small { color: #5C6470; }
 #map button { padding: 3px 0; font-size: clamp(9px, 2.5vw, 13px); background: #ECE8DF; }
 
 #geo svg { display: block; width: 100%; }
+#geo .state-label { pointer-events: none; font-size: 14px; font-weight: 650; fill: #1A1A1A; stroke: #FAF7F1; stroke-width: 3px; paint-order: stroke; }
+@media (max-width: 480px) { #geo .state-label { font-size: 18px; } }
 #geo path { fill: #ECE8DF; stroke: #FAF7F1; stroke-width: 1.5; cursor: pointer; }
 [data-lead="D"] { --map-color: #176697; }
 [data-lead="R"] { --map-color: #B52640; }
@@ -94,9 +96,9 @@ small { color: #5C6470; }
   <small>有至少一場回傳票數即計入。各州資料可能分批回傳。</small>
 </section>
 <small id="map-note"></small>
-<div class="map-legend" aria-label="地圖圖例">
-  <span data-lead="D">民主黨領先</span><span data-lead="R">共和黨領先</span>
-  <span data-lead="other">其他領先</span><span data-lead="mixed">各場不一或未分高下</span><span>尚無票數</span>
+<div class="map-legend" aria-label="地圖圖例"><b>暫時領先</b>
+  <span data-lead="D">民主黨</span><span data-lead="R">共和黨</span>
+  <span data-lead="other">其他</span><span data-lead="mixed">各場不一／並列</span><span>尚無票數</span>
 </div>
 <div id="geo" role="group" aria-label="美國州界地圖"></div>
 <div id="map" role="group" aria-label="美國各州格網地圖"></div>
@@ -144,7 +146,7 @@ function render(error = false) {
     ? (data ? '更新暫停，顯示上次取得的資料。' : '暫時無法取得資料，稍後自動重試。')
     : data?.stale ? '來源更新延遲。' : data ? '' : '正在讀取開票資料。';
   byId('stamp').textContent = Number.isFinite(Date.parse(data?.as_of))
-    ? '本頁籤來源最近更新（台灣時間） ' + time.format(new Date(data.as_of)) : '';
+    ? '更新時間（台灣） ' + time.format(new Date(data.as_of)) : '';
   const live = Boolean(data?.live && !data.stale && !error);
   byId('live').dataset.live = String(live);
   byId('live').textContent = live ? '即時開票' : data ? '暫計票數' : '';
@@ -348,6 +350,9 @@ async function loadGeography() {
   const svg = svgElement('svg');
   svg.setAttribute('viewBox', '0 0 975 610');
   const path = d3.geoPath();
+  const labelsLayer = svgElement('g');
+  labelsLayer.setAttribute('aria-hidden', 'true');
+  const smallStates = new Set(['CT', 'DE', 'MA', 'MD', 'NH', 'NJ', 'RI', 'VT']);
   for (const feature of topojson.feature(topology, topology.objects.states).features) {
     const state = states[feature.id];
     if (!state) continue;
@@ -367,8 +372,20 @@ async function loadGeography() {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activate(); }
     });
     svg.append(tile);
+    const [x, y] = path.centroid(feature);
+    if (!smallStates.has(state) && Number.isFinite(x) && Number.isFinite(y)) {
+      const label = svgElement('text');
+      label.setAttribute('class', 'state-label');
+      label.setAttribute('x', x);
+      label.setAttribute('y', y);
+      label.setAttribute('text-anchor', 'middle');
+      label.setAttribute('dominant-baseline', 'central');
+      label.textContent = state;
+      labelsLayer.append(label);
+    }
   }
   if (svg.children.length !== 50) throw new Error('Incomplete map');
+  svg.append(labelsLayer);
   byId('geo').append(svg);
   byId('map').style.display = 'none';
   if (cache.has(selected)) renderMap(cache.get(selected));
