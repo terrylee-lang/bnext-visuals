@@ -131,6 +131,7 @@ main > nav button[aria-pressed="true"] {
   background: #FF6B1A;
   color: #1A1A1A;
 }
+#cards[data-four] { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
@@ -160,6 +161,7 @@ main > nav button[aria-pressed="true"] {
 <p id="district-count" hidden></p><div id="districts" hidden></div>
 <p><button id="reset" hidden>回到重點選區</button></p>
 <ul id="cards"></ul>
+<small id="missing-focus" hidden></small>
 </div></div>
 <p><a href="https://openamerica.io/elections/api/#coverage" target="_blank" rel="noopener noreferrer">哪些州有提供開票資料？</a></p>
 <small>Open America 彙整部分州選務機關公布的暫計票數。地圖顏色依已回傳票數標示暫時領先情況。勝負以各州認證結果為準。 <a href="https://openamerica.io/elections/api/" target="_blank" rel="noopener noreferrer">各州選務機關經 Open America 提供</a></small>
@@ -219,6 +221,8 @@ function render(error = false, previous) {
   byId('district-count').hidden = !house;
 
   byId('cards').replaceChildren();
+  byId('cards').removeAttribute('data-four');
+  byId('missing-focus').hidden = true;
   if (!data) {
     byId('map').replaceChildren();
     byId('reset').hidden = true;
@@ -228,9 +232,17 @@ function render(error = false, previous) {
   if (house) renderDistricts(data);
   byId('reset').hidden = !(districtFilter || stateFilter);
   const stateKeys = Object.keys(data.races).filter(key => key.slice(0, 2) === stateFilter).sort();
-  const keys = (districtFilter ? [districtFilter] : stateFilter ? (house ? [] : stateKeys) : [...focus[selected]]).sort(
+  let keys = (districtFilter ? [districtFilter] : stateFilter ? (house ? [] : stateKeys) : [...focus[selected]]).sort(
     (a, b) => Number(hasVotes(data.races[b])) - Number(hasVotes(data.races[a]))
   );
+  if (!stateFilter && !districtFilter) {
+    const missing = keys.filter(key => !hasVotes(data.races[key]));
+    const note = byId('missing-focus');
+    note.hidden = !missing.length;
+    note.textContent = missing.join('、') + '｜尚未取得票數';
+    keys = keys.filter(key => hasVotes(data.races[key]));
+    byId('cards').toggleAttribute('data-four', keys.length === 4);
+  }
   if (stateFilter && !keys.length && !house) {
     const empty = document.createElement('li');
     empty.textContent = stateFilter + '｜來源未提供此州的' + labels[selected] + '票數';
