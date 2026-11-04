@@ -81,20 +81,12 @@ small { color: #5C6470; }
 #status-line { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 10px; margin-top: 8px; }
 #live { color: #0F1A2E; font-size: 13px; font-weight: 700; }
 #live[data-live="true"]::before { content: "●"; color: #FF6B1A; margin-right: 5px; }
-#overview { margin: 0 0 14px; }
-#coverage-label { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
-#coverage-bar { width: 100%; height: 10px; display: block; margin-top: 5px; accent-color: #0F1A2E; }
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
 <div id="status-line"><span id="live"></span><small id="stamp"></small></div>
 <nav aria-label="選舉類型"></nav>
 <p id="notice" role="status"></p>
-<section id="overview" hidden aria-label="已有票數的州">
-  <div id="coverage-label"><span>已有票數的州</span><span id="coverage-count"></span></div>
-  <progress id="coverage-bar" max="50" value="0" aria-labelledby="coverage-label"></progress>
-  <small>一州只要有一場選舉公布票數，就會計入。</small>
-</section>
 <small id="map-note"></small>
 <div class="map-legend" aria-label="地圖圖例"><b>暫時領先</b>
   <span data-lead="D">民主黨</span><span data-lead="R">共和黨</span>
@@ -150,7 +142,6 @@ function render(error = false) {
   const live = Boolean(data?.live && !data.stale && !error);
   byId('live').dataset.live = String(live);
   byId('live').textContent = live ? '即時開票' : data ? '暫計票數' : '';
-  byId('overview').hidden = !data;
   byId('cards').replaceChildren();
   if (!data) {
     byId('map').replaceChildren();
@@ -240,8 +231,6 @@ function renderMap(data) {
   byId('map-note').textContent = selected === 'House'
     ? '依各州已回傳票數的選區著色。點州查看各選區暫計票數。'
     : '顏色表示暫時領先。點州查看暫計票數。';
-  byId('coverage-count').textContent = leadsByState.size + '／50 州';
-  byId('coverage-bar').value = leadsByState.size;
   if (!map.children.length) {
     mapRows.forEach((row, y) => row.split(' ').forEach((state, x) => {
       if (state === '--') return;
