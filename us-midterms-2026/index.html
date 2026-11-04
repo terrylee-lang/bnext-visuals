@@ -124,6 +124,12 @@ main > h1 { color: #FF6B1A; }
   #results-layout.house { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 16px; align-items: start; }
   #results-layout.house #details { max-height: 510px; overflow: auto; padding-right: 4px; }
 }
+main > nav button { border-radius: 999px; }
+main > nav button[aria-pressed="true"] {
+  border: 1px solid #FF6B1A;
+  background: #FF6B1A;
+  color: #1A1A1A;
+}
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
