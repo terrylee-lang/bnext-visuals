@@ -160,7 +160,7 @@ main > nav button[aria-pressed="true"] {
 </div><div id="details">
 <p id="district-count" hidden></p><div id="districts" hidden></div>
 <p><button id="reset" hidden>回到重點選區</button></p>
-<h2 id="senate-focus-title" hidden>參議院焦點四州</h2>
+<h2 id="focus-title" hidden></h2>
 <ul id="cards"></ul>
 <small id="missing-focus" hidden></small>
 </div></div>
@@ -233,7 +233,9 @@ function render(error = false, previous) {
   byId('districts').hidden = !house;
   byId('district-count').hidden = !house;
 
-  byId('senate-focus-title').hidden = !data || selected !== 'Senate' || Boolean(stateFilter);
+  const focusTitle = byId('focus-title');
+  focusTitle.textContent = house ? '眾議院焦點選區' : '參議院焦點四州';
+  focusTitle.hidden = !data || selected === 'Governor' || Boolean(stateFilter || districtFilter);
   byId('cards').replaceChildren();
   byId('cards').removeAttribute('data-four');
   byId('missing-focus').hidden = true;
