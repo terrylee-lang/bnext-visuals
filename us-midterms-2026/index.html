@@ -114,6 +114,13 @@ small { color: #5C6470; }
 .district-group { border-top: 1px solid #D4D0C8; padding-top: 5px; }
 .district-group button { width: 38px; margin: 2px; padding: 4px 0; font-size: 13px; background: var(--map-color); color: #FAF7F1; }
 .district-group button[aria-pressed="true"] { outline: 2px solid #FF6B1A; outline-offset: 1px; }
+@media (prefers-reduced-motion: no-preference) {
+  main > h1 { animation: title-enter 300ms ease-out both; }
+}
+@keyframes title-enter {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
