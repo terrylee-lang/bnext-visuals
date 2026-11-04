@@ -138,8 +138,8 @@ main > nav button[aria-pressed="true"] {
 <div id="status-line"><span id="live"><span class="pulse" aria-hidden="true"><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-dot"></i></span><span id="live-label"></span></span><small id="stamp"></small></div>
 <nav aria-label="選舉類型"></nav>
 <p id="notice" role="status"></p>
-<section id="vote-summary" hidden aria-label="已取得票數的政黨占比">
-  <b>已取得票數的政黨占比</b>
+<section id="vote-summary" hidden aria-labelledby="vote-heading">
+  <b id="vote-heading">已回傳選區的暫計得票占比</b>
   <div class="summary-totals">
     <span class="summary-dem">民主黨 <strong id="dem-share"></strong></span>
     <span class="summary-rep">共和黨 <strong id="rep-share"></strong></span>
@@ -169,6 +169,17 @@ main > nav button[aria-pressed="true"] {
 </main>
 <script>
 const labels = { Senate: '參議院', House: '眾議院', Governor: '州長' };
+const stateNames = Object.fromEntries('AL:阿拉巴馬 AK:阿拉斯加 AZ:亞利桑那 AR:阿肯色 CA:加州 CO:科羅拉多 CT:康乃狄克 DE:德拉瓦 FL:佛羅里達 GA:喬治亞 HI:夏威夷 ID:愛達荷 IL:伊利諾 IN:印第安納 IA:愛荷華 KS:堪薩斯 KY:肯塔基 LA:路易斯安那 ME:緬因 MD:馬里蘭 MA:麻薩諸塞 MI:密西根 MN:明尼蘇達 MS:密西西比 MO:密蘇里 MT:蒙大拿 NE:內布拉斯加 NV:內華達 NH:新罕布夏 NJ:紐澤西 NM:新墨西哥 NY:紐約 NC:北卡羅來納 ND:北達科他 OH:俄亥俄 OK:奧克拉荷馬 OR:奧勒岡 PA:賓夕法尼亞 RI:羅德島 SC:南卡羅來納 SD:南達科他 TN:田納西 TX:德州 UT:猶他 VT:佛蒙特 VA:維吉尼亞 WA:華盛頓 WV:西維吉尼亞 WI:威斯康辛 WY:懷俄明'.split(' ').map(entry => entry.split(':')));
+function placeName(key) {
+  const [state, district] = key.split('-');
+  const name = stateNames[state];
+  if (!name) return key;
+  const base = name.endsWith('州') ? name : name + '州';
+  if (!district) return base;
+  if (district === '00') return base + '全州選區';
+  if (district === 'special') return base + '補選';
+  return base + '第 ' + Number(district) + ' 選區';
+}
 const focus = { Senate: ['GA','MI','NC','TX'], House: ['AZ-01','MI-07','PA-07','TX-34'], Governor: ['AZ','GA','MI','IA'] };
 const parties = { D: '民主黨', R: '共和黨', I: '無黨籍' };
 const cache = new Map();
@@ -241,20 +252,20 @@ function render(error = false, previous) {
     const missing = keys.filter(key => !hasVotes(data.races[key]));
     const note = byId('missing-focus');
     note.hidden = !missing.length;
-    note.textContent = missing.join('、') + '｜尚未取得票數';
+    note.textContent = missing.map(placeName).join('、') + '｜本配件尚未取得票數';
     keys = keys.filter(key => hasVotes(data.races[key]));
     byId('cards').toggleAttribute('data-four', keys.length === 4);
   }
   if (stateFilter && !keys.length && !house) {
     const empty = document.createElement('li');
-    empty.textContent = stateFilter + '｜來源未提供此州的' + labels[selected] + '票數';
+    empty.textContent = placeName(stateFilter) + '｜來源未提供此州的' + labels[selected] + '票數';
     byId('cards').append(empty);
   }
   for (const key of keys) {
     const race = data.races[key];
     const card = document.createElement('li');
     const heading = document.createElement('strong');
-    heading.textContent = key;
+    heading.textContent = placeName(key) + '（' + key + '）';
     card.append(heading);
     const candidates = Array.isArray(race?.cands) ? race.cands.filter(
       c => typeof c.n === 'string' && Number.isSafeInteger(c.v) && c.v >= 0
@@ -325,7 +336,13 @@ function animateVotes(node, previous, latest) {
 function renderVoteSummary(data, animate) {
   const totals = { D: 0, R: 0, other: 0 };
   let races = 0;
-  for (const race of Object.values(data?.races || {})) {
+  const scope = districtFilter || stateFilter;
+  const entries = Object.entries(data?.races || {}).filter(([key]) =>
+    districtFilter ? key === districtFilter : !stateFilter || key.slice(0, 2) === stateFilter
+  );
+  byId('vote-heading').textContent = scope
+    ? placeName(scope) + '｜暫計得票占比' : '已回傳選區的暫計得票占比';
+  for (const [, race] of entries) {
     if (!hasVotes(race)) continue;
     races++;
     for (const candidate of race.cands) {
@@ -355,7 +372,7 @@ function renderDistricts(data) {
     /^[A-Z]{2}-\d{2}$/.test(key) && hasVotes(race)).sort(([a], [b]) => a.localeCompare(b));
   const visible = entries.filter(([key]) => key.startsWith(stateFilter + '-'));
   byId('district-count').textContent = stateFilter
-    ? stateFilter + '｜' + (visible.length ? '已取得 ' + visible.length + ' 區票數，色塊表示暫時領先。' : '尚未取得選區票數。')
+    ? placeName(stateFilter) + '｜' + (visible.length ? '已取得 ' + visible.length + ' 區票數，色塊表示暫時領先。' : '尚未取得選區票數。')
     : '已取得 ' + entries.length + ' 區票數。點州查看選區。';
   const groups = new Map();
   for (const [key, race] of visible) {
