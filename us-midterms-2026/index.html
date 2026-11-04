@@ -15,10 +15,11 @@ ul { padding: 0; list-style: none; }
 #cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 8px; }
 #cards li {
   position: relative;
-  padding: 10px;
-  border: 1px solid #D4D0C8;
+  padding: 14px;
+  border: 1px solid rgba(15, 26, 46, .12);
   border-radius: 8px;
-  background: #ECE8DF;
+  background: #F5F3EF;
+  min-width: 0;
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   #cards[data-spotlight] li::after,
@@ -31,20 +32,28 @@ ul { padding: 0; list-style: none; }
   }
   #cards[data-spotlight] li::after {
     background: radial-gradient(120px circle at var(--x, -999px) var(--y, -999px),
-      #FF6B1A18, transparent);
+      #FF6B1A09, transparent);
   }
   @supports (mask-composite: exclude) {
     #cards[data-spotlight] li::before {
       inset: -1px;
       padding: 1px;
       background: radial-gradient(140px circle at var(--x, -999px) var(--y, -999px),
-        #FF6B1A, transparent);
+        #FF6B1A70, transparent);
       mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       mask-composite: exclude;
     }
   }
 }
-strong { display: block; font-size: 24px; }
+#cards strong { display: block; font-size: 18px; color: #0F1A2E; margin-bottom: 6px; }
+#cards li[data-empty] { color: #5C6470; font-size: 13px; }
+.candidate { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 3px 10px; padding: 8px 0; border-top: 1px solid rgba(15,26,46,.12); }
+.candidate-name { font-size: 14px; font-weight: 650; overflow-wrap: anywhere; }
+.candidate-meta { display: block; font-size: 12px; color: #5C6470; font-weight: 400; }
+.candidate-count { text-align: right; font-size: 14px; font-variant-numeric: tabular-nums; }
+.vote-track { grid-column: 1 / -1; height: 3px; background: #ECE8DF; }
+.vote-track span { display: block; height: 100%; background: #5C6470; }
+.candidate:first-of-type .vote-track span { background: #0F1A2E; }
 #bar { display: flex; height: 12px; overflow: hidden; }
 #races li { border-top: 1px solid #D4D0C8; padding: 8px 0; }
 a { color: #0F1A2E; text-underline-offset: 3px; }
@@ -136,12 +145,36 @@ function render(error = false) {
       c => typeof c.n === 'string' && Number.isSafeInteger(c.v) && c.v >= 0
     ).sort((a,b) => b.v - a.v) : [];
     if (!candidates.some(c => c.v > 0)) {
+      card.setAttribute('data-empty', '');
       card.append(race ? '尚無票數' : '來源未提供此選區資料');
     } else {
       for (const c of candidates.slice(0, 3)) {
         const row = document.createElement('div');
-        const percent = Number.isFinite(c.pct) && c.pct >= 0 && c.pct <= 100 ? '（' + c.pct.toFixed(1) + '%）' : '';
-        row.textContent = c.n + ' ' + (parties[c.p] || c.p || '') + '｜' + c.v.toLocaleString('zh-TW') + ' 票' + percent;
+        row.className = 'candidate';
+        const name = document.createElement('div');
+        name.className = 'candidate-name';
+        name.textContent = c.n;
+        const party = document.createElement('span');
+        party.className = 'candidate-meta';
+        party.textContent = parties[c.p] || c.p || '';
+        name.append(party);
+        const count = document.createElement('div');
+        count.className = 'candidate-count';
+        count.textContent = c.v.toLocaleString('zh-TW') + ' 票';
+        row.append(name, count);
+        if (Number.isFinite(c.pct) && c.pct >= 0 && c.pct <= 100) {
+          const percent = document.createElement('span');
+          percent.className = 'candidate-meta';
+          percent.textContent = c.pct.toFixed(1) + '%';
+          count.append(percent);
+          const track = document.createElement('div');
+          track.className = 'vote-track';
+          track.setAttribute('aria-hidden', 'true');
+          const fill = document.createElement('span');
+          fill.style.width = c.pct + '%';
+          track.append(fill);
+          row.append(track);
+        }
         card.append(row);
       }
     }
