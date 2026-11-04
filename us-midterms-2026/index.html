@@ -181,7 +181,7 @@ function placeName(key) {
   return base + '第 ' + Number(district) + ' 選區';
 }
 const focus = { Senate: ['GA','MI','NC','TX'], House: ['AZ-01','MI-07','PA-07','TX-34'], Governor: ['AZ','GA','MI','IA'] };
-const parties = { D: '民主黨', R: '共和黨', I: '無黨籍' };
+const parties = { D: '民主黨', R: '共和黨', I: '無黨籍', L: '自由意志黨' };
 const cache = new Map();
 const byId = id => document.getElementById(id);
 const time = new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', dateStyle: 'medium', timeStyle: 'short' });
