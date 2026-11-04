@@ -64,10 +64,17 @@ a { color: #0F1A2E; text-underline-offset: 3px; }
 small { color: #5C6470; }
 #map { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; }
 #map button { padding: 3px 0; font-size: clamp(9px, 2.5vw, 13px); background: #ECE8DF; }
-#map button[data-votes="true"] { background: #0F1A2E; color: #FAF7F1; }
+
 #geo svg { display: block; width: 100%; }
 #geo path { fill: #ECE8DF; stroke: #FAF7F1; stroke-width: 1.5; cursor: pointer; }
-#geo path[data-votes="true"] { fill: #0F1A2E; }
+[data-lead="D"] { --map-color: #176697; }
+[data-lead="R"] { --map-color: #B52640; }
+[data-lead="other"] { --map-color: #36794D; }
+[data-lead="mixed"] { --map-color: #5C6470; }
+#geo path[data-votes="true"] { fill: var(--map-color); }
+#map button[data-votes="true"] { background: var(--map-color); color: #FAF7F1; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; margin: 6px 0; }
+.map-legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border: 1px solid #D4D0C8; background: var(--map-color, #ECE8DF); margin-right: 4px; }
 #geo path:focus, #geo path:hover, #geo path[aria-pressed="true"] { stroke: #FF6B1A; stroke-width: 4; outline: none; }
 #status-line { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 10px; margin-top: 8px; }
 #live { color: #0F1A2E; font-size: 13px; font-weight: 700; }
@@ -86,7 +93,11 @@ small { color: #5C6470; }
   <progress id="coverage-bar" max="50" value="0" aria-labelledby="coverage-label"></progress>
   <small>有至少一場回傳票數即計入。各州資料可能分批回傳。</small>
 </section>
-<small>各州資料覆蓋｜深色有票數，淺色尚無票數。點州界查看下方選區票數。</small>
+<small id="map-note"></small>
+<div class="map-legend" aria-label="地圖圖例">
+  <span data-lead="D">民主黨領先</span><span data-lead="R">共和黨領先</span>
+  <span data-lead="other">其他領先</span><span data-lead="mixed">各場不一或未分高下</span><span>尚無票數</span>
+</div>
 <div id="geo" role="group" aria-label="美國州界地圖"></div>
 <div id="map" role="group" aria-label="美國各州格網地圖"></div>
 <p><button id="reset" hidden>回到重點選區</button></p>
@@ -210,11 +221,25 @@ function render(error = false) {
 
 function renderMap(data) {
   const map = byId('map');
-  const statesWithVotes = new Set(Object.keys(data.races)
-    .filter(key => hasVotes(data.races[key])).map(key => key.slice(0, 2))
-    .filter(state => mapRows.some(row => row.split(' ').includes(state))));
-  byId('coverage-count').textContent = statesWithVotes.size + '／50 州有票數';
-  byId('coverage-bar').value = statesWithVotes.size;
+  const leadsByState = new Map();
+  const knownStates = new Set(mapRows.flatMap(row => row.split(' ')));
+  for (const [key, race] of Object.entries(data.races)) {
+    const state = key.slice(0, 2);
+    if (!knownStates.has(state) || !hasVotes(race)) continue;
+    const votes = race.cands.map(candidate => candidate.v).filter(Number.isFinite);
+    const top = Math.max(...votes);
+    const leaders = race.cands.filter(candidate => candidate.v === top);
+    const party = leaders[0]?.p;
+    const lead = leaders.length !== 1 || !party ? 'mixed'
+      : party === 'D' || party === 'R' ? party : 'other';
+    if (!leadsByState.has(state)) leadsByState.set(state, new Set());
+    leadsByState.get(state).add(lead);
+  }
+  byId('map-note').textContent = selected === 'House'
+    ? '依各州已回傳票數的選區著色。點州查看各選區暫計票數。'
+    : '顏色表示暫時領先。點州查看暫計票數。';
+  byId('coverage-count').textContent = leadsByState.size + '／50 州有票數';
+  byId('coverage-bar').value = leadsByState.size;
   if (!map.children.length) {
     mapRows.forEach((row, y) => row.split(' ').forEach((state, x) => {
       if (state === '--') return;
@@ -227,9 +252,14 @@ function renderMap(data) {
   }
   for (const tile of [...map.children, ...byId('geo').querySelectorAll('path')]) {
     const state = tile.dataset.state || tile.textContent;
-    const available = statesWithVotes.has(state);
+    const leads = leadsByState.get(state);
+    const available = Boolean(leads);
+    const lead = !leads ? '' : leads.size === 1 ? leads.values().next().value : 'mixed';
+    tile.dataset.lead = lead;
+    const status = { D: '民主黨領先', R: '共和黨領先', other: '其他領先',
+      mixed: '各場不一或未分高下', '': '尚無票數' };
     tile.dataset.votes = String(available);
-    tile.setAttribute('aria-label', (tile.dataset.name || state) + (available ? ' 有票數' : ' 尚無票數'));
+    tile.setAttribute('aria-label', (tile.dataset.name || state) + ' ' + status[lead]);
     tile.setAttribute('aria-pressed', String(state === stateFilter));
   }
   byId('reset').hidden = !stateFilter;
