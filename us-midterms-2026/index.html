@@ -19,13 +19,20 @@ strong { display: block; font-size: 24px; }
 #races li { border-top: 1px solid #D4D0C8; padding: 8px 0; }
 a { color: #0F1A2E; text-underline-offset: 3px; }
 small { color: #5C6470; }
+#map { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3px; }
+#map button { padding: 3px 0; font-size: clamp(9px, 2.5vw, 13px); background: #ECE8DF; }
+#map button[data-votes="true"] { background: #0F1A2E; color: #FAF7F1; }
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
 <nav aria-label="選舉類型"></nav>
 <p id="notice" role="status"></p>
 <small id="stamp"></small>
+<small>各州資料覆蓋｜深色有票數，淺色尚無票數。點州別查看選區。</small>
+<div id="map" role="group" aria-label="美國各州格網地圖"></div>
+<p><button id="reset" hidden>回到重點選區</button></p>
 <ul id="cards"></ul>
+<p><a href="https://openamerica.io/elections/api/#coverage" target="_blank" rel="noopener noreferrer">各州選務機關與資料覆蓋清單</a></p>
 <small>票數為各州公布的暫計結果。<a href="https://openamerica.io/elections/api/" target="_blank" rel="noopener noreferrer">各州選務機關經 Open America 提供</a></small>
 </main>
 <script>
@@ -35,6 +42,16 @@ const parties = { D: '民主黨', R: '共和黨', I: '無黨籍' };
 const cache = new Map();
 const byId = id => document.getElementById(id);
 const time = new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', dateStyle: 'medium', timeStyle: 'short' });
+const mapRows = [
+  'AK -- -- -- -- -- -- -- -- -- -- ME',
+  '-- WA ID MT ND MN WI MI IL NY VT NH',
+  '-- OR NV WY SD IA IN OH PA NJ CT MA',
+  '-- CA UT CO NE MO KY WV VA MD DE RI',
+  '-- -- AZ NM KS AR TN NC SC -- -- --',
+  'HI -- -- -- OK LA MS AL GA -- -- --',
+  '-- -- -- -- TX -- -- -- FL -- -- --'
+];
+let stateFilter = '';
 let selected = 'Senate';
 let timer;
 let request;
@@ -59,10 +76,21 @@ function render(error = false) {
   byId('stamp').textContent = Number.isFinite(Date.parse(data?.as_of))
     ? '本頁籤來源最近更新（台灣時間） ' + time.format(new Date(data.as_of)) : '';
   byId('cards').replaceChildren();
-  if (!data) return;
-  const keys = [...focus[selected]].sort(
+  if (!data) {
+    byId('map').replaceChildren();
+    byId('reset').hidden = true;
+    return;
+  }
+  renderMap(data);
+  const stateKeys = Object.keys(data.races).filter(key => key.slice(0, 2) === stateFilter).sort();
+  const keys = (stateFilter ? stateKeys : [...focus[selected]]).sort(
     (a, b) => Number(hasVotes(data.races[b])) - Number(hasVotes(data.races[a]))
   );
+  if (stateFilter && !keys.length) {
+    const empty = document.createElement('li');
+    empty.textContent = stateFilter + '｜來源未提供此州的' + labels[selected] + '票數';
+    byId('cards').append(empty);
+  }
   for (const key of keys) {
     const race = data.races[key];
     const card = document.createElement('li');
@@ -85,6 +113,32 @@ function render(error = false) {
     byId('cards').append(card);
   }
 }
+
+function renderMap(data) {
+  const map = byId('map');
+  const statesWithVotes = new Set(Object.keys(data.races)
+    .filter(key => hasVotes(data.races[key])).map(key => key.slice(0, 2)));
+  if (!map.children.length) {
+    mapRows.forEach((row, y) => row.split(' ').forEach((state, x) => {
+      if (state === '--') return;
+      const tile = document.createElement('button');
+      tile.textContent = state;
+      tile.style.gridArea = (y + 1) + ' / ' + (x + 1);
+      tile.addEventListener('click', () => { stateFilter = state; render(); });
+      map.append(tile);
+    }));
+  }
+  for (const tile of map.children) {
+    const state = tile.textContent;
+    const available = statesWithVotes.has(state);
+    tile.dataset.votes = String(available);
+    tile.setAttribute('aria-label', state + (available ? ' 有票數' : ' 尚無票數'));
+    tile.setAttribute('aria-pressed', String(state === stateFilter));
+  }
+  byId('reset').hidden = !stateFilter;
+}
+
+byId('reset').addEventListener('click', () => { stateFilter = ''; render(); });
 
 async function refresh(office, failures = 0) {
   const controller = new AbortController();
@@ -115,6 +169,7 @@ function select(office) {
   clearTimeout(timer);
   request?.abort();
   selected = office;
+  stateFilter = '';
   for (const button of document.querySelectorAll('nav button')) {
     button.setAttribute('aria-pressed', String(button.dataset.office === office));
   }
