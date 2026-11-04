@@ -115,31 +115,12 @@ small { color: #5C6470; }
 .district-group { border-top: 1px solid #D4D0C8; padding-top: 5px; }
 .district-group button { width: 38px; margin: 2px; padding: 4px 0; font-size: 13px; background: var(--map-color); color: #FAF7F1; }
 .district-group button[aria-pressed="true"] { outline: 2px solid #FF6B1A; outline-offset: 1px; }
-@media (prefers-reduced-motion: no-preference) {
-  main > h1 { animation: title-enter 300ms ease-out both; }
-}
-@keyframes title-enter {
-  from { opacity: 0; transform: translateY(3px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
-  @supports (background-clip: text) {
-    .title-flow { animation: title-flow 3s ease-in-out; }
-  }
-}
-@keyframes title-flow {
-  0%, 100% {
-    color: inherit;
-    background-position: 100% 50%;
-  }
-  1%, 99% {
-    color: transparent;
-    background-image: linear-gradient(90deg, #1A1A1A 32%, #0F1A2E 50%, #1A1A1A 68%);
-    background-size: 300% 100%;
-    background-clip: text;
-  }
-  1% { background-position: 100% 50%; }
-  99%, 100% { background-position: 0% 50%; }
+#particle-title { position: relative; }
+#particle-title canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+#particle-title[data-active] > span { opacity: 0; }
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  #particle-title canvas { display: none; }
+  #particle-title[data-active] > span { opacity: 1; }
 }
 #results-layout.house #geo path[data-votes="true"] { fill: #0F1A2E; }
 #results-layout.house #map button[data-votes="true"] { background: #0F1A2E; }
@@ -153,7 +134,7 @@ small { color: #5C6470; }
 }
 </style>
 <main>
-<h1>2026 美國期中選舉｜<span class="title-flow">重點選區開票</span></h1>
+<h1 id="particle-title"><span>2026 美國期中選舉｜重點選區開票</span></h1>
 <div id="status-line"><span id="live"><span class="pulse" aria-hidden="true"><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-dot"></i></span><span id="live-label"></span></span><small id="stamp"></small></div>
 <nav aria-label="選舉類型"></nav>
 <p id="notice" role="status"></p>
@@ -565,6 +546,97 @@ async function loadGeography() {
   if (cache.has(selected)) renderMap(cache.get(selected));
 }
 loadGeography().catch(() => {});
+
+async function setupParticleTitle() {
+  const heading = byId('particle-title');
+  const label = heading.firstElementChild;
+  const enabled = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none)');
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  canvas.setAttribute('aria-hidden', 'true');
+  heading.append(canvas);
+  let particles = [];
+  let pointer;
+  let frame;
+  let entered = false;
+  let ink;
+
+  function draw() {
+    frame = undefined;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let moving = false;
+    for (const p of particles) {
+      if (pointer) {
+        const dx = p.x - pointer.x;
+        const dy = p.y - pointer.y;
+        const distance = Math.hypot(dx, dy);
+        if (distance > 0 && distance < 36) {
+          const force = (1 - distance / 36) * 2.4;
+          p.vx += dx / distance * force;
+          p.vy += dy / distance * force;
+        }
+      }
+      p.vx = (p.vx + (p.tx - p.x) * .072) * .78;
+      p.vy = (p.vy + (p.ty - p.y) * .072) * .78;
+      p.x += p.vx;
+      p.y += p.vy;
+      const offset = Math.hypot(p.tx - p.x, p.ty - p.y);
+      moving ||= offset > .2 || Math.abs(p.vx) + Math.abs(p.vy) > .2;
+      ctx.fillStyle = offset > 5 ? '#FF6B1A' : ink;
+      ctx.fillRect(Math.round(p.x), Math.round(p.y), 2, 2);
+    }
+    if (moving || pointer) frame = requestAnimationFrame(draw);
+  }
+
+  function rebuild() {
+    cancelAnimationFrame(frame);
+    frame = undefined;
+    heading.removeAttribute('data-active');
+    if (!enabled.matches) return;
+    const width = Math.floor(heading.clientWidth);
+    const height = Math.floor(heading.clientHeight);
+    if (width < 500 || height < 1 || height > 85) return;
+    canvas.width = width;
+    canvas.height = height;
+    const style = getComputedStyle(label);
+    ink = style.color;
+    ctx.font = [style.fontWeight, style.fontSize, style.fontFamily].join(' ');
+    const title = label.textContent;
+    if (ctx.measureText(title).width > width) return;
+    ctx.textBaseline = 'middle';
+    ctx.fillText(title, 0, height / 2);
+    const pixels = ctx.getImageData(0, 0, width, height).data;
+    particles = [];
+    for (let y = 0; y < height; y += 2) {
+      for (let x = 0; x < width; x += 2) {
+        if (pixels[(y * width + x) * 4 + 3] < 90) continue;
+        particles.push({ tx: x, ty: y, x: entered ? x : Math.random() * width,
+          y: entered ? y : Math.random() * height, vx: 0, vy: 0 });
+      }
+    }
+    if (!particles.length) return;
+    entered = true;
+    heading.setAttribute('data-active', '');
+    draw();
+  }
+
+  heading.addEventListener('pointermove', event => {
+    if (!heading.hasAttribute('data-active') || event.pointerType !== 'mouse') return;
+    const box = canvas.getBoundingClientRect();
+    pointer = { x: event.clientX - box.left, y: event.clientY - box.top };
+    if (frame === undefined) frame = requestAnimationFrame(draw);
+  });
+  heading.addEventListener('pointerleave', () => { pointer = undefined; });
+  await document.fonts.ready;
+  rebuild();
+  new ResizeObserver(rebuild).observe(heading);
+  enabled.addEventListener('change', rebuild);
+}
+setupParticleTitle().catch(() => {
+  byId('particle-title').removeAttribute('data-active');
+  byId('particle-title').querySelector('canvas')?.remove();
+});
 
 </script>
 </html>
