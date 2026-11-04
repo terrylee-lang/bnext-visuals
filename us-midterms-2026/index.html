@@ -47,16 +47,17 @@ ul { padding: 0; list-style: none; }
 }
 #cards strong { display: block; font-size: 18px; color: #0F1A2E; margin-bottom: 6px; }
 #cards li[data-empty] { color: #5C6470; font-size: 13px; }
-.candidate { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 3px 10px; padding: 8px 0; border-top: 1px solid rgba(15,26,46,.12); }
+.candidate { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 3px 10px; padding: 7px 8px; border-left: 4px solid var(--party-color); border-top: 1px solid rgba(15,26,46,.12); }
 .candidate-name { font-size: 14px; font-weight: 650; overflow-wrap: anywhere; }
 .candidate-meta { display: block; font-size: 12px; color: #5C6470; font-weight: 400; }
 .candidate-count { text-align: right; font-size: 14px; font-variant-numeric: tabular-nums; }
-.vote-track { grid-column: 1 / -1; height: 3px; background: #ECE8DF; }
+.candidate-head { display: flex; justify-content: space-between; color: #5C6470; font-size: 12px; padding: 2px 8px; }
+.candidate:nth-of-type(even) { background: #ECE8DF; }
 .candidate { --party-color: #5C6470; }
 .candidate[data-party="D"] { --party-color: #176697; }
 .candidate[data-party="R"] { --party-color: #B52640; }
 .candidate-name .candidate-meta { color: var(--party-color); font-weight: 650; }
-.vote-track span { display: block; height: 100%; background: var(--party-color); }
+.candidate[data-party="I"] { --party-color: #36794D; }
 #bar { display: flex; height: 12px; overflow: hidden; }
 #races li { border-top: 1px solid #D4D0C8; padding: 8px 0; }
 a { color: #0F1A2E; text-underline-offset: 3px; }
@@ -151,6 +152,14 @@ function render(error = false) {
       card.setAttribute('data-empty', '');
       card.append(race ? '尚無票數' : '來源未提供此選區資料');
     } else {
+      const header = document.createElement('div');
+      header.className = 'candidate-head';
+      for (const label of ['候選人／政黨', '票數／得票率']) {
+        const cell = document.createElement('span');
+        cell.textContent = label;
+        header.append(cell);
+      }
+      card.append(header);
       for (const c of candidates.slice(0, 3)) {
         const row = document.createElement('div');
         row.className = 'candidate';
@@ -171,15 +180,13 @@ function render(error = false) {
           percent.className = 'candidate-meta';
           percent.textContent = c.pct.toFixed(1) + '%';
           count.append(percent);
-          const track = document.createElement('div');
-          track.className = 'vote-track';
-          track.setAttribute('aria-hidden', 'true');
-          const fill = document.createElement('span');
-          fill.style.width = c.pct + '%';
-          track.append(fill);
-          row.append(track);
         }
         card.append(row);
+      }
+      if (candidates.length > 3) {
+        const remaining = document.createElement('small');
+        remaining.textContent = '另有 ' + (candidates.length - 3) + ' 位候選人';
+        card.append(remaining);
       }
     }
     byId('cards').append(card);
