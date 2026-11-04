@@ -69,12 +69,23 @@ small { color: #5C6470; }
 #geo path { fill: #ECE8DF; stroke: #FAF7F1; stroke-width: 1.5; cursor: pointer; }
 #geo path[data-votes="true"] { fill: #0F1A2E; }
 #geo path:focus, #geo path:hover, #geo path[aria-pressed="true"] { stroke: #FF6B1A; stroke-width: 4; outline: none; }
+#status-line { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 10px; margin-top: 8px; }
+#live { color: #0F1A2E; font-size: 13px; font-weight: 700; }
+#live[data-live="true"]::before { content: "●"; color: #FF6B1A; margin-right: 5px; }
+#overview { margin: 0 0 14px; }
+#coverage-label { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
+#coverage-bar { width: 100%; height: 10px; display: block; margin-top: 5px; accent-color: #0F1A2E; }
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
+<div id="status-line"><span id="live"></span><small id="stamp"></small></div>
 <nav aria-label="選舉類型"></nav>
 <p id="notice" role="status"></p>
-<small id="stamp"></small>
+<section id="overview" hidden aria-label="州級資料覆蓋">
+  <div id="coverage-label"><span>州級資料覆蓋</span><span id="coverage-count"></span></div>
+  <progress id="coverage-bar" max="50" value="0" aria-labelledby="coverage-label"></progress>
+  <small>有至少一場回傳票數即計入。各州資料可能分批回傳。</small>
+</section>
 <small>各州資料覆蓋｜深色有票數，淺色尚無票數。點州界查看下方選區票數。</small>
 <div id="geo" role="group" aria-label="美國州界地圖"></div>
 <div id="map" role="group" aria-label="美國各州格網地圖"></div>
@@ -123,6 +134,10 @@ function render(error = false) {
     : data?.stale ? '來源更新延遲。' : data ? '' : '正在讀取開票資料。';
   byId('stamp').textContent = Number.isFinite(Date.parse(data?.as_of))
     ? '本頁籤來源最近更新（台灣時間） ' + time.format(new Date(data.as_of)) : '';
+  const live = Boolean(data?.live && !data.stale && !error);
+  byId('live').dataset.live = String(live);
+  byId('live').textContent = live ? '即時開票' : data ? '暫計票數' : '';
+  byId('overview').hidden = !data;
   byId('cards').replaceChildren();
   if (!data) {
     byId('map').replaceChildren();
@@ -196,7 +211,10 @@ function render(error = false) {
 function renderMap(data) {
   const map = byId('map');
   const statesWithVotes = new Set(Object.keys(data.races)
-    .filter(key => hasVotes(data.races[key])).map(key => key.slice(0, 2)));
+    .filter(key => hasVotes(data.races[key])).map(key => key.slice(0, 2))
+    .filter(state => mapRows.some(row => row.split(' ').includes(state))));
+  byId('coverage-count').textContent = statesWithVotes.size + '／50 州有票數';
+  byId('coverage-bar').value = statesWithVotes.size;
   if (!map.children.length) {
     mapRows.forEach((row, y) => row.split(' ').forEach((state, x) => {
       if (state === '--') return;
