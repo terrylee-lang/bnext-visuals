@@ -76,6 +76,7 @@ small { color: #5C6470; }
 [data-lead="mixed"] { --map-color: #5C6470; }
 #geo path[data-votes="true"] { fill: var(--map-color); }
 #map button[data-votes="true"] { background: var(--map-color); color: #FAF7F1; }
+.map-legend[hidden] { display: none; }
 .map-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; margin: 6px 0; }
 .map-legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border: 1px solid #D4D0C8; background: var(--map-color, #ECE8DF); margin-right: 4px; }
 #geo path:focus, #geo path:hover, #geo path[aria-pressed="true"] { stroke: #FF6B1A; stroke-width: 4; outline: none; }
@@ -140,6 +141,16 @@ small { color: #5C6470; }
   1% { background-position: 100% 50%; }
   99%, 100% { background-position: 0% 50%; }
 }
+#results-layout.house #geo path[data-votes="true"] { fill: #0F1A2E; }
+#results-layout.house #map button[data-votes="true"] { background: #0F1A2E; }
+#results-layout.house #map button[aria-pressed="true"] { outline: 2px solid #FF6B1A; }
+#results-layout.house #districts:not([hidden]) { display: block; }
+#results-layout.house #cards { grid-template-columns: minmax(0,1fr); }
+#house-coverage { font-size: 13px; }
+@media (min-width: 700px) {
+  #results-layout.house { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  #results-layout.house #details { max-height: 510px; overflow: auto; padding-right: 4px; }
+}
 </style>
 <main>
 <h1>2026 美國期中選舉｜<span class="title-flow">重點選區開票</span></h1>
@@ -157,15 +168,19 @@ small { color: #5C6470; }
   <small id="vote-scope"></small>
 </section>
 <small id="map-note"></small>
-<div class="map-legend" aria-label="地圖圖例"><b>暫時領先</b>
+<div id="party-legend" class="map-legend" aria-label="地圖圖例"><b>暫時領先</b>
   <span data-lead="D">民主黨</span><span data-lead="R">共和黨</span>
   <span data-lead="other">其他</span><span data-lead="mixed">各場不一／並列</span><span>尚無票數</span>
 </div>
-<p id="district-count" hidden></p><div id="districts" hidden></div>
+<p id="house-coverage" hidden>深藍表示該州已有選區票數。點州查看各區。</p>
+<div id="results-layout"><div>
 <div id="geo" role="group" aria-label="美國州界地圖"></div>
 <div id="map" role="group" aria-label="美國各州格網地圖"></div>
+</div><div id="details">
+<p id="district-count" hidden></p><div id="districts" hidden></div>
 <p><button id="reset" hidden>回到重點選區</button></p>
 <ul id="cards"></ul>
+</div></div>
 <p><a href="https://openamerica.io/elections/api/#coverage" target="_blank" rel="noopener noreferrer">哪些州有提供開票資料？</a></p>
 <small>票數為各州公布的暫計結果。<a href="https://openamerica.io/elections/api/" target="_blank" rel="noopener noreferrer">各州選務機關經 Open America 提供</a></small>
 </main>
@@ -217,24 +232,26 @@ function render(error = false, previous) {
   byId('live-label').textContent = live ? '即時開票' : data ? '暫計票數' : '';
   renderVoteSummary(data, Boolean(previous));
   const house = selected === 'House';
-  byId('geo').hidden = house;
-  byId('map').hidden = house;
+  byId('results-layout').classList.toggle('house', house);
+  byId('party-legend').hidden = house;
+  byId('house-coverage').hidden = !house;
   byId('districts').hidden = !house;
   byId('district-count').hidden = !house;
-  if (house) renderDistricts(data);
+
   byId('cards').replaceChildren();
   if (!data) {
     byId('map').replaceChildren();
     byId('reset').hidden = true;
     return;
   }
-  if (!house) renderMap(data);
+  renderMap(data);
+  if (house) renderDistricts(data);
   byId('reset').hidden = !(districtFilter || stateFilter);
   const stateKeys = Object.keys(data.races).filter(key => key.slice(0, 2) === stateFilter).sort();
-  const keys = (districtFilter ? [districtFilter] : stateFilter ? stateKeys : [...focus[selected]]).sort(
+  const keys = (districtFilter ? [districtFilter] : stateFilter ? (house ? [] : stateKeys) : [...focus[selected]]).sort(
     (a, b) => Number(hasVotes(data.races[b])) - Number(hasVotes(data.races[a]))
   );
-  if (stateFilter && !keys.length) {
+  if (stateFilter && !keys.length && !house) {
     const empty = document.createElement('li');
     empty.textContent = stateFilter + '｜來源未提供此州的' + labels[selected] + '票數';
     byId('cards').append(empty);
@@ -339,12 +356,15 @@ function renderVoteSummary(data, animate) {
 function renderDistricts(data) {
   const grid = byId('districts');
   grid.replaceChildren();
-  byId('map-note').textContent = '每格代表一個已取得票數的選區，顏色表示暫時領先。';
+
   const entries = Object.entries(data?.races || {}).filter(([key, race]) =>
     /^[A-Z]{2}-\d{2}$/.test(key) && hasVotes(race)).sort(([a], [b]) => a.localeCompare(b));
-  byId('district-count').textContent = '已取得 ' + entries.length + ' 區票數';
+  const visible = entries.filter(([key]) => key.startsWith(stateFilter + '-'));
+  byId('district-count').textContent = stateFilter
+    ? stateFilter + '｜' + (visible.length ? '已取得 ' + visible.length + ' 區票數，色塊表示暫時領先。' : '尚未取得選區票數。')
+    : '已取得 ' + entries.length + ' 區票數。點州查看選區。';
   const groups = new Map();
-  for (const [key, race] of entries) {
+  for (const [key, race] of visible) {
     const [state, district] = key.split('-');
     if (!groups.has(state)) {
       const group = document.createElement('section');
@@ -392,7 +412,7 @@ function renderMap(data) {
     leadsByState.get(state).add(lead);
   }
   byId('map-note').textContent = selected === 'House'
-    ? '依各州已回傳票數的選區著色。點州查看各選區暫計票數。'
+    ? ''
     : '顏色表示暫時領先。點州查看暫計票數。';
   if (!map.children.length) {
     mapRows.forEach((row, y) => row.split(' ').forEach((state, x) => {
@@ -400,7 +420,7 @@ function renderMap(data) {
       const tile = document.createElement('button');
       tile.textContent = state;
       tile.style.gridArea = (y + 1) + ' / ' + (x + 1);
-      tile.addEventListener('click', () => { stateFilter = state; render(); });
+      tile.addEventListener('click', () => { stateFilter = state; districtFilter = ''; render(); });
       map.append(tile);
     }));
   }
@@ -520,7 +540,7 @@ async function loadGeography() {
     const title = svgElement('title');
     title.textContent = tile.dataset.name;
     tile.append(title);
-    const activate = () => { stateFilter = state; render(); };
+    const activate = () => { stateFilter = state; districtFilter = ''; render(); };
     tile.addEventListener('click', activate);
     tile.addEventListener('keydown', event => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activate(); }
@@ -542,7 +562,7 @@ async function loadGeography() {
   svg.append(labelsLayer);
   byId('geo').append(svg);
   byId('map').style.display = 'none';
-  if (selected !== 'House' && cache.has(selected)) renderMap(cache.get(selected));
+  if (cache.has(selected)) renderMap(cache.get(selected));
 }
 loadGeography().catch(() => {});
 
