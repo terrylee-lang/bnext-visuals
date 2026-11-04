@@ -99,12 +99,32 @@ small { color: #5C6470; }
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.16); }
 }
+#vote-summary { margin: 12px 0 20px; font-size: 13px; }
+.summary-totals { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; }
+.summary-totals strong { font-size: 21px; }
+.summary-dem { color: #176697; }
+.summary-rep { color: #B52640; text-align: right; }
+.summary-track { display: flex; height: 14px; background: #D4D0C8; position: relative; border-radius: 4px; }
+.summary-track::after { content: ""; position: absolute; left: 50%; inset-block: 0; border-left: 1px solid #1A1A1A; }
+#dem-fill { background: #176697; border-radius: 4px 0 0 4px; }
+#rep-fill { background: #B52640; border-radius: 0 4px 4px 0; margin-left: auto; }
+.summary-mid { text-align: center; font-size: 12px; }
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
 <div id="status-line"><span id="live"><span class="pulse" aria-hidden="true"><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-dot"></i></span><span id="live-label"></span></span><small id="stamp"></small></div>
 <nav aria-label="選舉類型"></nav>
 <p id="notice" role="status"></p>
+<section id="vote-summary" hidden aria-label="已取得票數的政黨占比">
+  <b>已取得票數的政黨占比</b>
+  <div class="summary-totals">
+    <span class="summary-dem">民主黨 <strong id="dem-share"></strong></span>
+    <span class="summary-rep">共和黨 <strong id="rep-share"></strong></span>
+  </div>
+  <div class="summary-track" aria-hidden="true"><span id="dem-fill"></span><span id="rep-fill"></span></div>
+  <div class="summary-mid" aria-hidden="true">50%</div>
+  <small id="vote-scope"></small>
+</section>
 <small id="map-note"></small>
 <div class="map-legend" aria-label="地圖圖例"><b>暫時領先</b>
   <span data-lead="D">民主黨</span><span data-lead="R">共和黨</span>
@@ -160,6 +180,7 @@ function render(error = false) {
   const live = Boolean(data?.live && !data.stale && !error);
   byId('live').dataset.live = String(live);
   byId('live-label').textContent = live ? '即時開票' : data ? '暫計票數' : '';
+  renderVoteSummary(data);
   byId('cards').replaceChildren();
   if (!data) {
     byId('map').replaceChildren();
@@ -228,6 +249,29 @@ function render(error = false) {
     }
     byId('cards').append(card);
   }
+}
+
+function renderVoteSummary(data) {
+  const totals = { D: 0, R: 0, other: 0 };
+  let races = 0;
+  for (const race of Object.values(data?.races || {})) {
+    if (!hasVotes(race)) continue;
+    races++;
+    for (const candidate of race.cands) {
+      if (!Number.isSafeInteger(candidate.v) || candidate.v < 0) continue;
+      const party = candidate.p === 'D' || candidate.p === 'R' ? candidate.p : 'other';
+      totals[party] += candidate.v;
+    }
+  }
+  const total = totals.D + totals.R + totals.other;
+  byId('vote-summary').hidden = !total;
+  if (!total) return;
+  for (const [party, id] of [['D', 'dem'], ['R', 'rep']]) {
+    const percent = totals[party] / total * 100;
+    byId(id + '-share').textContent = percent.toFixed(1) + '%';
+    byId(id + '-fill').style.width = percent + '%';
+  }
+  byId('vote-scope').textContent = '統計已回傳票數的 ' + races + ' 場選舉。灰色為其他政黨及無黨籍。';
 }
 
 function renderMap(data) {
