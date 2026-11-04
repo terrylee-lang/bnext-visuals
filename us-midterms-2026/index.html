@@ -102,7 +102,7 @@ small { color: #5C6470; }
 }
 #vote-summary { margin: 12px 0 20px; font-size: 13px; }
 .summary-totals { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; }
-.summary-totals strong { font-size: 21px; }
+.summary-totals strong { font-size: 21px; font-variant-numeric: tabular-nums; }
 .summary-dem { color: #176697; }
 .summary-rep { color: #B52640; text-align: right; }
 .summary-track { display: flex; height: 14px; background: #D4D0C8; position: relative; border-radius: 4px; }
@@ -177,7 +177,9 @@ function hasVotes(race) {
   return Array.isArray(race?.cands) && race.cands.some(candidate => candidate.v > 0);
 }
 
-function render(error = false) {
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+function render(error = false, previous) {
   const data = cache.get(selected);
   byId('notice').textContent = error
     ? (data ? '更新暫停，顯示上次取得的資料。' : '暫時無法取得資料，稍後自動重試。')
@@ -187,7 +189,7 @@ function render(error = false) {
   const live = Boolean(data?.live && !data.stale && !error);
   byId('live').dataset.live = String(live);
   byId('live-label').textContent = live ? '即時開票' : data ? '暫計票數' : '';
-  renderVoteSummary(data);
+  renderVoteSummary(data, Boolean(previous));
   const house = selected === 'House';
   byId('geo').hidden = house;
   byId('map').hidden = house;
@@ -245,7 +247,10 @@ function render(error = false) {
         name.append(party);
         const count = document.createElement('div');
         count.className = 'candidate-count';
-        count.textContent = c.v.toLocaleString('zh-TW') + ' 票';
+        const votes = document.createElement('span');
+        count.append(votes);
+        const old = previous?.races[key]?.cands?.find(candidate => candidate.n === c.n && candidate.p === c.p)?.v;
+        animateVotes(votes, old, c.v);
         row.append(name, count);
         if (Number.isFinite(c.pct) && c.pct >= 0 && c.pct <= 100) {
           const percent = document.createElement('span');
@@ -265,7 +270,22 @@ function render(error = false) {
   }
 }
 
-function renderVoteSummary(data) {
+function animateVotes(node, previous, latest) {
+  const show = value => { node.textContent = value.toLocaleString('zh-TW') + ' 票'; };
+  show(latest);
+  if (reducedMotion.matches || !Number.isSafeInteger(previous) || previous >= latest) return;
+  const start = performance.now();
+  const frame = now => {
+    if (!node.isConnected) return;
+    const progress = Math.min(1, Math.max(0, (now - start) / 400));
+    show(Math.round(previous + (latest - previous) * (1 - (1 - progress) ** 3)));
+    if (progress < 1) requestAnimationFrame(frame);
+  };
+  show(previous);
+  requestAnimationFrame(frame);
+}
+
+function renderVoteSummary(data, animate) {
   const totals = { D: 0, R: 0, other: 0 };
   let races = 0;
   for (const race of Object.values(data?.races || {})) {
@@ -283,7 +303,9 @@ function renderVoteSummary(data) {
   for (const [party, id] of [['D', 'dem'], ['R', 'rep']]) {
     const percent = totals[party] / total * 100;
     byId(id + '-share').textContent = percent.toFixed(1) + '%';
-    byId(id + '-fill').style.width = percent + '%';
+    const fill = byId(id + '-fill');
+    fill.style.transition = animate && !reducedMotion.matches ? 'width 400ms ease-out' : 'none';
+    fill.style.width = percent + '%';
   }
   byId('vote-scope').textContent = '統計已回傳票數的 ' + races + ' 場選舉。灰色為其他政黨及無黨籍。';
 }
@@ -373,7 +395,7 @@ function renderMap(data) {
 
 byId('reset').addEventListener('click', () => { stateFilter = ''; districtFilter = ''; render(); });
 
-async function refresh(office, failures = 0) {
+async function refresh(office, failures = 0, animate = true) {
   const controller = new AbortController();
   request = controller;
   const deadline = setTimeout(() => controller.abort(), 12000);
@@ -384,8 +406,9 @@ async function refresh(office, failures = 0) {
     if (!response.ok) throw new Error('HTTP ' + response.status);
     const data = parseFeed(await response.json(), office);
     if (request !== controller) return;
+    const previous = cache.get(office);
     cache.set(office, data);
-    render();
+    render(false, animate ? previous : undefined);
     failures = 0;
     if (!Object.keys(data.races).length || data.final) delay = 600000;
   } catch {
@@ -408,7 +431,7 @@ function select(office) {
     button.setAttribute('aria-pressed', String(button.dataset.office === office));
   }
   render();
-  refresh(office);
+  refresh(office, 0, false);
 }
 for (const [office, label] of Object.entries(labels)) {
   const button = document.createElement('button');
