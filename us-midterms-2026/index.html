@@ -131,6 +131,11 @@ main > nav button[aria-pressed="true"] {
   color: #1A1A1A;
 }
 #cards[data-four] { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+#candidate-summary { flex-wrap: wrap; justify-content: flex-start; gap: 4px 16px; }
+#candidate-summary[hidden], #party-summary[hidden], .summary-track[hidden] { display: none; }
+#candidate-summary span { color: var(--map-color, #5C6470); }
+#candidate-track span { background: var(--map-color, #5C6470); min-width: 0; }
+#candidate-track span + span { box-shadow: inset 1px 0 #FAF7F1; }
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
@@ -139,12 +144,14 @@ main > nav button[aria-pressed="true"] {
 <p id="notice" role="status"></p>
 <section id="vote-summary" hidden aria-labelledby="vote-heading">
   <b id="vote-heading">已回傳選區的暫計得票占比</b>
-  <div class="summary-totals">
+  <div id="party-summary" class="summary-totals">
     <span class="summary-dem">民主黨 <strong id="dem-share"></strong></span>
     <span class="summary-rep">共和黨 <strong id="rep-share"></strong></span>
   </div>
-  <div class="summary-track" aria-hidden="true"><span id="dem-fill"></span><span id="rep-fill"></span></div>
-  <div class="summary-mid" aria-hidden="true">50%</div>
+  <div id="candidate-summary" class="summary-totals" hidden></div>
+  <div id="party-track" class="summary-track" aria-hidden="true"><span id="dem-fill"></span><span id="rep-fill"></span></div>
+  <div id="candidate-track" class="summary-track" aria-hidden="true" hidden></div>
+  <div class="summary-mid">50% 得票率</div>
   <small id="vote-scope"></small>
 </section>
 
@@ -347,6 +354,40 @@ function renderVoteSummary(data, animate) {
   );
   byId('vote-heading').textContent = scope
     ? placeName(scope) + '｜暫計得票占比' : '已回傳選區的暫計得票占比';
+  const reported = entries.filter(([, race]) => hasVotes(race));
+  const single = Boolean(scope && reported.length === 1 && (selected !== 'House' || districtFilter));
+  for (const id of ['party-summary', 'party-track']) byId(id).hidden = single;
+  for (const id of ['candidate-summary', 'candidate-track']) byId(id).hidden = !single;
+  if (single) {
+    const candidates = reported[0][1].cands
+      .filter(candidate => Number.isSafeInteger(candidate.v) && candidate.v > 0)
+      .sort((a, b) => b.v - a.v);
+    const total = candidates.reduce((sum, candidate) => sum + candidate.v, 0);
+    byId('vote-summary').hidden = !total;
+    const legend = byId('candidate-summary');
+    const track = byId('candidate-track');
+    legend.replaceChildren();
+    track.replaceChildren();
+    const segments = candidates.slice(0, 3).map(candidate => ({
+      name: candidate.n, votes: candidate.v,
+      color: ['D', 'R'].includes(candidate.p) ? candidate.p : 'other'
+    }));
+    if (candidates.length > 3) segments.push({
+      name: '其餘候選人', votes: candidates.slice(3).reduce((sum, candidate) => sum + candidate.v, 0)
+    });
+    for (const { name, votes, color } of segments) {
+      const percent = votes / total * 100;
+      const label = document.createElement('span');
+      const segment = document.createElement('span');
+      if (color) label.dataset.lead = segment.dataset.lead = color;
+      label.textContent = name + ' ' + percent.toFixed(1) + '%';
+      segment.style.width = percent + '%';
+      legend.append(label);
+      track.append(segment);
+    }
+    byId('vote-scope').textContent = '以本場已回傳的候選人票數計算。';
+    return;
+  }
   for (const [, race] of entries) {
     if (!hasVotes(race)) continue;
     races++;
