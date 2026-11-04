@@ -80,11 +80,29 @@ small { color: #5C6470; }
 #geo path:focus, #geo path:hover, #geo path[aria-pressed="true"] { stroke: #FF6B1A; stroke-width: 4; outline: none; }
 #status-line { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 10px; margin-top: 8px; }
 #live { color: #0F1A2E; font-size: 13px; font-weight: 700; }
-#live[data-live="true"]::before { content: "●"; color: #FF6B1A; margin-right: 5px; }
+#live { display: inline-flex; align-items: center; gap: 5px; }
+.pulse { display: none; position: relative; width: 18px; height: 18px; color: #FF6B1A; }
+#live[data-live="true"] .pulse { display: inline-grid; place-items: center; }
+.pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.pulse-ring { display: none; position: absolute; inset: 0; border: 1px solid currentColor; border-radius: 50%; }
+@media (prefers-reduced-motion: no-preference) {
+  .pulse-dot { animation: pulse-dot 1.8s ease-in-out infinite; }
+  .pulse-ring { display: block; animation: pulse-ring 1.8s ease-out infinite; }
+  .pulse-ring:nth-child(2) { animation-delay: -.6s; }
+  .pulse-ring:nth-child(3) { animation-delay: -1.2s; }
+}
+@keyframes pulse-ring {
+  from { transform: scale(.15); opacity: .9; }
+  to { transform: scale(1.25); opacity: 0; }
+}
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.16); }
+}
 </style>
 <main>
 <h1>2026 美國期中選舉｜重點選區開票</h1>
-<div id="status-line"><span id="live"></span><small id="stamp"></small></div>
+<div id="status-line"><span id="live"><span class="pulse" aria-hidden="true"><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-ring"></i><i class="pulse-dot"></i></span><span id="live-label"></span></span><small id="stamp"></small></div>
 <nav aria-label="選舉類型"></nav>
 <p id="notice" role="status"></p>
 <small id="map-note"></small>
@@ -141,7 +159,7 @@ function render(error = false) {
     ? '更新時間（台灣） ' + time.format(new Date(data.as_of)) : '';
   const live = Boolean(data?.live && !data.stale && !error);
   byId('live').dataset.live = String(live);
-  byId('live').textContent = live ? '即時開票' : data ? '暫計票數' : '';
+  byId('live-label').textContent = live ? '即時開票' : data ? '暫計票數' : '';
   byId('cards').replaceChildren();
   if (!data) {
     byId('map').replaceChildren();
