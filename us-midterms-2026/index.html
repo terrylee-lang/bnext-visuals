@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>美國期中選舉開票進度</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #FAF7F1; color: #1A1A1A; font: 16px/1.6 "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; }
+main { max-width: 880px; margin: auto; padding: 20px; }
+h1 { font-size: clamp(22px, 5vw, 30px); margin: 0; }
+nav { display: flex; gap: 8px; margin: 16px 0; }
+button { flex: 1; font: inherit; padding: 8px 2px; border: 1px solid #D4D0C8; background: #F5F3EF; color: inherit; cursor: pointer; }
+button[aria-pressed="true"] { border-bottom: 3px solid #FF6B1A; font-weight: bold; }
+ul { padding: 0; list-style: none; }
+#cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 8px; }
+#cards li { padding: 8px; background: #ECE8DF; }
+strong { display: block; font-size: 24px; }
+#bar { display: flex; height: 12px; overflow: hidden; }
+#races li { border-top: 1px solid #D4D0C8; padding: 8px 0; }
+a { color: #0F1A2E; text-underline-offset: 3px; }
+small { color: #5C6470; }
+</style>
+<main>
+<h1>2026 美國期中選舉｜重點選區開票</h1>
+<nav aria-label="選舉類型"></nav>
+<p id="notice" role="status"></p>
+<small id="stamp"></small>
+<ul id="cards"></ul>
+<small>票數為各州公布的暫計結果。<a href="https://openamerica.io/elections/api/" target="_blank" rel="noopener noreferrer">各州選務機關經 Open America 提供</a></small>
+</main>
+<script>
+const labels = { Senate: '參議院', House: '眾議院', Governor: '州長' };
+const focus = { Senate: ['GA','MI','NC','TX'], House: ['AZ-01','MI-07','PA-07','TX-34'], Governor: ['AZ','GA','MI','IA'] };
+const parties = { D: '民主黨', R: '共和黨', I: '無黨籍' };
+const cache = new Map();
+const byId = id => document.getElementById(id);
+const time = new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', dateStyle: 'medium', timeStyle: 'short' });
+let selected = 'Senate';
+let timer;
+let request;
+
+function parseFeed(data, office) {
+  if (data.api !== 1 || data.year !== 2026 || data.office !== office ||
+      !data.races || typeof data.races !== 'object' || Array.isArray(data.races)) {
+    throw new Error('Unexpected feed');
+  }
+  return data;
+}
+
+function hasVotes(race) {
+  return Array.isArray(race?.cands) && race.cands.some(candidate => candidate.v > 0);
+}
+
+function render(error = false) {
+  const data = cache.get(selected);
+  byId('notice').textContent = error
+    ? (data ? '更新暫停，顯示上次取得的資料。' : '暫時無法取得資料，稍後自動重試。')
+    : data?.stale ? '來源更新延遲。' : data ? '' : '正在讀取開票資料。';
+  byId('stamp').textContent = Number.isFinite(Date.parse(data?.as_of))
+    ? '本頁籤來源最近更新（台灣時間） ' + time.format(new Date(data.as_of)) : '';
+  byId('cards').replaceChildren();
+  if (!data) return;
+  const keys = [...focus[selected]].sort(
+    (a, b) => Number(hasVotes(data.races[b])) - Number(hasVotes(data.races[a]))
+  );
+  for (const key of keys) {
+    const race = data.races[key];
+    const card = document.createElement('li');
+    const heading = document.createElement('strong');
+    heading.textContent = key;
+    card.append(heading);
+    const candidates = Array.isArray(race?.cands) ? race.cands.filter(
+      c => typeof c.n === 'string' && Number.isSafeInteger(c.v) && c.v >= 0
+    ).sort((a,b) => b.v - a.v) : [];
+    if (!candidates.some(c => c.v > 0)) {
+      card.append(race ? '尚無票數' : '來源未提供此選區資料');
+    } else {
+      for (const c of candidates.slice(0, 3)) {
+        const row = document.createElement('div');
+        const percent = Number.isFinite(c.pct) && c.pct >= 0 && c.pct <= 100 ? '（' + c.pct.toFixed(1) + '%）' : '';
+        row.textContent = c.n + ' ' + (parties[c.p] || c.p || '') + '｜' + c.v.toLocaleString('zh-TW') + ' 票' + percent;
+        card.append(row);
+      }
+    }
+    byId('cards').append(card);
+  }
+}
+
+async function refresh(office, failures = 0) {
+  const controller = new AbortController();
+  request = controller;
+  const deadline = setTimeout(() => controller.abort(), 12000);
+  let delay = 60000;
+  try {
+    const response = await fetch('https://openamerica.io/elections/results.json?year=2026&office=' + office,
+      { credentials: 'omit', signal: controller.signal });
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const data = parseFeed(await response.json(), office);
+    if (request !== controller) return;
+    cache.set(office, data);
+    render();
+    failures = 0;
+    if (!Object.keys(data.races).length || data.final) delay = 600000;
+  } catch {
+    if (request !== controller) return;
+    render(true);
+    delay = Math.min(600000, 60000 * 2 ** ++failures);
+  } finally {
+    clearTimeout(deadline);
+    if (request === controller) timer = setTimeout(() => refresh(office, failures), delay);
+  }
+}
+
+function select(office) {
+  clearTimeout(timer);
+  request?.abort();
+  selected = office;
+  for (const button of document.querySelectorAll('nav button')) {
+    button.setAttribute('aria-pressed', String(button.dataset.office === office));
+  }
+  render();
+  refresh(office);
+}
+for (const [office, label] of Object.entries(labels)) {
+  const button = document.createElement('button');
+  button.dataset.office = office;
+  button.textContent = label;
+  button.addEventListener('click', () => select(office));
+  document.querySelector('nav').append(button);
+}
+select(selected);
+</script>
+</html>
