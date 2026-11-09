@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>黃仁勳間諜疑雲事件時間軸 ｜ 數位時代</title>
+<meta name="description" content="依時間順序整理黃仁勳、黃樂與Megaspeed事件的12個時間點，區分已發生與接下來的日程。">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bn-orange:#FF6B1A; --bn-navy:#0F1A2E; --bn-black:#1A1A1A;
+    --paper:#FAF7F1; --paper2:#F5F3EF; --paper3:#ECE8DF;
+    --warm300:#D4D0C8; --cool600:#5C6470; --slate700:#2A3142;
+    --hairline:rgba(15,26,46,.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;
+    background:var(--paper); color:var(--bn-black);
+    padding:32px 16px; line-height:1.8; text-wrap:pretty; letter-spacing:.01em;
+  }
+  h1,.deck{text-wrap:balance;}
+  .wrapper{
+    max-width:880px; margin:0 auto; background:var(--paper);
+    border:1px solid var(--warm300); container-type:inline-size;
+    transition:max-width .25s ease;
+  }
+
+  /* preview toolbar (editor only, ?preview=1) */
+  .preview-toolbar{display:none; position:fixed; top:14px; right:14px; z-index:9999; background:var(--bn-navy); padding:4px; gap:2px; font-family:"Inter","Noto Sans TC",sans-serif; box-shadow:0 2px 8px rgba(0,0,0,.18);}
+  .preview-toolbar.show{display:flex;}
+  .preview-toolbar button{border:0; padding:7px 13px; font-size:12px; font-weight:700; background:transparent; color:rgba(250,247,241,.55); cursor:pointer; font-family:inherit;}
+  .preview-toolbar button:hover{color:var(--paper);}
+  .preview-toolbar button.active{background:var(--bn-orange); color:var(--paper);}
+  .preview-toolbar .label{font-size:10px; color:rgba(250,247,241,.45); padding:0 8px; align-self:center; letter-spacing:.5px;}
+
+  header{padding:30px 32px 22px; border-bottom:3px solid var(--bn-black);}
+  .kicker{font-size:13px; letter-spacing:2px; color:var(--cool600); font-weight:700; margin-bottom:10px;}
+  h1{font-size:28px; font-weight:800; line-height:1.35; margin-bottom:10px; letter-spacing:.02em;}
+  .deck{font-size:15px; color:var(--slate700); line-height:1.75; font-weight:500;}
+
+  .meta-bar{padding:12px 32px; background:var(--paper3); border-bottom:1px solid var(--warm300); font-size:13px; line-height:1.7; color:var(--cool600);}
+
+  /* group = 已發生 / 接下來 */
+  .group{padding:26px 32px 8px;}
+  .group + .group{border-top:1px solid var(--warm300); margin-top:6px;}
+  .group-head{display:flex; align-items:center; gap:12px; margin-bottom:8px;}
+  .group-tag{font-size:14px; font-weight:800; letter-spacing:.08em; padding:3px 12px; color:var(--paper); background:var(--bn-black);}
+  .group.upcoming .group-tag{background:var(--bn-orange);}
+  .group-note{font-size:13px; color:var(--cool600);}
+
+  .nw{white-space:nowrap;}
+  .tl{list-style:none;}
+  .item{display:grid; grid-template-columns:176px 14px 1fr; column-gap:18px; align-items:start;}
+  .date{padding:14px 0; font-feature-settings:'tnum' 1; font-size:17px; font-weight:800; line-height:1.55; color:var(--bn-black); white-space:nowrap;}
+  .mark{position:relative; align-self:stretch;}
+  .mark::before{content:""; position:absolute; left:6px; top:0; bottom:0; width:2px; background:var(--warm300);}
+  .item:first-child .mark::before{top:27px;}
+  .item:last-child .mark::before{bottom:auto; height:27px;}
+  .item:only-child .mark::before{display:none;}
+  .mark::after{content:""; position:absolute; left:0; top:20px; width:14px; height:14px; background:var(--bn-black); border:2px solid var(--bn-black);}
+  .upcoming .mark::before{background:none; width:0; border-left:2px dashed var(--warm300);}
+  .upcoming .mark::after{background:var(--paper);}
+  .text{padding:14px 0 14px; font-size:17px; line-height:1.75; color:var(--bn-black);}
+  .item + .item .text, .item + .item .date{border-top:1px solid var(--hairline);}
+  .upcoming{border-left:4px solid var(--bn-orange); padding-left:28px;}
+
+  footer{margin-top:18px; padding:14px 32px; background:var(--paper3); border-top:1px solid var(--warm300); font-size:13px; color:var(--cool600); line-height:1.7;}
+  footer strong{color:var(--bn-black);}
+
+  /* ---------- mobile / narrow (double-track) ---------- */
+  @media (max-width:640px){ body{padding:12px 6px;} }
+  @container (max-width:640px){
+    header{padding:24px 18px 18px;}
+    h1{font-size:clamp(21px,7cqw,24px); letter-spacing:0;}
+    .deck{font-size:15px;}
+    .meta-bar{padding:10px 18px; font-size:13px;}
+    .group{padding:22px 18px 6px;}
+    .upcoming{padding-left:14px;}
+    .item{grid-template-columns:14px 1fr; column-gap:14px;}
+    .mark{grid-column:1; grid-row:1 / span 2;}
+    .date{grid-column:2; grid-row:1; padding:14px 0 0; font-size:17px;}
+    .text{grid-column:2; grid-row:2; padding:2px 0 14px; font-size:17px;}
+    .item + .item .text{border-top:0;}
+    .item + .item .date{border-top:1px solid var(--hairline);}
+    footer{padding:14px 18px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="kicker">事件時間軸</div>
+    <h1>黃仁勳間諜疑雲事件時間軸</h1>
+    <p class="deck">依時間先後排列，事件之間不代表因果關係。</p>
+  </header>
+
+  <div class="meta-bar">資料來源：《紐約時報》、《彭博》、輝達、美國眾議院、APEC官方日程；數位時代整理</div>
+
+  <section class="group past" aria-label="已發生">
+    <div class="group-head"><span class="group-tag">已發生</span></div>
+    <ol class="tl">
+      <li class="item"><div class="date">2023年</div><div class="mark" aria-hidden="true"></div><p class="text">Megaspeed從中國遊戲公司的新加坡子公司分拆成立</p></li>
+      <li class="item"><div class="date">2024年6月</div><div class="mark" aria-hidden="true"></div><p class="text">黃仁勳與黃樂在台北酒吧同桌；Megaspeed開始大舉採購</p></li>
+      <li class="item"><div class="date">2025年5月</div><div class="mark" aria-hidden="true"></div><p class="text">兩人在台北餐敘，台灣媒體拍到親吻臉頰畫面</p></li>
+      <li class="item"><div class="date">2025年10月</div><div class="mark" aria-hidden="true"></div><p class="text">《紐時》揭露美國商務部<span class="nw">調查Megaspeed</span></p></li>
+      <li class="item"><div class="date">2026年春</div><div class="mark" aria-hidden="true"></div><p class="text">盧比歐督導撰寫機密備忘錄</p></li>
+      <li class="item"><div class="date">2026年10月29日</div><div class="mark" aria-hidden="true"></div><p class="text">《紐時》首度報導，黃仁勳稱往來<span class="nw">「完全正常」</span></p></li>
+      <li class="item"><div class="date">2026年11月4日</div><div class="mark" aria-hidden="true"></div><p class="text">眾院3名委員會主席去函要求閉門簡報</p></li>
+      <li class="item"><div class="date">2026年11月6日</div><div class="mark" aria-hidden="true"></div><p class="text">《紐時》報導黃樂受中國情報機構招募</p></li>
+      <li class="item"><div class="date">2026年11月8日</div><div class="mark" aria-hidden="true"></div><p class="text">黃仁勳承認婚外情，輝達董事會啟動調查</p></li>
+    </ol>
+  </section>
+
+  <section class="group upcoming" aria-label="接下來">
+    <div class="group-head"><span class="group-tag">接下來</span></div>
+    <ol class="tl">
+      <li class="item"><div class="date">2026年11月17日</div><div class="mark" aria-hidden="true"></div><p class="text">輝達公布第三季財報（美國時間）</p></li>
+      <li class="item"><div class="date">2026年11月18日</div><div class="mark" aria-hidden="true"></div><p class="text">國會要求的閉門簡報日</p></li>
+      <li class="item"><div class="date">2026年11月18至19日</div><div class="mark" aria-hidden="true"></div><p class="text">深圳APEC領導人會議</p></li>
+    </ol>
+  </section>
+
+  <footer><strong>《數位時代》</strong></footer>
+
+</div>
+
+<div class="preview-toolbar" id="previewToolbar" role="toolbar" aria-label="預覽模式切換">
+  <span class="label">預覽</span>
+  <button type="button" class="active" data-mode="desktop" aria-pressed="true">桌機</button>
+  <button type="button" data-mode="mobile" aria-pressed="false">手機</button>
+</div>
+
+<script>
+(function(){
+  if(!new URLSearchParams(location.search).has('preview')) return;
+  var t=document.getElementById('previewToolbar'), w=document.querySelector('.wrapper');
+  if(!t||!w) return;
+  t.classList.add('show');
+  t.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-mode]'); if(!b) return;
+    t.querySelectorAll('button').forEach(function(x){x.classList.toggle('active',x===b); x.setAttribute('aria-pressed',x===b?'true':'false');});
+    w.style.maxWidth=(b.dataset.mode==='mobile')?'390px':'880px';
+  });
+})();
+</script>
+
+</body>
+</html>
