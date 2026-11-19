@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| 選你的銀行，查關閉方式與客服 | 12家銀行互動查詢：關閉管道或客服電話、可複製問句、開啟驗證與官方來源。桌機展開最長1256px，iframe高度1347px；手機於框內捲動。資料查閱日期2026/11/19。 | 2026-11-19 | [`2026/11-bank-transfer-safety-lookup.html`](./2026/11-bank-transfer-safety-lookup.html) |
 | 台灣vs.全球：常見密碼對照榜 | NordPass2026最常見密碼：切換台灣及全球前10名，對照排名與外洩次數。桌機實測1266px，建議iframe高度1357px；手機於框內捲動。 | 2026-11-18 | [`2026/11-common-passwords-taiwan-global.html`](./2026/11-common-passwords-taiwan-global.html) |
 | 誰直接向黃仁勳報告？輝達36人直屬團隊圖解 | 2025年10月BI內部名單，36人同層直接匯報；桌機圖點與名單同步、6領域切換與全名單搜尋，手機每組先露2人並可展開。桌機實測1305px，建議iframe高度1396px，手機及完整名單於框內捲動。 | 2026-11-13 | [`2026/11-nvidia-direct-reports-202510.html`](./2026/11-nvidia-direct-reports-202510.html) |
 | 黃仁勳間諜疑雲事件時間軸 | 輝達執行長黃仁勳事件QA整理包文末時間軸：12個時間點，分已發生9列與接下來3列，僅呈時間順序。桌機實測1197px，建議iframe高度1300px；手機於框內捲動。 | 2026-11-09 | [`2026/11-jensen-huang-event-timeline.html`](./2026/11-jensen-huang-event-timeline.html) |
