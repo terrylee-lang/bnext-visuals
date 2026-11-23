@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light">
+<title>發現不明扣款，現在該做什麼？｜數位時代</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{--orange:#FF6B1A;--paper:#FAF7F1;--paper2:#F5F3EF;--paper3:#ECE8DF;--ink:#1A1A1A;--muted:#5C6470;--line:#D4D0C8;--navy:#0F1A2E;--font:Inter,"Noto Sans TC","PingFang TC",-apple-system,"Microsoft JhengHei",sans-serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--paper);color:var(--ink)}body{padding:24px 16px;font:16px/1.75 var(--font);-webkit-font-smoothing:antialiased}h1,h2,h3,p{margin:0}button,a{touch-action:manipulation}button{font:inherit;color:inherit;cursor:pointer}a{color:inherit;text-underline-offset:4px;overflow-wrap:anywhere}a:hover{text-decoration-thickness:2px}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:4px}.wrapper{max-width:880px;margin:auto;container-type:inline-size}.content{border-top:4px solid var(--ink);padding-top:18px}.kicker{font-size:13px;font-weight:700;letter-spacing:.06em;margin-bottom:8px}.headline{font-size:30px;line-height:1.45;text-wrap:balance}.headline span{text-decoration:underline;text-decoration-color:var(--orange);text-decoration-thickness:4px;text-underline-offset:7px}.deck{font-size:15px;color:var(--muted);margin-top:12px}.urgent{margin-top:18px;padding:12px 16px;border-left:4px solid var(--orange);background:var(--paper3);font-size:15px}.field{border:0;padding:0;margin:20px 0 0;min-width:0}.field legend{font-size:16px;font-weight:700;padding:0;margin-bottom:10px}.number{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-right:8px;background:var(--ink);color:var(--paper);font:700 13px/1 Inter,sans-serif}.choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.choice{min-height:52px;border:1px solid var(--line);border-radius:8px;background:var(--paper);padding:10px 8px;font-weight:500;font-size:15px;line-height:1.5}.choice:hover{background:var(--paper3)}.choice[aria-pressed=true]{border:2px solid var(--ink);padding:9px 7px;background:var(--paper3);font-weight:700}.choice[aria-pressed=true]::after{content:" ✓"}.choice:disabled{cursor:default;border-style:dashed;color:var(--muted);background:var(--paper2)}.hint{font-size:13px;color:var(--muted);margin-top:7px;min-height:23px}.result{margin-top:14px;border-top:1px solid var(--ink);padding-top:18px}.result-head{display:flex;justify-content:space-between;gap:12px;align-items:start}.result-title{font-size:21px;line-height:1.5}.clock{font-size:12px;color:var(--muted);white-space:nowrap;padding-top:5px}.contact{margin-top:12px;padding:16px;background:var(--paper3);border-radius:8px}.contact-title{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:16px;font-weight:700}.switch{font-size:13px;font-weight:400;display:flex;align-items:center;gap:7px;min-height:44px;cursor:pointer}.switch input{width:18px;height:18px;accent-color:var(--ink);flex-shrink:0}.contact-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.action{display:flex;flex-direction:column;justify-content:center;min-height:76px;padding:10px 14px;border:1px solid var(--ink);border-radius:6px;background:var(--paper);text-decoration:none;font-size:14px;line-height:1.5}.action strong{font-size:19px;line-height:1.5}.action small{font-size:12px;color:var(--muted);margin-top:3px}.action.primary{background:var(--ink);color:var(--paper)}.action.primary small{color:var(--paper)}.action .email{font-size:16px}.contact-note{font-size:13px;line-height:1.7;margin-top:10px}.steps{list-style:none;padding:0;margin:16px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}.step{padding:15px 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper2)}.step h3{font-size:17px;line-height:1.5;margin-bottom:7px}.step h3 span{font:600 13px/1 Inter,sans-serif;margin-right:7px;border-bottom:2px solid var(--orange);padding-bottom:3px}.step p{font-size:14px;line-height:1.8}.inline-action{display:inline-flex;min-height:44px;align-items:center;font-size:14px;font-weight:700}.reminder{margin-top:12px;font-size:13px;color:var(--muted)}.sources{margin-top:18px;font-size:12px;color:var(--muted)}.sources summary{cursor:pointer;min-height:44px;display:flex;align-items:center;text-decoration:underline;text-underline-offset:3px}.sources summary::before{content:"＋ ";margin-right:5px}.sources[open] summary::before{content:"− "}.source-links{display:flex;flex-wrap:wrap;gap:0 18px}.source-links a{display:inline-flex;align-items:center;min-height:44px}.footer{display:flex;justify-content:space-between;gap:8px;margin-top:6px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.footer strong{color:var(--ink)}.preview{display:none;position:fixed;right:12px;top:10px;z-index:5;gap:6px;padding:8px;background:var(--navy)}.preview.enabled{display:flex}.preview button{min-height:44px;padding:8px 12px;border:0;background:var(--paper);font-size:14px}.preview button[aria-pressed=true]{background:var(--orange)}body.preview-mode{padding-top:80px}noscript p{padding:16px;border:1px solid var(--line)}
+@media(max-width:640px){body{padding:16px 12px}.headline{font-size:25px}body.preview-mode{padding-top:80px}}
+@container(max-width:640px){.headline{font-size:25px}.choices{grid-template-columns:1fr 1fr}.choice{min-height:56px}.result-head{display:block}.clock{padding-top:2px}.result-title{font-size:19px}.contact{padding:12px}.contact-title{display:block}.switch{margin-top:2px}.contact-actions,.steps{grid-template-columns:1fr}.action{min-height:72px}.step{padding:14px}.footer{flex-direction:column;gap:2px}.urgent{padding:12px}.field{margin-top:18px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="wrapper"><div class="content">
+<header><p class="kicker">行動支付自保 · 緊急處理</p><h1 class="headline">發現不明扣款，<span>現在該做什麼？</span></h1><p class="deck">選擇支付服務與扣款來源，查看通報窗口及處理步驟。</p></header>
+<p class="urgent"><strong>先通報，別等查清楚才處理。</strong>通知平台停權；涉及銀行帳戶或卡片，也立即聯絡銀行。</p>
+<fieldset class="field"><legend><span class="number">1</span>哪個支付服務？</legend><div class="choices" id="platforms">
+<button type="button" class="choice" data-platform="px" aria-pressed="true" aria-controls="result">全支付</button><button type="button" class="choice" data-platform="jko" aria-pressed="false" aria-controls="result">街口支付</button><button type="button" class="choice" data-platform="line" aria-pressed="false" aria-controls="result">LINE Pay</button><button type="button" class="choice" data-platform="money" aria-pressed="false" aria-controls="result">LINE Pay Money</button>
+</div></fieldset>
+<fieldset class="field"><legend><span class="number">2</span>錢從哪裡扣？</legend><div class="choices" id="funds">
+<button type="button" class="choice" data-fund="balance" aria-pressed="false" aria-controls="result">帳戶餘額</button><button type="button" class="choice" data-fund="bank" aria-pressed="false" aria-controls="result">銀行帳戶</button><button type="button" class="choice" data-fund="card" aria-pressed="false" aria-controls="result">信用卡</button><button type="button" class="choice" data-fund="unknown" aria-pressed="true" aria-controls="result">不確定</button>
+</div><p class="hint" id="fund-hint">可從App交易紀錄、銀行扣款通知或卡片帳單確認。</p></fieldset>
+<section class="result" id="result" aria-labelledby="result-title">
+<div class="result-head"><h2 class="result-title" id="result-title">全支付：先通知平台查明扣款來源</h2><p class="clock" id="clock"></p></div>
+<div class="contact"><div class="contact-title"><span id="contact-label">通知全支付，申請暫停支付</span><label class="switch"><input id="after-hours" type="checkbox">電話未接通／改用線上通報</label></div>
+<div class="contact-actions" id="contact-actions"></div><p class="contact-note" id="contact-note"></p></div>
+<ol class="steps" id="steps"></ol>
+<p class="reminder">通報時記下時間與案件編號，並確認帳戶是否已停用。此卡協助緊急處理；能否追回款項、由誰負擔損失，仍須依個案調查。</p>
+</section>
+<p role="status" aria-live="polite" class="hint" id="status"></p>
+<details class="sources"><summary>查看官方資料來源</summary><div class="source-links">
+<a href="https://www.pxpayplus.com/FAQ/%E7%B9%B3%E8%B2%BB" target="_blank" rel="noopener noreferrer">全支付客服資訊 ↗</a><a href="https://www.jkopay.com/app/about.html" target="_blank" rel="noopener noreferrer">街口支付客服資訊 ↗</a><a href="https://pay.line.me/portal/tw/customer/qna" target="_blank" rel="noopener noreferrer">LINE Pay客服管道 ↗</a><a href="https://pay.line.me/portal/tw-lpm/awareness-center/anti-fraud-zone/assistance/" target="_blank" rel="noopener noreferrer">LINE Pay Money應對說明 ↗</a><a href="https://law.fsc.gov.tw/LawContent.aspx?id=GL003337" target="_blank" rel="noopener noreferrer">金管會電子支付契約規定 ↗</a>
+</div></details>
+<footer class="footer"><strong>數位時代 Business Next</strong><span>資料核對：2026年11月23日</span></footer>
+<noscript><p>請立即聯絡支付平台及銀行，保存交易證據，撥165求助並到派出所報案。全支付02-2278-5200、街口02-8771-7212、LINE Pay02-6631-5166、LINE Pay Money02-7750-6350。電話服務時間請見各平台官網。</p></noscript>
+</div></main>
+<nav class="preview" aria-label="預覽版型"><button type="button" data-width="880" aria-pressed="true">桌機</button><button type="button" data-width="390" aria-pressed="false">手機</button></nav>
+<script>
+(()=>{'use strict';
+const platforms={px:{name:'全支付',phone:'02-2278-5200',open:9,close:22,email:'service@pxpayplus.com'},jko:{name:'街口支付',phone:'02-8771-7212',open:8,close:23,email:'service@jkopay.com'},line:{name:'LINE Pay',phone:'02-6631-5166',open:9,close:22,form:'https://contact-cc.line.me/serviceId/11399'},money:{name:'LINE Pay Money',phone:'02-7750-6350',open:9,close:22,form:'https://contact-cc.line.me/category1Id/15769'}};
+let selected='px',fund='unknown',manualOnline=false;
+const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
+function render(announce=false){
+ const p=platforms[selected],hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',hourCycle:'h23'}).format(new Date())),closed=hour<p.open||hour>=p.close,online=closed||manualOnline;
+ $('#platforms').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.platform===selected)));
+ $('#funds').querySelectorAll('button').forEach(b=>{b.disabled=selected==='line'&&['balance','bank'].includes(b.dataset.fund);b.setAttribute('aria-pressed',String(b.dataset.fund===fund));if(b.dataset.fund==='card')b.textContent=selected==='line'?'信用卡／簽帳金融卡':'信用卡';});
+ $('#fund-hint').textContent=selected==='line'?'LINE Pay此處指綁卡付款；若扣的是餘額，請改選LINE Pay Money。':'可從App交易紀錄、銀行扣款通知或卡片帳單確認。';
+ const title={balance:'帳戶餘額出現不明扣款',bank:'銀行帳戶出現不明扣款',card:'卡片出現不明交易',unknown:'先通知平台查明扣款來源'};
+ $('#result-title').textContent=p.name+'：'+title[fund];
+ $('#clock').textContent='台灣時間 · 電話'+(closed?'服務時段外':'服務時段內');
+ $('#contact-label').textContent=(online?'先留下線上通報紀錄':'通知'+p.name+'，申請暫停支付');
+ const phone='<a class="action '+(!online?'primary':'')+'" href="tel:'+p.phone.replaceAll('-','')+'"><strong>'+p.phone+'</strong><small>'+p.name+' · 每日'+pad(p.open)+':00至'+pad(p.close)+':00</small></a>';
+ const digital=p.email?'<a class="action '+(online?'primary':'')+'" href="mailto:'+p.email+'?subject='+encodeURIComponent('疑似帳戶遭盜用，申請暫停支付')+'"><strong class="email">'+p.email+'</strong><small>寄信通報 ↗</small></a>':'<a class="action '+(online?'primary':'')+'" href="'+p.form+'" target="_blank" rel="noopener noreferrer"><strong>前往官方客服表單 ↗</strong><small>'+p.name+'線上通報</small></a>';
+ $('#contact-actions').innerHTML=online?digital+phone:phone+digital;
+ $('#contact-note').textContent=(closed?'目前不在電話服務時段，請先透過上方信箱或表單通報，電話服務恢復後再聯絡確認。':'電話未接通時，可先寄信或填表留下紀錄。')+'送出信件或表單，不代表已完成停權。';
+ let bankTitle,bankText;
+ if(fund==='balance'){bankTitle='查清是否還有銀行扣款';bankText='請平台確認異常交易、餘額流向與近期儲值。若銀行帳戶或卡片也有不明扣款，同步聯絡該銀行。';}
+ if(fund==='bank'){bankTitle='立即通知扣款銀行';bankText='從銀行官網或官方App找客服電話，通報異常扣款，請銀行查明紀錄並協助停止可疑的連結扣款。';}
+ if(fund==='card'){bankTitle='立即聯絡發卡銀行';bankText='撥卡片背面的客服電話，通報非本人交易並確認停卡安排，請銀行調查並說明爭議款申請方式。';}
+ if(fund==='unknown'){bankTitle='同時查銀行與卡片紀錄';bankText='比對App交易紀錄、銀行扣款通知及卡片帳單。若發現銀行或卡片異常，立即聯絡銀行，別等平台回覆才處理。';}
+ const steps=[['通知平台停權','說明哪些交易不是本人操作，要求暫停支付並確認受理結果。不要將登入密碼或簡訊驗證碼告訴任何人。'],[bankTitle,bankText],['保存證據、保護帳號','保留交易時間、金額、編號、商家名稱，以及可疑網址與訊息。從官方App更換已外洩的密碼，檢查陌生綁定與授權。'],['撥165求助，並到派出所報案','說明是否已被扣款或轉帳，請165協助判斷與引導。備妥證據到派出所報案，索取受（處）理案件證明單。']];
+ $('#steps').innerHTML=steps.map((s,i)=>'<li class="step"><h3><span>0'+(i+1)+'</span>'+s[0]+'</h3><p>'+s[1]+'</p>'+(i===3?'<a class="inline-action" href="tel:165">撥打165反詐騙專線 →</a>':'')+'</li>').join('');
+ if(selected==='line')$('#steps li:first-child p').textContent+='若LINE帳號也遭盜用，須另循LINE帳號救援管道處理。';
+ if(announce)$('#status').textContent='已更新：'+p.name+'，'+title[fund]+'。';
+ resize();
+}
+$('#platforms').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;selected=b.dataset.platform;if(selected==='line'&&['balance','bank'].includes(fund))fund='unknown';render(true);});
+$('#funds').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;fund=b.dataset.fund;render(true);});
+$('#after-hours').addEventListener('change',e=>{manualOnline=e.target.checked;render(true);});
+const wrapper=$('.wrapper');let lastHeight=0;function resize(){requestAnimationFrame(()=>{const height=document.documentElement.scrollHeight;if(height!==lastHeight){lastHeight=height;window.parent.postMessage({type:'iframe-resize',height},'*');}});}
+new ResizeObserver(resize).observe(wrapper);window.addEventListener('load',resize);if(document.fonts)document.fonts.ready.then(resize);window.addEventListener('resize',resize);setInterval(()=>render(),60000);
+if(new URLSearchParams(location.search).get('preview')==='1'){$('.preview').classList.add('enabled');document.body.classList.add('preview-mode');$('.preview').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{wrapper.style.maxWidth=b.dataset.width+'px';$('.preview').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));resize();}));}
+render();
+})();
+</script>
+</body></html>
