@@ -10,6 +10,7 @@
 
 | 配件 | 對應文章 | 上線日 | 路徑 |
 |------|----------|--------|------|
+| 發現不明扣款，現在該做什麼？ | 全支付、街口、LINE Pay與LINE Pay Money互動分流卡，選扣款來源查看官方客服、深夜通報與處理步驟。手機於框內捲動。 | 2026-11-23 | [`2026/11-mobile-payment-fraud-guide.html`](./2026/11-mobile-payment-fraud-guide.html) |
 | 發現盜刷，現在該做什麼？ | 信用卡盜刷自保指南：三情境切換行動步驟，附申訴30日回覆與60日評議期限。桌機三情境實測1116px，建議iframe高度1207px；手機於框內捲動。 | 2026-11-20 | [`2026/11-credit-card-fraud-action-guide.html`](./2026/11-credit-card-fraud-action-guide.html) |
 | 如何關閉網銀非約定轉帳？選銀行查設定與客服 | 12家銀行互動查詢：關閉管道或客服電話、可複製問句、開啟驗證與官方來源。附名詞解釋、關閉注意事項及異常處理。桌機展開最長1580px，iframe高度1671px；手機於框內捲動。資料查閱日期2026/11/19。 | 2026-11-19 | [`2026/11-bank-transfer-safety-lookup.html`](./2026/11-bank-transfer-safety-lookup.html) |
 | 台灣vs.全球：常見密碼對照榜 | NordPass2026最常見密碼：切換台灣及全球前10名，對照排名與外洩次數。桌機實測1266px，建議iframe高度1357px；手機於框內捲動。 | 2026-11-18 | [`2026/11-common-passwords-taiwan-global.html`](./2026/11-common-passwords-taiwan-global.html) |
